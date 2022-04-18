@@ -1,0 +1,15 @@
+{
+  "name": "lunisolar",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "lunar",
+    "lunisolar"
+  ],
+  "author": "Natron Kan",
+  "license": "ISC"
+}
