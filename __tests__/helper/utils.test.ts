@@ -15,7 +15,9 @@ describe('utils', () => {
     expect(U.toDate(date)).toBe(date)
     expect(U.toDate(new Lunisolar(date))).toBe(date)
     expect(U.toDate(null).toString()).toBe('Invalid Date')
-    expect(U.toDate(undefined)).toEqual(new Date())
+    expect(Math.floor(U.toDate(undefined).valueOf() / 10000)).toEqual(
+      Math.floor(new Date().valueOf() / 10000)
+    )
     expect(U.toDate('2020-01-01')).toEqual(new Date('2020/01/01 00:00:00'))
     expect(U.toDate('2020-01-01T12:00:00.000Z')).toEqual(new Date('2020-01-01T12:00:00.000Z'))
   })
