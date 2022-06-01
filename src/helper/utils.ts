@@ -1,8 +1,6 @@
 import * as C from './constants'
 import { Lunisolar } from '../lunisolar.class'
 
-type DateParamType = lunisolar.DateConfigType | Lunisolar
-
 /**
  * 处理日期单位
  * @param unit
