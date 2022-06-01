@@ -11,3 +11,5 @@ type UnitFullName =
 type UnitShortName = 'ms' | 's' | 'm' | 'h' | 'd' | 'w' | 'M' | 'q' | 'y'
 type Unit = UnitShortName | UnitFullName
 type GreLun = 'GRE' | 'LUN'
+
+type DateParamType = lunisolar.DateConfigType | Lunisolar
