@@ -1,3 +1,9 @@
+// 月朔周期平均天数
+export const MOON_CYCLE = 29.53059
+
+// 月球自转周期天数
+export const MOON_ROTATION_CYCLE = 27.32166
+
 export const UNITS = {
   ms: 'millisecond',
   s: 'second',

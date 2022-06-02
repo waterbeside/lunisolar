@@ -1,5 +1,5 @@
-import * as U from '../../src/helper/utils'
-import * as C from '../../src/helper/constants'
+import * as U from '../../src/utils'
+import * as C from '../../src/constants'
 import { Lunisolar } from '../../src/lunisolar.class'
 
 describe('utils', () => {

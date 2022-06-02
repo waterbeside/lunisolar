@@ -1,12 +1,19 @@
 /* eslint-disable prettier/prettier */
-// 月朔周期平均天数
-const moonCycle = 29.53059
 
-// 月球自转周期天数
-const moonRotationCycle = 27.32166
+export const LUNAR_MONTH_NAMES = [
+  '正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','冬月','腊月'
+]
+
+export const LUNAR_DATE_NAMES = [
+  '初一','初二','初三','初四','初五','初六','初七','初八','初九','初十','十一','十二','十三',
+  '十四','十五','十六','十七','十八','十九','二十','廿一','廿二','廿三','廿四','廿五','廿六',
+  '廿七','廿八','廿九','三十'
+]
+
+export const NUMBER_STRING = '〇一二三四五六七八九十'
 
 // 星座
-const CONSTELLATION_NAME = [
+export const CONSTELLATION_NAME = [
   '白羊座',
   '金牛座',
   '双子座',
@@ -22,7 +29,7 @@ const CONSTELLATION_NAME = [
 ]
 
 // 二十四节气
-const SOLAR_TERMS = [
+export const SOLAR_TERMS = [
   '小寒','大寒',
   '立春','雨水','惊蛰','春分','清明','谷雨',
   '立夏','小满','芒种','夏至','小暑','大暑',
@@ -31,7 +38,7 @@ const SOLAR_TERMS = [
 ]
 
 // 二十八星宿
-const wentyEightStars = [
+export const wentyEightStars = [
   // 四       五      六       日       一       二      三
   '角木蛟','亢金龙','女土蝠','房日兔','心月狐','尾火虎','箕水豹',
   '斗木獬','牛金牛','氐土貉','虚日鼠','危月燕','室火猪','壁水獝',
