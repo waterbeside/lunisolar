@@ -17,12 +17,14 @@ describe('test lunar class', () => {
     const lunar = new Lunar('1903-06-27')
     expect(lunar.getMonth()).toBe(105)
     expect(lunar.getDate()).toBe(3)
+    expect(lunar.toString()).toBe('一九〇三年閏五月初三')
   })
 
   it('1951-12-31', () => {
     const lunar = new Lunar('1951-12-31')
     expect(lunar.getMonth()).toBe(12)
     expect(lunar.getDate()).toBe(4)
+    expect(lunar.toString()).toBe('一九五一年腊月初四')
   })
 
   it('1952-01-06', () => {
