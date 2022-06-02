@@ -1,13 +1,15 @@
-import { toDate } from './helper/utils'
-import * as lunData from './data/lunarData'
+import { toDate } from './utils'
+
+import { LUNAR_MONTH_DATAS, LUNAR_NEW_YEAR_DATE } from './constants/lunarData'
+import { LUNAR_MONTH_NAMES, LUNAR_DATE_NAMES, NUMBER_STRING } from './constants/calendarData'
 
 function getLunarNewYearDate(year: number): Date {
-  const lnyd = lunData.LUNAR_NEW_YEAR_DATE[year - 1901]
+  const lnyd = LUNAR_NEW_YEAR_DATE[year - 1901]
   return toDate(`${year}/${Math.floor(lnyd / 100)}/${lnyd % 100}`)
 }
 
 function getLunarMonthDate(year: number, dateDiff: number): [number, number] {
-  const monthData = lunData.LUNAR_MONTH_DATAS[year - 1901]
+  const monthData = LUNAR_MONTH_DATAS[year - 1901]
   // 取出闰月
   const leapMonth = monthData >> 13
   const leapMonthIsBig = (monthData >> 12) & 1
@@ -58,14 +60,33 @@ export class Lunar {
       dateDiff = getDateDiff(date, getLunarNewYearDate(year))
     }
     ;[this._m, this._d] = getLunarMonthDate(year, dateDiff)
+    this._y = year
   }
 
   _date: Date
+  _y: number
   _m: number
   _d: number
 
+  isLeapMonth(): boolean {
+    return this._m > 100
+  }
+
+  isBigMonth(): boolean {
+    const monthData = LUNAR_MONTH_DATAS[this._y - 1901]
+    if (this.isLeapMonth()) {
+      return ((monthData >> 12) & 1) === 1
+    } else {
+      return ((monthData >> (this._m - 1)) & 1) === 1
+    }
+  }
+
   lunarNewYearDate(year: number | undefined): Date {
-    return getLunarNewYearDate(year || this._date.getFullYear())
+    return getLunarNewYearDate(year || this._y)
+  }
+
+  getYear(): number {
+    return this._y
   }
 
   getMonth(): number {
@@ -74,5 +95,33 @@ export class Lunar {
 
   getDate(): number {
     return this._d
+  }
+
+  getYearName(): string {
+    let res = ''
+    let year = this._y
+    while (year) {
+      const s = NUMBER_STRING[year % 10]
+      res = s + res
+    }
+    return res
+  }
+
+  getMonthName(): string {
+    return this.isLeapMonth()
+      ? '閏' + LUNAR_MONTH_NAMES[this._m - 100]
+      : LUNAR_MONTH_NAMES[this._m - 1]
+  }
+
+  getDateName(): string {
+    return LUNAR_DATE_NAMES[this._d - 1]
+  }
+
+  toString(): string {
+    return `${this._y}年${this.getMonthName()}${this.getDateName()}`
+  }
+
+  valueOf(): number {
+    return this._date.valueOf()
   }
 }
