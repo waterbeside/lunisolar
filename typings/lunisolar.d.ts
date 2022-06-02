@@ -5,5 +5,14 @@ declare namespace lunisolar {
   class Lunisolar {
     get date(): Date
     clone(): Lunisolar
+    lunar: Lunar
+  }
+  export class Lunar {
+    constructor(date: Date)
+    getMonth(): number
+    getDate(): number
+    isLeapMonth(): boolean
+    isBigMonth(): boolean
+    lunarNewYearDate(year?: number): Date
   }
 }
