@@ -103,13 +103,14 @@ export class Lunar {
     while (year) {
       const s = NUMBER_STRING[year % 10]
       res = s + res
+      year = Math.floor(year / 10)
     }
     return res
   }
 
   getMonthName(): string {
     return this.isLeapMonth()
-      ? '閏' + LUNAR_MONTH_NAMES[this._m - 100]
+      ? '閏' + LUNAR_MONTH_NAMES[this._m - 101]
       : LUNAR_MONTH_NAMES[this._m - 1]
   }
 
@@ -118,7 +119,7 @@ export class Lunar {
   }
 
   toString(): string {
-    return `${this._y}年${this.getMonthName()}${this.getDateName()}`
+    return `${this.getYearName()}年${this.getMonthName()}${this.getDateName()}`
   }
 
   valueOf(): number {
