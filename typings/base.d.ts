@@ -13,3 +13,4 @@ type Unit = UnitShortName | UnitFullName
 type GreLun = 'GRE' | 'LUN'
 
 type DateParamType = lunisolar.DateConfigType | Lunisolar
+type DateConfigType = string | number | Date | null | undefined
