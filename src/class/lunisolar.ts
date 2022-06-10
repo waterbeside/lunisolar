@@ -1,6 +1,6 @@
-import * as C from './constants'
-import * as U from './utils'
-import { Lunar } from './lunar.class'
+import * as C from '../constants'
+import * as U from '../utils'
+import { Lunar } from './lunar'
 
 export class Lunisolar {
   _date: Date = new Date()

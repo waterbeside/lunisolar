@@ -1,4 +1,4 @@
-import { Lunar } from '../src/lunar.class'
+import { Lunar } from '../../src/class/lunar'
 
 describe('test lunar class', () => {
   it('1901-02-19', () => {

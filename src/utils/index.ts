@@ -1,5 +1,5 @@
 import * as C from '../constants'
-import { Lunisolar } from '../lunisolar.class'
+import { Lunisolar } from '../class/lunisolar'
 
 /**
  * 处理日期单位

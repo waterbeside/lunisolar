@@ -1,6 +1,6 @@
 import * as U from '../../src/utils'
 import * as C from '../../src/constants'
-import { Lunisolar } from '../../src/lunisolar.class'
+import { Lunisolar } from '../../src/class/lunisolar'
 
 describe('utils', () => {
   it('test prettyUnit', () => {

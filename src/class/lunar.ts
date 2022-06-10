@@ -1,7 +1,7 @@
-import { toDate } from './utils'
+import { toDate } from '../utils'
 
-import { LUNAR_MONTH_DATAS, LUNAR_NEW_YEAR_DATE } from './constants/lunarData'
-import { LUNAR_MONTH_NAMES, LUNAR_DATE_NAMES, NUMBER_STRING } from './constants/calendarData'
+import { LUNAR_MONTH_DATAS, LUNAR_NEW_YEAR_DATE } from '../constants/lunarData'
+import { LUNAR_MONTH_NAMES, LUNAR_DATE_NAMES, NUMBER_STRING } from '../constants/calendarData'
 
 function getLunarNewYearDate(year: number): Date {
   const lnyd = LUNAR_NEW_YEAR_DATE[year - 1901]

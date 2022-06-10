@@ -1,5 +1,5 @@
-import { Lunisolar } from './lunisolar.class'
-import { Lunar } from './lunar.class'
+import { Lunisolar } from './class/lunisolar'
+import { Lunar } from './class/lunar'
 
 export default function lunisolar(date: DateConfigType | Lunisolar): Lunisolar {
   if (date instanceof Lunisolar) {
