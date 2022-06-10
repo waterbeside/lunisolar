@@ -1,15 +1,20 @@
 import { toDate } from '../utils'
 
-import { LUNAR_MONTH_DATAS, LUNAR_NEW_YEAR_DATE } from '../constants/lunarData'
+import {
+  FIRST_YEAR,
+  LAST_YEAR,
+  LUNAR_MONTH_DATAS,
+  LUNAR_NEW_YEAR_DATE
+} from '../constants/lunarData'
 import { LUNAR_MONTH_NAMES, LUNAR_DATE_NAMES, NUMBER_STRING } from '../constants/calendarData'
 
 function getLunarNewYearDate(year: number): Date {
-  const lnyd = LUNAR_NEW_YEAR_DATE[year - 1901]
+  const lnyd = LUNAR_NEW_YEAR_DATE[year - FIRST_YEAR]
   return toDate(`${year}/${Math.floor(lnyd / 100)}/${lnyd % 100}`)
 }
 
 function getLunarMonthDate(year: number, dateDiff: number): [number, number] {
-  const monthData = LUNAR_MONTH_DATAS[year - 1901]
+  const monthData = LUNAR_MONTH_DATAS[year - FIRST_YEAR]
   // 取出闰月
   const leapMonth = monthData >> 13
   const leapMonthIsBig = (monthData >> 12) & 1
@@ -43,10 +48,10 @@ export class Lunar {
     this._date = date
     let year = date.getFullYear()
     if (
-      year < 1901 ||
-      year > 2100 ||
-      (year === 1901 && date.getMonth() < 1) ||
-      (year === 1901 && date.getMonth() === 1 && date.getDate() < 19)
+      year < FIRST_YEAR ||
+      year > LAST_YEAR ||
+      (year === FIRST_YEAR && date.getMonth() < 1) ||
+      (year === FIRST_YEAR && date.getMonth() === 1 && date.getDate() < 19)
     ) {
       throw new Error('Invalid lunar year: out of range')
     }
@@ -73,7 +78,7 @@ export class Lunar {
   }
 
   isBigMonth(): boolean {
-    const monthData = LUNAR_MONTH_DATAS[this._y - 1901]
+    const monthData = LUNAR_MONTH_DATAS[this._y - FIRST_YEAR]
     if (this.isLeapMonth()) {
       return ((monthData >> 12) & 1) === 1
     } else {
