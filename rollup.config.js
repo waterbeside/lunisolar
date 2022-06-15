@@ -13,7 +13,7 @@ const terserPlugin = terser({ format: { comments: false } })
 
 export default [
   {
-    input: 'src/main.ts',
+    input: 'src/index.ts',
     output: [
       {
         // UMD for browser-friendly build

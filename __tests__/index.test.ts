@@ -1,4 +1,4 @@
-import lunisolar from '../src/main'
+import lunisolar from '../src'
 
 describe('lunisolar', () => {
   it('lunisolar should be a function', () => {
