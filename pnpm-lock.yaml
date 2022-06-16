@@ -22,6 +22,7 @@ specifiers:
   rollup-plugin-terser: ^7.0.2
   rollup-plugin-typescript2: ^0.31.2
   ts-jest: ^27.1.4
+  tslib: ^2.4.0
   typescript: ^4.6.3
 
 devDependencies:
@@ -46,6 +47,7 @@ devDependencies:
   rollup-plugin-terser: 7.0.2_rollup@2.70.2
   rollup-plugin-typescript2: 0.31.2_d34dafbf6b907e766eb724047deaa090
   ts-jest: 27.1.4_030caa59d51bb815fe00c3e905bfca18
+  tslib: 2.4.0
   typescript: 4.6.3
 
 packages:
@@ -1838,7 +1840,7 @@ packages:
     resolution: {integrity: sha512-RJcBGTVywUqYGRtGkPSgJC/ozf0wK/xjUy66tXkbpL35U0o1oef4S0v23euxA/CiukqBWr2fRGtGY6FidESdTg==}
     dependencies:
       pkg-dir: 5.0.0
-      tslib: 2.3.1
+      tslib: 2.4.0
       upath2: 3.1.12_@types+node@17.0.24
     transitivePeerDependencies:
       - '@types/node'
@@ -3637,7 +3639,7 @@ packages:
   /path-is-network-drive/1.0.13:
     resolution: {integrity: sha512-Hg74mRN6mmXV+gTm3INjFK40ncAmC/Lo4qoQaSZ+GT3hZzlKdWQSqAjqyPeW0SvObP2W073WyYEBWY9d3wOm3A==}
     dependencies:
-      tslib: 2.3.1
+      tslib: 2.4.0
     dev: true
 
   /path-key/3.1.1:
@@ -3652,7 +3654,7 @@ packages:
   /path-strip-sep/1.0.10:
     resolution: {integrity: sha512-JpCy+8LAJQQTO1bQsb/84s1g+/Stm3h39aOpPRBQ/paMUGVPPZChLTOTKHoaCkc/6sKuF7yVsnq5Pe1S6xQGcA==}
     dependencies:
-      tslib: 2.3.1
+      tslib: 2.4.0
     dev: true
 
   /path-type/4.0.0:
@@ -3918,7 +3920,7 @@ packages:
       fs-extra: 10.1.0
       resolve: 1.22.0
       rollup: 2.70.2
-      tslib: 2.3.1
+      tslib: 2.4.0
       typescript: 4.6.3
     transitivePeerDependencies:
       - '@types/node'
@@ -4205,8 +4207,8 @@ packages:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
     dev: true
 
-  /tslib/2.3.1:
-    resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==}
+  /tslib/2.4.0:
+    resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
     dev: true
 
   /tsutils/3.21.0_typescript@4.6.3:
@@ -4283,7 +4285,7 @@ packages:
       '@types/node': 17.0.24
       path-is-network-drive: 1.0.13
       path-strip-sep: 1.0.10
-      tslib: 2.3.1
+      tslib: 2.4.0
     dev: true
 
   /uri-js/4.4.1:
