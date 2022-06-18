@@ -15,15 +15,15 @@ export const prettyUnit = (unit: Unit): UnitFullName => {
  * @param date 日期字符串或日期对象
  * @returns 返回日期对像
  */
-export const toDate = (date: DateParamType): Date => {
+export const toDate = (date?: DateParamType): Date => {
+  if (typeof date === 'undefined') return new Date()
+  if (date === null) return new Date(NaN) // null is invalid
   if (date instanceof Lunisolar) {
     return date.date
   }
   if (date instanceof Date) {
     return date
   }
-  if (date === null) return new Date(NaN) // null is invalid
-  if (typeof date === 'undefined') return new Date()
   if (typeof date === 'string' && !/Z$/i.test(date)) {
     const d = date.match(C.REGEX_PARSE) as any
     if (d) {
