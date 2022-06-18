@@ -50,10 +50,15 @@ export class Term {
     return [year, month + 1, day]
   }
 
-  // 查出当前日期属于哪个节
-  static findNode(date: Date, returnValue: true): number
-  static findNode(date: Date, returnValue: false): Term
-  static findNode(date: Date, returnValue: boolean = false): Term | number {
+  /**
+   * 查出指定日期属于哪个节之后，并返回该节及该节日期
+   * @param date 日期
+   * @param returnValue 节气是否只返回该节气的值,还是返回节气对象
+   * @returns {[Term | number, number]} [节气, 节气日期]
+   */
+  static findNode(date: Date, returnValue: true): [number, number]
+  static findNode(date: Date, returnValue: false): [Term, number]
+  static findNode(date: Date, returnValue: boolean = false): [Term | number, number] {
     const year = date.getFullYear()
     const month = date.getMonth()
     const d = date.getDate()
@@ -63,7 +68,7 @@ export class Term {
     // 如果当前日期在该节的日期之前，则为上一个节
     if (d < termDay && !(d === termDay - 1 && date.getHours() >= 23)) termValue -= 2
     termValue = (termValue + 24) % 24
-    return returnValue ? termValue : new Term(termValue)
+    return returnValue ? [termValue, termDay] : [new Term(termValue), termDay]
   }
 
   valueOf() {
