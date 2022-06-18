@@ -1,5 +1,7 @@
 import { Lunisolar } from './class/lunisolar'
 import { Lunar } from './class/lunar'
+import { Stem, Branch } from './class/stemBranch'
+import { Term } from './class/term'
 
 export default function lunisolar(date: DateConfigType | Lunisolar): Lunisolar {
   if (date instanceof Lunisolar) {
@@ -9,3 +11,6 @@ export default function lunisolar(date: DateConfigType | Lunisolar): Lunisolar {
 }
 
 lunisolar.Lunar = Lunar
+lunisolar.Stem = Stem
+lunisolar.Branch = Branch
+lunisolar.Term = Term
