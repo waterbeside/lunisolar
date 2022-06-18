@@ -50,7 +50,7 @@ export class Char8 {
     let year = typeof date !== 'number' ? date.getFullYear() : date
     if (changeEgeTrem !== null && typeof date !== 'number') {
       changeEgeTrem = changeEgeTrem % 24
-      let isPreYear = changeEgeTrem >= 0
+      let isPreYear = changeEgeTrem < 0
       changeEgeTrem = changeEgeTrem >= 0 ? changeEgeTrem : 24 + changeEgeTrem
       // 查出当前节气日期
       let yearStart = date.getFullYear()
@@ -64,9 +64,8 @@ export class Char8 {
       )
       const endDate = U.toDate(`${endTermDate[0]}-${endTermDate[1]}-${endTermDate[2] - 1} 23:00:00`)
       // 检查是否在该岁的范围内
-      if (date.valueOf() < startDate.valueOf()) yearStart--
-      else if (date.valueOf() >= endDate.valueOf()) yearStart++
-      year = yearStart
+      if (date.valueOf() < startDate.valueOf()) year--
+      else if (date.valueOf() >= endDate.valueOf()) year++
     }
     const stemValue = (year - 4) % 10
     const branchValue = (year - 4) % 12
@@ -75,10 +74,15 @@ export class Char8 {
 
   static computeSBMonth(date: Date) {
     // 知道该日是哪个节气之后便可知道该日是哪个地支月
-    // const nodeValue = Term.findNode(date, true)
-    // const BranchValue = nodeValue / 2
+    const node = Term.findNode(date, true)
+    const monthOffset =
+      node[1] > date.getDate() && !(node[1] - 1 === date.getDate() && date.getHours() >= 23)
+        ? -1
+        : 0
     // 求月天干 （2018年12月大雪乃甲子月）
-    const monthDiff = Math.abs((date.getFullYear() - 2018) * 12 + date.getMonth() + 1)
+    const monthDiff = Math.abs(
+      (date.getFullYear() - 2018) * 12 + date.getMonth() - 11 + monthOffset
+    )
     return new SB(monthDiff)
   }
 
