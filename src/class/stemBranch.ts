@@ -115,8 +115,7 @@ export class SB {
     } else if (typeof stemOrValue === 'number') {
       this._value = stemOrValue % 60
       const stemValue = this._value % 10
-      const branchValue =
-        (((6 - Math.floor(this._value / 10) + (stemValue >> 1)) * 2) % 6) + (stemValue % 2)
+      const branchValue = this._value % 12
       this._stem = new Stem(stemValue)
       this._branch = new Branch(branchValue)
     } else {
