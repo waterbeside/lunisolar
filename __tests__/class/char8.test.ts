@@ -23,4 +23,17 @@ describe('Char8', () => {
     expect(Char8.computeSBMonth(U.toDate('2022-02-03 23:00:00')).toString()).toBe('壬寅')
     expect(Char8.computeSBMonth(U.toDate('2022-02-04')).toString()).toBe('壬寅')
   })
+
+  it('Test Char8.computeSBDay', () => {
+    expect(Char8.computeSBDay(U.toDate('2022-03-11')).toString()).toBe('癸亥')
+    expect(Char8.computeSBDay(U.toDate('2022-03-12')).toString()).toBe('甲子')
+    expect(Char8.computeSBDay(U.toDate('2022-03-13')).toString()).toBe('乙丑')
+    expect(Char8.computeSBDay(U.toDate('2017-11-30 23:00:00')).toString()).toBe('壬戌')
+    expect(Char8.computeSBDay(U.toDate('2017-12-01')).toString()).toBe('壬戌')
+    expect(Char8.computeSBDay(U.toDate('2017-12-08')).toString()).toBe('己巳')
+    expect(Char8.computeSBDay(U.toDate('2019-06-08')).toString()).toBe('丙子')
+    expect(Char8.computeSBDay(U.toDate('1991-02-15')).toString()).toBe('丙辰')
+    expect(Char8.computeSBDay(U.toDate('2031-08-22')).toString()).toBe('甲午')
+    expect(Char8.computeSBDay(U.toDate('2031-08-22 23:00:00')).toString()).toBe('乙未')
+  })
 })
