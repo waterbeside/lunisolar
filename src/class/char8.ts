@@ -1,6 +1,7 @@
 import { SB } from './stemBranch'
 import { Term } from './term'
 import * as U from '../utils'
+import { SB0_MONTH, SB0_DATE } from '../constants/calendarData'
 
 export class Char8 {
   private _value: number = -1
@@ -80,9 +81,9 @@ export class Char8 {
         ? -1
         : 0
     // 求月天干 （2018年12月大雪乃甲子月）
-    const monthDiff = Math.abs(
-      (date.getFullYear() - 2018) * 12 + date.getMonth() - 11 + monthOffset
-    )
+    let monthDiff =
+      ((date.getFullYear() - SB0_MONTH[0]) * 12 + date.getMonth() - SB0_MONTH[1] + 1) % 60
+    monthDiff = (monthDiff < 0 ? 60 + monthDiff : monthDiff) + monthOffset
     return new SB(monthDiff)
   }
 
