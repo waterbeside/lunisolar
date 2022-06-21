@@ -16,6 +16,8 @@ describe('Char8', () => {
   })
 
   it('Test Char8.computeSBMonth', () => {
+    expect(Char8.computeSBMonth(U.toDate('2017-12-01')).toString()).toBe('辛亥')
+    expect(Char8.computeSBMonth(U.toDate('2017-12-08')).toString()).toBe('壬子')
     expect(Char8.computeSBMonth(U.toDate('2019-06-08')).toString()).toBe('庚午')
     expect(Char8.computeSBMonth(U.toDate('2022-02-03')).toString()).toBe('辛丑')
     expect(Char8.computeSBMonth(U.toDate('2022-02-03 23:00:00')).toString()).toBe('壬寅')
