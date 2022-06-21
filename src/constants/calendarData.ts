@@ -74,5 +74,8 @@ export const HIDDEN_STEMS = [
 // 五行得分
 export const FIVE_ELEMENTS_SCORE = [60, 30, 10]
 
+// 甲子月标识
+export const SB0_MONTH = [2018, 12, 7]
+
 // 甲子日标识
-export const SB0_DATE = [2018, 12, 7]
+export const SB0_DATE = [2022, 3, 12]
