@@ -2,15 +2,22 @@ import * as C from '../constants'
 import * as U from '../utils'
 import { Lunar } from './lunar'
 import { Term } from './term'
+import { Char8 } from './char8'
 import { FIRST_YEAR, LAST_YEAR } from '../constants/lunarData'
 import { TERM_MINIMUM_DATES, TERM_SAME_HEX, TERM_LIST } from '../constants/lunarData'
 
 export class Lunisolar {
+  static defaultConfig = {
+    changeEgeTrem: 2 // 换岁节气, 默认为立春，如果为null刚为正月初一换岁
+  }
+  private _config = Lunisolar.defaultConfig
   private _date: Date
   private _term?: Term | null
   private _lunar?: Lunar
-  constructor(date?: lunisolar.DateConfigType) {
+  private _char8?: Char8
+  constructor(date?: lunisolar.DateConfigType, config?: any) {
     this._date = U.toDate(date)
+    this._config = Object.assign({}, Lunisolar.defaultConfig, config)
   }
 
   get lunar(): Lunar {
@@ -42,6 +49,14 @@ export class Lunisolar {
     if (date === term1) return new Term((month - 1) * 2)
     else if (date === term2) return new Term((month - 1) * 2 + 1)
     else return null
+  }
+
+  // 八字
+  get char8(): Char8 {
+    if (this._char8) return this._char8
+    let changeEgeTrem = this._config.changeEgeTrem
+    this._char8 = new Char8(this._date, changeEgeTrem)
+    return this._char8
   }
 
   clone() {
