@@ -36,8 +36,8 @@ export const toDate = (date?: DateParamType): Date => {
 }
 
 interface DateDiffConfig {
-  float: boolean
-  flag: GreLun
+  float?: boolean
+  flag?: GreLun
 }
 
 export function dateDiff(
@@ -67,7 +67,7 @@ export function dateDiff(
   } else if (C.UNITS.q === unit) {
     res = monthDiff(date1, date2) / 3
   }
-  const float = config && config.float
+  const float = config && config?.float
   return float ? res : parseInt(String(res))
 }
 
