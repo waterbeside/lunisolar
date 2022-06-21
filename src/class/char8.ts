@@ -6,9 +6,20 @@ import { SB0_MONTH, SB0_DATE } from '../constants/calendarData'
 export class Char8 {
   private _value: number = -1
   private _list: SB[] = []
-  constructor(sbList: [SB, SB, SB, SB]) {
-    this._list = sbList
-    this._value = this._computeValue(sbList)
+  constructor(dateOrSbList: Date | [SB, SB, SB, SB], changeEgeTrem: number | null = null) {
+    if (dateOrSbList instanceof Date) {
+      const y = Char8.computeSBYear(dateOrSbList, changeEgeTrem)
+      const m = Char8.computeSBMonth(dateOrSbList)
+      const d = Char8.computeSBDay(dateOrSbList)
+      const h2 = Char8.computeSBHour2(dateOrSbList, d)
+      dateOrSbList = [y, m, d, h2]
+    }
+    if (Array.isArray(dateOrSbList)) {
+      this._list = dateOrSbList
+      this._value = this._computeValue(dateOrSbList)
+    } else {
+      throw new Error('Invalid Char8')
+    }
   }
 
   get value() {
@@ -47,6 +58,11 @@ export class Char8 {
     return res
   }
 
+  /**
+   * 取年的天五地支
+   * @param date 日期
+   * @returns {SB} 返回天地支对象
+   */
   static computeSBYear(date: Date | number, changeEgeTrem: number | null = null) {
     let year = typeof date !== 'number' ? date.getFullYear() : date
     if (changeEgeTrem !== null && typeof date !== 'number') {
@@ -73,6 +89,11 @@ export class Char8 {
     return new SB(stemValue, branchValue)
   }
 
+  /**
+   * 取月的天干地支
+   * @param date 日期
+   * @returns {SB} 返回天地支对象
+   */
   static computeSBMonth(date: Date) {
     // 知道该日是哪个节气之后便可知道该日是哪个地支月
     const node = Term.findNode(date, true)
@@ -87,11 +108,36 @@ export class Char8 {
     return new SB(monthDiff)
   }
 
+  /**
+   * 取日的天五地支
+   * @param date 日期
+   * @returns {SB} 返回天地支对象
+   */
   static computeSBDay(date: Date) {
     const sb0 = U.toDate(`${SB0_DATE[0]}-${SB0_DATE[1]}-${SB0_DATE[2] - 1} 23:00:00`)
     let daydiff = Math.floor((date.valueOf() - sb0.valueOf()) / (1000 * 60 * 60 * 24)) % 60
     if (daydiff < 0) daydiff += 60
     return new SB(daydiff)
+  }
+
+  /**
+   * 取时辰天干地支
+    ---- 五鼠遁 ---
+    甲己还加甲，乙庚丙作初。
+    丙辛从戊起，丁壬庚子居。
+    戊癸起壬子，周而复始求。
+   * @param date 日期
+   * @returns {SB} 返回天地支对象
+   */
+  static computeSBHour2(date: Date, sbDay?: SB) {
+    if (!sbDay) sbDay = Char8.computeSBDay(date)
+    const hour = date.getHours()
+    const dayStem = sbDay.stem
+    // 五鼠遁方法计算子时起始天干
+    const h2StartStemNum = (dayStem.value % 5) * 2
+    const branchNum = ((hour + 1) >> 1) % 12
+    const stemNum = (h2StartStemNum + branchNum) % 10
+    return new SB(stemNum)
   }
 
   toString() {
