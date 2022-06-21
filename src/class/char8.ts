@@ -87,6 +87,13 @@ export class Char8 {
     return new SB(monthDiff)
   }
 
+  static computeSBDay(date: Date) {
+    const sb0 = U.toDate(`${SB0_DATE[0]}-${SB0_DATE[1]}-${SB0_DATE[2] - 1} 23:00:00`)
+    let daydiff = Math.floor((date.valueOf() - sb0.valueOf()) / (1000 * 60 * 60 * 24)) % 60
+    if (daydiff < 0) daydiff += 60
+    return new SB(daydiff)
+  }
+
   toString() {
     return `${this.year}${this.month}${this.day}${this.twoHour}`
   }
