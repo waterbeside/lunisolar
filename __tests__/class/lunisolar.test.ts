@@ -1,4 +1,5 @@
 import { Lunisolar } from '../../src/class/lunisolar'
+import lunisolar from '../../src/index'
 import {
   FIRST_YEAR,
   TERM_MINIMUM_DATES,
@@ -23,6 +24,7 @@ export function reduceTermList(year: number) {
   return [res, res2]
 }
 
+// 测试节气
 describe('test Term', () => {
   for (const yearOffset in solarTermDateList) {
     const year = FIRST_YEAR + Number(yearOffset)
@@ -31,14 +33,21 @@ describe('test Term', () => {
         const month = ('0' + ((Number(i) >> 1) + 1)).slice(-2)
         const date = ('0' + solarTermDateList[yearOffset][i]).slice(-2)
         const lun = new Lunisolar(`${year}-${month}-${date}`)
-        let res = lun.term()
-        if (res instanceof Array) {
-          console.log(`${year}-${month}-${date}`)
-          console.log(res)
-          res = null
-        }
+        let res = lun.term
+        if (res instanceof Array) res = null
         expect(res?.toString() || null).toBe(SOLAR_TERMS[Number(i)])
       }
     })
   }
+})
+
+describe('test Lunisolar', () => {
+  it('1986-10-19 18:20:00', () => {
+    const lun = lunisolar('1986-10-19 19:20:00')
+    expect(lun.char8.toString()).toBe('丙寅 戊戌 丙申 戊戌')
+  })
+  it('1990-1-27 15:20:00', () => {
+    const lun = lunisolar('1990-1-27 15:20:00')
+    expect(lun.char8.toString()).toBe('己巳 丁丑 壬辰 戊申')
+  })
 })
