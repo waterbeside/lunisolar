@@ -137,11 +137,11 @@ export class Char8 {
     const h2StartStemNum = (dayStem.value % 5) * 2
     const branchNum = ((hour + 1) >> 1) % 12
     const stemNum = (h2StartStemNum + branchNum) % 10
-    return new SB(stemNum)
+    return new SB(stemNum, branchNum)
   }
 
   toString() {
-    return `${this.year}${this.month}${this.day}${this.twoHour}`
+    return `${this.year} ${this.month} ${this.day} ${this.twoHour}`
   }
 
   valueOf() {
