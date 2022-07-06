@@ -51,3 +51,17 @@ describe('test Lunisolar', () => {
     expect(lun.char8.toString()).toBe('己巳 丁丑 壬辰 戊申')
   })
 })
+
+describe('test Lunar', () => {
+  it('1901-02-19', () => {
+    const lun = lunisolar('1901-02-19')
+    expect(lun.lunar.getMonth()).toBe(1)
+    expect(lun.lunar.getDate()).toBe(1)
+  })
+
+  it('1901-02-19 23:10', () => {
+    const lun = lunisolar('1901-02-19 23:10')
+    expect(lun.lunar.getMonth()).toBe(1)
+    expect(lun.lunar.getDate()).toBe(2)
+  })
+})
