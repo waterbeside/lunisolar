@@ -1,27 +1,25 @@
-import * as C from '../constants'
+// import * as C from '../constants'
 import * as U from '../utils'
 import { Lunar } from './lunar'
 import { Term } from './term'
 import { Char8 } from './char8'
 import { FIRST_YEAR, LAST_YEAR } from '../constants/lunarData'
 import { TERM_MINIMUM_DATES, TERM_SAME_HEX, TERM_LIST } from '../constants/lunarData'
+import { _GlobalConfig } from '../config'
 
 export class Lunisolar {
-  static defaultConfig = {
-    changeEgeTrem: 2 // 换岁节气, 默认为立春，如果为null刚为正月初一换岁
-  }
-  private _config = Lunisolar.defaultConfig
-  private _date: Date
-  private _term?: Term | null
-  private _lunar?: Lunar
-  private _char8?: Char8
-  constructor(date?: lunisolar.DateConfigType, config?: any) {
+  _config: GlobalConfig
+  _date: Date
+  _term?: Term | null
+  _lunar?: Lunar
+  _char8?: Char8
+  constructor(date?: lunisolar.DateConfigType, config?: lunisolar.ConfigType) {
     this._date = U.toDate(date)
-    this._config = Object.assign({}, Lunisolar.defaultConfig, config)
+    this._config = Object.assign({}, _GlobalConfig, config)
   }
 
   get lunar(): Lunar {
-    if (this.lunar) return this._lunar as Lunar
+    if (this._lunar) return this._lunar
     this._lunar = new Lunar(this._date)
     return this._lunar
   }
@@ -71,9 +69,9 @@ export class Lunisolar {
     return U.dateDiff(this.date, date, unit, config)
   }
 
-  add(value: number, unit?: Unit, config?: any) {
-    unit = unit ? U.prettyUnit(unit) : 'ms'
-    if (C.UNITS.ms === unit) {
-    }
-  }
+  // add(value: number, unit?: Unit, config?: any) {
+  //   unit = unit ? U.prettyUnit(unit) : 'ms'
+  //   if (C.UNITS.ms === unit) {
+  //   }
+  // }
 }
