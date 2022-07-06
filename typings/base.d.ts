@@ -14,3 +14,9 @@ type GreLun = 'GRE' | 'LUN'
 
 type DateParamType = lunisolar.DateConfigType | Lunisolar
 type DateConfigType = string | number | Date | null | undefined
+
+type PluginFunc = lunisolar.PluginFunc
+
+type GlobalConfig = {
+  [props: string]: any
+}
