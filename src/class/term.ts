@@ -18,7 +18,7 @@ export class Term {
     return this._value
   }
 
-  static getList() {
+  static getNames() {
     return [...SOLAR_TERMS]
   }
 
