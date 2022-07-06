@@ -1,7 +1,9 @@
 import { Lunisolar } from './class/lunisolar'
 import { Lunar } from './class/lunar'
-import { Stem, Branch } from './class/stemBranch'
 import { Term } from './class/term'
+import { Char8 } from './class/char8'
+import { SB, Stem, Branch } from './class/stemBranch'
+import { Element5 } from './class/element5'
 
 export default function lunisolar(date: DateConfigType | Lunisolar): Lunisolar {
   if (date instanceof Lunisolar) {
@@ -11,6 +13,17 @@ export default function lunisolar(date: DateConfigType | Lunisolar): Lunisolar {
 }
 
 lunisolar.Lunar = Lunar
+lunisolar.Term = Term
+lunisolar.Char8 = Char8
+lunisolar.SB = SB
 lunisolar.Stem = Stem
 lunisolar.Branch = Branch
-lunisolar.Term = Term
+lunisolar.Element5 = Element5
+lunisolar.Lunisolar = Lunisolar
+lunisolar.extend = <T = any>(plugin: PluginFunc, options?: T): typeof lunisolar => {
+  if (!(plugin as any).$once) {
+    plugin(options, Lunisolar, lunisolar)
+    ;(plugin as any).$once = true
+  }
+  return lunisolar
+}
