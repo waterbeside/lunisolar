@@ -5,8 +5,10 @@ import { SB0_MONTH, SB0_DATE } from '../constants/calendarData'
 
 export class Char8 {
   private _value: number = -1
-  private _list: SB[] = []
-  constructor(dateOrSbList: Date | [SB, SB, SB, SB], changeEgeTrem: number | null = null) {
+  private _list: [SB, SB, SB, SB]
+  constructor(dateOrSbList: [SB, SB, SB, SB])
+  constructor(dateOrSbList: Date, changeEgeTrem?: number)
+  constructor(dateOrSbList: Date | [SB, SB, SB, SB], changeEgeTrem?: number) {
     if (dateOrSbList instanceof Date) {
       const y = Char8.computeSBYear(dateOrSbList, changeEgeTrem)
       const m = Char8.computeSBMonth(dateOrSbList)
@@ -42,7 +44,7 @@ export class Char8 {
     return this._list[2]
   }
 
-  get twoHour() {
+  get hour2() {
     return this._list[3]
   }
   // 日主
@@ -63,9 +65,9 @@ export class Char8 {
    * @param date 日期
    * @returns {SB} 返回天地支对象
    */
-  static computeSBYear(date: Date | number, changeEgeTrem: number | null = null) {
+  static computeSBYear(date: Date | number, changeEgeTrem?: number | null) {
     let year = typeof date !== 'number' ? date.getFullYear() : date
-    if (changeEgeTrem !== null && typeof date !== 'number') {
+    if (changeEgeTrem !== null && changeEgeTrem !== undefined && typeof date !== 'number') {
       changeEgeTrem = changeEgeTrem % 24
       let isPreYear = changeEgeTrem < 0
       changeEgeTrem = changeEgeTrem >= 0 ? changeEgeTrem : 24 + changeEgeTrem
@@ -141,7 +143,7 @@ export class Char8 {
   }
 
   toString() {
-    return `${this.year} ${this.month} ${this.day} ${this.twoHour}`
+    return `${this.year} ${this.month} ${this.day} ${this.hour2}`
   }
 
   valueOf() {
