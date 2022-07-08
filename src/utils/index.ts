@@ -32,7 +32,7 @@ export const toDate = (date?: DateParamType): Date => {
       return new Date(d[1], m, d[3] || 1, d[4] || 0, d[5] || 0, d[6] || 0, ms)
     }
   }
-  return new Date(date)
+  return new Date(date as string | number)
 }
 
 interface DateDiffConfig {
