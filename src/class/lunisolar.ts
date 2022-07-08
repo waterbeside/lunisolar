@@ -7,7 +7,7 @@ import { FIRST_YEAR, LAST_YEAR } from '../constants/lunarData'
 import { TERM_MINIMUM_DATES, TERM_SAME_HEX, TERM_LIST } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
 
-export class Lunisolar {
+export class Lunisolar implements ILunisolar {
   _config: GlobalConfig
   _date: Date
   _term?: Term | null

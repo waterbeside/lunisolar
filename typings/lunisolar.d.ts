@@ -73,7 +73,7 @@ declare namespace lunisolar {
     static computeSBHour2(date: Date, sbDay?: SB)
   }
 
-  export class Lunisolar {
+  export class Lunisolar implements ILunisolar {
     _config: GlobalConfig
     _date: Date
     _term?: Term | null
