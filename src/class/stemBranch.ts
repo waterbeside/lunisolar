@@ -103,6 +103,8 @@ export class SB {
   private _branch: Branch
   private _value: number = -1
 
+  constructor(stemOrValue: number)
+  constructor(stemOrValue: number | string | Stem, branch: number | string | Branch)
   constructor(stemOrValue: number | string | Stem, branch?: number | string | Branch) {
     if (typeof branch !== 'undefined') {
       this._stem = new Stem(stemOrValue)
