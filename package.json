@@ -2,9 +2,9 @@
   "name": "lunisolar",
   "version": "0.0.1",
   "description": "",
-  "main": "dist/lunisolar.umd.js",
+  "main": "dist/lunisolar.js",
   "module": "dist/lunisolar.esm.js",
-  "browser": "dist/lunisolar.umd.js",
+  "browser": "dist/lunisolar.js",
   "types": "typings/index.d.ts",
   "scripts": {
     "test": "jest --verbose",
