@@ -4,6 +4,7 @@ import resolve from '@rollup/plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import ts from 'rollup-plugin-typescript2'
 import { terser } from 'rollup-plugin-terser'
+import copy from 'rollup-plugin-copy'
 import clear from 'rollup-plugin-clear'
 import pkg from './package.json'
 
@@ -15,10 +16,11 @@ const terserPlugin = terser({ format: { comments: false } })
 
 // fileName： pkg.module,
 const configFactory = config => {
-  const { input, fileName, filePath, name, isClear, createEs } = config
+  const { input, fileName, filePath, name, isClear, createEs, copyFile } = config
   // load rollup plugins
   const plugins = [resolve(), commonjs(), tsPlugin, terserPlugin]
-  if (isClear) plugins.unshift(clear({ targets: ['dist'] }))
+  if (isClear) plugins.unshift(clear({ targets: ['dist', 'plugins'] }))
+  if (copyFile) plugins.push(copy(copyFile))
   // output
   const output = [
     {
@@ -47,7 +49,19 @@ const configs = [
   configFactory({
     input: 'src/index.ts',
     isClear: true,
-    createEs: true
+    createEs: true,
+    copyFile: {
+      targets: [
+        // {
+        //   src: path.join(__dirname, 'typings', 'plugins', '*.d.ts'),
+        //   dest: path.join(__dirname, 'plugins', '*.d.ts')
+        // }
+        {
+          src: 'typings/plugins/**/*',
+          dest: 'plugins'
+        }
+      ]
+    }
   })
 ]
 
@@ -59,7 +73,7 @@ const configPlugins = () => {
       configFactory({
         name: pName,
         input: path.join(pluginPath, pName, 'index.ts'),
-        filePath: path.join(__dirname, 'dist', 'plugins'),
+        filePath: path.join(__dirname, 'plugins'),
         fileName: pName
       })
     )
