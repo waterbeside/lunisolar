@@ -29,6 +29,14 @@ declare namespace lunisolar {
      * 取得陰歷日
      */
     get day(): number
+    /**
+     * 是否為閏月
+     */
+    get isLeapMonth(): boolean
+    /**
+     * 是否為大月
+     */
+    get isBigMonth(): boolean
 
     /**
      * 取得陰歷時辰下標 0 ~ 11
@@ -50,15 +58,6 @@ declare namespace lunisolar {
      * 取得陰歷時辰(中文)
      */
     getHourName(): string
-    /**
-     * 是否為閏月
-     */
-    isLeapMonth(): boolean
-    /**
-     * 是否為大月
-     */
-    isBigMonth(): boolean
-
     /**
       取得當年陰歷年的日期
      */

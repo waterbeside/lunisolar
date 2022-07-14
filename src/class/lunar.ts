@@ -18,6 +18,11 @@ function getLunarNewYearDate(year: number): Date {
   return toDate(`${year}/${Math.floor(lnyd / 100)}/${lnyd % 100}`)
 }
 
+/**
+ * @param year 春節所在的公歷年
+ * @param dateDiff 當日與當年春節相差天數
+ * @returns [月, 日]
+ */
 function getLunarMonthDate(year: number, dateDiff: number): [number, number] {
   const monthData = LUNAR_MONTH_DATAS[year - FIRST_YEAR]
   // 取出闰月
@@ -43,10 +48,19 @@ function getLunarMonthDate(year: number, dateDiff: number): [number, number] {
   return [isLeap ? 100 + month : month, dateDiff]
 }
 
+/**
+ * 兩日相關天數
+ * @param date1 起始日
+ * @param date2 結束日
+ * @returns 天數
+ */
 function getDateDiff(date1: Date, date2: Date): number {
-  return Math.floor((date1.valueOf() - date2.valueOf()) / 86400000)
+  return Math.floor((date2.valueOf() - date1.valueOf()) / 86400000)
 }
 
+/**
+ * class Lunar
+ */
 export class Lunar {
   _date: Date
   _y: number
@@ -69,14 +83,14 @@ export class Lunar {
     ) {
       throw new Error('Invalid lunar year: out of range')
     }
-    let dateDiff = getDateDiff(date, getLunarNewYearDate(year))
+    let dateDiff = getDateDiff(getLunarNewYearDate(year), date)
 
     if (date && hours === 23) {
       dateDiff = dateDiff + 1
     }
     if (dateDiff < 0) {
       year = year - 1
-      dateDiff = getDateDiff(date, getLunarNewYearDate(year))
+      dateDiff = getDateDiff(getLunarNewYearDate(year), date)
     }
     this._y = year
     // 計算年和月
@@ -85,13 +99,13 @@ export class Lunar {
     this._h = (hours + 1) % 24 >> 1
   }
 
-  isLeapMonth(): boolean {
+  get isLeapMonth(): boolean {
     return this._m > 100
   }
 
-  isBigMonth(): boolean {
+  get isBigMonth(): boolean {
     const monthData = LUNAR_MONTH_DATAS[this._y - FIRST_YEAR]
-    if (this.isLeapMonth()) {
+    if (this.isLeapMonth) {
       return ((monthData >> 12) & 1) === 1
     } else {
       return ((monthData >> (this._m - 1)) & 1) === 1
@@ -130,7 +144,7 @@ export class Lunar {
   }
 
   getMonthName(): string {
-    return this.isLeapMonth()
+    return this.isLeapMonth
       ? '閏' + LUNAR_MONTH_NAMES[this._m - 101]
       : LUNAR_MONTH_NAMES[this._m - 1]
   }
