@@ -6,7 +6,12 @@ import {
   LUNAR_MONTH_DATAS,
   LUNAR_NEW_YEAR_DATE
 } from '../constants/lunarData'
-import { LUNAR_MONTH_NAMES, LUNAR_DATE_NAMES, NUMBER_STRING } from '../constants/calendarData'
+import {
+  LUNAR_MONTH_NAMES,
+  LUNAR_DATE_NAMES,
+  NUMBER_STRING,
+  BRANCHS
+} from '../constants/calendarData'
 
 function getLunarNewYearDate(year: number): Date {
   const lnyd = LUNAR_NEW_YEAR_DATE[year - FIRST_YEAR]
@@ -43,35 +48,42 @@ function getDateDiff(date1: Date, date2: Date): number {
 }
 
 export class Lunar {
+  _date: Date
+  _y: number
+  _m: number
+  _d: number
+  _h: number
+
   constructor(dateObj: DateParamType) {
     const date = toDate(dateObj)
     this._date = date
     let year = date.getFullYear()
+    let month = date.getMonth()
+    let hours = date.getHours()
+    // 計算年份
     if (
       year < FIRST_YEAR ||
       year > LAST_YEAR ||
-      (year === FIRST_YEAR && date.getMonth() < 1) ||
-      (year === FIRST_YEAR && date.getMonth() === 1 && date.getDate() < 19)
+      (year === FIRST_YEAR && month < 1) ||
+      (year === FIRST_YEAR && month === 1 && date.getDate() < 19)
     ) {
       throw new Error('Invalid lunar year: out of range')
     }
     let dateDiff = getDateDiff(date, getLunarNewYearDate(year))
 
-    if (date && date.getHours() === 23) {
+    if (date && hours === 23) {
       dateDiff = dateDiff + 1
     }
     if (dateDiff < 0) {
       year = year - 1
       dateDiff = getDateDiff(date, getLunarNewYearDate(year))
     }
-    ;[this._m, this._d] = getLunarMonthDate(year, dateDiff)
     this._y = year
+    // 計算年和月
+    ;[this._m, this._d] = getLunarMonthDate(year, dateDiff)
+    // 計算時辰 0 ~ 11
+    this._h = (hours + 1) % 24 >> 1
   }
-
-  _date: Date
-  _y: number
-  _m: number
-  _d: number
 
   isLeapMonth(): boolean {
     return this._m > 100
@@ -90,16 +102,20 @@ export class Lunar {
     return getLunarNewYearDate(year || this._y)
   }
 
-  getYear(): number {
+  get year(): number {
     return this._y
   }
 
-  getMonth(): number {
+  get month(): number {
     return this._m
   }
 
-  getDate(): number {
+  get day(): number {
     return this._d
+  }
+
+  get hour(): number {
+    return this._h
   }
 
   getYearName(): string {
@@ -119,12 +135,16 @@ export class Lunar {
       : LUNAR_MONTH_NAMES[this._m - 1]
   }
 
-  getDateName(): string {
+  getDayName(): string {
     return LUNAR_DATE_NAMES[this._d - 1]
   }
 
+  getHourName(): string {
+    return BRANCHS[this._h]
+  }
+
   toString(): string {
-    return `${this.getYearName()}年${this.getMonthName()}${this.getDateName()}`
+    return `${this.getYearName()}年${this.getMonthName()}${this.getDayName()}${this.getHourName()}時`
   }
 
   valueOf(): number {

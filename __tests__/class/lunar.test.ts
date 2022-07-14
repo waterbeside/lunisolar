@@ -3,34 +3,34 @@ import { Lunar } from '../../src/class/lunar'
 describe('test lunar class', () => {
   it('1901-02-19', () => {
     const lunar = new Lunar('1901-02-19')
-    expect(lunar.getMonth()).toBe(1)
-    expect(lunar.getDate()).toBe(1)
+    expect(lunar.month).toBe(1)
+    expect(lunar.day).toBe(1)
   })
 
   it('1901-02-19 23:10', () => {
     const lunar = new Lunar('1901-02-19 23:10')
-    expect(lunar.getMonth()).toBe(1)
-    expect(lunar.getDate()).toBe(2)
+    expect(lunar.month).toBe(1)
+    expect(lunar.day).toBe(2)
   })
 
   it('1903-06-27', () => {
     const lunar = new Lunar('1903-06-27')
-    expect(lunar.getMonth()).toBe(105)
-    expect(lunar.getDate()).toBe(3)
-    expect(lunar.toString()).toBe('一九〇三年閏五月初三')
+    expect(lunar.month).toBe(105)
+    expect(lunar.day).toBe(3)
+    expect(lunar.toString()).toBe('一九〇三年閏五月初三子時')
   })
 
   it('1951-12-31', () => {
     const lunar = new Lunar('1951-12-31')
-    expect(lunar.getMonth()).toBe(12)
-    expect(lunar.getDate()).toBe(4)
-    expect(lunar.toString()).toBe('一九五一年腊月初四')
+    expect(lunar.month).toBe(12)
+    expect(lunar.day).toBe(4)
+    expect(lunar.toString()).toBe('一九五一年腊月初四子時')
   })
 
   it('1952-01-06', () => {
     const lunar = new Lunar('1952-01-06')
-    expect(lunar.getMonth()).toBe(12)
-    expect(lunar.getDate()).toBe(10)
+    expect(lunar.month).toBe(12)
+    expect(lunar.day).toBe(10)
   })
 
   it('1901-02-18', () => {

@@ -13,8 +13,8 @@ export class Char8 {
       const y = Char8.computeSBYear(dateOrSbList, changeEgeTrem)
       const m = Char8.computeSBMonth(dateOrSbList)
       const d = Char8.computeSBDay(dateOrSbList)
-      const h2 = Char8.computeSBHour2(dateOrSbList, d)
-      dateOrSbList = [y, m, d, h2]
+      const h = Char8.computeSBHour(dateOrSbList, d)
+      dateOrSbList = [y, m, d, h]
     }
     if (Array.isArray(dateOrSbList)) {
       this._list = dateOrSbList
@@ -44,7 +44,7 @@ export class Char8 {
     return this._list[2]
   }
 
-  get hour2() {
+  get hour() {
     return this._list[3]
   }
   // 日主
@@ -131,7 +131,7 @@ export class Char8 {
    * @param date 日期
    * @returns {SB} 返回天地支对象
    */
-  static computeSBHour2(date: Date, sbDay?: SB) {
+  static computeSBHour(date: Date, sbDay?: SB) {
     if (!sbDay) sbDay = Char8.computeSBDay(date)
     const hour = date.getHours()
     const dayStem = sbDay.stem
@@ -143,7 +143,7 @@ export class Char8 {
   }
 
   toString() {
-    return `${this.year} ${this.month} ${this.day} ${this.hour2}`
+    return `${this.year} ${this.month} ${this.day} ${this.hour}`
   }
 
   valueOf() {

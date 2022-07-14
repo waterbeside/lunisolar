@@ -10,7 +10,7 @@ declare namespace lunisolar {
   export class Lunar {
     constructor(date: Date)
     /**
-     * Return string like '二〇二一年冬月廿九'
+     * Return string like '二〇二一年冬月廿九子時'
      */
     toString(): string
     /**
@@ -18,13 +18,38 @@ declare namespace lunisolar {
      */
     valueOf(): number
     /**
+     * 取得該年陰歷的所在公歷年
+     */
+    get year(): number
+    /**
      * 取得陰歷月
      */
-    getMonth(): number
+    get month(): number
     /**
      * 取得陰歷日
      */
-    getDate(): number
+    get day(): number
+
+    /**
+     * 取得陰歷時辰下標 0 ~ 11
+     */
+    get hour(): number
+    /**
+     * 取得該年陰歷的所在公歷年(中文)
+     */
+    getYearName(): string
+    /**
+     * 取得陰歷月(中文)
+     */
+    getMonthName(): string
+    /**
+     * 取得陰歷日(中文)
+     */
+    getDayName(): string
+    /**
+     * 取得陰歷時辰(中文)
+     */
+    getHourName(): string
     /**
      * 是否為閏月
      */
@@ -214,7 +239,7 @@ declare namespace lunisolar {
     /**
      * @returns 時柱
      */
-    get hour2(): SB
+    get hour(): SB
     /**
      * @returns 日主
      */
@@ -240,7 +265,7 @@ declare namespace lunisolar {
       @param date 日期對象
       @param sbDay 日柱 (時柱天干由日柱推算，可以不填)
      */
-    static computeSBHour2(date: Date, sbDay?: SB)
+    static computeSBHour(date: Date, sbDay?: SB)
   }
 
   /**
