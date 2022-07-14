@@ -18,16 +18,27 @@ function getLunarNewYearDate(year: number): Date {
   return toDate(`${year}/${Math.floor(lnyd / 100)}/${lnyd % 100}`)
 }
 
+function getYearLeapMonth(year: number): [number, boolean] {
+  const monthData = LUNAR_MONTH_DATAS[year - FIRST_YEAR]
+  // 取出闰月
+  const leapMonth = monthData >> 13
+  const leapMonthIsBig = (monthData >> 12) & 1
+  return [leapMonth, leapMonthIsBig === 1]
+}
+
 /**
  * @param year 春節所在的公歷年
  * @param dateDiff 當日與當年春節相差天數
  * @returns [月, 日]
  */
-function getLunarMonthDate(year: number, dateDiff: number): [number, number] {
+function getLunarMonthDate(
+  year: number,
+  dateDiff: number,
+  yearLeapMonth?: [number, boolean]
+): [number, number] {
   const monthData = LUNAR_MONTH_DATAS[year - FIRST_YEAR]
   // 取出闰月
-  const leapMonth = monthData >> 13
-  const leapMonthIsBig = (monthData >> 12) & 1
+  const [leapMonth, leapMonthIsBig] = yearLeapMonth || getYearLeapMonth(year)
   let month = 1
   dateDiff += 1 // 因为是从正月初一开始计算，所以要加1
   let isLeap = false
@@ -67,6 +78,8 @@ export class Lunar {
   _m: number
   _d: number
   _h: number
+  leapMonth: number
+  leapMonthIsBig: boolean
 
   constructor(dateObj: DateParamType) {
     const date = toDate(dateObj)
@@ -93,8 +106,12 @@ export class Lunar {
       dateDiff = getDateDiff(getLunarNewYearDate(year), date)
     }
     this._y = year
+    // 取得當年的闰月
+    const [leapMonth, leapMonthIsBig] = getYearLeapMonth(year)
+    this.leapMonth = leapMonth
+    this.leapMonthIsBig = leapMonthIsBig
     // 計算年和月
-    ;[this._m, this._d] = getLunarMonthDate(year, dateDiff)
+    ;[this._m, this._d] = getLunarMonthDate(year, dateDiff, [leapMonth, leapMonthIsBig])
     // 計算時辰 0 ~ 11
     this._h = (hours + 1) % 24 >> 1
   }

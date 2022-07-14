@@ -18,6 +18,14 @@ declare namespace lunisolar {
      */
     valueOf(): number
     /**
+     * 當年的閏月，如果為0則為沒有閏月
+     */
+    leapMonth: number
+    /**
+     * 當年的閏月是否大朋
+     */
+    leapMonthIsBig: boolean
+    /**
      * 取得該年陰歷的所在公歷年
      */
     get year(): number
@@ -37,7 +45,6 @@ declare namespace lunisolar {
      * 是否為大月
      */
     get isBigMonth(): boolean
-
     /**
      * 取得陰歷時辰下標 0 ~ 11
      */
