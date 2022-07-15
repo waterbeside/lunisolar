@@ -6,7 +6,7 @@
       "request": "launch",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "program": "${workspaceFolder}\\jest",
+      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
       "cwd": "${workspaceFolder}",
       "args": [
         "--verbose",
