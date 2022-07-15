@@ -77,6 +77,7 @@ export const lunarDateDiff = (
   const [lunar1, lunar2] = [lsr1.lunar, lsr2.lunar]
   const [year1, year2] = [lunar1.year, lunar2.year]
   let diff = lsr2.valueOf() - lsr1.valueOf()
+  unit = unit ? prettyUnit(unit) : 'ms'
   if (unit === UNITS.ly) {
     const diff = year2 - year1
     return float ? diff - 1 + getYearDecimals(lsr1, false) + getYearDecimals(lsr2, true) : diff
@@ -114,10 +115,10 @@ export const lunarMonthDiff = (
     cnt += countLunarMonthInYear(currYear, start, end)
     currYear++
   }
-  if (!float) return cnt
+  if (!float) return cnt - 1
   // 計算小數部分
   if (cnt > 0) {
-    cnt += getMonthDecimals(lsr1, true) + getMonthDecimals(lsr2, false) - 1
+    cnt += getMonthDecimals(lsr1, true) + getMonthDecimals(lsr2, false) - 2
   } else {
     const monthLen = lunar1.isBigMonth ? 30 : 29
     cnt = (lsr2.valueOf() - lsr1.valueOf()) / (1000 * 60 * 60 * 24 * monthLen)
@@ -144,7 +145,7 @@ export const countLunarMonthInYear = (year: number, start?: number, end?: number
   }
   const leapMonth = monthData >> 13
   if (start <= leapMonth && leapMonth <= end) addLeap = true
-  return end - start + (addLeap ? 1 : 0)
+  return end - start + 1 + (addLeap ? 1 : 0)
 }
 
 /**
