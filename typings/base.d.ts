@@ -8,8 +8,21 @@ type UnitFullName =
   | 'month'
   | 'quarter'
   | 'year'
+type LunarUnitFullName = 'lunarHour' | 'lunarDay' | 'lunarMonth' | 'lunarYear'
+type Char8UnnitFullName = 'char8Hour' | 'char8Day' | 'char8Month' | 'char8Year'
+
 type UnitShortName = 'ms' | 's' | 'm' | 'h' | 'd' | 'w' | 'M' | 'q' | 'y'
-type Unit = UnitShortName | UnitFullName
+type LunarUnitShortName = 'lh' | 'ld' | 'lM' | 'ly'
+type Char8UnitShortName = 'ch' | 'cd' | 'cM' | 'cy'
+
+type Unit =
+  | UnitShortName
+  | UnitFullName
+  | LunarUnitShortName
+  | LunarUnitFullName
+  | Char8UnitShortName
+  | Char8UnnitFullName
+
 type GreLun = 'GRE' | 'LUN'
 
 type DateParamType = lunisolar.DateConfigType | Lunisolar

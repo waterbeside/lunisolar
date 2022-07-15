@@ -13,9 +13,19 @@ export const UNITS = {
   w: 'week',
   M: 'month',
   q: 'quarter',
-  y: 'year'
+  y: 'year',
+  lh: 'lunarHour',
+  ld: 'lunarDay',
+  lM: 'lunarMonth',
+  ly: 'lunarYear',
+  ch: 'char8Hour',
+  cd: 'char8Day',
+  cM: 'char8Month',
+  cy: 'char8Year'
 }
 
+export const LUNAR_UNITS_SET = new Set(['lunarHour', 'lunarDay', 'lunarMonth', 'lunarYear'])
+export const CHAR8_UNITS_SET = new Set(['char8Hour', 'char8Day', 'char8Month', 'char8Year'])
 export const GRE = 'GRE' // Gregorian
 export const LUN = 'LUN' // Lunar
 

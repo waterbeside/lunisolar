@@ -1,5 +1,6 @@
-// import * as C from '../constants'
-import * as U from '../utils'
+import { LUNAR_UNITS_SET } from '../constants'
+import { toDate, prettyUnit } from '../utils'
+import { dateDiff, lunarDateDiff } from '../utils/dateDiff'
 import { Lunar } from './lunar'
 import { Term } from './term'
 import { Char8 } from './char8'
@@ -13,8 +14,8 @@ export class Lunisolar implements ILunisolar {
   _term?: Term | null
   _lunar?: Lunar
   _char8?: Char8
-  constructor(date?: lunisolar.DateConfigType, config?: lunisolar.ConfigType) {
-    this._date = U.toDate(date)
+  constructor(date?: lunisolar.DateConfigType | Lunisolar, config?: lunisolar.ConfigType) {
+    this._date = toDate(date)
     this._config = Object.assign({}, _GlobalConfig, config)
   }
 
@@ -65,8 +66,18 @@ export class Lunisolar implements ILunisolar {
     return this._date.valueOf()
   }
 
-  diff(date: lunisolar.DateConfigType | Lunisolar, unit?: Unit, config?: any): number {
-    return U.dateDiff(this.date, date, unit, config)
+  diff(date: lunisolar.DateConfigType | Lunisolar, unit?: Unit, float: boolean = false): number {
+    unit = unit ? prettyUnit(unit) : 'millisecond'
+    if (LUNAR_UNITS_SET.has(unit)) {
+      // 如果是农历查询
+      return lunarDateDiff(
+        this,
+        date instanceof Lunisolar ? date : new Lunisolar(date),
+        unit,
+        float
+      )
+    }
+    return dateDiff(this.date, date, unit, float)
   }
 
   // add(value: number, unit?: Unit, config?: any) {
