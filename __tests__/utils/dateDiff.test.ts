@@ -1,4 +1,4 @@
-import { dateDiff } from '../../src/utils/dateDiff'
+import { dateDiff, lunarDateDiff } from '../../src/utils/dateDiff'
 import { Lunisolar } from '../../src/class/lunisolar'
 
 describe('test dateDiff', () => {
@@ -14,5 +14,12 @@ describe('test dateDiff', () => {
     const m1 = new Lunisolar('2021/01/01 00:00:00')
     const m2 = new Lunisolar('2021/02/02 00:00:00')
     expect(dateDiff(m1, m2, 'M')).toBe(1)
+  })
+
+  it('test lunarDateDiff', () => {
+    const lsr1 = new Lunisolar('2018/01/01 00:00:00')
+    const lsr2 = new Lunisolar('2022/02/02 00:00:00')
+    expect(lunarDateDiff(lsr1, lsr2, 'ly')).toBe(5)
+    expect(lunarDateDiff(lsr1, lsr2, 'lM')).toBe(51)
   })
 })
