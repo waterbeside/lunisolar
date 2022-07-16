@@ -1,6 +1,6 @@
 import { UNITS } from '../constants'
 import { LUNAR_MONTH_DATAS, FIRST_YEAR } from '../constants/lunarData'
-import { toDate, prettyUnit } from './index'
+import { parseDate, prettyUnit } from './index'
 
 /**
  * 計算兩日期的時間差
@@ -16,7 +16,7 @@ export function dateDiff(
   unit?: GreUnit,
   float?: boolean
 ): number {
-  ;[date1, date2] = [toDate(date1), toDate(date2)]
+  ;[date1, date2] = [parseDate(date1), parseDate(date2)]
   const diffValue = date2.valueOf() - date1.valueOf()
   unit = unit ? prettyUnit(unit) : 'ms'
   let res = diffValue
@@ -47,7 +47,7 @@ export function dateDiff(
  * @returns {number}
  */
 export const monthDiff = (date1: DateParamType, date2: DateParamType): number => {
-  ;[date1, date2] = [toDate(date1), toDate(date2)]
+  ;[date1, date2] = [parseDate(date1), parseDate(date2)]
   const yearDiff = date2.getFullYear() - date1.getFullYear()
   const monthDiff = date2.getMonth() - date1.getMonth()
   const diffValue = yearDiff * 12 + monthDiff // 取得月差
