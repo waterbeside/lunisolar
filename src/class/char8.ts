@@ -1,6 +1,6 @@
 import { SB } from './stemBranch'
 import { Term } from './term'
-import * as U from '../utils'
+import { parseDate } from '../utils'
 import { SB0_MONTH, SB0_DATE } from '../constants/calendarData'
 
 export class Char8 {
@@ -78,10 +78,12 @@ export class Char8 {
       // 该年的岁的范围
       const startTermDate = Term.findDate(yearStart, changeEgeTrem)
       const endTermDate = Term.findDate(yearEnd, changeEgeTrem)
-      const startDate = U.toDate(
+      const startDate = parseDate(
         `${startTermDate[0]}-${startTermDate[1]}-${startTermDate[2] - 1} 23:00:00`
       )
-      const endDate = U.toDate(`${endTermDate[0]}-${endTermDate[1]}-${endTermDate[2] - 1} 23:00:00`)
+      const endDate = parseDate(
+        `${endTermDate[0]}-${endTermDate[1]}-${endTermDate[2] - 1} 23:00:00`
+      )
       // 检查是否在该岁的范围内
       if (date.valueOf() < startDate.valueOf()) year--
       else if (date.valueOf() >= endDate.valueOf()) year++
@@ -116,7 +118,7 @@ export class Char8 {
    * @returns {SB} 返回天地支对象
    */
   static computeSBDay(date: Date) {
-    const sb0 = U.toDate(`${SB0_DATE[0]}-${SB0_DATE[1]}-${SB0_DATE[2] - 1} 23:00:00`)
+    const sb0 = parseDate(`${SB0_DATE[0]}-${SB0_DATE[1]}-${SB0_DATE[2] - 1} 23:00:00`)
     let daydiff = Math.floor((date.valueOf() - sb0.valueOf()) / (1000 * 60 * 60 * 24)) % 60
     if (daydiff < 0) daydiff += 60
     return new SB(daydiff)

@@ -1,4 +1,4 @@
-import { toDate } from '../utils'
+import { parseDate } from '../utils'
 
 import {
   FIRST_YEAR,
@@ -15,7 +15,7 @@ import {
 
 function getLunarNewYearDate(year: number): Date {
   const lnyd = LUNAR_NEW_YEAR_DATE[year - FIRST_YEAR]
-  return toDate(`${year}/${Math.floor(lnyd / 100)}/${lnyd % 100}`)
+  return parseDate(`${year}/${Math.floor(lnyd / 100)}/${lnyd % 100}`)
 }
 
 function getYearLeapMonth(year: number): [number, boolean] {
@@ -82,7 +82,7 @@ export class Lunar {
   leapMonthIsBig: boolean
 
   constructor(dateObj: DateParamType) {
-    const date = toDate(dateObj)
+    const date = parseDate(dateObj)
     this._date = date
     let year = date.getFullYear()
     let month = date.getMonth()

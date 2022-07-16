@@ -10,15 +10,15 @@ describe('utils', () => {
     expect(U.prettyUnit('Millisecond' as any)).toBe('millisecond')
   })
 
-  it('test toDate', () => {
+  it('test parseDate', () => {
     const date = new Date()
-    expect(U.toDate(date)).toBe(date)
-    expect(U.toDate(new Lunisolar(date))).toBe(date)
-    expect(U.toDate(null).toString()).toBe('Invalid Date')
-    expect(Math.floor(U.toDate(undefined).valueOf() / 10000)).toEqual(
+    expect(U.parseDate(date)).toEqual(date)
+    expect(U.parseDate(new Lunisolar(date))).toEqual(date)
+    expect(U.parseDate(null).toString()).toBe('Invalid Date')
+    expect(Math.floor(U.parseDate(undefined).valueOf() / 10000)).toEqual(
       Math.floor(new Date().valueOf() / 10000)
     )
-    expect(U.toDate('2020-01-01')).toEqual(new Date('2020/01/01 00:00:00'))
-    expect(U.toDate('2020-01-01T12:00:00.000Z')).toEqual(new Date('2020-01-01T12:00:00.000Z'))
+    expect(U.parseDate('2020-01-01')).toEqual(new Date('2020/01/01 00:00:00'))
+    expect(U.parseDate('2020-01-01T12:00:00.000Z')).toEqual(new Date('2020-01-01T12:00:00.000Z'))
   })
 })
