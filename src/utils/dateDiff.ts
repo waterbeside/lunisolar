@@ -13,7 +13,7 @@ import { toDate, prettyUnit } from './index'
 export function dateDiff(
   date1: DateParamType,
   date2: DateParamType,
-  unit?: Unit,
+  unit?: GreUnit,
   float?: boolean
 ): number {
   ;[date1, date2] = [toDate(date1), toDate(date2)]
@@ -71,13 +71,13 @@ export const monthDiff = (date1: DateParamType, date2: DateParamType): number =>
 export const lunarDateDiff = (
   lsr1: lunisolar.Lunisolar,
   lsr2: lunisolar.Lunisolar,
-  unit: Unit,
+  unit: LunarUnit,
   float?: boolean
 ): number => {
   const [lunar1, lunar2] = [lsr1.lunar, lsr2.lunar]
   const [year1, year2] = [lunar1.year, lunar2.year]
   let diff = lsr2.valueOf() - lsr1.valueOf()
-  unit = unit ? prettyUnit(unit) : 'ms'
+  unit = prettyUnit(unit)
   if (unit === UNITS.ly) {
     const diff = year2 - year1
     return float ? diff - 1 + getYearDecimals(lsr1, true) + getYearDecimals(lsr2, false) : diff

@@ -1,4 +1,4 @@
-type UnitFullName =
+type GreUnitFullName =
   | 'millisecond'
   | 'second'
   | 'minute'
@@ -9,19 +9,18 @@ type UnitFullName =
   | 'quarter'
   | 'year'
 type LunarUnitFullName = 'lunarHour' | 'lunarDay' | 'lunarMonth' | 'lunarYear'
-type Char8UnnitFullName = 'char8Hour' | 'char8Day' | 'char8Month' | 'char8Year'
+type Char8UnitFullName = 'char8Hour' | 'char8Day' | 'char8Month' | 'char8Year'
 
-type UnitShortName = 'ms' | 's' | 'm' | 'h' | 'd' | 'w' | 'M' | 'q' | 'y'
+type GreUnitShortName = 'ms' | 's' | 'm' | 'h' | 'd' | 'w' | 'M' | 'q' | 'y'
 type LunarUnitShortName = 'lh' | 'ld' | 'lM' | 'ly'
 type Char8UnitShortName = 'ch' | 'cd' | 'cM' | 'cy'
 
-type Unit =
-  | UnitShortName
-  | UnitFullName
-  | LunarUnitShortName
-  | LunarUnitFullName
-  | Char8UnitShortName
-  | Char8UnnitFullName
+type GreUnit = GreUnitFullName | GreUnitShortName
+type LunarUnit = LunarUnitFullName | LunarUnitShortName
+type Char8Unit = Char8UnnitFullName | Char8UnitFullName
+
+type UnitFullName = GreUnitFullName | LunarUnitFullName | Char8UnnitFullName
+type Unit = GreUnit | LunarUnit | Char8Unit
 
 type GreLun = 'GRE' | 'LUN'
 
