@@ -285,33 +285,57 @@ declare namespace lunisolar {
     _char8?: Char8
     constructor(date?: lunisolar.DateConfigType, config?: ConfigType)
     /**
-      返回Date對象的valueOf
-     */
-    valueOf(): number
-    /**
-     * 陰歷對象
+     * get lunar object
+     *
+     * 取得陰歷對象
      */
     get lunar(): Lunar
     /**
-     * Date對象
-     */
-    get date(): Date
-    /**
-     * 當前時氣對象
+     * Get the current solar term object
+     *
+     * 取得當前節氣對象
      */
     get term(): Term | null
     /**
-     * 八字
+     * Get the current char8 object
+     *
+     * 取得八字對象
      */
     get char8(): Char8
     /**
+     * Returns a Date object for the current time
+     *
+     * 返回当前日期的Date对象
+     */
+    toDate(): Date
+    /**
+     * Clone a new Lunisolar object
+     *
      * 克隆Lunisolar對象
      */
     clone(): Lunisolar
     /**
-     計算日期差
+     * Returns a timestamp in seconds
      */
-    diff(date: DateConfigType | Lunisolar, unit?: Unit, config?: any): number
+    unix(): number
+    /**
+     * Returns the valueOf of the Date object
+     */
+    valueOf(): number
+    /**
+     * Returns the toISOString of the Date object
+     */
+    toISOString(): string
+    /**
+     * Returns the toUTCString of the Date object
+     */
+    toString(): string
+    /**
+     * Calculate date difference
+     *
+     * 計算日期差
+     */
+    diff(date: DateConfigType | Lunisolar, unit?: Unit, float?: boolean): number
     // add(value: number, unit?: Unit, config?: any): Lunisolar
   }
 

@@ -1,5 +1,5 @@
 import { LUNAR_UNITS_SET } from '../constants'
-import { toDate, prettyUnit } from '../utils'
+import { parseDate, prettyUnit } from '../utils'
 import { dateDiff, lunarDateDiff } from '../utils/dateDiff'
 import { Lunar } from './lunar'
 import { Term } from './term'
@@ -15,7 +15,7 @@ export class Lunisolar implements ILunisolar {
   _lunar?: Lunar
   _char8?: Char8
   constructor(date?: lunisolar.DateConfigType | Lunisolar, config?: lunisolar.ConfigType) {
-    this._date = toDate(date)
+    this._date = parseDate(date)
     this._config = Object.assign({}, _GlobalConfig, config)
   }
 
@@ -23,10 +23,6 @@ export class Lunisolar implements ILunisolar {
     if (this._lunar) return this._lunar
     this._lunar = new Lunar(this._date)
     return this._lunar
-  }
-
-  get date(): Date {
-    return this._date
   }
 
   // 节气
@@ -58,12 +54,28 @@ export class Lunisolar implements ILunisolar {
     return this._char8
   }
 
+  toDate(): Date {
+    return new Date(this._date.valueOf())
+  }
+
   clone() {
     return new Lunisolar(this._date)
   }
 
+  unix() {
+    return Math.floor(this.valueOf() / 1000)
+  }
+
   valueOf() {
     return this._date.valueOf()
+  }
+
+  toISOString() {
+    return this._date.toISOString()
+  }
+
+  toString() {
+    return this._date.toUTCString()
   }
 
   diff(date: lunisolar.DateConfigType | Lunisolar, unit?: Unit, float: boolean = false): number {
@@ -77,7 +89,7 @@ export class Lunisolar implements ILunisolar {
         float
       )
     }
-    return dateDiff(this.date, date, unit, float)
+    return dateDiff(this._date, date, unit, float)
   }
 
   // add(value: number, unit?: Unit, config?: any) {
