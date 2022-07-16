@@ -160,7 +160,6 @@ export const getMonthDecimals = (
 ): number => {
   const monthDayLen = lsr.lunar.isBigMonth ? 30 : 29
   const day = lsr.lunar.day
-  // console.log(lsr.lunar.toString(), day, isAfterPath ? 1 - day / monthDayLen : day / monthDayLen)
   return isAfterPath ? 1 - day / monthDayLen : day / monthDayLen
 }
 
