@@ -80,7 +80,7 @@ export const lunarDateDiff = (
   unit = unit ? prettyUnit(unit) : 'ms'
   if (unit === UNITS.ly) {
     const diff = year2 - year1
-    return float ? diff - 1 + getYearDecimals(lsr1, false) + getYearDecimals(lsr2, true) : diff
+    return float ? diff - 1 + getYearDecimals(lsr1, true) + getYearDecimals(lsr2, false) : diff
   } else if (unit === UNITS.lM) {
     return lunarMonthDiff(lsr1, lsr2, float)
   } else if (unit === UNITS.ld) {
@@ -88,7 +88,7 @@ export const lunarDateDiff = (
   } else if (unit === UNITS.lh) {
     diff = diff / (1000 * 60 * 60 * 2)
   }
-  return float ? diff : diff >> 0
+  return float ? diff : Math.ceil(diff)
 }
 
 /**
@@ -160,6 +160,7 @@ export const getMonthDecimals = (
 ): number => {
   const monthDayLen = lsr.lunar.isBigMonth ? 30 : 29
   const day = lsr.lunar.day
+  // console.log(lsr.lunar.toString(), day, isAfterPath ? 1 - day / monthDayLen : day / monthDayLen)
   return isAfterPath ? 1 - day / monthDayLen : day / monthDayLen
 }
 
@@ -178,7 +179,7 @@ export const getYearDecimals = (lsr: lunisolar.Lunisolar, isAfterPath: boolean =
     month -= 100
     isLeapMonth = true
   }
-  if (month > leapMonth || (month === leapMonth && isLeapMonth)) month++
-  month += getMonthDecimals(lsr, false)
-  return isAfterPath ? 1 - month / yearMonthLen : month / yearMonthLen
+  if (leapMonth > 0 && (month > leapMonth || (month === leapMonth && isLeapMonth))) month++
+  const md = getMonthDecimals(lsr, isAfterPath)
+  return isAfterPath ? 1 - (month - md) / yearMonthLen : (month + md - 1) / yearMonthLen
 }
