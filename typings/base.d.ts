@@ -29,9 +29,19 @@ type DateConfigType = string | number | Date | null | undefined
 
 type PluginFunc = lunisolar.PluginFunc
 
+type LocaleData = {
+  name: string
+  [key: string]: string | ((...arg: any) => string) | string[] | { [key: string]: string }
+}
+
 type GlobalConfig = {
+  changeEgeTrem: number
+  locales: { [key: string]: LocaleData }
+  lang: string
   [props: string]: any
 }
+
+type ConfigType = { [P in keyof GlobalConfig]?: GlobalConfig[P] }
 
 interface ILunisolar {
   _config: GlobalConfig
