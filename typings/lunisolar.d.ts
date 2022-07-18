@@ -331,6 +331,10 @@ declare namespace lunisolar {
      */
     valueOf(): number
     /**
+     * utc offset
+     */
+    utcOffset(): number
+    /**
      * Returns the toISOString of the Date object
      */
     toISOString(): string

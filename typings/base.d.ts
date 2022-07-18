@@ -59,6 +59,7 @@ interface ILunisolar {
   clone(): Lunisolar
   unix(): number
   valueOf(): number
+  utcOffset(): number
   toISOString(): string
   toString(): string
   diff(date: DateConfigType | Lunisolar, unit?: Unit, config?: any): number
