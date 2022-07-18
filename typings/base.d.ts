@@ -25,23 +25,26 @@ type Unit = GreUnit | LunarUnit | Char8Unit
 type GreLun = 'GRE' | 'LUN'
 
 type DateParamType = lunisolar.DateConfigType | Lunisolar
-type DateConfigType = string | number | Date | null | undefined
+type DateConfigType = lunisolar.DateConfigType
 
 type PluginFunc = lunisolar.PluginFunc
 
-type LocaleData = {
-  name: string
-  [key: string]: string | ((...arg: any) => string) | string[] | { [key: string]: string }
-}
-
-type GlobalConfig = {
+interface GlobalConfig {
   changeEgeTrem: number
   locales: { [key: string]: LocaleData }
   lang: string
   [props: string]: any
 }
 
-type ConfigType = { [P in keyof GlobalConfig]?: GlobalConfig[P] }
+type ConfigType = lunisolar.ConfigType
+
+interface ClassCommonConfig extends pick<ConfigType, 'lang'> {
+  [props: string]: any
+}
+
+interface Char8Config extends pick<ConfigType, 'lang' | 'changeEgeTrem'> {
+  [props: string]: any
+}
 
 interface ILunisolar {
   _config: GlobalConfig

@@ -1,11 +1,16 @@
-import { LUNAR_UNITS_SET } from '../constants'
+import { LUNAR_UNITS_SET, INVALID_DATE_STRING, FORMAT_DEFAULT } from '../constants'
 import { parseDate, prettyUnit } from '../utils'
 import { dateDiff, lunarDateDiff } from '../utils/dateDiff'
 import { Lunar } from './lunar'
 import { Term } from './term'
 import { Char8 } from './char8'
-import { FIRST_YEAR, LAST_YEAR } from '../constants/lunarData'
-import { TERM_MINIMUM_DATES, TERM_SAME_HEX, TERM_LIST } from '../constants/lunarData'
+import {
+  FIRST_YEAR,
+  LAST_YEAR,
+  TERM_MINIMUM_DATES,
+  TERM_SAME_HEX,
+  TERM_LIST
+} from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
 
 export class Lunisolar implements ILunisolar {
@@ -21,7 +26,7 @@ export class Lunisolar implements ILunisolar {
 
   get lunar(): Lunar {
     if (this._lunar) return this._lunar
-    this._lunar = new Lunar(this._date)
+    this._lunar = new Lunar(this._date, { lang: this._config.lang })
     return this._lunar
   }
 
@@ -40,17 +45,22 @@ export class Lunisolar implements ILunisolar {
     const monthTermData = parseInt(data.slice(data.length - cutLen - 4, data.length - cutLen), 2)
     const term1 = (monthTermData & 3) + TERM_MINIMUM_DATES[(month - 1) * 2]
     const term2 = (monthTermData >> 2) + TERM_MINIMUM_DATES[(month - 1) * 2 + 1]
-
-    if (date === term1) return new Term((month - 1) * 2)
-    else if (date === term2) return new Term((month - 1) * 2 + 1)
+    const config = {
+      lang: this._config.lang
+    }
+    if (date === term1) return new Term((month - 1) * 2, config)
+    else if (date === term2) return new Term((month - 1) * 2 + 1, config)
     else return null
   }
 
   // 八字
   get char8(): Char8 {
     if (this._char8) return this._char8
-    let changeEgeTrem = this._config.changeEgeTrem
-    this._char8 = new Char8(this._date, changeEgeTrem)
+    const config = {
+      lang: this._config.lang,
+      changeEgeTrem: this._config.changeEgeTrem
+    }
+    this._char8 = new Char8(this._date, config)
     return this._char8
   }
 
@@ -59,7 +69,7 @@ export class Lunisolar implements ILunisolar {
   }
 
   clone() {
-    return new Lunisolar(this._date)
+    return new Lunisolar(this._date, this._config)
   }
 
   unix() {
@@ -84,7 +94,7 @@ export class Lunisolar implements ILunisolar {
       // 如果是农历查询
       return lunarDateDiff(
         this,
-        date instanceof Lunisolar ? date : new Lunisolar(date),
+        date instanceof Lunisolar ? date : new Lunisolar(date, this._config),
         unit,
         float
       )

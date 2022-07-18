@@ -5,6 +5,7 @@ import { Char8 } from './class/char8'
 import { SB, Stem, Branch } from './class/stemBranch'
 import { Element5 } from './class/element5'
 import { _GlobalConfig } from './config'
+import zh from './locale/zh'
 
 export default function lunisolar(date: DateConfigType | Lunisolar): Lunisolar {
   if (date instanceof Lunisolar) {
@@ -45,7 +46,7 @@ lunisolar.extend = <T = any>(plugin: PluginFunc, options?: T): typeof lunisolar 
 /**
  * 加载语言包
  */
-lunisolar.locale = (localeData: LocaleData | LocaleData[]): typeof lunisolar => {
+lunisolar.locale = (localeData: ILocale | ILocale[]): typeof lunisolar => {
   if (Array.isArray(localeData)) {
     for (const item of localeData) {
       lunisolar.locale(item)
@@ -54,6 +55,6 @@ lunisolar.locale = (localeData: LocaleData | LocaleData[]): typeof lunisolar => 
   }
   if (!localeData || !localeData.name) return lunisolar
   _GlobalConfig.lang = localeData.name
-  _GlobalConfig.localeData[localeData.name] = localeData
+  _GlobalConfig.locales[localeData.name] = Object.assign({}, zh, localeData)
   return lunisolar
 }

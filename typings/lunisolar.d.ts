@@ -2,13 +2,13 @@ declare function lunisolar(date?: lunisolar.DateConfigType): lunisolar.Lunisolar
 
 declare namespace lunisolar {
   export type DateConfigType = string | number | Date | null | undefined
-  export type ConfigType = { [P in keyof GlobalConfig]?: GlobalConfig[P] }
+  export interface ConfigType extends Partial<GlobalConfig> {}
 
   /**
    * 陰歷對象
    */
   export class Lunar {
-    constructor(date: Date)
+    constructor(date: Date, config?: ClassCommonConfig)
     /**
      * Return string like '二〇二一年冬月廿九子時'
      */
@@ -74,8 +74,8 @@ declare namespace lunisolar {
   /**
     class 五行
   */
-  export class Element5 extends EleBase<Element5> {
-    constructor(value: number | string | Element5)
+  export class Element5 {
+    constructor(value: number | string | Element5, config?: ClassCommonConfig)
     toString(): string
     valueOf(): number
     /**
@@ -89,7 +89,7 @@ declare namespace lunisolar {
    * @param value 天干索引 | 天干名稱 | 天干實例
    */
   export class Stem {
-    constructor(value: number | string | Stem)
+    constructor(value: number | string | Stem, config?: ClassCommonConfig)
     toString(): string
     valueOf(): number
     /**
@@ -116,7 +116,7 @@ declare namespace lunisolar {
    * @param value 地支索引 | 地支名稱 | 地支實例
    */
   export class Branch {
-    constructor(value: number | string | Branch)
+    constructor(value: number | string | Branch, config?: ClassCommonConfig)
     toString(): string
     valueOf(): number
     /**
@@ -149,10 +149,14 @@ declare namespace lunisolar {
      */
     constructor(value: number)
     /**
-     * @param stem 天干索引 | 天干名稱 | 天干實例
+     * @param stemOrValue 天干索引 | 天干名稱 | 天干實例 (當branch為undefined時，則為天干地支組合索引值)
      * @param branch 地支索引 | 地支名稱 | 地支實例
      */
-    constructor(stem: number | string | Stem, branch: number | string | Branch)
+    constructor(
+      stemOrValue: number | string | Stem,
+      branch?: number | string | Branch,
+      config?: ClassCommonConfig
+    )
     toString(): string
     valueOf(): number
     /**
@@ -174,7 +178,7 @@ declare namespace lunisolar {
    * @param value 節氣索引 | 節氣名稱 | 節氣實例
    */
   export class Term {
-    constructor(value: number | string | Term)
+    constructor(value: number | string | Term, config?: ClassCommonConfig)
     toString(): string
     valueOf(): number
     /**
@@ -184,7 +188,7 @@ declare namespace lunisolar {
     /**
      * @returns 節氣名稱列表
      */
-    static getNames: () => string[]
+    static getNames: (lang?: string) => string[]
     /**
      * Get the date list of solar terms for a year
      *
@@ -199,7 +203,11 @@ declare namespace lunisolar {
      * @param term 節氣索引 | 節氣名稱 | 節氣實例
      * @returns [year, month, day]
      */
-    static findDate(year: number, termValue: number | string | Term): [number, number, number]
+    static findDate(
+      year: number,
+      termValue: number | string | Term,
+      config?: ClassCommonConfig
+    ): [number, number, number]
     /**
      * 查出指定日期属于哪个節之后（不包含氣），并返回该節及该節日期
      * @param date 日期
@@ -207,7 +215,7 @@ declare namespace lunisolar {
      * @returns {[Term | number, number]} [節氣, 節氣日期]
      */
     static findNode(date: Date, returnValue: true): [number, number]
-    static findNode(date: Date, returnValue: false): [Term, number]
+    static findNode(date: Date, returnValue: false, config?: ClassCommonConfig): [Term, number]
   }
 
   /**
@@ -217,12 +225,12 @@ declare namespace lunisolar {
     /**
      * @param dateOrSbList 八字四柱的天干地支組合
      */
-    constructor(dateOrSbList: [SB, SB, SB, SB])
+    constructor(dateOrSbList: [SB, SB, SB, SB], config?: Char8Config)
     /**
      * @param dateOrSbList 日期
      * @param changeEgeTrem 用于換歲的節氣
      */
-    constructor(dateOrSbList: Date, changeEgeTrem?: number)
+    constructor(dateOrSbList: Date, config?: Char8Config)
     get value(): number
     toString(): string
     valueOf(): number
@@ -255,23 +263,23 @@ declare namespace lunisolar {
       @param yearOrDate 年份或日期對象
       @param changeEgeTrem 用于換歲的節氣
      */
-    static computeSBYear(yearOrDate: Date | number, changeEgeTrem?: number): SB
+    static computeSBYear(yearOrDate: Date | number, config?: Char8Config): SB
     /**
       計算月柱
       @param date 日期對象
      */
-    static computeSBMonth(date: Date): SB
+    static computeSBMonth(date: Date, config?: Char8Config): SB
     /**
       計算日柱
       @param date 日期對象
      */
-    static computeSBDay(date: Date): SB
+    static computeSBDay(date: Date, config?: Char8Config): SB
     /**
       計算時柱
       @param date 日期對象
       @param sbDay 日柱 (時柱天干由日柱推算，可以不填)
      */
-    static computeSBHour(date: Date, sbDay?: SB)
+    static computeSBHour(date: Date, sbDay?: SB, config?: Char8Config)
   }
 
   /**
@@ -374,5 +382,5 @@ declare namespace lunisolar {
    * 加载语言包
    * @param localeData 语言包, 可以存入单个或多个，多个则以数组形式传入，最后一个语言包会覆盖前面的。
    */
-  export function locale(localeData: LocaleData | LocaleData[]): typeof lunisolar
+  export function locale(localeData: ILocale | ILocale[]): typeof lunisolar
 }

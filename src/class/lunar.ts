@@ -6,12 +6,7 @@ import {
   LUNAR_MONTH_DATAS,
   LUNAR_NEW_YEAR_DATE
 } from '../constants/lunarData'
-import {
-  LUNAR_MONTH_NAMES,
-  LUNAR_DATE_NAMES,
-  NUMBER_STRING,
-  BRANCHS
-} from '../constants/calendarData'
+import { _GlobalConfig } from '../config'
 
 function getLunarNewYearDate(year: number): Date {
   const lnyd = LUNAR_NEW_YEAR_DATE[year - FIRST_YEAR]
@@ -80,8 +75,14 @@ export class Lunar {
   _h: number
   leapMonth: number
   leapMonthIsBig: boolean
+  private _config = {
+    lang: _GlobalConfig.lang
+  }
 
-  constructor(dateObj: DateParamType) {
+  constructor(dateObj: DateParamType, config?: ClassCommonConfig) {
+    if (config) {
+      this._config = Object.assign({}, this._config, config)
+    }
     const date = parseDate(dateObj)
     this._date = date
     let year = date.getFullYear()
@@ -152,8 +153,9 @@ export class Lunar {
   getYearName(): string {
     let res = ''
     let year = this._y
+    const numberString = _GlobalConfig.locales[this._config.lang].numberString
     while (year) {
-      const s = NUMBER_STRING[year % 10]
+      const s = numberString[year % 10]
       res = s + res
       year = Math.floor(year / 10)
     }
@@ -161,21 +163,27 @@ export class Lunar {
   }
 
   getMonthName(): string {
+    const LunarMonthNames = _GlobalConfig.locales[this._config.lang].lunarMonths
+    const leapStr = _GlobalConfig.locales[this._config.lang].leap
     return this.isLeapMonth
-      ? '閏' + LUNAR_MONTH_NAMES[this._m - 101]
-      : LUNAR_MONTH_NAMES[this._m - 1]
+      ? leapStr + LunarMonthNames[this._m - 101]
+      : LunarMonthNames[this._m - 1]
   }
 
   getDayName(): string {
-    return LUNAR_DATE_NAMES[this._d - 1]
+    const lunarDayNames = _GlobalConfig.locales[this._config.lang].lunarDays
+    return lunarDayNames[this._d - 1]
   }
 
   getHourName(): string {
-    return BRANCHS[this._h]
+    return _GlobalConfig.locales[this._config.lang].branchs[this._h]
   }
 
   toString(): string {
-    return `${this.getYearName()}年${this.getMonthName()}${this.getDayName()}${this.getHourName()}時`
+    const locale = _GlobalConfig.locales[this._config.lang]
+    return `${this.getYearName()}${
+      locale.year
+    }${this.getMonthName()}${this.getDayName()}${this.getHourName()}${locale.hour}`
   }
 
   valueOf(): number {

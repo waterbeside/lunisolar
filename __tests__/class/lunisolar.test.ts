@@ -6,7 +6,7 @@ import {
   TERM_SAME_HEX,
   TERM_LIST
 } from '../../src/constants/lunarData'
-import { SOLAR_TERMS } from '../../src/constants/calendarData'
+import { _GlobalConfig } from '../../src/config'
 import solarTermDateList from '../datas/solarTermDateList'
 
 export function reduceTermList(year: number) {
@@ -35,7 +35,7 @@ describe('test Term', () => {
         const lun = new Lunisolar(`${year}-${month}-${date}`)
         let res = lun.term
         if (res instanceof Array) res = null
-        expect(res?.toString() || null).toBe(SOLAR_TERMS[Number(i)])
+        expect(res?.toString() || null).toBe(_GlobalConfig.locales['zh'].solarTerm[Number(i)])
       }
     })
   }
