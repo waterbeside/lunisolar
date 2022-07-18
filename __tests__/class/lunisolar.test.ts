@@ -65,3 +65,10 @@ describe('test Lunar', () => {
     expect(lun.lunar.day).toBe(2)
   })
 })
+
+describe('test format', () => {
+  it('2022/07/18 14:40', () => {
+    const lun = lunisolar('2022/07/18 14:40')
+    expect(lun.format('YYYY/MM/DD HH:mm:ss SSS')).toBe('2022/07/18 14:40:00 000')
+  })
+})

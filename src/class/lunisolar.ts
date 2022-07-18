@@ -1,5 +1,5 @@
-import { LUNAR_UNITS_SET, INVALID_DATE_STRING, FORMAT_DEFAULT } from '../constants'
-import { parseDate, prettyUnit } from '../utils'
+import { LUNAR_UNITS_SET, INVALID_DATE_STRING, FORMAT_DEFAULT, REGEX_FORMAT } from '../constants'
+import { parseDate, prettyUnit, padZoneStr } from '../utils'
 import { dateDiff, lunarDateDiff } from '../utils/dateDiff'
 import { Lunar } from './lunar'
 import { Term } from './term'
@@ -80,12 +80,84 @@ export class Lunisolar implements ILunisolar {
     return this._date.valueOf()
   }
 
+  utcOffset() {
+    // 與moment.js保持一致
+    // Because a bug at FF24, we're rounding the timezone offset around 15 minutes
+    // https://github.com/moment/moment/pull/1871
+    return -Math.round(this._date.getTimezoneOffset() / 15) * 15
+  }
+
   toISOString() {
     return this._date.toISOString()
   }
 
   toString() {
     return this._date.toUTCString()
+  }
+
+  format(formatStr: string): string {
+    // const locale = this.$locale()
+    console.log('run in format')
+    if (this._date.toString() === INVALID_DATE_STRING) return INVALID_DATE_STRING
+
+    let str = formatStr || FORMAT_DEFAULT
+    // const zoneStr = Utils.z(this)
+    const y = this._date.getFullYear()
+    const M = this._date.getMonth() + 1
+    const D = this._date.getDate()
+    const w = this._date.getDay()
+    const H = this._date.getHours()
+    const m = this._date.getMinutes()
+    const s = this._date.getSeconds()
+    const zoneStr = padZoneStr(this)
+
+    const locale = _GlobalConfig.locales[this._config.lang]
+
+    const { weekdays, months, meridiem } = locale
+    const getShort = (arr: string[], index: number, full?: string[], length?: number) =>
+      (arr && arr[index]) || (full ? full[index].slice(0, length) : '')
+    // const get$H = num => Utils.s($H % 12 || 12, num, '0')
+    const h = H % 12 || 12
+
+    const meridiemFunc =
+      meridiem ||
+      ((hour: number, minute: number, isLowercase: boolean) => {
+        const m = hour < 12 ? 'AM' : 'PM'
+        return isLowercase ? m.toLowerCase() : m
+      })
+
+    const matches = {
+      YY: String(y).slice(-2),
+      YYYY: String(y),
+      M: String(M),
+      MM: String(M).padStart(2, '0'),
+      MMM: getShort(locale.monthsShort, M - 1, months, 3),
+      MMMM: getShort(months, M - 1),
+      D: String(D),
+      DD: String(D).padStart(2, '0'),
+      d: String(w),
+      dd: getShort(locale.weekdaysMin, w, weekdays, 2),
+      ddd: getShort(locale.weekdaysShort, w, weekdays, 3),
+      dddd: weekdays[w],
+      H: String(H),
+      HH: String(H).padStart(2, '0'),
+      h: String(h),
+      hh: String(h).padStart(2, '0'),
+      a: meridiemFunc(H, m, true),
+      A: meridiemFunc(H, m, false),
+      m: String(m),
+      mm: String(m).padStart(2, '0'),
+      s: String(s),
+      ss: String(s).padStart(2, '0'),
+      SSS: String(this._date.getMilliseconds()).padStart(3, '0'),
+      Z: zoneStr // 'ZZ' logic below
+    }
+
+    str = str.replace(REGEX_FORMAT, (match, $1) => {
+      console.log('match', match)
+      return $1 || matches[match as keyof typeof matches] || zoneStr.replace(':', '')
+    }) // 'ZZ'
+    return str
   }
 
   diff(date: lunisolar.DateConfigType | Lunisolar, unit?: Unit, float: boolean = false): number {
@@ -101,10 +173,4 @@ export class Lunisolar implements ILunisolar {
     }
     return dateDiff(this._date, date, unit, float)
   }
-
-  // add(value: number, unit?: Unit, config?: any) {
-  //   unit = unit ? U.prettyUnit(unit) : 'ms'
-  //   if (C.UNITS.ms === unit) {
-  //   }
-  // }
 }
