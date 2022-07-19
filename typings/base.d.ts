@@ -22,8 +22,6 @@ type Char8Unit = Char8UnnitFullName | Char8UnitFullName
 type UnitFullName = GreUnitFullName | LunarUnitFullName | Char8UnnitFullName
 type Unit = GreUnit | LunarUnit | Char8Unit
 
-type GreLun = 'GRE' | 'LUN'
-
 type DateParamType = lunisolar.DateConfigType | Lunisolar
 type DateConfigType = lunisolar.DateConfigType
 
