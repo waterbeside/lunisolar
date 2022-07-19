@@ -3,6 +3,8 @@ interface LocaleData {
   leap: string
   year: string
   hour: string
+  bigMonth: string
+  smallMonth: string
   weekdays: string[]
   months: string[]
   weekdaysShort: string[]
@@ -55,6 +57,12 @@ interface LocaleData {
    */
   branchs: string[]
   /**
+   * Chinese zodiac 十二生肖
+   *
+   * There are 12 items in the array，
+   */
+  zodiacAnimal: string[]
+  /**
    * Five Elements 五行
    *
    * There are 5 items in the array，
@@ -80,10 +88,8 @@ interface LocaleData {
   /**
    * The meridiem (午夜)
    */
-  meridiem: (hour: number, minute: number) => string
+  meridiem: (hour: number, minute: number, isLowercase?: boolean) => string
 }
-
-// type UniqueData<T> = { [P in keyof T]: T[P] }
 
 declare interface ILocale extends Partial<LocaleData> {
   name: string
