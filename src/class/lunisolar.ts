@@ -110,7 +110,8 @@ export class Lunisolar implements ILunisolar {
     const m = this._date.getMinutes()
     const s = this._date.getSeconds()
     const zoneStr = padZoneStr(this)
-
+    const lunar = this.lunar
+    const char8 = this.char8
     const locale = _GlobalConfig.locales[this._config.lang]
 
     const { weekdays, months, meridiem } = locale
@@ -150,7 +151,33 @@ export class Lunisolar implements ILunisolar {
       s: String(s),
       ss: String(s).padStart(2, '0'),
       SSS: String(this._date.getMilliseconds()).padStart(3, '0'),
-      Z: zoneStr // 'ZZ' logic below
+      Z: zoneStr, // 'ZZ' logic below
+      // 生肖
+      zo: locale.zodiacAnimal[char8.year.branch.value],
+      // 陰歷
+      lY: lunar.getYearName(),
+      lM: lunar.getMonthName(),
+      lD: lunar.getDayName(),
+      lH: lunar.getHourName(),
+      lL: lunar.isBigMonth ? locale.bigMonth : locale.smallMonth,
+      // 陰歷(數字形式)
+      lYn: String(lunar.year),
+      lMn: String(lunar.month),
+      lDn: String(lunar.day),
+      lHn: String(lunar.hour + 1),
+      // 八字
+      cY: char8.year.toString(),
+      cYs: char8.year.stem.toString(),
+      cYb: char8.year.branch.toString(),
+      cM: char8.month.toString(),
+      cMs: char8.month.stem.toString(),
+      cMb: char8.month.branch.toString(),
+      cD: char8.day.toString(),
+      cDs: char8.day.stem.toString(),
+      cDb: char8.day.branch.toString(),
+      cH: char8.hour.toString(),
+      cHs: char8.hour.stem.toString(),
+      cHb: char8.hour.branch.toString()
     }
 
     str = str.replace(REGEX_FORMAT, (match, $1) => {

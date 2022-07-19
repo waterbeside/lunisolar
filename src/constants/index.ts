@@ -26,14 +26,14 @@ export const UNITS = {
 
 export const LUNAR_UNITS_SET = new Set(['lunarHour', 'lunarDay', 'lunarMonth', 'lunarYear'])
 export const CHAR8_UNITS_SET = new Set(['char8Hour', 'char8Day', 'char8Month', 'char8Year'])
-export const GRE = 'GRE' // Gregorian
-export const LUN = 'LUN' // Lunar
 
 export const INVALID_DATE_STRING = 'Invalid Date'
 export const FORMAT_DEFAULT = 'YYYY-MM-DDTHH:mm:ssZ'
 
-// regex
+// --- regex ---
+// parse
 export const REGEX_PARSE =
   /^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/
+// format
 export const REGEX_FORMAT =
-  /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g
+  /\[([^\]]+)]|zo|lYn|lMn|lDn|lHn|lY|lM|lL|lD|lH|cYs|cYb|cY|cMs|cMb|cM|cDs|cDb|cD|cHs|cHb|cH|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g
