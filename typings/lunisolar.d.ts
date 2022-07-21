@@ -26,7 +26,7 @@ declare namespace lunisolar {
      */
     leapMonthIsBig: boolean
     /**
-     * 取得該年陰歷的所在公歷年
+     * 取得該年陰歷正月初一的所在公歷年
      */
     get year(): number
     /**
@@ -50,7 +50,7 @@ declare namespace lunisolar {
      */
     get hour(): number
     /**
-     * 取得該年陰歷的所在公歷年(中文)
+     * 取得該年陰歷正月初一的所在公歷年(中文)
      */
     getYearName(): string
     /**
@@ -66,7 +66,7 @@ declare namespace lunisolar {
      */
     getHourName(): string
     /**
-      取得當年陰歷年的日期
+      取得當年陰歷年正月初一的对应的公历日期
      */
     lunarNewYearDate(year?: number): Date
   }
