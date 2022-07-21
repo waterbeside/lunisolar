@@ -4,9 +4,12 @@ import { REGEX_PARSE, UNITS } from '../constants'
  * 处理日期单位
  * @param unit
  */
-export const prettyUnit = (unit: Unit): UnitFullName => {
+export const prettyUnit = (unit: Unit): UnitFullNameLower | '' => {
   unit = unit.trim() as Unit
-  return (UNITS as any)[unit] || unit.toLowerCase()
+  return (
+    (UNITS as { [prop: string]: UnitFullNameLower })[unit] ||
+    (unit || '').toLowerCase().replace(/s$/, '')
+  )
 }
 
 /**
