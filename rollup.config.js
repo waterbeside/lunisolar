@@ -19,7 +19,7 @@ const configFactory = config => {
   const { input, fileName, filePath, name, isClear, createEs, copyFile } = config
   // load rollup plugins
   const plugins = [resolve(), commonjs(), tsPlugin, terserPlugin]
-  if (isClear) plugins.unshift(clear({ targets: ['dist', 'plugins'] }))
+  if (isClear) plugins.unshift(clear({ targets: ['dist', 'plugins', 'locale'] }))
   if (copyFile) plugins.push(copy(copyFile))
   // output
   const output = [
@@ -52,10 +52,10 @@ const configs = [
     createEs: true,
     copyFile: {
       targets: [
-        // {
-        //   src: path.join(__dirname, 'typings', 'plugins', '*.d.ts'),
-        //   dest: path.join(__dirname, 'plugins', '*.d.ts')
-        // }
+        {
+          src: 'typings/locale/**/*',
+          dest: 'locale'
+        },
         {
           src: 'typings/plugins/**/*',
           dest: 'plugins'
@@ -65,21 +65,23 @@ const configs = [
   })
 ]
 
-const configPlugins = () => {
-  const pluginPath = path.join(__dirname, 'src', 'plugins')
-  const pluginNames = fs.readdirSync(pluginPath)
-  for (const pName of pluginNames) {
+const configDir = dir => {
+  const dirPath = path.join(__dirname, 'src', dir)
+  const dirNames = fs.readdirSync(dirPath)
+  for (const dirName of dirNames) {
     configs.push(
       configFactory({
-        name: pName,
-        input: path.join(pluginPath, pName, 'index.ts'),
-        filePath: path.join(__dirname, 'plugins'),
-        fileName: pName
+        name: dirName,
+        input:
+          dir === 'locale' ? path.join(dirPath, dirName) : path.join(dirPath, dirName, 'index.ts'),
+        filePath: path.join(__dirname, dir),
+        fileName: dirName
       })
     )
   }
 }
 
-configPlugins()
+configDir('plugins')
+configDir('locale')
 
 export default configs
