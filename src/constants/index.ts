@@ -14,18 +14,18 @@ export const UNITS = {
   M: 'month',
   q: 'quarter',
   y: 'year',
-  lh: 'lunarHour',
-  ld: 'lunarDay',
-  lM: 'lunarMonth',
-  ly: 'lunarYear',
-  ch: 'char8Hour',
-  cd: 'char8Day',
-  cM: 'char8Month',
-  cy: 'char8Year'
+  lh: 'lunarhour',
+  ld: 'lunarday',
+  lM: 'lunarmonth',
+  ly: 'lunaryear',
+  ch: 'char8hour',
+  cd: 'char8day',
+  cM: 'char8month',
+  cy: 'char8year'
 }
 
-export const LUNAR_UNITS_SET = new Set(['lunarHour', 'lunarDay', 'lunarMonth', 'lunarYear'])
-export const CHAR8_UNITS_SET = new Set(['char8Hour', 'char8Day', 'char8Month', 'char8Year'])
+export const LUNAR_UNITS_SET = new Set(['lunarhour', 'lunarday', 'lunarmonth', 'lunaryear'])
+export const CHAR8_UNITS_SET = new Set(['char8hour', 'char8day', 'char8month', 'char8year'])
 
 export const INVALID_DATE_STRING = 'Invalid Date'
 export const FORMAT_DEFAULT = 'YYYY-MM-DDTHH:mm:ssZ'
