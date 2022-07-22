@@ -1,6 +1,6 @@
 import { Lunisolar } from './class/lunisolar'
 import { Lunar } from './class/lunar'
-import { Term } from './class/term'
+import { SolarTerm } from './class/solarTerm'
 import { Char8 } from './class/char8'
 import { SB, Stem, Branch } from './class/stemBranch'
 import { Element5 } from './class/element5'
@@ -18,7 +18,7 @@ export default function lunisolar(
 }
 
 lunisolar.Lunar = Lunar
-lunisolar.Term = Term
+lunisolar.SolarTerm = SolarTerm
 lunisolar.Char8 = Char8
 lunisolar.SB = SB
 lunisolar.Stem = Stem
@@ -61,3 +61,5 @@ lunisolar.locale = (localeData: ILocale | ILocale[]): typeof lunisolar => {
   _GlobalConfig.locales[localeData.name] = Object.assign({}, zh, localeData)
   return lunisolar
 }
+
+lunisolar.createLocale = (localeData: ILocale): ILocale => localeData

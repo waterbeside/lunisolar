@@ -31,7 +31,7 @@ type DateParamType = DateConfigType | lunisolar.Lunisolar
 type PluginFunc = lunisolar.PluginFunc
 
 interface GlobalConfig {
-  changeEgeTrem: number
+  changeEgeTerm: number
   locales: { [key: string]: LocaleData }
   lang: string
   [props: string]: any
@@ -43,18 +43,18 @@ interface ClassCommonConfig extends pick<ConfigType, 'lang'> {
   [props: string]: any
 }
 
-interface Char8Config extends pick<ConfigType, 'lang' | 'changeEgeTrem'> {
+interface Char8Config extends pick<ConfigType, 'lang' | 'changeEgeTerm'> {
   [props: string]: any
 }
 
 interface ILunisolar {
   _config: GlobalConfig
   _date: Date
-  _term?: Term | null
+  _solarTerm?: Term | null
   _lunar?: Lunar
   _char8?: Char8
   get lunar(): Lunar
-  get term(): Term | null
+  get solarTerm(): Term | null
   get char8(): Char8
   toDate(): Date
   clone(): Lunisolar

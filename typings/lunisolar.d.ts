@@ -180,8 +180,8 @@ declare namespace lunisolar {
    * class 節氣
    * @param value 節氣索引 | 節氣名稱 | 節氣實例
    */
-  export class Term {
-    constructor(value: number | string | Term, config?: ClassCommonConfig)
+  export class SolarTerm {
+    constructor(value: number | string | SolarTerm, config?: Char8Config)
     toString(): string
     valueOf(): number
     /**
@@ -203,22 +203,22 @@ declare namespace lunisolar {
     /**
      * 查出指定節氣的日期
      * @param year 年份
-     * @param term 節氣索引 | 節氣名稱 | 節氣實例
+     * @param SolarTerm 節氣索引 | 節氣名稱 | 節氣實例
      * @returns [year, month, day]
      */
     static findDate(
       year: number,
-      termValue: number | string | Term,
+      termValue: number | string | SolarTerm,
       config?: ClassCommonConfig
     ): [number, number, number]
     /**
      * 查出指定日期属于哪个節之后（不包含氣），并返回该節及该節日期
      * @param date 日期
      * @param returnValue 返回的節是否只返回该節氣的value,  還是返回節氣實例
-     * @returns {[Term | number, number]} [節氣, 節氣日期]
+     * @returns {[SolarTerm | number, number]} [節氣, 節氣日期]
      */
     static findNode(date: Date, returnValue: true): [number, number]
-    static findNode(date: Date, returnValue: false, config?: ClassCommonConfig): [Term, number]
+    static findNode(date: Date, returnValue: false, config?: Char8Config): [SolarTerm, number]
   }
 
   /**
@@ -231,7 +231,7 @@ declare namespace lunisolar {
     constructor(dateOrSbList: [SB, SB, SB, SB], config?: Char8Config)
     /**
      * @param dateOrSbList 日期
-     * @param changeEgeTrem 用于換歲的節氣
+     * @param changeEgeTerm 用于換歲的節氣
      */
     constructor(dateOrSbList: Date, config?: Char8Config)
     get value(): number
@@ -264,7 +264,7 @@ declare namespace lunisolar {
     /**
       計算年柱
       @param yearOrDate 年份或日期對象
-      @param changeEgeTrem 用于換歲的節氣
+      @param changeEgeTerm 用于換歲的節氣
      */
     static computeSBYear(yearOrDate: Date | number, config?: Char8Config): SB
     /**
@@ -291,7 +291,7 @@ declare namespace lunisolar {
   export class Lunisolar implements ILunisolar {
     _config: GlobalConfig
     _date: Date
-    _term?: Term | null
+    _solarTerm?: SolarTerm | null
     _lunar?: Lunar
     _char8?: Char8
     constructor(date?: lunisolar.DateConfigType, config?: ConfigType)
@@ -306,7 +306,7 @@ declare namespace lunisolar {
      *
      * 取得當前節氣對象
      */
-    get term(): Term | null
+    get solarTerm(): SolarTerm | null
     /**
      * Get the current char8 object
      *

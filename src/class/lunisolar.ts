@@ -3,7 +3,7 @@ import { parseDate, prettyUnit } from '../utils'
 import { dateDiff, lunarDateDiff } from '../utils/dateDiff'
 import { format } from '../utils/format'
 import { Lunar } from './lunar'
-import { Term } from './term'
+import { SolarTerm } from './solarTerm'
 import { Char8 } from './char8'
 import {
   FIRST_YEAR,
@@ -17,7 +17,7 @@ import { _GlobalConfig } from '../config'
 export class Lunisolar implements ILunisolar {
   _config: GlobalConfig
   _date: Date
-  _term?: Term | null
+  _solarTerm?: SolarTerm | null
   _lunar?: Lunar
   _char8?: Char8
   constructor(date?: lunisolar.DateConfigType | Lunisolar, config?: lunisolar.ConfigType) {
@@ -32,8 +32,8 @@ export class Lunisolar implements ILunisolar {
   }
 
   // 节气
-  get term(): Term | null {
-    if (this._term !== undefined) return this._term
+  get solarTerm(): SolarTerm | null {
+    if (this._solarTerm !== undefined) return this._solarTerm
     const year = this._date.getFullYear()
     if (year < FIRST_YEAR || year > LAST_YEAR) {
       throw new Error(`${year} is not a lunar year`)
@@ -49,8 +49,8 @@ export class Lunisolar implements ILunisolar {
     const config = {
       lang: this._config.lang
     }
-    if (date === term1) return new Term((month - 1) * 2, config)
-    else if (date === term2) return new Term((month - 1) * 2 + 1, config)
+    if (date === term1) return new SolarTerm((month - 1) * 2, config)
+    else if (date === term2) return new SolarTerm((month - 1) * 2 + 1, config)
     else return null
   }
 
@@ -59,7 +59,7 @@ export class Lunisolar implements ILunisolar {
     if (this._char8) return this._char8
     const config = {
       lang: this._config.lang,
-      changeEgeTrem: this._config.changeEgeTrem
+      changeEgeTerm: this._config.changeEgeTerm
     }
     this._char8 = new Char8(this._date, config)
     return this._char8

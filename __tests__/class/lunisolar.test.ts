@@ -33,7 +33,7 @@ describe('test Term', () => {
         const month = ('0' + ((Number(i) >> 1) + 1)).slice(-2)
         const date = ('0' + solarTermDateList[yearOffset][i]).slice(-2)
         const lun = new Lunisolar(`${year}-${month}-${date}`)
-        let res = lun.term
+        let res = lun.solarTerm
         if (res instanceof Array) res = null
         expect(res?.toString() || null).toBe(_GlobalConfig.locales['zh'].solarTerm[Number(i)])
       }

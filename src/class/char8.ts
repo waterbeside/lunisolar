@@ -1,5 +1,5 @@
 import { SB } from './stemBranch'
-import { Term } from './term'
+import { SolarTerm } from './solarTerm'
 import { parseDate } from '../utils'
 import { SB0_MONTH, SB0_DATE } from '../constants/calendarData'
 import { _GlobalConfig } from '../config'
@@ -8,7 +8,7 @@ export class Char8 {
   private _value: number = -1
   private _list: [SB, SB, SB, SB]
   private _config = {
-    changeEgeTrem: _GlobalConfig.changeEgeTrem,
+    changeEgeTerm: _GlobalConfig.changeEgeTerm,
     lang: _GlobalConfig.lang
   }
   constructor(dateOrSbList: [SB, SB, SB, SB], config?: ClassCommonConfig)
@@ -74,23 +74,23 @@ export class Char8 {
    * @returns {SB} 返回天地支对象
    */
   static computeSBYear(date: Date | number, config?: Char8Config) {
-    let changeEgeTrem =
-      config && config.changeEgeTrem !== undefined
-        ? config.changeEgeTrem
-        : _GlobalConfig.changeEgeTrem
+    let changeEgeTerm =
+      config && config.changeEgeTerm !== undefined
+        ? config.changeEgeTerm
+        : _GlobalConfig.changeEgeTerm
     let year = typeof date !== 'number' ? date.getFullYear() : date
 
-    if (changeEgeTrem !== null && changeEgeTrem !== undefined && typeof date !== 'number') {
-      changeEgeTrem = changeEgeTrem % 24
-      let isPreYear = changeEgeTrem < 0
-      changeEgeTrem = changeEgeTrem >= 0 ? changeEgeTrem : 24 + changeEgeTrem
+    if (changeEgeTerm !== null && changeEgeTerm !== undefined && typeof date !== 'number') {
+      changeEgeTerm = changeEgeTerm % 24
+      let isPreYear = changeEgeTerm < 0
+      changeEgeTerm = changeEgeTerm >= 0 ? changeEgeTerm : 24 + changeEgeTerm
       // 查出当前节气日期
       let yearStart = date.getFullYear()
       if (isPreYear) yearStart--
       const yearEnd = yearStart + 1
       // 该年的岁的范围
-      const startTermDate = Term.findDate(yearStart, changeEgeTrem)
-      const endTermDate = Term.findDate(yearEnd, changeEgeTrem)
+      const startTermDate = SolarTerm.findDate(yearStart, changeEgeTerm)
+      const endTermDate = SolarTerm.findDate(yearEnd, changeEgeTerm)
       const startDate = parseDate(
         `${startTermDate[0]}-${startTermDate[1]}-${startTermDate[2] - 1} 23:00:00`
       )
@@ -113,7 +113,7 @@ export class Char8 {
    */
   static computeSBMonth(date: Date, config?: Char8Config) {
     // 知道该日是哪个节气之后便可知道该日是哪个地支月
-    const node = Term.findNode(date, true)
+    const node = SolarTerm.findNode(date, true)
     const monthOffset =
       node[1] > date.getDate() && !(node[1] - 1 === date.getDate() && date.getHours() >= 23)
         ? -1

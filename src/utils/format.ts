@@ -59,8 +59,8 @@ export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
     // 生肖
     zo: locale.zodiacAnimal[char8.year.branch.value],
     // 节气
-    t: lsr.term ? String(lsr.term.value + 1) : '',
-    T: lsr.term ? lsr.term.toString() : '',
+    t: lsr.solarTerm ? String(lsr.solarTerm.value + 1) : '',
+    T: lsr.solarTerm ? lsr.solarTerm.toString() : '',
     // 陰歷
     lY: lunar.getYearName(),
     lM: lunar.getMonthName(),
