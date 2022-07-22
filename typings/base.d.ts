@@ -31,7 +31,7 @@ type DateParamType = DateConfigType | lunisolar.Lunisolar
 type PluginFunc = lunisolar.PluginFunc
 
 interface GlobalConfig {
-  changeEgeTerm: number
+  changeAgeTerm: number
   locales: { [key: string]: LocaleData }
   lang: string
   [props: string]: any
@@ -43,7 +43,7 @@ interface ClassCommonConfig extends pick<ConfigType, 'lang'> {
   [props: string]: any
 }
 
-interface Char8Config extends pick<ConfigType, 'lang' | 'changeEgeTerm'> {
+interface Char8Config extends pick<ConfigType, 'lang' | 'changeAgeTerm'> {
   [props: string]: any
 }
 

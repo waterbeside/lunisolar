@@ -5,7 +5,7 @@ export class SolarTerm {
   private _value: number = -1
   private _config = {
     lang: _GlobalConfig.lang,
-    changeEgeTerm: _GlobalConfig.changeEgeTerm
+    changeAgeTerm: _GlobalConfig.changeAgeTerm
   }
   constructor(value: number | string | SolarTerm, config?: Char8Config) {
     if (config) {

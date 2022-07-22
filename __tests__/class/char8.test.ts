@@ -4,11 +4,11 @@ import * as U from '../../src/utils'
 describe('Char8', () => {
   it('Test Char8.computeSBYear', () => {
     const config = {
-      changeEgeTerm: 2
+      changeAgeTerm: 2
     }
     expect(Char8.computeSBYear(U.parseDate('2022-02-04'), config).toString()).toBe('壬寅')
     expect(Char8.computeSBYear(U.parseDate('2022-02-03'), config).toString()).toBe('辛丑')
-    expect(Char8.computeSBYear(U.parseDate('2022-02-03'), { changeEgeTerm: -1 }).toString()).toBe(
+    expect(Char8.computeSBYear(U.parseDate('2022-02-03'), { changeAgeTerm: -1 }).toString()).toBe(
       '壬寅'
     )
     expect(Char8.computeSBYear(U.parseDate('2021-10-03'), config).toString()).toBe('辛丑')
@@ -17,7 +17,7 @@ describe('Char8', () => {
     expect(Char8.computeSBYear(U.parseDate('2020-01-25'), config).toString()).toBe('己亥')
     expect(Char8.computeSBYear(U.parseDate('2020-02-03 23:00:01'), config).toString()).toBe('庚子')
     expect(Char8.computeSBYear(U.parseDate('2020-02-03 22:59:59'), config).toString()).toBe('己亥')
-    expect(Char8.computeSBYear(U.parseDate('2020-01-25'), { changeEgeTerm: null }).toString()).toBe(
+    expect(Char8.computeSBYear(U.parseDate('2020-01-25'), { changeAgeTerm: null }).toString()).toBe(
       '庚子'
     )
   })

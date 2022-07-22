@@ -59,7 +59,7 @@ export class Lunisolar implements ILunisolar {
     if (this._char8) return this._char8
     const config = {
       lang: this._config.lang,
-      changeEgeTerm: this._config.changeEgeTerm
+      changeAgeTerm: this._config.changeAgeTerm
     }
     this._char8 = new Char8(this._date, config)
     return this._char8

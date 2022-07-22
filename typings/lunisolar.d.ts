@@ -231,7 +231,7 @@ declare namespace lunisolar {
     constructor(dateOrSbList: [SB, SB, SB, SB], config?: Char8Config)
     /**
      * @param dateOrSbList 日期
-     * @param changeEgeTerm 用于換歲的節氣
+     * @param changeAgeTerm 用于換歲的節氣
      */
     constructor(dateOrSbList: Date, config?: Char8Config)
     get value(): number
@@ -264,7 +264,7 @@ declare namespace lunisolar {
     /**
       計算年柱
       @param yearOrDate 年份或日期對象
-      @param changeEgeTerm 用于換歲的節氣
+      @param changeAgeTerm 用于換歲的節氣
      */
     static computeSBYear(yearOrDate: Date | number, config?: Char8Config): SB
     /**
