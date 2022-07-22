@@ -71,7 +71,13 @@ declare namespace lunisolar {
     /**
       取得當年陰歷年正月初一的对应的公历日期
      */
-    lunarNewYearDate(year?: number): Date
+    lunarNewYearDate(): Date
+    /**
+      取得當年陰歷年正月初一的对应的公历日期
+      @param {number} year 要查询的公历年份
+      @returns {Date}
+     */
+    static getLunarNewYearDate(year: number): Date
   }
 
   /**
@@ -181,7 +187,7 @@ declare namespace lunisolar {
    * @param value 節氣索引 | 節氣名稱 | 節氣實例
    */
   export class SolarTerm {
-    constructor(value: number | string | SolarTerm, config?: Char8Config)
+    constructor(value: number | string | SolarTerm, config?: ClassCommonConfig)
     toString(): string
     valueOf(): number
     /**
@@ -212,13 +218,19 @@ declare namespace lunisolar {
       config?: ClassCommonConfig
     ): [number, number, number]
     /**
-     * 查出指定日期属于哪个節之后（不包含氣），并返回该節及该節日期
-     * @param date 日期
-     * @param returnValue 返回的節是否只返回该節氣的value,  還是返回節氣實例
+     * 查出指定日期属于哪个節气之後，并返回该節气及该節气日期
+     * @param {Date} date 日期
+     * @param {Partial<TermFindNodeConfig>} config 
+      ```
+      config:{
+        lang： 语言, 
+        returnValue: 是否反回value而非实例，默认为false, 
+        nodeFlag: 0取节，1取气，2两者皆可
+      }
+      ```
      * @returns {[SolarTerm | number, number]} [節氣, 節氣日期]
      */
-    static findNode(date: Date, returnValue: true): [number, number]
-    static findNode(date: Date, returnValue: false, config?: Char8Config): [SolarTerm, number]
+    static findNode(date: Date, config: Partial<TermFindNodeConfig>): [SolarTerm | number, number]
   }
 
   /**

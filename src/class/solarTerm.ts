@@ -4,10 +4,9 @@ import { _GlobalConfig } from '../config'
 export class SolarTerm {
   private _value: number = -1
   private _config = {
-    lang: _GlobalConfig.lang,
-    changeAgeTerm: _GlobalConfig.changeAgeTerm
+    lang: _GlobalConfig.lang
   }
-  constructor(value: number | string | SolarTerm, config?: Char8Config) {
+  constructor(value: number | string | SolarTerm, config?: ClassCommonConfig) {
     if (config) {
       this._config = Object.assign({}, this._config, config)
     }
@@ -67,28 +66,52 @@ export class SolarTerm {
   }
 
   /**
-   * 查出指定日期属于哪个节之后，并返回该节及该节日期
+   * 查出指定日期属于哪个节或气之后，并返回该节气及该节气日期
    * @param date 日期
    * @param returnValue 节气是否只返回该节气的值,还是返回节气对象
    * @returns {[Term | number, number]} [节气, 节气日期]
    */
-  static findNode(date: Date, returnValue: true): [number, number]
-  static findNode(date: Date, returnValue: false, config?: Char8Config): [SolarTerm, number]
-  static findNode(
-    date: Date,
-    returnValue: boolean = false,
-    config?: Char8Config
-  ): [SolarTerm | number, number] {
+  // static findNode(date: Date): [SolarTerm, number]
+  // static findNode(date: Date, config: TermFindNodeConfig1): [number, number]
+  // static findNode(date: Date, config: TermFindNodeConfig2): [SolarTerm, number]
+  static findNode(date: Date, config?: Partial<TermFindNodeConfig>): [SolarTerm | number, number] {
+    const configDefault: TermFindNodeConfig = {
+      lang: _GlobalConfig.lang,
+      returnValue: false,
+      nodeFlag: 0
+    }
+    const cfg = config ? Object.assign({}, configDefault, config) : configDefault
+    const { returnValue, nodeFlag } = cfg
+    // TODO: 处理节或气
     const year = date.getFullYear()
     const month = date.getMonth()
     const d = date.getDate()
+    const h = date.getHours()
     const termList = SolarTerm.getYearTermDayList(year)
-    let termValue = month * 2
-    const termDay = termList[termValue]
-    // 如果当前日期在该节的日期之前，则为上一个节
-    if (d < termDay && !(d === termDay - 1 && date.getHours() >= 23)) termValue -= 2
+    let termValue = month * 2 // 取得该月的节的value值
+    const termDay1 = termList[termValue]
+    const termDay2 = termList[termValue + 1]
+
+    if (nodeFlag === 0) {
+      // 如果当前日期在该节的日期之前，则为上一个节
+      if (d < termDay1 && !(d === termDay1 - 1 && h >= 23)) termValue -= 2
+    } else if (nodeFlag === 1) {
+      // 如果当前日期在该气的日期之前，则为上一个气
+      if (d < termDay2 && !(d === termDay2 - 1 && h >= 23)) termValue -= 1
+      else termValue += 1
+    } else {
+      // 如果当前日期在该月节前，则为上月的气
+      if (d < termDay1 && !(d === termDay1 - 1 && h >= 23)) termValue -= 1
+      // 如果当前日期在该月气后，则为本月的气
+      else if (d > termDay2 || (d === termDay2 - 1 && h >= 23)) termValue += 1
+    }
+
     termValue = (termValue + 24) % 24
-    return returnValue ? [termValue, termDay] : [new SolarTerm(termValue, config), termDay]
+    if (returnValue) return [termValue, termList[termValue]]
+    const newSolarTermConfig = {
+      lang: cfg.lang || _GlobalConfig.lang
+    }
+    return [new SolarTerm(termValue, newSolarTermConfig), termList[termValue]]
   }
 
   valueOf() {
