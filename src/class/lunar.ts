@@ -130,10 +130,6 @@ export class Lunar {
     }
   }
 
-  lunarNewYearDate(year: number | undefined): Date {
-    return getLunarNewYearDate(year || this._y)
-  }
-
   get year(): number {
     return this._y
   }
@@ -148,6 +144,10 @@ export class Lunar {
 
   get hour(): number {
     return this._h
+  }
+
+  lunarNewYearDate(): Date {
+    return getLunarNewYearDate(this._y)
   }
 
   getYearName(): string {
@@ -188,5 +188,9 @@ export class Lunar {
 
   valueOf(): number {
     return this._date.valueOf()
+  }
+
+  static getLunarNewYearDate(year: number): Date {
+    return getLunarNewYearDate(year)
   }
 }
