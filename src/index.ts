@@ -7,11 +7,14 @@ import { Element5 } from './class/element5'
 import { _GlobalConfig } from './config'
 import zh from './locale/zh'
 
-export default function lunisolar(date: DateConfigType | Lunisolar): Lunisolar {
+export default function lunisolar(
+  date: DateConfigType | Lunisolar,
+  config?: ConfigType
+): Lunisolar {
   if (date instanceof Lunisolar) {
     date = date.toDate()
   }
-  return new Lunisolar(date)
+  return new Lunisolar(date, config)
 }
 
 lunisolar.Lunar = Lunar

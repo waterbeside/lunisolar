@@ -1,4 +1,7 @@
-declare function lunisolar(date?: lunisolar.DateConfigType): lunisolar.Lunisolar
+declare function lunisolar(
+  date?: lunisolar.DateConfigType,
+  configType?: lunisolar.configType
+): lunisolar.Lunisolar
 
 declare namespace lunisolar {
   export type DateConfigType = string | number | Date | null | undefined
