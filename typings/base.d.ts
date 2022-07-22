@@ -25,8 +25,8 @@ type UnitFullName = GreUnitFullName | LunarUnitFullName | Char8UnitFullName
 type UnitFullNameLower = GreUnitFullName | LunarUnitFullNameLower | Char8UnitFullNameLower
 type Unit = GreUnit | LunarUnit | Char8Unit
 
-type DateParamType = lunisolar.DateConfigType | Lunisolar
 type DateConfigType = lunisolar.DateConfigType
+type DateParamType = DateConfigType | lunisolar.Lunisolar
 
 type PluginFunc = lunisolar.PluginFunc
 

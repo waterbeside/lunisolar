@@ -4,7 +4,8 @@ import { REGEX_PARSE, UNITS } from '../constants'
  * 处理日期单位
  * @param unit
  */
-export const prettyUnit = (unit: Unit): UnitFullNameLower | '' => {
+export const prettyUnit = (unit?: Unit): UnitFullNameLower | '' => {
+  if (!unit) return ''
   unit = unit.trim() as Unit
   return (
     (UNITS as { [prop: string]: UnitFullNameLower })[unit] ||
@@ -20,7 +21,13 @@ export const prettyUnit = (unit: Unit): UnitFullNameLower | '' => {
 export const parseDate = (date?: DateParamType): Date => {
   if (typeof date === 'undefined') return new Date()
   if (date === null) return new Date(NaN) // null is invalid
-  if (typeof date.date !== 'undefined' && date.date instanceof Date) date = date.date
+  if (
+    typeof date === 'object' &&
+    !(date instanceof Date) &&
+    typeof date._date !== 'undefined' &&
+    date._date instanceof Date
+  )
+    return date._date
   if (date instanceof Date) return date
   if (typeof date === 'string' && !/Z$/i.test(date)) {
     const d = date.match(REGEX_PARSE) as any

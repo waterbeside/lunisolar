@@ -188,16 +188,16 @@ export class Lunisolar implements ILunisolar {
   }
 
   diff(date: lunisolar.DateConfigType | Lunisolar, unit?: Unit, float: boolean = false): number {
-    unit = unit ? prettyUnit(unit) : 'millisecond'
+    unit = (unit ? prettyUnit(unit) : 'millisecond') as UnitFullNameLower
     if (LUNAR_UNITS_SET.has(unit)) {
       // 如果是农历查询
       return lunarDateDiff(
         this,
         date instanceof Lunisolar ? date : new Lunisolar(date, this._config),
-        unit,
+        unit as LunarUnit,
         float
       )
     }
-    return dateDiff(this._date, date, unit, float)
+    return dateDiff(this._date, date, unit as GreUnit, float)
   }
 }

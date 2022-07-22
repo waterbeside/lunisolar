@@ -18,7 +18,7 @@ export function dateDiff(
 ): number {
   ;[date1, date2] = [parseDate(date1), parseDate(date2)]
   const diffValue = date2.valueOf() - date1.valueOf()
-  unit = unit ? prettyUnit(unit) : 'ms'
+  unit = (unit ? prettyUnit(unit) : 'millisecond') as GreUnitFullName
   let res = diffValue
   if (UNITS.s === unit) {
     res = diffValue / 1000
@@ -71,13 +71,13 @@ export const monthDiff = (date1: DateParamType, date2: DateParamType): number =>
 export const lunarDateDiff = (
   lsr1: lunisolar.Lunisolar,
   lsr2: lunisolar.Lunisolar,
-  unit: LunarUnit,
+  unit?: LunarUnit,
   float?: boolean
 ): number => {
   const [lunar1, lunar2] = [lsr1.lunar, lsr2.lunar]
   const [year1, year2] = [lunar1.year, lunar2.year]
   let diff = lsr2.valueOf() - lsr1.valueOf()
-  unit = prettyUnit(unit)
+  unit = prettyUnit(unit) as LunarUnitFullNameLower
   if (unit === UNITS.ly) {
     const diff = year2 - year1
     return float ? diff - 1 + getYearDecimals(lsr1, true) + getYearDecimals(lsr2, false) : diff
