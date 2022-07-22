@@ -1,6 +1,6 @@
 # lunisolar
 
-**lunisolar** 是一个农历库, 可取得各类农历数据
+**lunisolar** 是一个使用Typescript编写的农历库, 可取得各类农历数据
 
 具体包含以下功能：
 
@@ -12,7 +12,7 @@
 - 宜忌 (planning)
 - 纳音 (planning)
 - 十二日建 (planning)
-- ...各类功能开发中
+- ...更多功能开发中
 
 ## 快速上手
 
@@ -69,13 +69,13 @@ lunisolar('2022/07/18 14:40').format('cY cM cD cH')
 | 冬 | 子月 | 大雪 | 冬至 |
 |    | 丑月 | 小寒 | 大寒 |
 
-> 此时你应该了解除了有阴历纪月，还有以天干地支为标记的阳历纪月法。
+> 此时你应该了解，除了有阴历纪月，还有以天干地支为标记的阳历纪月法。
 
 关于节气推算，尝试用“**节气积日公式**”计算
 $$F = 365.242 *y + 6.2 + 15.22* x - 1.9 *math.sin(0.262* x)$$
 F为与1900年1月0日的日期差，y为与1900年的年差，x为每年的节气序号
 
-但计算出的个别结果与香港天文台【[公历与农历日期对照表](https://www.hko.gov.hk/tc/gts/time/conversion1_text.htm#)】有所差距，所以节气也是通过查表法计算来计算。
+但计算出的个别结果与香港天文台【[公历与农历日期对照表](https://www.hko.gov.hk/tc/gts/time/conversion1_text.htm#)】有所差异，所以节气也是通过查表法计算来计算。
 
 ### * 生肖和换岁
 
@@ -83,7 +83,7 @@ F为与1900年1月0日的日期差，y为与1900年的年差，x为每年的节�
 
 但是，并不是所有术数都是以立春换岁，例如中医的五运六气，则以大寒日换岁。 而奇门遁甲则以冬至换岁，中气换月。
 
-> lunisolar默认使用**立春**换岁, 当然你也可以自定义换岁的节气。
+> `lunisolar`默认使用**立春**换岁, 当然你也可以自定义换岁的节气。
 
 **生肖**：生肖与十二地支是对应的，所以实际上生肖也是按节气更换，民间传统上是以立春换岁，所以生肖也是按立春更换。
 
@@ -137,7 +137,7 @@ import * as dayjs from 'dayjs'
 ```html
 <script src="path/to/lunisolar.js"></script>
 <!-- or src from unpkg -->
-<script src="https://unpkg.com/lunisolar@0.0.5/dist/lunisolar.js"></script>
+<script src="https://unpkg.com/lunisolar@0.0.6/dist/lunisolar.js"></script>
 ```
 
 ## 2 解释 (创建Lunisolar对象)
@@ -238,6 +238,8 @@ lunisolar('2022/03/10').format('cYs-cYb cMs-cMb cDs-cDb cHs-cHb') // ''壬-寅 �
 | cHs  | 甲 | 八字日柱天干 |
 | cHb  | 子 | 八字日柱地支 |
 | zo  | 鼠 | 生肖 （立春换岁，可通过config设置换岁时机） |
+| t  | 1-24 | 节气，从小寒到冬至的序号，从1开始，如果该日不是节气，返回空字符串 |
+| T  | 小寒-冬至 | 节气字符串，如果该日不是节气，返回空字符串 |
 | YY  |  18 | 年，两位数 |
 | YYYY | 2018 | 年，四位数 |
 | M  | 1-12 | 月，从1开始  |
@@ -263,7 +265,28 @@ lunisolar('2022/03/10').format('cYs-cYb cMs-cMb cDs-cDb cHs-cHb') // ''壬-寅 �
 
 ### 时间差 diff
 
-`lunisolar(date).diff(date, unit)` 可计算两个日期的时间差
+`lunisolar(date).diff(date, unit)` 可计算两个日期的时间差。
+
+diff 方法包含两个参数：`date` 和 `unit`
+
+参数：
+
+- **date**: *string | number | Date | Lunisolar* 为传入作为比较的时间
+- **unit**: *string* 时间单位，单位见下文表格，单位不区分大小写，支持复数和缩写形式。
+
+| 单位 | 缩写 | 描述 |
+| ----| --- | --- |
+| lunarYear | lY | 阴历年 |
+| lunarMonth | lM | 阴历月 |
+| lunarDay | lD | 阴历日 |
+| lunarHour | lH | 时辰 |
+| day | d | 天 |
+| month | M | 月份(0-11) |
+| year | y | 年 |
+| hour | h | 小时 |
+| minute | m | 分钟 |
+| second | s | 秒 |
+| millisecond | ms | 毫秒 |
 
 示例:
 
@@ -287,21 +310,9 @@ const b = '2020/01/01 00:00:00'
 a.diff(b) // -86400000 a比b大的话将返回负数
 ```
 
-单位不区分大小写，支持复数和缩写形式。
-
-| 单位 | 缩写 | 描述 |
-| ----| --- | --- |
-| lunarYear | lY | 阴历年 |
-| lunarMonth | lM | 阴历月 |
-| lunarDay | lD | 阴历日 |
-| lunarHour | lH | 时辰 |
-| day | d | 天 |
-| month | M | 月份(0-11) |
-| year | y | 年 |
-| hour | h | 小时 |
-| minute | m | 分钟 |
-| second | s | 秒 |
-| millisecond | ms | 毫秒 |
+> 阴历的时间差计算，如 2018/02/10 （二〇一七年十二月廿五）和 2018/02/16（二〇一八年正月初一）这两个日期，实际只相差五天，但因为两个所在的阴历年不同，所以`date1.diff(date1,'lY')` 计出的结果是1年，如果采用小数`date1.diff(date1,'lY', true)`，会算得 0.016 年。
+>
+> 而公历的diff会与`dayjs.diff`的计算方式一致，两个时间天数不足一年, 其取整数是不会按一年算的。如果你想农历也按此方式取整，可以先取浮点数再取整`parseInt(date1.diff(date1,'lY', true))`
 
 ## 4. 阴历数据
 
@@ -414,3 +425,20 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | toString()     | 返回五行属性字符串| | string |
 
 ## 6 节气
+
+通过`lunisolar().solarTerm` 取得当前日期节气对象，如果不是节气，返回null
+
+通过 `lunisolar.SolarTerm` 取得`SolarTerm`类以调用静态方法
+
+| 属性或方法  | 描述 | 参数  | 返回类型 |
+| --- | ---  | --- | --- |
+| value | 取得节气索引值  | | number |
+| valueOf()      | 返回节气索引值 | | number |
+| toString()     | 返回节气字符串| | string |
+| **静态方法**    | | |  |
+| getNames()     | 返回节气字符串列表| | string[] |
+| getYearTermDayList(year)   | 取得某年的节气日期列表| year: number <br> 指定某年 | string[] |
+| findDate(year)   | 取得某年指定节气的日期 | year: number <br> 指定某年 | [number, number, number] 分别为[year, month, day] |
+| findNode(date, config)   | 查出指定日期属于哪个节气之后，并返回该节气及该节气日期 | - **year**: *number* <br> 指定日期<br> - **config**: {<br>  &nbsp;&nbsp;**lang**?: *string*, <br>&nbsp;&nbsp;**returnValue**?: *boolean* 返回值的第一个元素是返回SolarTerm对象，还是返回节气索引，默认为`ture`, 即返回节气索引。<br>&nbsp;&nbsp; **nodeFlag**: *number* 0,1,2三个值可选，默认0，`0`返回`节`之后，`1`返回`气`之后，`2`返回最近的`节气`之后} | [`SolarTerm \| number`, `number`] 分别为 [`节气或节气索引`，`该节气对应的是某月第几天`] |
+
+## **（待续...）**
