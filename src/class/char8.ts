@@ -1,5 +1,6 @@
 import { SB } from './stemBranch'
 import { SolarTerm } from './solarTerm'
+import { Lunar } from './lunar'
 import { parseDate } from '../utils'
 import { SB0_MONTH, SB0_DATE } from '../constants/calendarData'
 import { _GlobalConfig } from '../config'
@@ -8,7 +9,7 @@ export class Char8 {
   private _value: number = -1
   private _list: [SB, SB, SB, SB]
   private _config = {
-    changeEgeTerm: _GlobalConfig.changeEgeTerm,
+    changeAgeTerm: _GlobalConfig.changeAgeTerm,
     lang: _GlobalConfig.lang
   }
   constructor(dateOrSbList: [SB, SB, SB, SB], config?: ClassCommonConfig)
@@ -74,23 +75,23 @@ export class Char8 {
    * @returns {SB} 返回天地支对象
    */
   static computeSBYear(date: Date | number, config?: Char8Config) {
-    let changeEgeTerm =
-      config && config.changeEgeTerm !== undefined
-        ? config.changeEgeTerm
-        : _GlobalConfig.changeEgeTerm
+    let changeAgeTerm =
+      config && config.changeAgeTerm !== undefined
+        ? config.changeAgeTerm
+        : _GlobalConfig.changeAgeTerm
     let year = typeof date !== 'number' ? date.getFullYear() : date
-
-    if (changeEgeTerm !== null && changeEgeTerm !== undefined && typeof date !== 'number') {
-      changeEgeTerm = changeEgeTerm % 24
-      let isPreYear = changeEgeTerm < 0
-      changeEgeTerm = changeEgeTerm >= 0 ? changeEgeTerm : 24 + changeEgeTerm
+    if (changeAgeTerm !== null && changeAgeTerm !== undefined && typeof date !== 'number') {
+      // 如果 changeAgeTerm 设有值， 则按照该节气换岁
+      changeAgeTerm = changeAgeTerm % 24
+      let isPreYear = changeAgeTerm < 0
+      changeAgeTerm = changeAgeTerm >= 0 ? changeAgeTerm : 24 + changeAgeTerm
       // 查出当前节气日期
       let yearStart = date.getFullYear()
       if (isPreYear) yearStart--
       const yearEnd = yearStart + 1
       // 该年的岁的范围
-      const startTermDate = SolarTerm.findDate(yearStart, changeEgeTerm)
-      const endTermDate = SolarTerm.findDate(yearEnd, changeEgeTerm)
+      const startTermDate = SolarTerm.findDate(yearStart, changeAgeTerm)
+      const endTermDate = SolarTerm.findDate(yearEnd, changeAgeTerm)
       const startDate = parseDate(
         `${startTermDate[0]}-${startTermDate[1]}-${startTermDate[2] - 1} 23:00:00`
       )
@@ -100,6 +101,10 @@ export class Char8 {
       // 检查是否在该岁的范围内
       if (date.valueOf() < startDate.valueOf()) year--
       else if (date.valueOf() >= endDate.valueOf()) year++
+    } else if (changeAgeTerm === null && typeof date !== 'number') {
+      // changeAgeTerm 为null时，则以正月初一换岁
+      const theNewYearDate = Lunar.getLunarNewYearDate(year)
+      if (date.valueOf() < theNewYearDate.valueOf() - 60 * 60 * 1000) year--
     }
     const stemValue = (year - 4) % 10
     const branchValue = (year - 4) % 12
@@ -112,21 +117,38 @@ export class Char8 {
    * @returns {SB} 返回天地支对象
    */
   static computeSBMonth(date: Date, config?: Char8Config) {
+    const lang = config && config.lang !== undefined ? config.lang : _GlobalConfig.lang
+    const changeAgeTerm =
+      config && config.changeAgeTerm !== undefined
+        ? config.changeAgeTerm
+        : _GlobalConfig.changeAgeTerm
+    const findNodeConfig = {
+      lang,
+      returnValue: true,
+      nodeFlag: changeAgeTerm % 2 // 根据changeAgeTerm的奇偶来判定是节换月还是中气换月
+    }
     // 知道该日是哪个节气之后便可知道该日是哪个地支月
-    const node = SolarTerm.findNode(date, true)
+    const [termValue, termDay] = SolarTerm.findNode(date, findNodeConfig) as [number, number]
+    const month = date.getMonth()
+    const termMonth = (termValue / 2) >> 0
     const monthOffset =
-      node[1] > date.getDate() && !(node[1] - 1 === date.getDate() && date.getHours() >= 23)
+      termMonth < month ||
+      (month === 0 && termMonth === 11) ||
+      (termDay > date.getDate() && !(termDay - 1 === date.getDate() && date.getHours() >= 23))
         ? -1
         : 0
     // 求月天干 （2018年12月大雪乃甲子月）
     let monthDiff =
       ((date.getFullYear() - SB0_MONTH[0]) * 12 + date.getMonth() - SB0_MONTH[1] + 1) % 60
     monthDiff = (monthDiff < 0 ? 60 + monthDiff : monthDiff) + monthOffset
-    return new SB(monthDiff, undefined, config)
+    const sbConfig = {
+      lang
+    }
+    return new SB(monthDiff, undefined, sbConfig)
   }
 
   /**
-   * 取日的天五地支
+   * 取日的天干地支
    * @param date 日期
    * @returns {SB} 返回天地支对象
    */
