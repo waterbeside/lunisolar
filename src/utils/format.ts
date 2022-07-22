@@ -3,10 +3,7 @@ import { padZoneStr } from '../utils'
 import { _GlobalConfig } from '../config'
 
 export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
-  // const locale = lsr.$locale()
-  console.log('run in format')
   if (lsr._date.toString() === INVALID_DATE_STRING) return INVALID_DATE_STRING
-
   let str = formatStr || FORMAT_DEFAULT
   // const zoneStr = Utils.z(lsr)
   const y = lsr._date.getFullYear()
@@ -62,7 +59,7 @@ export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
     // 生肖
     zo: locale.zodiacAnimal[char8.year.branch.value],
     // 节气
-    t: lsr.term ? lsr.term.value : '',
+    t: lsr.term ? String(lsr.term.value + 1) : '',
     T: lsr.term ? lsr.term.toString() : '',
     // 陰歷
     lY: lunar.getYearName(),
