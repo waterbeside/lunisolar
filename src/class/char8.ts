@@ -125,7 +125,7 @@ export class Char8 {
     const findNodeConfig = {
       lang,
       returnValue: true,
-      nodeFlag: changeAgeTerm % 2 // 根据changeAgeTerm的奇偶来判定是节换月还是中气换月
+      nodeFlag: (changeAgeTerm + 24) % 2 // 根据changeAgeTerm的奇偶来判定是节换月还是中气换月
     }
     // 知道该日是哪个节气之后便可知道该日是哪个地支月
     const [termValue, termDay] = SolarTerm.findNode(date, findNodeConfig) as [number, number]
