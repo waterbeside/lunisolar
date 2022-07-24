@@ -82,7 +82,6 @@ export class SolarTerm {
     }
     const cfg = config ? Object.assign({}, configDefault, config) : configDefault
     const { returnValue, nodeFlag } = cfg
-    // TODO: 处理节或气
     const year = date.getFullYear()
     const month = date.getMonth()
     const d = date.getDate()

@@ -10,7 +10,7 @@ interface Lunisolar extends ILunisolar {
 
 describe('plugins/advanced tireGod', () => {
   it('2022-07-08', () => {
-    const lsr = lunisolar('2022-07-08') as Lunisolar
+    const lsr = lunisolar('2022-07-08') as unknown as Lunisolar
     expect(lsr.tireGod).toBe('倉庫棲外東南')
     expect(lsr.tireGodData.stemPlace).toBe('倉庫')
     expect(lsr.tireGodData.branchPlace).toBe('雞棲')
