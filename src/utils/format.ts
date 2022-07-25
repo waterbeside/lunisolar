@@ -88,7 +88,6 @@ export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
   }
 
   str = str.replace(REGEX_FORMAT, (match, $1) => {
-    console.log('match', match)
     return $1 || matches[match as keyof typeof matches] || zoneStr.replace(':', '')
   }) // 'ZZ'
   return str
