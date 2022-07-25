@@ -47,6 +47,22 @@ export class SolarTerm {
     return res
   }
 
+  /**
+   * 取得某年某月的两个节气的日期
+   * @param year 年
+   * @param month 月
+   * @returns {[number, number]} [节, 气]
+   */
+  static getMonthTerms(year: number, month: number): [number, number] {
+    // js 位运算最大只支持32位，所以要先转成字符串截取
+    const data = TERM_SAME_HEX[TERM_LIST[year - FIRST_YEAR]].toString(2).padStart(48, '0')
+    const cutLen = (month - 1) * 4
+    const monthTermData = parseInt(data.slice(data.length - cutLen - 4, data.length - cutLen), 2)
+    const term1 = (monthTermData & 3) + TERM_MINIMUM_DATES[(month - 1) * 2]
+    const term2 = ((monthTermData >> 2) & 3) + TERM_MINIMUM_DATES[(month - 1) * 2 + 1]
+    return [term1, term2]
+  }
+
   // 查出指定节气的日期 [year, month, day]
   static findDate(
     year: number,
@@ -71,9 +87,6 @@ export class SolarTerm {
    * @param returnValue 节气是否只返回该节气的值,还是返回节气对象
    * @returns {[Term | number, number]} [节气, 节气日期]
    */
-  // static findNode(date: Date): [SolarTerm, number]
-  // static findNode(date: Date, config: TermFindNodeConfig1): [number, number]
-  // static findNode(date: Date, config: TermFindNodeConfig2): [SolarTerm, number]
   static findNode(date: Date, config?: Partial<TermFindNodeConfig>): [SolarTerm | number, number] {
     const configDefault: TermFindNodeConfig = {
       lang: _GlobalConfig.lang,
@@ -82,35 +95,38 @@ export class SolarTerm {
     }
     const cfg = config ? Object.assign({}, configDefault, config) : configDefault
     const { returnValue, nodeFlag } = cfg
-    const year = date.getFullYear()
-    const month = date.getMonth()
-    const d = date.getDate()
-    const h = date.getHours()
-    const termList = SolarTerm.getYearTermDayList(year)
-    let termValue = month * 2 // 取得该月的节的value值
-    const termDay1 = termList[termValue]
-    const termDay2 = termList[termValue + 1]
-
-    if (nodeFlag === 0) {
-      // 如果当前日期在该节的日期之前，则为上一个节
-      if (d < termDay1 && !(d === termDay1 - 1 && h >= 23)) termValue -= 2
-    } else if (nodeFlag === 1) {
-      // 如果当前日期在该气的日期之前，则为上一个气
-      if (d < termDay2 && !(d === termDay2 - 1 && h >= 23)) termValue -= 1
-      else termValue += 1
-    } else {
-      // 如果当前日期在该月节前，则为上月的气
-      if (d < termDay1 && !(d === termDay1 - 1 && h >= 23)) termValue -= 1
-      // 如果当前日期在该月气后，则为本月的气
-      else if (d > termDay2 || (d === termDay2 - 1 && h >= 23)) termValue += 1
-    }
-
-    termValue = (termValue + 24) % 24
-    if (returnValue) return [termValue, termList[termValue]]
+    if (nodeFlag > 2) throw new Error('Invalid nodeFlag')
     const newSolarTermConfig = {
       lang: cfg.lang || _GlobalConfig.lang
     }
-    return [new SolarTerm(termValue, newSolarTermConfig), termList[termValue]]
+    const year = date.getFullYear()
+    let month = date.getMonth()
+    const d = date.getDate()
+    const h = date.getHours()
+    let termValue = (month * 2 + 24) % 24 // 取得该月的节的value值
+
+    let [termDay1, termDay2] = SolarTerm.getMonthTerms(year, month + 1)
+    let usePreMonth = false
+    let beforeTerm2 = false
+    if (d < termDay1 && !(d === termDay1 - 1 && h >= 23)) {
+      // 当日期在节前, 则取上一个月
+      usePreMonth = true
+    } else if (d < termDay2 && !(d === termDay2 - 1 && h >= 23)) {
+      beforeTerm2 = true
+      // 当日期在气之前节之后，前且nodeFlag要求返回气，则取上一个月
+      if (nodeFlag === 1) usePreMonth = true
+    }
+    let termDay: number
+    let returnTerm2 = false
+    if (usePreMonth) {
+      termValue = ((month - 1) * 2 + 24) % 24
+      ;[termDay1, termDay2] = SolarTerm.getMonthTerms(year, month)
+      if (nodeFlag > 0) returnTerm2 = true
+    } else if (nodeFlag === 1 || (nodeFlag === 2 && !beforeTerm2)) returnTerm2 = true
+    termDay = returnTerm2 ? termDay2 : termDay1
+    termValue = returnTerm2 ? (termValue + 1) % 24 : termValue
+    if (returnValue) return [termValue, termDay]
+    return [new SolarTerm(termValue, newSolarTermConfig), termDay]
   }
 
   valueOf() {
