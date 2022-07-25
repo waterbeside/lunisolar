@@ -5,13 +5,7 @@ import { format } from '../utils/format'
 import { Lunar } from './lunar'
 import { SolarTerm } from './solarTerm'
 import { Char8 } from './char8'
-import {
-  FIRST_YEAR,
-  LAST_YEAR,
-  TERM_MINIMUM_DATES,
-  TERM_SAME_HEX,
-  TERM_LIST
-} from '../constants/lunarData'
+import { FIRST_YEAR, LAST_YEAR } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
 
 export class Lunisolar implements ILunisolar {
@@ -40,12 +34,7 @@ export class Lunisolar implements ILunisolar {
     }
     const month = this._date.getMonth() + 1
     const date = this._date.getDate()
-    // 由于存放的超出js的安全整数范围，故先转为字符串
-    const data = TERM_SAME_HEX[TERM_LIST[year - FIRST_YEAR]].toString(2).padStart(48, '0')
-    const cutLen = (month - 1) * 4
-    const monthTermData = parseInt(data.slice(data.length - cutLen - 4, data.length - cutLen), 2)
-    const term1 = (monthTermData & 3) + TERM_MINIMUM_DATES[(month - 1) * 2]
-    const term2 = (monthTermData >> 2) + TERM_MINIMUM_DATES[(month - 1) * 2 + 1]
+    const [term1, term2] = SolarTerm.getMonthTerms(year, month)
     const config = {
       lang: this._config.lang
     }
