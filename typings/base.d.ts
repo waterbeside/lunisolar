@@ -31,7 +31,7 @@ type DateParamType = DateConfigType | lunisolar.Lunisolar
 type PluginFunc = lunisolar.PluginFunc
 
 interface GlobalConfig {
-  changeAgeTerm: number
+  changeAgeTerm: number | null
   locales: { [key: string]: LocaleData }
   lang: string
   [props: string]: any
