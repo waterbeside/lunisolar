@@ -165,9 +165,7 @@ export class Lunar {
   getMonthName(): string {
     const LunarMonthNames = _GlobalConfig.locales[this._config.lang].lunarMonths
     const leapStr = _GlobalConfig.locales[this._config.lang].leap
-    return this.isLeapMonth
-      ? leapStr + LunarMonthNames[this._m - 101]
-      : LunarMonthNames[this._m - 1]
+    return (this.isLeapMonth ? leapStr : '') + LunarMonthNames[(this._m % 100) - 1]
   }
 
   getDayName(): string {
