@@ -1,4 +1,5 @@
 import { SolarTerm } from '../../src/class/solarTerm'
+import { parseDate } from '../../src/utils'
 
 describe('test the Term class', () => {
   it('1901-02-04 立春', () => {
@@ -11,5 +12,18 @@ describe('test the Term class', () => {
 
   it('2022-03-20 春分', () => {
     expect(SolarTerm.findDate(2022, '春分')).toEqual([2022, 3, 20])
+  })
+})
+
+describe('test Term findNode', () => {
+  it('test', () => {
+    expect(SolarTerm.findNode(parseDate('2022-07-24'), { nodeFlag: 1, returnValue: true })).toEqual(
+      [new SolarTerm('大暑').valueOf(), 23]
+    )
+  })
+  it('test', () => {
+    expect(SolarTerm.findNode(parseDate('2022-07-24'), { nodeFlag: 0, returnValue: true })).toEqual(
+      [new SolarTerm('小暑').valueOf(), 7]
+    )
   })
 })
