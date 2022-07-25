@@ -207,6 +207,13 @@ declare namespace lunisolar {
      */
     static getYearTermDayList: (year: number) => number[]
     /**
+     * 取得某年某月的两个节气的日期
+     * @param year 年
+     * @param month 月
+     * @returns {[number, number]} [节, 气]
+     */
+    static getMonthTerms: (year: number, month: number) => [number, number]
+    /**
      * 查出指定節氣的日期
      * @param year 年份
      * @param SolarTerm 節氣索引 | 節氣名稱 | 節氣實例
