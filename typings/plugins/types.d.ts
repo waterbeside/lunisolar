@@ -1,4 +1,4 @@
-type TireGodData = {
+type FetalGodData = {
   stemPlace: string
   branchPlace: string
   directionValue: number

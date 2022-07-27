@@ -1,37 +1,36 @@
-import {
-  STEM_TIRE_GOD_PLACE,
-  BRANCH_TIRE_GOD_PLACE,
-  TIRE_GOD_DAY_DIRECTION,
-  DIRECTION,
-  FETAL_GOD_DAY_LIST
-} from './constants/tireGod'
+import { FETAL_GOD_DAY_DIRECTION } from './constants/fetalGod'
 
-const advanced: lunisolar.PluginFunc = (options, lsClass, lsFactory) => {
+import zh from './locale/zh'
+
+const advanced: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
+  lsFactory.locale(zh)
   const lsProto = lsClass.prototype
   // 胎神
-  Object.defineProperty(lsProto, 'tireGodData', {
+  Object.defineProperty(lsProto, 'fetalGodData', {
     get(): TireGodData {
-      if (this._tireGodData) return this._tireGodData
+      if (this._fetalGodData) return this._fetalGodData
+      const lang = this._config.lang
+      const locale = this._config.locales[lang] as typeof zh
       const daySb = this.char8.day as lunisolar.SB
-      const stemPlace = STEM_TIRE_GOD_PLACE[daySb.stem.value % 5]
-      const branchPlace = BRANCH_TIRE_GOD_PLACE[daySb.branch.value % 6]
-      const directionValue = TIRE_GOD_DAY_DIRECTION[daySb.value % 60]
+      const stemPlace = locale.stemFetalGodPlace[daySb.stem.value % 5]
+      const branchPlace = locale.branchFetalGodPlace[daySb.branch.value % 6]
+      const directionValue = FETAL_GOD_DAY_DIRECTION[daySb.value % 60]
       const inOrOutSide = directionValue === 0 ? '' : directionValue > 0 ? '外' : '內'
-      const direction = inOrOutSide + DIRECTION[Math.abs(directionValue)]
-      const description = FETAL_GOD_DAY_LIST[daySb.value]
-      this._tireGodData = {
+      const direction = inOrOutSide + locale.fetalGodDirection[Math.abs(directionValue)]
+      const description = locale.fetalGodDayDesc[daySb.value]
+      this._fetalGodData = {
         stemPlace,
         branchPlace,
         directionValue,
         direction,
         description
       }
-      return this._tireGodData
+      return this._fetalGodData
     }
   })
-  Object.defineProperty(lsProto, 'tireGod', {
+  Object.defineProperty(lsProto, 'fetalGod', {
     get(): string {
-      return this.tireGodData.description
+      return this.fetalGodData.description
     }
   })
 }
