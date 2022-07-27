@@ -53,6 +53,10 @@ declare namespace lunisolar {
      */
     get hour(): number
     /**
+      取得當年陰歷年正月初一的对应的公历日期
+     */
+    get lunarNewYearDate(): Date
+    /**
      * 取得該年陰歷正月初一的所在公歷年(中文)
      */
     getYearName(): string
@@ -68,10 +72,6 @@ declare namespace lunisolar {
      * 取得陰歷時辰(中文)
      */
     getHourName(): string
-    /**
-      取得當年陰歷年正月初一的对应的公历日期
-     */
-    lunarNewYearDate(): Date
     /**
       取得當年陰歷年正月初一的对应的公历日期
       @param {number} year 要查询的公历年份

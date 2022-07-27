@@ -145,8 +145,10 @@ export class Lunar {
   get hour(): number {
     return this._h
   }
-
-  lunarNewYearDate(): Date {
+  /**
+   * 当年正月初一的日期
+   */
+  get lunarNewYearDate(): Date {
     return getLunarNewYearDate(this._y)
   }
 
