@@ -14,7 +14,7 @@ export class Lunisolar implements ILunisolar {
   _solarTerm?: SolarTerm | null
   _lunar?: Lunar
   _char8?: Char8
-  constructor(date?: lunisolar.DateConfigType | Lunisolar, config?: lunisolar.ConfigType) {
+  constructor(date?: DateParamType, config?: lunisolar.ConfigType) {
     this._date = parseDate(date)
     this._config = Object.assign({}, _GlobalConfig, config)
   }
@@ -23,6 +23,17 @@ export class Lunisolar implements ILunisolar {
     if (this._lunar) return this._lunar
     this._lunar = new Lunar(this._date, { lang: this._config.lang })
     return this._lunar
+  }
+
+  // 八字
+  get char8(): Char8 {
+    if (this._char8) return this._char8
+    const config = {
+      lang: this._config.lang,
+      changeAgeTerm: this._config.changeAgeTerm
+    }
+    this._char8 = new Char8(this._date, config)
+    return this._char8
   }
 
   // 节气
@@ -43,15 +54,16 @@ export class Lunisolar implements ILunisolar {
     else return null
   }
 
-  // 八字
-  get char8(): Char8 {
-    if (this._char8) return this._char8
-    const config = {
+  /**
+   * 取得当前日期之前的最近的节气点
+   * @param nodeFlag 取的节气点，0: 取节， 1: 取气, 2: 节或气都取
+   */
+  recentSolarTerm(nodeFlag: 0 | 1 | 2): [SolarTerm, Date] {
+    return SolarTerm.findNode<false>(this._date, {
       lang: this._config.lang,
-      changeAgeTerm: this._config.changeAgeTerm
-    }
-    this._char8 = new Char8(this._date, config)
-    return this._char8
+      nodeFlag,
+      returnValue: false
+    })
   }
 
   toDate(): Date {
@@ -89,7 +101,7 @@ export class Lunisolar implements ILunisolar {
     return format(formatStr, this)
   }
 
-  diff(date: lunisolar.DateConfigType | Lunisolar, unit?: Unit, float: boolean = false): number {
+  diff(date: DateParamType, unit?: Unit, float: boolean = false): number {
     unit = (unit ? prettyUnit(unit) : 'millisecond') as UnitFullNameLower
     if (LUNAR_UNITS_SET.has(unit)) {
       // 如果是农历查询

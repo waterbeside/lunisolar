@@ -67,8 +67,9 @@ interface ILunisolar {
   _lunar?: Lunar
   _char8?: Char8
   get lunar(): Lunar
-  get solarTerm(): Term | null
   get char8(): Char8
+  get solarTerm(): Term | null
+  recentSolarTerm(nodeFlag: 0 | 1 | 2): [SolarTerm, Date]
   toDate(): Date
   clone(): Lunisolar
   unix(): number
@@ -76,7 +77,7 @@ interface ILunisolar {
   utcOffset(): number
   toISOString(): string
   toString(): string
-  diff(date: DateConfigType | Lunisolar, unit?: Unit, config?: any): number
+  diff(date: DateParamType, unit?: Unit, config?: any): number
   [props: string]: any
   // add(value: number, unit?: Unit, config?: any): Lunisolar
 }

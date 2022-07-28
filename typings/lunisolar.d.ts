@@ -317,7 +317,7 @@ declare namespace lunisolar {
     _solarTerm?: SolarTerm | null
     _lunar?: Lunar
     _char8?: Char8
-    constructor(date?: lunisolar.DateConfigType, config?: ConfigType)
+    constructor(date?: DateParamType, config?: ConfigType)
     /**
      * get lunar object
      *
@@ -336,6 +336,13 @@ declare namespace lunisolar {
      * 取得八字對象
      */
     get char8(): Char8
+    /**
+     * Get the most recent solar term on the current date
+     *
+     * 取得当前日期之前的最近的节气点
+     * @param nodeFlag 取的节气点，0: 取节， 1: 取气, 2: 节或气都取
+     */
+    recentSolarTerm(nodeFlag: 0 | 1 | 2): [SolarTerm, Date]
     /**
      * Returns a Date object for the current time
      *
