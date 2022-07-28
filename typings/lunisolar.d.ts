@@ -237,7 +237,11 @@ declare namespace lunisolar {
       ```
      * @returns {[SolarTerm | number, number]} [節氣, 節氣日期]
      */
-    static findNode(date: Date, config: Partial<TermFindNodeConfig>): [SolarTerm | number, number]
+    static findNode<T extends boolean = false>(
+      date: Date,
+      config: TermFindNodeConfig<T>
+    ): [T extends true ? number : SolarTerm, Date]
+    static findNode(date: Date, config?: TermFindNodeConfig<boolean>): [SolarTerm | number, Date]
   }
 
   /**
