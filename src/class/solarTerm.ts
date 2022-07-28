@@ -1,5 +1,6 @@
 import { FIRST_YEAR, TERM_MINIMUM_DATES, TERM_SAME_HEX, TERM_LIST } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
+import { parseDate } from '../utils'
 
 export class SolarTerm {
   private _value: number = -1
@@ -87,8 +88,12 @@ export class SolarTerm {
    * @param returnValue 节气是否只返回该节气的值,还是返回节气对象
    * @returns {[Term | number, number]} [节气, 节气日期]
    */
-  static findNode(date: Date, config?: Partial<TermFindNodeConfig>): [SolarTerm | number, number] {
-    const configDefault: TermFindNodeConfig = {
+  static findNode<T extends boolean = false>(
+    date: Date,
+    config: TermFindNodeConfig<T>
+  ): [T extends true ? number : SolarTerm, Date]
+  static findNode(date: Date, config?: TermFindNodeConfig<boolean>): [SolarTerm | number, Date] {
+    const configDefault: TermFindNodeConfig0 = {
       lang: _GlobalConfig.lang,
       returnValue: false,
       nodeFlag: 0
@@ -99,7 +104,7 @@ export class SolarTerm {
     const newSolarTermConfig = {
       lang: cfg.lang || _GlobalConfig.lang
     }
-    const year = date.getFullYear()
+    let year = date.getFullYear()
     let month = date.getMonth()
     const d = date.getDate()
     const h = date.getHours()
@@ -119,14 +124,21 @@ export class SolarTerm {
     let termDay: number
     let returnTerm2 = false
     if (usePreMonth) {
-      termValue = ((month - 1) * 2 + 24) % 24
-      ;[termDay1, termDay2] = SolarTerm.getMonthTerms(year, month)
+      if (month - 1 < 0) {
+        year--
+        month = 11
+      } else {
+        month--
+      }
+      termValue = (month * 2 + 24) % 24
+      ;[termDay1, termDay2] = SolarTerm.getMonthTerms(year, month + 1)
       if (nodeFlag > 0) returnTerm2 = true
     } else if (nodeFlag === 1 || (nodeFlag === 2 && !beforeTerm2)) returnTerm2 = true
     termDay = returnTerm2 ? termDay2 : termDay1
     termValue = returnTerm2 ? (termValue + 1) % 24 : termValue
-    if (returnValue) return [termValue, termDay]
-    return [new SolarTerm(termValue, newSolarTermConfig), termDay]
+    const termDate = parseDate(`${year}-${month + 1}-${termDay}`)
+    if (returnValue) return [termValue, termDate]
+    return [new SolarTerm(termValue, newSolarTermConfig), termDate]
   }
 
   valueOf() {
