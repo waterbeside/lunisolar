@@ -1,10 +1,6 @@
 import lunisolar from '../src'
 
-describe('lunisolar', () => {
-  it('lunisolar should be a function', () => {
-    expect(lunisolar).toBeInstanceOf(Function)
-  })
-
+describe('lunisolar().char8', () => {
   it('更改换岁时机, 冬至换岁，中气换月', () => {
     const lsr = lunisolar('2022-01-05', { changeAgeTerm: -1 })
     expect(lsr.char8.year.toString()).toBe('壬寅')
@@ -31,5 +27,21 @@ describe('lunisolar', () => {
     expect(lunisolar('2022-02-4', { changeAgeTerm: null }).format('cY cM cD')).toBe(
       '壬寅 壬寅 戊子'
     )
+  })
+})
+
+describe('lunisolar().solarTerm', () => {
+  it('节气', () => {
+    expect(lunisolar('2022-02-04').solarTerm?.toString()).toBe('立春')
+    expect(lunisolar('2022-01-20').solarTerm?.toString()).toBe('大寒')
+    expect(lunisolar('2022-02-1').solarTerm?.toString() || null).toBe(null)
+  })
+  it('最近节气', () => {
+    expect(lunisolar('2022-02-06').recentSolarTerm(0)[0].toString()).toBe('立春')
+    expect(lunisolar('2022-02-01').recentSolarTerm(0)[0].toString()).toBe('小寒')
+    expect(lunisolar('2022-02-01').recentSolarTerm(1)[0].toString()).toBe('大寒')
+    expect(lunisolar('2022-02-22').recentSolarTerm(0)[0].toString()).toBe('立春')
+    expect(lunisolar('2022-02-22').recentSolarTerm(1)[0].toString()).toBe('雨水')
+    expect(lunisolar('2022-02-22').recentSolarTerm(2)[0].toString()).toBe('雨水')
   })
 })
