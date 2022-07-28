@@ -47,10 +47,17 @@ interface Char8Config extends pick<ConfigType, 'lang' | 'changeAgeTerm'> {
   [props: string]: any
 }
 
-interface TermFindNodeConfig {
-  returnValue: boolean
+interface TermFindNodeConfigBase {
   nodeFlag: number
   lang: string
+}
+
+interface TermFindNodeConfig0 extends TermFindNodeConfigBase {
+  returnValue: boolean
+}
+
+interface TermFindNodeConfig<T extends boolean = false> extends Partial<TermFindNodeConfigBase> {
+  returnValue: T
 }
 
 interface ILunisolar {
