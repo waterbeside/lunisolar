@@ -64,7 +64,6 @@ lunisolar.locale = (localeData: ILocale | ILocale[]): typeof lunisolar => {
 
 lunisolar.createLocale = (localeData: ILocale): ILocale => localeData
 
-
 lunisolar._globalConfig = _GlobalConfig
 
 Object.defineProperty(lunisolar, '_globalConfig', {
