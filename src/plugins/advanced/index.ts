@@ -1,13 +1,24 @@
 import { FETAL_GOD_DAY_DIRECTION } from './constants/fetalGod'
+import { TAKE_SOUND_ELEMENT5 } from './constants/takeSound'
 
 import zh from './locale/zh'
+
+interface SB extends lunisolar.SB {
+  _takeSoundValue: string
+  takeSound: string
+  takeSoundE5: string
+}
+
+interface LocaleDataEx extends LocaleData {
+  takeSound: string[]
+}
 
 const advanced: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
   lsFactory.locale(zh)
   const lsProto = lsClass.prototype
-  // 胎神
+  // **** 胎神 ****
   Object.defineProperty(lsProto, 'fetalGodData', {
-    get(): TireGodData {
+    get(): FetalGodData {
       if (this._fetalGodData) return this._fetalGodData
       const lang = this._config.lang
       const locale = this._config.locales[lang] as typeof zh
@@ -33,6 +44,39 @@ const advanced: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
       return this.fetalGodData.description
     }
   })
-}
 
+  // **** 纳音 ****
+  const sbProto = lsFactory.SB.prototype as unknown as SB
+  // takeSound
+  Object.defineProperty(sbProto, 'takeSound', {
+    get(): string {
+      const _GlobalConfig = lsFactory._globalConfig
+
+      if (this._takeSoundValue === undefined) {
+        this._takeSoundValue = ((this as lunisolar.SB).value >> 1) % 30
+      }
+      return (_GlobalConfig.locales[this._config.lang] as LocaleDataEx).takeSound[
+        this._takeSoundValue
+      ]
+    }
+  })
+  // takeSoundE5
+  Object.defineProperty(sbProto, 'takeSoundE5', {
+    get(): string {
+      const _GlobalConfig = lsFactory._globalConfig
+      if (this._takeSoundValue === undefined) {
+        this._takeSoundValue = ((this as lunisolar.SB).value >> 1) % 30
+      }
+      return _GlobalConfig.locales[this._config.lang].fiveElements[
+        TAKE_SOUND_ELEMENT5[this._takeSoundValue]
+      ]
+    }
+  })
+  // 加到Lunisolar对象中
+  Object.defineProperty(lsProto, 'takeSound', {
+    get(): string {
+      return this.char8.day.takeSound
+    }
+  })
+}
 export default advanced

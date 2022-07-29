@@ -2,8 +2,13 @@ import { PluginFunc } from 'lunisolar'
 
 declare module 'lunisolar' {
   interface Lunisolar {
-    tireGod: string
-    tireGodData: TireGodData
+    fetalGod: string
+    fetalGodData: FetalGodData
+    takeSound: string
+  }
+  interface SB {
+    takeSound: string
+    takeSoundE5: string
   }
 }
 
