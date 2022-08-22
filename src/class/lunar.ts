@@ -182,8 +182,8 @@ export class Lunar {
   toString(): string {
     const locale = _GlobalConfig.locales[this._config.lang]
     return `${this.getYearName()}${
-      locale.year
-    }${this.getMonthName()}${this.getDayName()}${this.getHourName()}${locale.hour}`
+      locale.lunarYearUnit
+    }${this.getMonthName()}${this.getDayName()}${this.getHourName()}${locale.lunarHourUnit}`
   }
 
   valueOf(): number {

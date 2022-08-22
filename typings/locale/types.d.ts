@@ -1,8 +1,8 @@
 interface LocaleData {
   name: string
   leap: string
-  year: string
-  hour: string
+  lunarYearUnit: string
+  lunarHourUnit: string
   bigMonth: string
   smallMonth: string
   weekdays: string[]

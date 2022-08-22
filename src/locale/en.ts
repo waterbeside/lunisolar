@@ -1,5 +1,10 @@
 export default {
   name: 'en',
+  leap: 'leap',
+  lunarYearUnit: '',
+  lunarHourUnit: '',
+  bigMonth: 'big',
+  smallMonth: 'small',
   weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
   months: [
     'January',
