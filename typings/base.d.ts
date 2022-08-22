@@ -78,6 +78,7 @@ interface ILunisolar {
   toISOString(): string
   toString(): string
   diff(date: DateParamType, unit?: Unit, config?: any): number
+  format(formatStr: string): string
   [props: string]: any
   // add(value: number, unit?: Unit, config?: any): Lunisolar
 }

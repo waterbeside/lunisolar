@@ -382,6 +382,12 @@ declare namespace lunisolar {
      */
     diff(date: DateConfigType | Lunisolar, unit?: Unit, float?: boolean): number
     // add(value: number, unit?: Unit, config?: any): Lunisolar
+
+    /**
+     * 格式化日期
+     * @param formatStr 格式化字符串
+     */
+    format(formatStr: string): string
   }
 
   /**
