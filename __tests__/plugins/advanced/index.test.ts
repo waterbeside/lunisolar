@@ -19,7 +19,6 @@ describe('plugins/advanced fetalGod', () => {
   })
 })
 
-
 describe('plugins/advanced takeSound', () => {
   it('2022-07-08', () => {
     const lsr = lunisolar('2022-07-08') as unknown as Lunisolar

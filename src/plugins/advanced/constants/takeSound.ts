@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+
 /**
  *纳音五行
   五行顺序  
