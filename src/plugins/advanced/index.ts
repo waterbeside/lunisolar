@@ -13,9 +13,14 @@ interface LocaleDataEx extends LocaleData {
   takeSound: string[]
 }
 
+interface LunisolarEx extends lunisolar.Lunisolar {
+  fetalGodData: FetalGodData
+  fetalGod: string
+}
+
 const advanced: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
   lsFactory.locale(zh)
-  const lsProto = lsClass.prototype
+  const lsProto = lsClass.prototype as unknown as LunisolarEx
   // **** 胎神 ****
   Object.defineProperty(lsProto, 'fetalGodData', {
     get(): FetalGodData {
@@ -26,7 +31,12 @@ const advanced: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
       const stemPlace = locale.stemFetalGodPlace[daySb.stem.value % 5]
       const branchPlace = locale.branchFetalGodPlace[daySb.branch.value % 6]
       const directionValue = FETAL_GOD_DAY_DIRECTION[daySb.value % 60]
-      const inOrOutSide = directionValue === 0 ? '' : directionValue > 0 ? '外' : '內'
+      const inOrOutSide =
+        directionValue === 0
+          ? ''
+          : directionValue > 0
+          ? locale.fetalGodOutsideDesc
+          : locale.fetalGodInsideDesc
       const direction = inOrOutSide + locale.fetalGodDirection[Math.abs(directionValue)]
       const description = locale.fetalGodDayDesc[daySb.value]
       this._fetalGodData = {
@@ -78,5 +88,7 @@ const advanced: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
       return this.char8.day.takeSound
     }
   })
+
+  lsFactory
 }
 export default advanced
