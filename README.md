@@ -148,7 +148,7 @@ yarn add lunisolar
 
 引入
 
-```javascript
+```typescript
 import lunisolar from 'lunisolar'
 ```
 
@@ -434,6 +434,7 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | branch | 地支对象 | | [Branch](#55-branch地支对象)  |
 | valueOf()      | 返回60干支顺序索引值 | | number |
 | toString()     | 返回格式化后天干地支字符串如 “壬寅” | | string |
+| takeSound | 五行纳音，需加载`advanced`插件, 参考 [#8 纳音](#8-纳音) | | string |
 
 ### 5.4 Stem天干对象
 
@@ -489,5 +490,135 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | getMonthTerms(year, month)   | 取得某年某月的两个节气的日期 | - **year**: *number* <br> 指定某年<br> - **month**: *number*<br> 某月 (1 ~ 12) | [number,number] |
 | findDate(year)   | 取得某年指定节气的日期 | year: number <br> 指定某年 | [number, number, number] 分别为[year, month, day] |
 | findNode(date, config)   | 查出指定日期属于哪个节气之后，并返回该节气及该节气日期 | - **year**: *number* <br> 指定日期<br> - **config**: {<br>  &nbsp;&nbsp; &nbsp;&nbsp;**lang**?: *string*, <br>&nbsp;&nbsp; &nbsp;&nbsp;**returnValue**?: *boolean* 返回值的第一个元素是返回SolarTerm对象，还是返回节气索引，默认为`ture`, 即返回节气索引。<br>&nbsp;&nbsp;  &nbsp;&nbsp;**nodeFlag**: *number* 0,1,2三个值可选，默认0，`0`返回`节`之后，`1`返回`气`之后，`2`返回最近的`节气`之后} | [`SolarTerm \| number`, `Date`] 分别为 [`节气或节气索引`，`该节气对应的日期`] |
+
+## 7 胎神
+
+古人认为怀孕以及孕期胎儿的好坏都与胎神有关。所以民间传统习俗里，家里一旦有孕妇，便有各种禁忌，以免惊动胎神。
+
+胎神每日都会出现在不同的位置，参考《胎神逐日所占游方定局》。
+
+![fetalGod](./doc/images/fetalGod.jpg)
+
+其中天干地支与胎神位置的规律可用以下口诀记忆：
+
+```text
+  ----天干六甲胎神歌----
+  甲己之日占在門，乙庚碓磨休移动。
+  丙辛廚灶莫相干，丁壬倉庫忌修弄。
+  戊癸房床若移整，犯之孕妇堕孩童。
+
+  ----地支六甲胎神歌----
+  子午二日碓须忌，丑未廁道莫修移。
+  寅申火爐休要动，卯酉大門修当避。
+  辰戌雞棲巳亥床，犯着六甲身堕胎。
+```
+
+### 7.1 用法
+
+查询胎神要先导入 advanced 插件，
+
+之后可使用lunisolar().fetalGod 取得胎神描述，
+
+也可以使用lunisolar().fetalGodData 取得胎神数据。
+
+示例：
+
+```typescript
+import advanced from 'lunisolar/plugins/advanced'
+import lunisolar from 'lunisolar'
+
+lunisolar.extend(advanced)
+
+const lsr = lunisolar('2022-07-08')
+lsr.fetalGod // 倉庫棲外東南
+lsr.fetalGodData.stemPlace // 倉庫
+lsr.fetalGodData.branchPlace // 雞棲
+lsr.fetalGodData.direction // 外東南
+lsr.fetalGodData.description // 倉庫棲外東南
+```
+
+fetalGodData 包含以下属性
+
+| 属性  | 描述   | 返回类型 |
+| --- | ---  | --- |
+| stemPlace | 根据天干推算的胎神位置，有以下五种： ['門', '碓磨', '廚灶', '倉庫', '房床'] | string |
+| branchPlace  | 根据地支推算的胎神位置，有以下六种：['碓', '廁', '爐', '門', '雞棲', '床']| string |
+| direction | 胎神的方向，如'外东南'、'外西'、'内中' 等 | string |
+| description | 胎神占方的完整描述，如："占門碓外東南" | string |
+
+## 8 纳音
+
+查询胎神要先导入 advanced 插件，
+
+之后可使用lunisolar().fetalGod 取得胎神描述，
+
+也可以使用lunisolar().fetalGodData 取得胎神数据。
+
+示例：
+
+```typescript
+import advanced from 'lunisolar/plugins/advanced'
+import lunisolar from 'lunisolar'
+
+lunisolar.extend(advanced)
+
+/**
+  加载advance插件后，
+  SB对象（天干地支对象）会添加一个takeSound属性，
+ */
+const lsr = lunisolar('2022-07-08')
+lsr.char8.year.takeSound // 金箔金 （取得年干支的纳音）
+// ...
+lsr.char8.day.takeSound // 大海水 （取得日干支的纳音）
+lsr.takeSound // 大海水 （取得日干支的纳音 等同于）
+
+expect().toBe('大海水')
+```
+
+## 插件 plugins
+
+lunisolar支持自定义插件以扩展功能
+
+1，自定义插件
+
+```typescript
+import { PluginFunc, Lunisolar } from 'lunisolar'
+
+// 为新添的属性加上类型声明 ()
+declare module 'lunisolar' {
+  interface Lunisolar {
+    showExample: string
+    exampleMethod(): void
+  }
+}
+
+interface LunisolarEx extends Lunisolar {
+  showExample: string
+  exampleMethod(): void
+}
+
+const pluginName: PluginFunc = async (options, lsClass, lsFactory) => {
+  const lsProto = lsClass.prototype as unknown as LunisolarEx
+  // 添加属性
+  lsProto.showExample = 'hello'
+
+  // 添加方法
+  lsProto.exampleMethod = function () {
+    console.log('hello')
+  }  
+}
+export default pluginName
+```
+
+2 使用插件
+
+```typescript
+import plugin from 'your/plugin/path/pluginName'
+import lunisolar from 'lunisolar'
+
+lunisolar.extend(plugin)
+
+lunisolar().showExample // 'hello'
+```
 
 ## **（待续...）**
