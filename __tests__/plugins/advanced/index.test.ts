@@ -22,8 +22,9 @@ describe('plugins/advanced fetalGod', () => {
 describe('plugins/advanced takeSound', () => {
   it('2022-07-08', () => {
     const lsr = lunisolar('2022-07-08') as unknown as Lunisolar
-    expect(lsr.char8.day.takeSound).toBe('大海水')
     expect(lsr.takeSound).toBe('大海水')
+    expect(lsr.char8.year.takeSound).toBe('金箔金')
+    expect(lsr.char8.day.takeSound).toBe('大海水')
 
     const lsr2 = lunisolar('2016-05-17') as unknown as Lunisolar
     expect(lsr2.takeSound).toBe('平地木')
