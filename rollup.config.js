@@ -68,16 +68,16 @@ const configs = [
 const configDir = dir => {
   const dirPath = path.join(__dirname, 'src', dir)
   const dirNames = fs.readdirSync(dirPath)
+  console.log('dirname', dirNames)
   for (const dirName of dirNames) {
-    configs.push(
-      configFactory({
-        name: dirName,
-        input:
-          dir === 'locale' ? path.join(dirPath, dirName) : path.join(dirPath, dirName, 'index.ts'),
-        filePath: path.join(__dirname, dir),
-        fileName: dirName
-      })
-    )
+    const config = configFactory({
+      name: dirName,
+      input:
+        dir === 'locale' ? path.join(dirPath, dirName) : path.join(dirPath, dirName, 'index.ts'),
+      filePath: path.join(__dirname, dir),
+      fileName: /\.(js|ts)$/.test(dirName) ? dirName.slice(0, -3) : dirName
+    })
+    configs.push(config)
   }
 }
 
