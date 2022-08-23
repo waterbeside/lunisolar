@@ -58,7 +58,12 @@ lunisolar.locale = (localeData: ILocale | ILocale[]): typeof lunisolar => {
   }
   if (!localeData || !localeData.name) return lunisolar
   _GlobalConfig.lang = localeData.name
-  _GlobalConfig.locales[localeData.name] = Object.assign({}, zh, localeData)
+  _GlobalConfig.locales[localeData.name] = Object.assign(
+    {},
+    _GlobalConfig.locales[localeData.name],
+    zh,
+    localeData
+  )
   return lunisolar
 }
 
