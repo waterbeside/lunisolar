@@ -400,7 +400,7 @@ declare namespace lunisolar {
     option: T,
     lsClass: typeof lunisolar.Lunisolar,
     lsFactory: typeof lunisolar
-  ) => void
+  ) => Promise<void> | void
 
   /**
    * Setting global Configuration
