@@ -6,6 +6,7 @@ declare function lunisolar(
 declare namespace lunisolar {
   export type DateConfigType = string | number | Date | null | undefined
   export interface ConfigType extends Partial<GlobalConfig> {}
+  export interface Locale extends ILocale {}
   export const _globalConfig: GlobalConfig
   /**
    * 陰歷對象
