@@ -10,7 +10,6 @@ interface LunisolarEx extends lunisolar.Lunisolar {
 const fetalGodPlugin: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
   lsFactory.locale(zh)
   const lsProto = lsClass.prototype as unknown as LunisolarEx
-  console.log('loaded fetalGodPlugin')
   // **** 胎神 ****
   Object.defineProperty(lsProto, 'fetalGodData', {
     get(): FetalGodData {
