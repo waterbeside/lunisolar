@@ -32,7 +32,6 @@ lunisolar.Lunisolar = Lunisolar
 lunisolar.config = (config: ConfigType): typeof lunisolar => {
   if (!config) return lunisolar
   Object.assign(_GlobalConfig, config)
-  console.log('_GlobalConfig', _GlobalConfig)
   return lunisolar
 }
 
