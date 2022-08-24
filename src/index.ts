@@ -30,8 +30,9 @@ lunisolar.Lunisolar = Lunisolar
  * 更新全局配置
  */
 lunisolar.config = (config: ConfigType): typeof lunisolar => {
-  if (!config || !config.name) return lunisolar
+  if (!config) return lunisolar
   Object.assign(_GlobalConfig, config)
+  console.log('_GlobalConfig', _GlobalConfig)
   return lunisolar
 }
 
