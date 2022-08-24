@@ -109,7 +109,9 @@ lunisolar('2022-07-23').solarTerm?.toString() // 大暑 （返回当天的节气
 > 此时你应该了解，除了有阴历纪月，还有以天干地支为标记的阳历纪月法。
 
 关于节气推算，尝试用“**节气积日公式**”计算
+
 $$F = 365.242 *y + 6.2 + 15.22* x - 1.9 *math.sin(0.262* x)$$
+
 F为与1900年1月0日的日期差，y为与1900年的年差，x为每年的节气序号
 
 但计算出的个别结果与香港天文台【[公历与农历日期对照表](https://www.hko.gov.hk/tc/gts/time/conversion1_text.htm#)】有所差异，所以节气也是通过查表法计算来计算。
@@ -227,7 +229,7 @@ Lunisolar具有以下属性和方法
 | format(formatStr: string) | 按指定格式格式化时间 | **formatStr**: string 时间将以这字符串格式进行格式化，例 'YYYY-MM-DD HH:mm:ss' | string |
 | diff(date, unit, float) | 时间差计算 | **date**: number \| string \| Date \| Lunisolar <br> 与当前实例的时间进行比较的时间<br> **unit**: string <br>单位，如 year, lunarYear, month, lunarMonth 等<br> **float**: boolean <br>是否返回浮点数 | number
 | valueOf()  | 返回Date对象的valueOf(), 即时间戳 | | number |
-| toString() | 返回当前阴历的格式化后的日期时间 如“二〇二二年六月二十未時” | | string |
+| toString() | 返回当前 Date对象的toUTCString() + 阴历的格式化后的日期时间: 例“Wed, 24 Aug 2022 14:50:51 GMT (二〇二二年七月廿七亥時)” | | string |
 
 ### 格式化数据 format
 

@@ -94,7 +94,7 @@ export class Lunisolar implements ILunisolar {
   }
 
   toString() {
-    return this._date.toUTCString()
+    return this._date.toUTCString() + ` (${this.lunar})`
   }
 
   format(formatStr: string): string {
