@@ -7,7 +7,6 @@ import { terser } from 'rollup-plugin-terser'
 import copy from 'rollup-plugin-copy'
 import clear from 'rollup-plugin-clear'
 import pkg from './package.json'
-import { config } from 'process'
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx']
 
