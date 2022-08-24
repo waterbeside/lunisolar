@@ -57,11 +57,15 @@ interface LocaleData {
    */
   branchs: string[]
   /**
+   * Separator for combination of heavenly stem and earth branches 天干地支组合时的分隔符
+   */
+  stemBranchSeparator: string
+  /**
    * Chinese zodiac 十二生肖
    *
    * There are 12 items in the array，
    */
-  zodiacAnimal: string[]
+  chineseZodiac: string[]
   /**
    * Five Elements 五行
    *
