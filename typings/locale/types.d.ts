@@ -31,7 +31,7 @@ interface LocaleData {
   /**
    * number (數字: like 〇一二三四五六七八九十)
    */
-  numberString: string[]
+  numerals: string[]
   /**
    * Constellation name (星座)
    */

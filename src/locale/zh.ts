@@ -17,7 +17,7 @@ const locale: LocaleData = {
       '_'
     ),
 
-  numberString: '〇一二三四五六七八九十'.split(''),
+  numerals: '〇一二三四五六七八九十'.split(''),
   constellationName:
     '白羊座_金牛座_雙子座_巨蟹座_狮子座_處女座_天秤座_天蝎座_射手座_摩羯座_水瓶座_雙魚座'.split(
       '_'

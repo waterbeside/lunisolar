@@ -30,7 +30,7 @@ const ja = {
     }
     return res
   })(),
-  numberString: '0123456789'.split(''),
+  numerals: '0123456789'.split(''),
   constellationName:
     '牡羊座_牡牛座_双子座_蟹座_獅子座_乙女座_天秤座_射手座_蠍座_山羊座_水瓶座_魚座'.split('_'),
   // 二十四节气

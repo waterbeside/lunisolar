@@ -1,4 +1,4 @@
-export default {
+const en: ILocale = {
   name: 'en',
   leap: 'leap',
   lunarYearUnit: '',
@@ -41,7 +41,7 @@ export default {
     }
     return res
   })(),
-  numberString: '0123456789'.split(''),
+  numerals: '0123456789'.split(''),
   constellationName:
     'Aries_Taurus_Gemini_Cancer_Leo_Virgo_Libra_Scorpio_Sagittarius_Capricorn_Aquarius_Pisces'.split(
       '_'
@@ -75,5 +75,7 @@ export default {
   ],
   // 五行
   fiveElements: ['Wood', 'Fire', 'Earth', 'Metal', 'Water'],
-  meridiem: null
+  meridiem: undefined
 }
+
+export default en

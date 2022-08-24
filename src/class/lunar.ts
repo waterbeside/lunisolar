@@ -155,9 +155,9 @@ export class Lunar {
   getYearName(): string {
     let res = ''
     let year = this._y
-    const numberString = _GlobalConfig.locales[this._config.lang].numberString
+    const numerals = _GlobalConfig.locales[this._config.lang].numerals
     while (year) {
-      const s = numberString[year % 10]
+      const s = numerals[year % 10]
       res = s + res
       year = Math.floor(year / 10)
     }
