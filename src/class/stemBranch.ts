@@ -161,7 +161,8 @@ export class SB {
   }
 
   toString(): string {
-    return `${this._stem}${this._branch}`
+    const locale = _GlobalConfig.locales[this._config.lang]
+    return `${this._stem}${locale?.stemBranchSeparator ?? ''}${this._branch}`
   }
 
   valueOf(): number {
