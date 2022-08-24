@@ -74,5 +74,6 @@ export default {
     'Pig'
   ],
   // 五行
-  fiveElements: ['Wood', 'Fire', 'Earth', 'Metal', 'Water']
+  fiveElements: ['Wood', 'Fire', 'Earth', 'Metal', 'Water'],
+  meridiem: null
 }
