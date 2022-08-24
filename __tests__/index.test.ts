@@ -1,4 +1,5 @@
 import lunisolar from '../src'
+import en from '../src/locale/en'
 
 describe('lunisolar().char8', () => {
   it('更改换岁时机, 冬至换岁，中气换月', () => {
@@ -27,6 +28,14 @@ describe('lunisolar().char8', () => {
     expect(lunisolar('2022-02-4', { changeAgeTerm: null }).format('cY cM cD')).toBe(
       '壬寅 壬寅 戊子'
     )
+  })
+
+  it('test en', () => {
+    lunisolar.locale(en)
+    lunisolar.config({
+      lang: 'zh'
+    })
+    expect(lunisolar('2017-12-01', { lang: 'en' }).char8.month.toString()).toBe('Xin-Hai')
   })
 })
 
