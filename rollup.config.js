@@ -7,6 +7,7 @@ import { terser } from 'rollup-plugin-terser'
 import copy from 'rollup-plugin-copy'
 import clear from 'rollup-plugin-clear'
 import pkg from './package.json'
+import { config } from 'process'
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx']
 
@@ -65,10 +66,10 @@ const configs = [
   })
 ]
 
+// 对指定dir打包的配置
 const configDir = dir => {
   const dirPath = path.join(__dirname, 'src', dir)
   const dirNames = fs.readdirSync(dirPath)
-  console.log('dirname', dirNames)
   for (const dirName of dirNames) {
     const config = configFactory({
       name: dirName,
@@ -81,7 +82,27 @@ const configDir = dir => {
   }
 }
 
+// 对插件语言包进行打包的配置
+const configPluginLocaleDir = () => {
+  const dirPath = path.join(__dirname, 'src', 'plugins')
+  const dirNames = fs.readdirSync(dirPath)
+  for (const dirName of dirNames) {
+    const localePath = path.join(dirPath, dirName, 'locale')
+    const localeNames = fs.readdirSync(localePath)
+    for (const localeName of localeNames) {
+      const config = configFactory({
+        name: localeName,
+        input: path.join(localePath, localeName),
+        filePath: path.join(__dirname, 'plugins', dirName, 'locale'),
+        fileName: /\.(js|ts)$/.test(localeName) ? localeName.slice(0, -3) : localeName
+      })
+      configs.push(config)
+    }
+  }
+}
+
 configDir('plugins')
 configDir('locale')
+configPluginLocaleDir()
 
 export default configs
