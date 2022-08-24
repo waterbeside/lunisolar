@@ -1,6 +1,6 @@
 # lunisolar
 
-**lunisolar** 是一个使用Typescript编写的农历库, 可取得各类农历数据
+**lunisolar** 是一个使用`Typescript`编写的农历库, 可取得各类农历数据
 
 具体包含以下功能：
 
@@ -10,7 +10,7 @@
 - 每日胎神 (done)
 - 时辰凶吉 (planning)
 - 宜忌 (planning)
-- 纳音 (planning)
+- 纳音 (done)
 - 十二日建 (planning)
 - ...更多功能开发中
 
@@ -174,7 +174,7 @@ import * as dayjs from 'dayjs'
 ```html
 <script src="path/to/lunisolar.js"></script>
 <!-- or src from unpkg -->
-<script src="https://unpkg.com/lunisolar@0.0.6/dist/lunisolar.js"></script>
+<script src="https://unpkg.com/lunisolar@0.1.0/dist/lunisolar.js"></script>
 ```
 
 ## 2 解释 (创建Lunisolar对象)
@@ -242,7 +242,7 @@ lunisolar('2022/07/18 14:40').format('lY年 lM(lL)lD lH時') // '二〇二二年
 lunisolar('2022/07/18 14:40').format('lYn年 農歷lMn月lDn日 第lHn個時辰') // '2022年 農歷6月20日 第8個時辰'
 lunisolar('2022/07/18 14:40').format('cY cM cD cH') // '壬寅 丁未 壬申 丁未'
 lunisolar('2022/07/18 14:40').format('[八字：] cY cM cD cH') // '八字：壬寅 丁未 壬申 丁未'
-lunisolar('2022/03/10').format('zo年') // '虎年'
+lunisolar('2022/03/10').format('cZ年') // '虎年'
 lunisolar('2022/03/10').format('cYs-cYb cMs-cMb cDs-cDb cHs-cHb') // ''壬-寅 丁-未 壬-申 丁-未''
 ```
 
@@ -274,7 +274,7 @@ lunisolar('2022/03/10').format('cYs-cYb cMs-cMb cDs-cDb cHs-cHb') // ''壬-寅 �
 | cH | 甲子 | 八字日柱 |
 | cHs  | 甲 | 八字日柱天干 |
 | cHb  | 子 | 八字日柱地支 |
-| zo  | 鼠 | 生肖 （立春换岁，可通过config设置换岁时机） |
+| cZ  | 鼠 | 生肖 （立春换岁，可通过config设置换岁时机） |
 | t  | 1-24 | 节气，从小寒到冬至的序号，从1开始，如果该日不是节气，返回空字符串 |
 | T  | 小寒-冬至 | 节气字符串，如果该日不是节气，返回空字符串 |
 | YY  |  18 | 年，两位数 |
@@ -524,10 +524,10 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 示例：
 
 ```typescript
-import advanced from 'lunisolar/plugins/advanced'
+import fetalGod from 'lunisolar/plugins/fetalGod'
 import lunisolar from 'lunisolar'
 
-lunisolar.extend(advanced)
+lunisolar.extend(fetalGod)
 
 const lsr = lunisolar('2022-07-08')
 lsr.fetalGod // 倉庫棲外東南
@@ -548,7 +548,7 @@ fetalGodData 包含以下属性
 
 ## 8 纳音
 
-查询胎神要先导入 advanced 插件，
+查询胎神要先导入 takeSound 插件，
 
 之后可使用lunisolar().fetalGod 取得胎神描述，
 
@@ -557,10 +557,10 @@ fetalGodData 包含以下属性
 示例：
 
 ```typescript
-import advanced from 'lunisolar/plugins/advanced'
+import takeSound from 'lunisolar/plugins/takeSound'
 import lunisolar from 'lunisolar'
 
-lunisolar.extend(advanced)
+lunisolar.extend(takeSound)
 
 /**
   加载advance插件后，
@@ -621,4 +621,83 @@ lunisolar.extend(plugin)
 lunisolar().showExample // 'hello'
 ```
 
-## **（待续...）**
+## 国际化
+
+`lunisolar`返回数据默认用`繁体中文`，主要考虑到这类使用人群往往有繁体需求，而且繁体也易于直接翻译成简体（由于一简对多繁，繁体可直接转为简体，但简体不能直接转为繁体）。
+
+尽管如此，lunisolar还是支持更改语言包。方法如下：
+
+```javascript
+import lunisolar from 'lunisolar'
+// 加载英文语言包
+import en from 'lunisolar/locale/en' 
+lunisolar.locale(en)
+// 此时，lunisolar将全属使用en作为默认语言
+lunisolar('2017-12-01').char8.month.toString() // Xin-Hai
+
+// 如果不想使用en作为全局默认语言，可通以下方法更改全局配置
+lunisolar.config({
+  lang: 'zh' // 设换默认语言为繁体中文
+})
+
+lunisolar('2017-12-01').char8.month.toString() // 辛亥
+
+// 局部使用指定语言 （须已先以lunisolar.locale()方法加载对应语言包）
+lunisolar('2017-12-01', { lang: 'en' }).char8.month.toString() // Xin-Hai
+
+```
+
+lunisolar内置的语言包有：
+
+```typescript
+// zh 繁体中文 (默认自动加载，请勿重复加载)
+import zh from 'lunisolar/locale/zh' 
+// zh-cn 简体中文
+import zhCn from 'lunisolar/locale/zh-cn' 
+// en 英文
+import en from 'lunisolar/locale/en' 
+// ja 日文
+import ja from 'lunisolar/locale/ja'
+```
+
+### * 加载插件语言包
+
+使用内置插件时，需要另外加载插件的语言包 （**默认使用的繁体中文无需手动加载**）
+
+```typescript
+import lunisolar from 'lunisolar'
+import en from 'lunisolar/locale/en'
+import takeSound from 'lunisolar/plugins/takeSound'
+import takeSoundEn from 'lunisolar/plugins/takeSound/locale/en'
+
+lunisolar.locale(en).locale(takeSoundEn)
+
+```
+
+### * 对语言包进行自定义
+
+你可以对载入后的语言包进行修改，或者自定义一个语言包对原有的进行覆盖
+
+例如:
+
+```typescript
+import lunisolar from 'lunisolar'
+import type { Locale } from 'lunisolar'
+// 自定义语言包
+const myZh: Locale = {
+  name: 'zh' // 此项必需设置，指定要自义的语言, 可设为任意字符串，如果设为已导入的语言名，后续设置的项将会覆盖原有项
+  numerals: '零一二三四五六七八九十'.split(''),
+  stems: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+  branchs: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']
+}
+
+// 载入语言包
+lunisolar.locale(myZh)
+
+lunisolar('2022/07/18 14:40').format('lY年 lMlD lH時') //  返回内容变成'二零二二年 六月二十 H時' 原本为 '二〇二二年 六月二十 未時'
+lunisolar('2022/07/18 14:40').format('cY') // 返回内容变成'iC' 原本为 '壬寅'
+```
+
+> 具体设置项可参考项目中的语言包， `/src/locale/zh.ts`
+>
+> 自定义语言包时，并非所有项都是必填的，未配置的项会默认使用zh语言包所设置的数据。
