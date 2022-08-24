@@ -74,7 +74,7 @@ describe('test format', () => {
     expect(lsr.format('lY年 lM(lL)lD lH時')).toBe('二〇二二年 六月(大)二十 未時')
     expect(lsr.format('lYn年 農歷lMn月lDn日 第lHn個時辰')).toBe('2022年 農歷6月20日 第8個時辰')
     expect(lsr.format('cY cM cD cH')).toBe('壬寅 丁未 壬申 丁未')
-    expect(lsr.format('zo年')).toBe('虎年')
+    expect(lsr.format('cZ年')).toBe('虎年')
     expect(lsr.format('cYs-cYb cMs-cMb cDs-cDb cHs-cHb')).toBe('壬-寅 丁-未 壬-申 丁-未')
   })
 })
