@@ -16,7 +16,7 @@
 
 ## 快速上手
 
-```javascript
+```typescript
 // 引入
 import lunisolar from 'lunisolar'
 
@@ -576,6 +576,25 @@ lsr.takeSound // 大海水 （取得日干支的纳音 等同于）
 
 expect().toBe('大海水')
 ```
+
+## 建除十二神
+
+**建除十二神**，又称**十二值神**。即 “`建、除、满、平、定、执、破、危、成、收、开、闭`”共十二位神，每日轮值，周而复始，观所值以定吉凶。
+
+查询十二值神，先加载`dayGods`插件, 然后通过 lunisolar().duty12God 属性取得当日的值神
+
+示例：
+
+```typescript
+import lunisolar from 'lunisolar'
+import dayGods from 'lunisolar/plugins/dayGods'
+
+lunisolar.extend(dayGods)
+lunisolar('2022-08-11').duty12God  // 建
+lunisolar('2022-08-16').duty12God  // 執
+lunisolar('2022-08-25').duty12God  // 滿
+```
+
 
 ## 插件 plugins
 
