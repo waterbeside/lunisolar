@@ -8,10 +8,10 @@
 - 八字查询 (done)
 - 节气日期查询 (done)
 - 每日胎神 (done)
+- 纳音 (done)
+- 建除十二神 (done)
 - 时辰凶吉 (planning)
 - 宜忌 (planning)
-- 纳音 (done)
-- 十二日建 (planning)
 - ...更多功能开发中
 
 ## 快速上手
