@@ -174,7 +174,7 @@ import * as lunisolar from 'lunisolar'
 ```html
 <script src="path/to/lunisolar.js"></script>
 <!-- or src from unpkg -->
-<script src="https://unpkg.com/lunisolar@0.1.0/dist/lunisolar.js"></script>
+<script src="https://unpkg.com/lunisolar@0.2.0/dist/lunisolar.js"></script>
 ```
 
 ## 2 解释 (创建Lunisolar对象)
@@ -588,7 +588,6 @@ lunisolar('2022-08-11').duty12God  // 建
 lunisolar('2022-08-16').duty12God  // 執
 lunisolar('2022-08-25').duty12God  // 滿
 ```
-
 
 ## 插件 plugins
 
