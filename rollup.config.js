@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import resolve from '@rollup/plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
+import commonjs from '@rollup/plugin-commonjs'
 import ts from 'rollup-plugin-typescript2'
 import { terser } from 'rollup-plugin-terser'
 import copy from 'rollup-plugin-copy'
