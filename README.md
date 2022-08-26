@@ -60,15 +60,9 @@ d.char8.year.branch.hiddenStems // [甲, 丙, 戊]  （地支藏干的天干对�
 // 节气
 lunisolar('2022-07-23').solarTerm?.toString() // 大暑 （返回当天的节气，如果不是节气则solarTerm().solarTerm返回null）
 
-
-
-
-
 ```
 
 ## 前言
-
-> 此处会讲一些概念问题，请先了解
 
 ### * 阴历和阳历
 
@@ -138,6 +132,10 @@ F为与1900年1月0日的日期差，y为与1900年的年差，x为每年的节�
 
 传统子时是每一天的开始，子时对应的时间为 [23:00, 01:00), 所以lunisolar会在23:00进行换日。
 
+### * 其它
+
+[moment.js](https://github.com/moment/moment) 和 [dayjs](https://github.com/iamkun/dayjs) 是两个比较出名的时间工具库，为了符合大家的使用习惯，`lunisolar`针对公历（格里历）的部分操作将会尽量向`dayjs`看齐，并参考了其代码设计，但并不会cover它们的所有功能，如果你仅仅是对公历进行操作，推荐使用**dayjs**。lunisolar重点在于农历部分，例如`Lunisolar`的`format`方法和`diff`方法包含`dayjs`这两个方法的功能并与之保持一致，同时加入了对农历的处理，具体功能及使用请继续阅读文档。
+
 ## 1 安装
 
 ### 1.1 Nodejs
@@ -168,7 +166,7 @@ import lunisolar from 'lunisolar'
 否则你必需这样引入:
 
 ```typescript
-import * as dayjs from 'dayjs'
+import * as lunisolar from 'lunisolar'
 ```
 
 ### 1.2 浏览器直接通过script引入
@@ -209,10 +207,6 @@ const lsr2 = lsr.clone()
 ```
 
 ## 3 Lunisolar对象
-
-> [moment.js](https://github.com/moment/moment) 和 [dayjs](https://github.com/iamkun/dayjs) 是两个比较出名的时间工具库，为了符合大家的使用习惯，`lunisolar`针对公历（格里历）的部分操作将会尽量向dayjs(moment.js)看齐，但并不会cover它们的所有功能，如果你仅仅是对公历进行操作，推荐使用`dayjs`。
-> lunisolar重点在于农历部分。
-> `Lunisolar`的`format`方法和`diff`方法包含`dayjs`这两个方法的功能并与之保持一致，同时加入了对农历的处理，具体使用请继续阅读文档
 
 通过`lunisolar()`函数获得一个`Lunisolar`实例
 
