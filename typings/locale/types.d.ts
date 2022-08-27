@@ -75,6 +75,14 @@ interface LocaleData {
    */
   fiveElements: string[]
   /**
+   * Eight Trigram 八卦
+   *
+   * There are 5 Trigram in the array，
+   *
+   * like (坎 艮 震 巽 离 坤 兑 乾)
+   */
+  eightTrigram: string[]
+  /**
    * The format of the date
    */
   formats: {

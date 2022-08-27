@@ -53,3 +53,18 @@ export const padZoneStr = (instance: lunisolar.Lunisolar) => {
     minuteOffset
   ).padStart(2, '0')}`
 }
+
+/**
+ * 天干納甲 通過天干取得八卦
+  ```
+   乾纳甲壬，坤纳乙癸，
+   震纳庚，巽纳辛，
+   坎纳戊，离纳己，
+   艮纳丙，兑纳丁
+  ```
+ * @param stemValue 天干索引
+ * @returns 返回八卦索引值
+ */
+export const getTrigramValueByStem = function (stemValue: number): number {
+  return [7, 0, 4, 3, 2, 5, 1, 5, 7, 0][stemValue]
+}

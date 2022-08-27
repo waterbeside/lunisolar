@@ -1,6 +1,8 @@
 import { HIDDEN_STEMS } from '../constants/calendarData'
 import { Element5 } from './element5'
 import { _GlobalConfig } from '../config'
+import { getTrigramValueByStem } from '../utils'
+import Trigram8 from './trigram8'
 
 /**
  * 地支
@@ -99,6 +101,10 @@ export class Stem {
     if (this._e5) return this._e5
     this._e5 = new Element5(Math.floor(this._value / 2), this._config)
     return this._e5
+  }
+
+  get trigram8(): Trigram8 {
+    return new Trigram8(getTrigramValueByStem(this._value), this._config)
   }
 
   toString(): string {
