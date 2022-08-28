@@ -95,6 +95,15 @@ declare namespace lunisolar {
   }
 
   /**
+   * class 八卦
+   */
+  export class Trigram8 {
+    constructor(value: number, config?: ClassCommonConfig)
+    toString(): string
+    valueOf(): number
+  }
+
+  /**
    * class 天干
    * @param value 天干索引 | 天干名稱 | 天干實例
    */
@@ -119,6 +128,10 @@ declare namespace lunisolar {
      * 天干的五行属性
      */
     e5: Element5
+    /**
+     天干纳甲卦
+     */
+    trigram8: Trigram8
   }
 
   /**
