@@ -1,76 +1,29 @@
-const branchValue = (lsr: lunisolar.Lunisolar, ymdh: 'year' | 'month' | 'day' | 'hour') =>
-  lsr.char8[ymdh].branch.value
-
-const stemValue = (lsr: lunisolar.Lunisolar, ymdh: 'year' | 'month' | 'day' | 'hour') =>
-  lsr.char8[ymdh].stem.value
-
-// 年神順行檢查
-function branchOrderYearGodFunc(offset: number): CheckGodFunc {
-  return getCheckGodFunc(lsr => (branchValue(lsr, 'year') + offset) % 12, branchValue)
-}
-
-// 年神逆行檢查
-function branchReorderYearGodFunc(offset: number): CheckGodFunc {
-  return getCheckGodFunc(
-    lsr => ([0, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1][branchValue(lsr, 'year')] + offset) % 12,
-    branchValue
-  )
-}
-
-function getCheckGodFunc<T = number>(
-  resFrom: (lsr: lunisolar.Lunisolar) => T,
-  resTo: (lsr: lunisolar.Lunisolar, ymdh: 'year' | 'month' | 'day' | 'hour') => T
-): CheckGodFunc
-function getCheckGodFunc<T = number, U = T>(
-  resFrom: (lsr: lunisolar.Lunisolar) => T,
-  resTo: (lsr: lunisolar.Lunisolar, ymdh: 'year' | 'month' | 'day' | 'hour') => U,
-  compareSymbol: 'includes'
-): CheckGodFunc
-function getCheckGodFunc<T = number, U = T>(
-  resFrom: (lsr: lunisolar.Lunisolar) => T,
-  resTo: (lsr: lunisolar.Lunisolar, ymdh: 'year' | 'month' | 'day' | 'hour') => U,
-  compareSymbol: string = '='
-): CheckGodFunc {
-  function func<T = number>(lsr: lunisolar.Lunisolar): T
-  function func<T = number>(lsr: lunisolar.Lunisolar, ymdh: null): T
-  function func(lsr: lunisolar.Lunisolar, ymdh: 'year' | 'month' | 'day' | 'hour'): boolean
-  function func(
-    lsr: lunisolar.Lunisolar,
-    ymdh: null | 'year' | 'month' | 'day' | 'hour' = null
-  ): T | boolean {
-    const res = resFrom(lsr)
-    if (!ymdh) return res
-    const to = resTo(lsr, ymdh)
-    return compareSymbol === 'includes' && Array.isArray(res)
-      ? res.includes(to)
-      : res === (to as unknown as T)
-  }
-  return func
-}
+import { branchValue, stemValue } from '../../utils'
+import {
+  getCommonCheckGodFunc,
+  getCheckGodFunc,
+  branchOrderYearGodFunc,
+  branchReorderYearGodFunc
+} from './utils'
 
 const godList: { [key: string]: GodDictItem } = {
   // key : [取得方法, [宜], [忌], 属于年月日时用四位二进程表示]
-  歲德: [getCheckGodFunc(lsr => Number('06284'[stemValue(lsr, 'year') % 5]), stemValue), [], [], 8],
-  歲德合: [
-    getCheckGodFunc(lsr => Number('51739'[stemValue(lsr, 'year') % 5]), stemValue),
-    [],
-    [],
-    8
-  ],
+  歲德: [getCommonCheckGodFunc('06284', stemValue, 'year', 5, stemValue), [], [], 8],
+  歲德合: [getCommonCheckGodFunc('51739', stemValue, 'year', 5, stemValue), [], [], 8],
   歲禄: [
-    getCheckGodFunc(lsr => [2, 3, 5, 6, 5, 6, 8, 9, 11, 0][stemValue(lsr, 'year')], branchValue),
+    getCommonCheckGodFunc([2, 3, 5, 6, 5, 6, 8, 9, 11, 0], stemValue, 'year', 0, branchValue),
     [],
     [],
     8
   ],
   陽貴: [
-    getCheckGodFunc(lsr => [7, 8, 9, 11, 1, 0, 1, 2, 3, 5][stemValue(lsr, 'year')], branchValue),
+    getCommonCheckGodFunc([7, 8, 9, 11, 1, 0, 1, 2, 3, 5], stemValue, 'year', 0, branchValue),
     [],
     [],
     8
   ],
   陰貴: [
-    getCheckGodFunc(lsr => [1, 0, 11, 9, 7, 8, 7, 6, 5, 3][stemValue(lsr, 'year')], branchValue),
+    getCommonCheckGodFunc([1, 0, 11, 9, 7, 8, 7, 6, 5, 3], stemValue, 'year', 0, branchValue),
     [],
     [],
     8

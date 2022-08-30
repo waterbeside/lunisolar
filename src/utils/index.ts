@@ -68,3 +68,17 @@ export const padZoneStr = (instance: lunisolar.Lunisolar) => {
 export const getTrigramValueByStem = function (stemValue: number): number {
   return [7, 0, 4, 3, 2, 5, 1, 5, 7, 0][stemValue]
 }
+
+// 取地支值
+export const branchValue: StemOrBranchValueFunc = (
+  lsr: lunisolar.Lunisolar,
+  ymdh: 'year' | 'month' | 'day' | 'hour',
+  div?: number
+) => (div ? lsr.char8[ymdh].branch.value % div : lsr.char8[ymdh].branch.value)
+
+// 取天干值
+export const stemValue: StemOrBranchValueFunc = (
+  lsr: lunisolar.Lunisolar,
+  ymdh: 'year' | 'month' | 'day' | 'hour',
+  div?: number
+) => (div ? lsr.char8[ymdh].stem.value % div : lsr.char8[ymdh].stem.value)

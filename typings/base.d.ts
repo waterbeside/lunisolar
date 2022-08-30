@@ -82,3 +82,9 @@ interface ILunisolar {
   [props: string]: any
   // add(value: number, unit?: Unit, config?: any): Lunisolar
 }
+
+type StemOrBranchValueFunc = (
+  lsr: lunisolar.Lunisolar,
+  ymdh: 'year' | 'month' | 'day' | 'hour',
+  div?: number
+) => number
