@@ -11,4 +11,4 @@ type CheckGodFunc = {
   <T = number>(lsr: Lunisolar, ymdh: null): T
   (lsr: Lunisolar, ymdh: 'year' | 'month' | 'day' | 'hour'): boolean
 }
-type GodDictItem = [CheckGodFunc, string[], string[], number]
+type GodDictItem = [CheckGodFunc, number]

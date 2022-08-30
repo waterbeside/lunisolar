@@ -1,16 +1,30 @@
 import { branchValue, stemValue } from '../../utils'
 
-// 年神順行檢查
-export function branchOrderYearGodFunc(offset: number): CheckGodFunc {
-  return getCheckGodFunc(lsr => (branchValue(lsr, 'year') + offset) % 12, branchValue)
+// 神煞地支順行
+export function branchAscGodFunc(
+  offset: number,
+  ymdh: 'year' | 'month' | 'day' | 'hour'
+): CheckGodFunc {
+  return getCheckGodFunc(lsr => (branchValue(lsr, ymdh) + offset) % 12, branchValue)
 }
 
-// 年神逆行檢查
-export function branchReorderYearGodFunc(offset: number): CheckGodFunc {
+// 神煞地支逆行
+export function branchDescGodFunc(
+  offset: number,
+  ymdh: 'year' | 'month' | 'day' | 'hour'
+): CheckGodFunc {
   return getCheckGodFunc(
-    lsr => ([0, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1][branchValue(lsr, 'year')] + offset) % 12,
+    lsr => ([0, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1][branchValue(lsr, ymdh)] + offset) % 12,
     branchValue
   )
+}
+
+// 神煞天干順行
+export function stemAscGodFunc(
+  offset: number,
+  ymdh: 'year' | 'month' | 'day' | 'hour'
+): CheckGodFunc {
+  return getCheckGodFunc(lsr => (stemValue(lsr, ymdh) + offset) % 10, stemValue)
 }
 
 export function getCheckGodFunc<T = number>(
@@ -49,10 +63,10 @@ export function getCommonCheckGodFunc(
   compareFromFunc: StemOrBranchValueFunc,
   fromYmdh: 'year' | 'month' | 'day' | 'hour',
   fromDiv: number,
-  compareToFunc: StemOrBranchValueFunc
+  compareToFunc?: StemOrBranchValueFunc
 ): CheckGodFunc {
   return getCheckGodFunc(
     lsr => Number(ruleArray[compareFromFunc(lsr, fromYmdh, fromDiv)]),
-    compareToFunc
+    compareToFunc || compareFromFunc
   )
 }

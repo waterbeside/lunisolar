@@ -82,3 +82,13 @@ export const stemValue: StemOrBranchValueFunc = (
   ymdh: 'year' | 'month' | 'day' | 'hour',
   div?: number
 ) => (div ? lsr.char8[ymdh].stem.value % div : lsr.char8[ymdh].stem.value)
+
+// 取天干八卦
+export const stemTrigram8Value: StemOrBranchValueFunc = (
+  lsr: lunisolar.Lunisolar,
+  ymdh: 'year' | 'month' | 'day' | 'hour',
+  div?: number
+) => {
+  const res = lsr.char8[ymdh].stem.trigram8.valueOf()
+  return div ? res % div : res
+}
