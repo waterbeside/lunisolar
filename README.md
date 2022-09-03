@@ -438,7 +438,7 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | --- | ---  | --- | --- |
 | value | 天干索引值，范围[0, 9]  | | number |
 | e5 | 五行属性对象 | | [Element5](#56-element5五行对象) |
-| trigram8 | 纳甲配卦 | | [Trigram8](#57-trigram8-八卦)
+| trigram8 | 纳甲配卦 | | [Trigram8](#57-trigram8-八卦对象)
 | valueOf()      | 返回天干索引值 | | number |
 | toString()     | 返回天干字符串| | string |
 
@@ -449,6 +449,7 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | value | 地支索引值，范围[0, 11]  | | number |
 | e5 | 五行属性对象 | | [Element5](#56-element5五行对象) |
 | hiddenStems | 取得地支所藏的天干对象列表，长度最多3个，分别为 `[本气, 中 气, 余气]` | | Stem[] |
+| triad | 三合地支, 返回当前地支的另外两个与之三合的地支 | | [Branch, Branch] |
 | valueOf()      | 返回地支索引值 | | number |
 | toString()     | 返回地支字符串| | string |
 
