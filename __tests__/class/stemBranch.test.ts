@@ -1,4 +1,4 @@
-import { SB } from '../../src/class/stemBranch'
+import { SB, Branch } from '../../src/class/stemBranch'
 // import * as U from '../../src/utils'
 
 const testData = [
@@ -24,5 +24,17 @@ describe('SB', () => {
         })()
       ).toBe(testData[i])
     }
+  })
+})
+
+describe('branch triad', () => {
+  it('test 寅', () => {
+    expect(new Branch('寅').triad.map(item => item.toString())).toEqual(['午', '戌'])
+  })
+  it('test 午', () => {
+    expect(new Branch('午').triad.map(item => item.toString())).toEqual(['戌', '寅'])
+  })
+  it('test 子', () => {
+    expect(new Branch('子').triad.map(item => item.toString())).toEqual(['辰', '申'])
   })
 })
