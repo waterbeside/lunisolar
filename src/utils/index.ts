@@ -70,21 +70,21 @@ export const getTrigramValueByStem = function (stemValue: number): number {
 }
 
 // 取地支值
-export const branchValue: StemOrBranchValueFunc = (
+export const getBranchValue: StemOrBranchValueFunc = (
   lsr: lunisolar.Lunisolar,
   ymdh: 'year' | 'month' | 'day' | 'hour',
   div?: number
 ) => (div ? lsr.char8[ymdh].branch.value % div : lsr.char8[ymdh].branch.value)
 
 // 取天干值
-export const stemValue: StemOrBranchValueFunc = (
+export const getStemValue: StemOrBranchValueFunc = (
   lsr: lunisolar.Lunisolar,
   ymdh: 'year' | 'month' | 'day' | 'hour',
   div?: number
 ) => (div ? lsr.char8[ymdh].stem.value % div : lsr.char8[ymdh].stem.value)
 
 // 取天干八卦
-export const stemTrigram8Value: StemOrBranchValueFunc = (
+export const getStemTrigram8Value: StemOrBranchValueFunc = (
   lsr: lunisolar.Lunisolar,
   ymdh: 'year' | 'month' | 'day' | 'hour',
   div?: number

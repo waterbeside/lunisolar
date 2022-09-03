@@ -1,11 +1,11 @@
-import { branchValue, stemValue } from '../../utils'
+import { getBranchValue, getStemValue } from '../../utils'
 
 // 神煞地支順行
 export function branchAscGodFunc(
   offset: number,
   ymdh: 'year' | 'month' | 'day' | 'hour'
 ): CheckGodFunc {
-  return getCheckGodFunc(lsr => (branchValue(lsr, ymdh) + offset) % 12, branchValue)
+  return getCheckGodFunc(lsr => (getBranchValue(lsr, ymdh) + offset) % 12, getBranchValue)
 }
 
 // 神煞地支逆行
@@ -14,8 +14,8 @@ export function branchDescGodFunc(
   ymdh: 'year' | 'month' | 'day' | 'hour'
 ): CheckGodFunc {
   return getCheckGodFunc(
-    lsr => ([0, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1][branchValue(lsr, ymdh)] + offset) % 12,
-    branchValue
+    lsr => ([0, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1][getBranchValue(lsr, ymdh)] + offset) % 12,
+    getBranchValue
   )
 }
 
@@ -24,7 +24,7 @@ export function stemAscGodFunc(
   offset: number,
   ymdh: 'year' | 'month' | 'day' | 'hour'
 ): CheckGodFunc {
-  return getCheckGodFunc(lsr => (stemValue(lsr, ymdh) + offset) % 10, stemValue)
+  return getCheckGodFunc(lsr => (getStemValue(lsr, ymdh) + offset) % 10, getStemValue)
 }
 
 export function getCheckGodFunc<T = number>(
