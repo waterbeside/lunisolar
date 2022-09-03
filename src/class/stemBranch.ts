@@ -50,6 +50,15 @@ export class Branch {
     }
     return this._e5
   }
+  /**
+   * 三合
+   */
+  get triad(): [Branch, Branch] {
+    return [
+      new Branch((this._value + 4) % 12, this._config),
+      new Branch((this._value + 8) % 12, this._config)
+    ]
+  }
 
   toString(): string {
     return _GlobalConfig.locales[this._config.lang].branchs[this._value]

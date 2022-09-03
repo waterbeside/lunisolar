@@ -157,8 +157,15 @@ declare namespace lunisolar {
      * [本氣，中氣，余氣]
      * ```
      */
-    hiddenStems: Stem[]
-    e5: Element5
+    get hiddenStems(): Stem[]
+    /**
+     * 地支五行
+     */
+    get e5(): Element5
+    /**
+     * 三合
+     */
+    get triad(): [Branch, Branch]
   }
 
   /**
