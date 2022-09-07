@@ -338,6 +338,7 @@ declare namespace lunisolar {
     _solarTerm?: SolarTerm | null
     _lunar?: Lunar
     _char8?: Char8
+    _cache: { [key: string]: any }
     constructor(date?: DateParamType, config?: ConfigType)
     /**
      * get lunar object
@@ -376,6 +377,18 @@ declare namespace lunisolar {
      * 克隆Lunisolar對象
      */
     clone(): Lunisolar
+
+    /**
+     * 取得缓存
+     * @param key 缓存key
+     */
+    cache<T = any>(key: string): T | undefined
+    /**
+     * 设置缓存
+     * @param key 缓存key
+     * @param value 要设置的内容
+     */
+    cache<T = any>(key: string, value: T): void
     /**
      * Returns a timestamp in seconds
      */

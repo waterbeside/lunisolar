@@ -66,12 +66,15 @@ interface ILunisolar {
   _solarTerm?: Term | null
   _lunar?: Lunar
   _char8?: Char8
+  _cache: { [key: string]: any } = {}
   get lunar(): Lunar
   get char8(): Char8
   get solarTerm(): Term | null
   recentSolarTerm(nodeFlag: 0 | 1 | 2): [SolarTerm, Date]
   toDate(): Date
   clone(): Lunisolar
+  cache<T = any>(key: string): T | undefined
+  cache<T = any>(key: string, value: T): void
   unix(): number
   valueOf(): number
   utcOffset(): number
