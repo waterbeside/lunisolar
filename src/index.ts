@@ -4,6 +4,7 @@ import { SolarTerm } from './class/solarTerm'
 import { Char8 } from './class/char8'
 import { SB, Stem, Branch } from './class/stemBranch'
 import { Element5 } from './class/element5'
+import { Trigram8 } from './class/trigram8'
 import { _GlobalConfig } from './config'
 import zh from './locale/zh'
 
@@ -25,6 +26,7 @@ lunisolar.Stem = Stem
 lunisolar.Branch = Branch
 lunisolar.Element5 = Element5
 lunisolar.Lunisolar = Lunisolar
+lunisolar.Trigram8 = Trigram8
 
 /**
  * 更新全局配置

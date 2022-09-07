@@ -2,7 +2,7 @@ import { HIDDEN_STEMS } from '../constants/calendarData'
 import { Element5 } from './element5'
 import { _GlobalConfig } from '../config'
 import { getTrigramValueByStem } from '../utils'
-import Trigram8 from './trigram8'
+import { Trigram8 } from './trigram8'
 
 /**
  * 地支

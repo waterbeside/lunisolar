@@ -1,6 +1,6 @@
 import { _GlobalConfig } from '../config'
 
-export default class Trigram8 {
+export class Trigram8 {
   private _value: number = -1
   private _config = {
     lang: _GlobalConfig.lang
