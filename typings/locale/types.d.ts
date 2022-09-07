@@ -45,6 +45,10 @@ interface LocaleData {
    */
   solarTerm: string[]
   /**
+   * 季节
+   */
+  season: string[]
+  /**
    * Heavenly stem 天干
    *
    * There are 10 items in the array，

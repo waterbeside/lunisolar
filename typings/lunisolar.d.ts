@@ -366,6 +366,14 @@ declare namespace lunisolar {
      */
     recentSolarTerm(nodeFlag: 0 | 1 | 2): [SolarTerm, Date]
     /**
+     * 取得季节索引
+     */
+    getSeasonIndex(): number
+    /**
+     * 取得季节
+     */
+    getSeason(): string
+    /**
      * Returns a Date object for the current time
      *
      * 返回当前日期的Date对象

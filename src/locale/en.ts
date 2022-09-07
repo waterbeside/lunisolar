@@ -52,6 +52,8 @@ const en: ILocale = {
     'Moderate Cold,Severe Cold,Spring Commences,Spring Showers,Insects Waken,Vernal Equinox,Bright and Clear,Corn Rain,Summer Commences,Corn Forms,Corn on Ear,Summer Solstice,Moderate Heat,Great Heat,Autumn Commences,End of Heat,White Dew,Autumnal Equinox,Cold Dew,Frost,Winter Commences,Light Snow,Heavy Snow,Heavy Snow'.split(
       ','
     ),
+  // 季节
+  season: 'Spring,Summer,Autumn,Winter'.split(','),
   // https://www.hko.gov.hk/en/gts/time/stemsandbranches.htm
   // 天干   0      1      2       3      4     5      6       7     8     9
   stems: ['Jia', 'Yi', 'Bing', 'Ding', 'Wu', 'Ji', 'Geng', 'Xin', 'Ren', 'Gui'],

@@ -217,6 +217,8 @@ Lunisolar具有以下属性和方法
 | lunar      | 阴历数据对象 | | [Lunar](#42-lunar对象) |
 | char8      | 八字对象 | | [Char8](#52-char8对象) |
 | term       | 返回当前日期的节气对象，如果不是节气，返回null | | [Term](#6节气) \| null |
+| getSeason()  | 取得当前季节 | | string |
+| getSeasonIndex()  | 以春夏秋冬为顺序取得当前季节索引 | | number |
 | toDate()   | 返回Date对象 | | Date |
 | clone()    | 克隆当前Lunisolar对象 | | Lunisolar |
 | unix()     | 返回以秒为单位的时间戳 | | number |

@@ -71,6 +71,8 @@ interface ILunisolar {
   get char8(): Char8
   get solarTerm(): Term | null
   recentSolarTerm(nodeFlag: 0 | 1 | 2): [SolarTerm, Date]
+  getSeasonIndex(): number
+  getSeason(): string
   toDate(): Date
   clone(): Lunisolar
   cache<T = any>(key: string): T | undefined

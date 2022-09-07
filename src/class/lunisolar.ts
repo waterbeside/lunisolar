@@ -60,11 +60,30 @@ export class Lunisolar implements ILunisolar {
    * @param nodeFlag 取的节气点，0: 取节， 1: 取气, 2: 节或气都取
    */
   recentSolarTerm(nodeFlag: 0 | 1 | 2): [SolarTerm, Date] {
-    return SolarTerm.findNode<false>(this._date, {
+    const cacheKey = `recent_solar_term:${nodeFlag}`
+    const cache = this.cache<[SolarTerm, Date]>(cacheKey)
+    if (cache) return cache
+    const res = SolarTerm.findNode<false>(this._date, {
       lang: this._config.lang,
       nodeFlag,
       returnValue: false
     })
+    this.cache(cacheKey, cache)
+    return res
+  }
+
+  getSeasonIndex() {
+    const rst = this.recentSolarTerm(0)
+    const termVal = rst[0].value
+    if (2 <= termVal && termVal < 8) return 0
+    if (8 <= termVal && termVal < 14) return 1
+    if (14 <= termVal && termVal < 20) return 2
+    return 3
+  }
+
+  getSeason(): string {
+    const ssv = this.getSeasonIndex()
+    return _GlobalConfig.locales[this._config.lang].season[ssv]
   }
 
   toDate(): Date {
