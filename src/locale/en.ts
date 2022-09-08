@@ -53,7 +53,8 @@ const en: ILocale = {
       ','
     ),
   // 季节
-  season: 'Spring,Summer,Autumn,Winter'.split(','),
+  seasonName: 'Spring,Summer,Autumn,Winter'.split(','),
+  seasonShortName: 'Spr.,Sum.,Aut.,Win.'.split(','),
   // https://www.hko.gov.hk/en/gts/time/stemsandbranches.htm
   // 天干   0      1      2       3      4     5      6       7     8     9
   stems: ['Jia', 'Yi', 'Bing', 'Ding', 'Wu', 'Ji', 'Geng', 'Xin', 'Ren', 'Gui'],

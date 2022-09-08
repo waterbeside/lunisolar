@@ -47,7 +47,8 @@ interface LocaleData {
   /**
    * 季节
    */
-  season: string[]
+  seasonName: string[]
+  seasonShortName?: string[]
   /**
    * Heavenly stem 天干
    *
