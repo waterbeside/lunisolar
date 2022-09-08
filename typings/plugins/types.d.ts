@@ -9,8 +9,8 @@ type FetalGodData = {
 type YMDH = 'year' | 'month' | 'day' | 'hour'
 
 type CheckGodFunc = {
-  <T = number>(lsr: Lunisolar, fromYmdh: YMDH): T
-  <T = number>(lsr: Lunisolar, fromYmdh: YMDH, toYmdh: null): T
-  (lsr: Lunisolar, fromYmdh: YMDH, toYmdh: YMDH): boolean
+  <T = number>(lsr: Lunisolar, fromYmdh?: YMDH): T
+  <T = number>(lsr: Lunisolar, fromYmdh: YMDH | undefined, toYmdh: null): T
+  (lsr: Lunisolar, fromYmdh: YMDH | undefined, toYmdh: YMDH): boolean
 }
 type GodDictItem = [CheckGodFunc, number]
