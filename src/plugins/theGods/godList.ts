@@ -31,7 +31,7 @@ const godList: { [key: string]: GodDictItem } = {
           [2, 3, 6, 7, 0, 1],
           [2, 3, 10, 11],
           [8, 9, 0, 1]
-        ][getStemValue(lsr, ymdh, 5)],
+        ][getStemValue(lsr, ymdh ?? 'year', 5)],
       getBranchValue,
       'includes'
     ),
@@ -39,14 +39,14 @@ const godList: { [key: string]: GodDictItem } = {
   ],
   破敗五鬼: [
     getCheckGodFunc(
-      (lsr, ymdh) => [6, 4, 0, 1, 5, 2, 3, 7, 6, 4][getStemValue(lsr, ymdh)],
+      (lsr, ymdh = 'year') => [6, 4, 0, 1, 5, 2, 3, 7, 6, 4][getStemValue(lsr, ymdh)],
       getStemTrigram8Value
     ),
     8
   ],
   陰府太歲: [
     getCheckGodFunc<number[], number>(
-      (lsr, ymdh) =>
+      (lsr, ymdh = 'year') =>
         [
           [2, 6],
           [3, 7],
@@ -62,28 +62,28 @@ const godList: { [key: string]: GodDictItem } = {
   // 年神隨歲方順行者
   奏書: [
     getCheckGodFunc(
-      (lsr, ymdh) => [7, 7, 4, 4, 4, 6, 6, 6, 0, 0, 0, 7][getBranchValue(lsr, ymdh)],
+      (lsr, ymdh = 'year') => [7, 7, 4, 4, 4, 6, 6, 6, 0, 0, 0, 7][getBranchValue(lsr, ymdh)],
       getStemTrigram8Value
     ),
     8
   ],
   博士: [
     getCheckGodFunc(
-      (lsr, ymdh) => [6, 6, 0, 0, 0, 7, 7, 7, 4, 4, 4, 6][getBranchValue(lsr, ymdh)],
+      (lsr, ymdh = 'year') => [6, 6, 0, 0, 0, 7, 7, 7, 4, 4, 4, 6][getBranchValue(lsr, ymdh)],
       getStemTrigram8Value
     ),
     8
   ],
   力士: [
     getCheckGodFunc(
-      (lsr, ymdh) => [4, 4, 6, 6, 6, 0, 0, 0, 7, 7, 7, 4][getBranchValue(lsr, ymdh)],
+      (lsr, ymdh = 'year') => [4, 4, 6, 6, 6, 0, 0, 0, 7, 7, 7, 4][getBranchValue(lsr, ymdh)],
       getStemTrigram8Value
     ),
     8
   ],
   蠶室: [
     getCheckGodFunc(
-      (lsr, ymdh) => [0, 0, 7, 7, 7, 4, 4, 4, 6, 6, 6, 0][getBranchValue(lsr, ymdh)],
+      (lsr, ymdh = 'year') => [0, 0, 7, 7, 7, 4, 4, 4, 6, 6, 6, 0][getBranchValue(lsr, ymdh)],
       getStemTrigram8Value
     ),
     8
@@ -251,12 +251,172 @@ const godList: { [key: string]: GodDictItem } = {
   天吏: [getCommonCheckGodFunc([3, 0, 9, 6], getBranchValue, 4), 4],
   九空: [getCommonCheckGodFunc([10, 7, 4, 1], getBranchValue, 4), 4],
   月刑: [getCommonCheckGodFunc([3, 10, 5, 0, 4, 8, 6, 1, 2, 9, 7, 11], getBranchValue, 0), 4],
+  // 月神随四季者
+  大赦: [
+    getCheckGodFunc(
+      lsr => [14, 30, 44, 0][lsr.getSeasonIndex()],
+      (lsr, ymdh) => lsr.char8[ymdh].value
+    ),
+    4
+  ],
+  母倉: [
+    getCheckGodFunc(
+      lsr =>
+        [
+          [11, 0],
+          [2, 3],
+          [4, 7, 10, 1],
+          [8, 9]
+        ][lsr.getSeasonIndex()],
+      getBranchValue,
+      'includes'
+    ),
+    4
+  ],
+  四相: [
+    getCheckGodFunc(
+      // '丙丁', '戊己', '壬癸', '甲乙'
+      lsr =>
+        [
+          [2, 3],
+          [4, 5],
+          [8, 9],
+          [0, 1]
+        ][lsr.getSeasonIndex()],
+      getStemValue,
+      'includes'
+    ),
+    4
+  ],
+  時德: [
+    getCheckGodFunc(
+      // '午辰子寅'
+      lsr => [6, 4, 0, 2][lsr.getSeasonIndex()],
+      getBranchValue
+    ),
+    4
+  ],
+  王日: [
+    getCheckGodFunc(
+      // '寅巳申亥'
+      lsr => [2, 5, 8, 11][lsr.getSeasonIndex()],
+      getBranchValue
+    ),
+    4
+  ],
+  官日: [
+    getCheckGodFunc(
+      // '卯午酉子'
+      lsr => [3, 6, 9, 0][lsr.getSeasonIndex()],
+      getBranchValue
+    ),
+    4
+  ],
+  守日: [
+    getCheckGodFunc(
+      // '辰未戌丑'
+      lsr => [4, 7, 10, 1][lsr.getSeasonIndex()],
+      getBranchValue
+    ),
+    4
+  ],
+  相日: [
+    getCheckGodFunc(
+      // '巳申亥寅'
+      lsr => [5, 8, 11, 2][lsr.getSeasonIndex()],
+      getBranchValue
+    ),
+    4
+  ],
+  民日: [
+    getCheckGodFunc(
+      // '午酉子卯'
+      lsr => [6, 9, 0, 3][lsr.getSeasonIndex()],
+      getBranchValue
+    ),
+    4
+  ],
+  四擊: [
+    getCheckGodFunc(
+      // '戌丑辰未'
+      lsr => [10, 1, 4, 7][lsr.getSeasonIndex()],
+      getBranchValue
+    ),
+    4
+  ],
+  四忌: [
+    getCheckGodFunc(
+      // '甲子', '丙子', '庚子', '壬子
+      lsr => [0, 12, 36, 48][lsr.getSeasonIndex()],
+      (lsr, ymdh) => lsr.char8[ymdh].value
+    ),
+    4
+  ],
+  四窮: [
+    getCheckGodFunc(
+      // '乙亥', '丁亥', '辛亥', '癸亥'
+      lsr => [11, 23, 47, 59][lsr.getSeasonIndex()],
+      (lsr, ymdh) => lsr.char8[ymdh].value
+    ),
+    4
+  ],
+  四耗: [
+    getCheckGodFunc(
+      // '壬子', '乙卯', '戊午', '辛酉'
+      lsr => [48, 51, 54, 57][lsr.getSeasonIndex()],
+      (lsr, ymdh) => lsr.char8[ymdh].value
+    ),
+    4
+  ],
+  四廢: [
+    getCheckGodFunc(
+      // '庚申辛酉', '壬子癸亥', '甲寅乙卯', '丙午丁巳'
+      lsr =>
+        [
+          [56, 57],
+          [48, 59],
+          [50, 51],
+          [53, 42]
+        ][lsr.getSeasonIndex()],
+      (lsr, ymdh) => lsr.char8[ymdh].value,
+      'includes'
+    ),
+    4
+  ],
+  五虛: [
+    getCheckGodFunc(
+      // '巳酉丑', '申子辰', '亥卯未', '寅午戌'
+      lsr =>
+        [
+          [5, 9, 1],
+          [8, 0, 4],
+          [11, 3, 7],
+          [2, 6, 10]
+        ][lsr.getSeasonIndex()],
+      getBranchValue,
+      'includes'
+    ),
+    4
+  ],
+  八風: [
+    getCheckGodFunc(
+      // '丁丑丁巳', '甲辰甲申', '丁未丁亥', '甲戌甲寅'
+      lsr =>
+        [
+          [13, 53],
+          [40, 20],
+          [43, 23],
+          [10, 50]
+        ][lsr.getSeasonIndex()],
+      (lsr, ymdh) => lsr.char8[ymdh].value,
+      'includes'
+    ),
+    4
+  ],
   // 月神隨月建三合逆行一方者
-
-  // 九坎九焦
   九坎: [getCommonCheckGodFunc([8, 5, 4, 1, 10, 7, 3, 0, 9, 6, 2, 11], getBranchValue, 0), 4],
   // 月神随四序行三合者
-  土符: [getCommonCheckGodFunc([8, 0, 1, 5, 9, 2, 6, 10, 3, 7, 11, 4], getBranchValue, 0), 4],
+  土符: [getCommonCheckGodFunc([8, 0, 1, 5, 9, 2, 6, 10, 3, 7, 11, 4], getBranchValue, 0), 4]
   // 月神随月建逆行一方者
   // 大煞
   // 月神隨月建三合順行一方者
