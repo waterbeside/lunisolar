@@ -372,7 +372,9 @@ declare namespace lunisolar {
     /**
      * 取得季节
      */
-    getSeason(): string
+    getSeason(isShortName?: boolean): string
+
+    getLocale(lang?: string): LocaleData
     /**
      * Returns a Date object for the current time
      *
@@ -468,4 +470,11 @@ declare namespace lunisolar {
    * @param localeData 语言包, 可以存入单个或多个，多个则以数组形式传入，最后一个语言包会覆盖前面的。
    */
   export function locale(localeData: ILocale | ILocale[]): typeof lunisolar
+
+  /**
+   * 取得语言包
+   *
+   * @param lang 语言名称，如en, zh等
+   */
+  export function getLocale(lang: string): LocaleData
 }

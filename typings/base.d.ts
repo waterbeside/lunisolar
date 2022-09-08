@@ -72,7 +72,8 @@ interface ILunisolar {
   get solarTerm(): Term | null
   recentSolarTerm(nodeFlag: 0 | 1 | 2): [SolarTerm, Date]
   getSeasonIndex(): number
-  getSeason(): string
+  getSeason(isShortName?: boolean): string
+  getLocale(lang?: string): LocaleData
   toDate(): Date
   clone(): Lunisolar
   cache<T = any>(key: string): T | undefined
