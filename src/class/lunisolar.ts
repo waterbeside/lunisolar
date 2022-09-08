@@ -81,9 +81,16 @@ export class Lunisolar implements ILunisolar {
     return 3
   }
 
-  getSeason(): string {
+  getSeason(isShortName: boolean = false): string {
     const ssv = this.getSeasonIndex()
-    return _GlobalConfig.locales[this._config.lang].season[ssv]
+    const locale = this.getLocale()
+    return isShortName && locale.seasonShortName
+      ? locale.seasonShortName[ssv]
+      : locale.seasonName[ssv]
+  }
+
+  getLocale(lang?: string): LocaleData {
+    return _GlobalConfig.locales[lang ?? this._config.lang]
   }
 
   toDate(): Date {

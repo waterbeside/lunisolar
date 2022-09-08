@@ -69,6 +69,10 @@ lunisolar.locale = (localeData: ILocale | ILocale[]): typeof lunisolar => {
   return lunisolar
 }
 
+lunisolar.getLocale = (lang: string): LocaleData => {
+  return _GlobalConfig.locales[lang]
+}
+
 lunisolar.createLocale = (localeData: ILocale): ILocale => localeData
 
 lunisolar._globalConfig = _GlobalConfig
