@@ -24,26 +24,22 @@ const takeSoundPlugin: lunisolar.PluginFunc = async (options, lsClass, lsFactory
   // takeSound
   Object.defineProperty(sbProto, 'takeSound', {
     get(): string {
-      const _GlobalConfig = lsFactory._globalConfig
-
+      const locale = lsFactory.getLocale(this._config.lang)
+      console.log(locale)
       if (this._takeSoundValue === undefined) {
         this._takeSoundValue = ((this as lunisolar.SB).value >> 1) % 30
       }
-      return (_GlobalConfig.locales[this._config.lang] as LocaleDataEx).takeSound[
-        this._takeSoundValue
-      ]
+      return (locale as LocaleDataEx).takeSound[this._takeSoundValue]
     }
   })
   // takeSoundE5
   Object.defineProperty(sbProto, 'takeSoundE5', {
     get(): string {
-      const _GlobalConfig = lsFactory._globalConfig
+      const locale = lsFactory.getLocale(this._config.lang)
       if (this._takeSoundValue === undefined) {
         this._takeSoundValue = ((this as lunisolar.SB).value >> 1) % 30
       }
-      return _GlobalConfig.locales[this._config.lang].fiveElements[
-        TAKE_SOUND_ELEMENT5[this._takeSoundValue]
-      ]
+      return locale.fiveElements[TAKE_SOUND_ELEMENT5[this._takeSoundValue]]
     }
   })
   // 加到Lunisolar对象中

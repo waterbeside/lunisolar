@@ -14,8 +14,7 @@ const fetalGodPlugin: lunisolar.PluginFunc = async (options, lsClass, lsFactory)
   Object.defineProperty(lsProto, 'fetalGodData', {
     get(): FetalGodData {
       if (this._fetalGodData) return this._fetalGodData
-      const lang = this._config.lang
-      const locale = this._config.locales[lang] as typeof zh
+      const locale = this.getLocale() as typeof zh
       const daySb = this.char8.day as lunisolar.SB
       const stemPlace = locale.stemFetalGodPlace[daySb.stem.value % 5]
       const branchPlace = locale.branchFetalGodPlace[daySb.branch.value % 6]
