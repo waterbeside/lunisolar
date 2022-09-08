@@ -78,3 +78,31 @@ describe('test format', () => {
     expect(lsr.format('cYs-cYb cMs-cMb cDs-cDb cHs-cHb')).toBe('壬-寅 丁-未 壬-申 丁-未')
   })
 })
+
+describe('test season', () => {
+  it('2022/2/1', () => {
+    const lsr = lunisolar('2022/2/1')
+    expect(lsr.getSeasonIndex()).toBe(3)
+    expect(lsr.getSeason()).toBe('冬')
+  })
+  it('2022/2/5', () => {
+    const lsr = lunisolar('2022/2/5')
+    expect(lsr.getSeasonIndex()).toBe(0)
+    expect(lsr.getSeason()).toBe('春')
+  })
+  it('2022/07/18 14:40', () => {
+    const lsr = lunisolar('2022/07/18 14:40')
+    expect(lsr.getSeasonIndex()).toBe(1)
+    expect(lsr.getSeason()).toBe('夏')
+  })
+  it('2022/09/08', () => {
+    const lsr = lunisolar('2022/09/08')
+    expect(lsr.getSeasonIndex()).toBe(2)
+    expect(lsr.getSeason()).toBe('秋')
+  })
+  it('2022/11/08', () => {
+    const lsr = lunisolar('2022/11/08')
+    expect(lsr.getSeasonIndex()).toBe(3)
+    expect(lsr.getSeason()).toBe('冬')
+  })
+})
