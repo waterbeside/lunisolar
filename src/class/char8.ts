@@ -1,7 +1,7 @@
 import { SB } from './stemBranch'
 import { SolarTerm } from './solarTerm'
 import { Lunar } from './lunar'
-import { parseDate } from '../utils'
+import { parseDate, computeSBMonthValueByTerm } from '../utils'
 import { SB0_MONTH, SB0_DATE } from '../constants/calendarData'
 import { _GlobalConfig } from '../config'
 
@@ -129,23 +129,11 @@ export class Char8 {
     }
     // 知道该日是哪个节气之后便可知道该日是哪个地支月
     const [termValue, termDate] = SolarTerm.findNode(date, findNodeConfig) as [number, Date]
-    const termDay = termDate.getDate()
-    const month = date.getMonth()
-    const termMonth = (termValue / 2) >> 0
-    const monthOffset =
-      termMonth < month ||
-      (month === 0 && termMonth === 11) ||
-      (termDay > date.getDate() && !(termDay - 1 === date.getDate() && date.getHours() >= 23))
-        ? -1
-        : 0
-    // 求月天干 （2018年12月大雪乃甲子月）
-    let monthDiff =
-      ((date.getFullYear() - SB0_MONTH[0]) * 12 + date.getMonth() - SB0_MONTH[1] + 1) % 60
-    monthDiff = (monthDiff < 0 ? 60 + monthDiff : monthDiff) + monthOffset
+    const sbValue = computeSBMonthValueByTerm(date, termValue, termDate)
     const sbConfig = {
       lang
     }
-    return new SB(monthDiff, undefined, sbConfig)
+    return new SB(sbValue, undefined, sbConfig)
   }
 
   /**
