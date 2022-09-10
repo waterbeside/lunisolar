@@ -7,9 +7,10 @@ import { SolarTerm } from './solarTerm'
 import { Char8 } from './char8'
 import { FIRST_YEAR, LAST_YEAR } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
+import type { SB } from './stemBranch'
 
 export class Lunisolar implements ILunisolar {
-  _config: GlobalConfig
+  _config: LunisolarConfigData
   _date: Date
   _solarTerm?: SolarTerm | null
   _lunar?: Lunar
@@ -88,9 +89,16 @@ export class Lunisolar implements ILunisolar {
       ? locale.seasonShortName[ssv]
       : locale.seasonName[ssv]
   }
-
   getLocale(lang?: string): LocaleData {
     return _GlobalConfig.locales[lang ?? this._config.lang]
+  }
+
+  getConfig(): LunisolarConfigData
+  getConfig(key: keyof LunisolarConfigData): LunisolarConfigData[typeof key]
+  getConfig(key?: keyof LunisolarConfigData): any {
+    if (typeof key === 'undefined') return this._config
+    if (typeof this._config[key]) return this._config[key]
+    return _GlobalConfig[key]
   }
 
   toDate(): Date {

@@ -34,10 +34,11 @@ interface GlobalConfig {
   changeAgeTerm: number | null
   locales: { [key: string]: LocaleData }
   lang: string
-  [props: string]: any
+  // [props: string]: any
 }
 
 type ConfigType = lunisolar.ConfigType
+type LunisolarConfigData = Omit<GlobalConfig, 'locales'>
 
 interface ClassCommonConfig extends pick<ConfigType, 'lang'> {
   [props: string]: any
@@ -61,7 +62,7 @@ interface TermFindNodeConfig<T extends boolean = false> extends Partial<TermFind
 }
 
 interface ILunisolar {
-  _config: GlobalConfig
+  _config: LunisolarConfigData
   _date: Date
   _solarTerm?: Term | null
   _lunar?: Lunar
@@ -74,6 +75,9 @@ interface ILunisolar {
   getSeasonIndex(): number
   getSeason(isShortName?: boolean): string
   getLocale(lang?: string): LocaleData
+  getConfig(): LunisolarConfigData
+  getConfig(key: keyof LunisolarConfigData): LunisolarConfigData[typeof key]
+  getConfig(key?: keyof LunisolarConfigData): any
   toDate(): Date
   clone(): Lunisolar
   cache<T = any>(key: string): T | undefined

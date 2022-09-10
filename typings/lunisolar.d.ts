@@ -5,7 +5,7 @@ declare function lunisolar(
 
 declare namespace lunisolar {
   export type DateConfigType = string | number | Date | null | undefined
-  export interface ConfigType extends Partial<GlobalConfig> {}
+  export interface ConfigType extends Partial<Omit<GlobalConfig, 'locales'>> {}
   export interface Locale extends ILocale {}
   export const _globalConfig: GlobalConfig
   /**
@@ -333,7 +333,7 @@ declare namespace lunisolar {
    * class Lunisolar
    */
   export class Lunisolar implements ILunisolar {
-    _config: GlobalConfig
+    _config: LunisolarConfigData
     _date: Date
     _solarTerm?: SolarTerm | null
     _lunar?: Lunar
@@ -373,6 +373,10 @@ declare namespace lunisolar {
      * 取得季节
      */
     getSeason(isShortName?: boolean): string
+
+    getConfig(): LunisolarConfigData
+    getConfig(key: keyof LunisolarConfigData): LunisolarConfigData[typeof key]
+    getConfig(key?: keyof LunisolarConfigData): any
 
     getLocale(lang?: string): LocaleData
     /**
