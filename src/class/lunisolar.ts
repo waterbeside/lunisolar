@@ -1,5 +1,5 @@
 import { LUNAR_UNITS_SET } from '../constants'
-import { parseDate, prettyUnit } from '../utils'
+import { parseDate, prettyUnit, computeSBMonthValueByTerm } from '../utils'
 import { dateDiff, lunarDateDiff } from '../utils/dateDiff'
 import { format } from '../utils/format'
 import { Lunar } from './lunar'
@@ -7,7 +7,7 @@ import { SolarTerm } from './solarTerm'
 import { Char8 } from './char8'
 import { FIRST_YEAR, LAST_YEAR } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
-import type { SB } from './stemBranch'
+import { SB } from './stemBranch'
 
 export class Lunisolar implements ILunisolar {
   _config: LunisolarConfigData
@@ -71,6 +71,27 @@ export class Lunisolar implements ILunisolar {
     })
     this.cache(cacheKey, cache)
     return res
+  }
+
+  /**
+   * 取得當前日期所在的月建或月將地支，
+     月建：子月從0開始，月將：子月月將日到丑月月將日為0，類推
+   * @param flag 為0時取月建，為1時取月將
+   *
+   */
+  getMonthBuilder(flag: 0 | 1 = 0): [SB, lunisolar.SolarTerm, Date] {
+    const cacheKey = `month_builder:${flag}`
+    const cache = this.cache(cacheKey)
+    if (cache) return cache
+    const sbConfig = {
+      lang: this.getConfig('lang')
+    }
+    const [term, termDate] = this.recentSolarTerm(flag)
+    const sbValue = computeSBMonthValueByTerm(this.toDate(), term.value, termDate)
+
+    const sb = new SB(sbValue, undefined, sbConfig)
+    this.cache(cacheKey, [sb, term, termDate])
+    return [sb, term, termDate]
   }
 
   getSeasonIndex() {

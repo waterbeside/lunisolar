@@ -1,4 +1,6 @@
 import { REGEX_PARSE, UNITS } from '../constants'
+import { SB0_MONTH } from '../constants/calendarData'
+import { SB } from '../class/stemBranch'
 
 /**
  * 处理日期单位
@@ -91,4 +93,33 @@ export const getStemTrigram8Value: StemOrBranchValueFunc = (
 ) => {
   const res = lsr.char8[ymdh].stem.trigram8.valueOf()
   return div ? res % div : res
+}
+
+/**
+ * 通过节气取得月的天干地支
+ *
+ * @param date 当前日期
+ * @param termValue 节气索引值
+ * @param termDate 节气日期
+ * @returns 天干地支组合索引 范围[0, 59]
+ */
+export const computeSBMonthValueByTerm = (
+  date: Date,
+  termValue: number,
+  termDate: Date
+): number => {
+  const termDay = termDate.getDate()
+  const month = date.getMonth()
+  const termMonth = (termValue / 2) >> 0
+  const monthOffset =
+    termMonth < month ||
+    (month === 0 && termMonth === 11) ||
+    (termDay > date.getDate() && !(termDay - 1 === date.getDate() && date.getHours() >= 23))
+      ? -1
+      : 0
+  // 求月天干 （2018年12月大雪乃甲子月）
+  let monthDiff =
+    ((date.getFullYear() - SB0_MONTH[0]) * 12 + date.getMonth() - SB0_MONTH[1] + 1) % 60
+  monthDiff = (monthDiff < 0 ? 60 + monthDiff : monthDiff) + monthOffset
+  return monthDiff % 60
 }
