@@ -1,5 +1,5 @@
 import { getBranchValue, getStemValue } from '../../../utils'
-import { getCommonCheckGodFunc } from '../utils'
+import { getCommonCheckGodFunc, getCheckGodFunc } from '../utils'
 
 const monthGods: { [key: string]: GodDictItem } = {
   // key : [取得方法, 属于年月日时用四位二进程表示]
@@ -101,17 +101,35 @@ const monthGods: { [key: string]: GodDictItem } = {
   // 月神隨月建三合逆行一方者
   九坎: [getCommonCheckGodFunc([8, 5, 4, 1, 10, 7, 3, 0, 9, 6, 2, 11], getBranchValue, 0), 4],
   // 月神随四序行三合者
-  土符: [getCommonCheckGodFunc([8, 0, 1, 5, 9, 2, 6, 10, 3, 7, 11, 4], getBranchValue, 0), 4]
+  土符: [getCommonCheckGodFunc([8, 0, 1, 5, 9, 2, 6, 10, 3, 7, 11, 4], getBranchValue, 0), 4],
   // 月神随月建逆行一方者
-  // 大煞
+  大煞: [getCommonCheckGodFunc([8, 9, 10, 5, 6, 7, 2, 3, 4, 11, 0, 1], getBranchValue, 0), 4],
   // 月神隨月建三合順行一方者
-  // 往亡
+  往亡: [getCommonCheckGodFunc([10, 1, 2, 5, 8, 11, 3, 6, 9, 0, 4, 7], getBranchValue, 0), 4],
+  // 月神隨孟仲季順行三支者
+  歸忌: [getCommonCheckGodFunc([2, 0, 1], getBranchValue, 3), 4],
+
+  // 月神隨月建陰陽順行六辰者
+  要安: [getCommonCheckGodFunc([7, 1, 2, 8, 3, 9, 4, 10, 5, 11, 6, 0], getBranchValue, 0), 4], // 未丑寅申卯酉辰戌巳亥午子
+  玉宇: [getCommonCheckGodFunc([8, 2, 3, 9, 4, 10, 5, 11, 6, 0, 7, 1], getBranchValue, 0), 4], // 申寅卯酉辰戌巳亥午子未丑
+  金堂: [getCommonCheckGodFunc([9, 3, 4, 10, 5, 11, 6, 0, 7, 1, 8, 2], getBranchValue, 0), 4], // 酉卯辰戌巳亥午子未丑申寅
+  敬安: [getCommonCheckGodFunc([0, 6, 7, 1, 8, 2, 9, 3, 10, 4, 11, 5], getBranchValue, 0), 4], // 子午未丑申寅酉卯戌辰亥巳
+  普護: [getCommonCheckGodFunc([1, 7, 8, 2, 9, 3, 10, 4, 11, 5, 0, 6], getBranchValue, 0), 4], // 丑未申寅酉卯戌辰亥巳子午
+  福生: [getCommonCheckGodFunc([2, 8, 9, 3, 10, 4, 11, 5, 0, 6, 1, 7], getBranchValue, 0), 4], // 寅申酉卯戌辰亥巳子午丑未
+  聖心: [getCommonCheckGodFunc([4, 10, 11, 5, 0, 6, 1, 7, 2, 8, 9, 3], getBranchValue, 0), 4], // 辰戌亥巳子午丑未寅申卯酉
+  益后: [getCommonCheckGodFunc([5, 11, 0, 6, 1, 7, 2, 8, 9, 3, 4, 10], getBranchValue, 0), 4], // 巳亥子午丑未寅申卯酉辰戌
+  續世: [getCommonCheckGodFunc([0, 6, 1, 7, 2, 8, 9, 3, 4, 10, 5, 11], getBranchValue, 0), 4], // 午子丑未寅申卯酉辰戌巳亥
+  // 月神隨月將逆行者
+  // TODO: 先要添加取月將功能
 }
 
+// 其它，與上邊有一樣的取神方法
 monthGods.天后 = [monthGods.驛馬[0], 4]
 monthGods.大敗 = [monthGods.大時[0], 4]
 monthGods.咸池 = [monthGods.大時[0], 4]
 monthGods.致死 = [monthGods.天吏[0], 4]
 monthGods.九焦 = [monthGods.九坎[0], 4]
+// 月神隨月建陰陽順行六辰者
+monthGods.血忌 = [monthGods.續世[0], 4]
 
 export { monthGods }
