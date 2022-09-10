@@ -1,3 +1,4 @@
 {
-  "jest.jestCommandLine": "jest"
+  "jest.jestCommandLine": "jest",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
