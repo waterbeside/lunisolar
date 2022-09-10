@@ -106,3 +106,11 @@ describe('test season', () => {
     expect(lsr.getSeason()).toBe('冬')
   })
 })
+
+describe('test getMonthBuilder', () => {
+  it('2022/2/1', () => {
+    const lsr = lunisolar('2022/9/10')
+    expect(lsr.getMonthBuilder()[0].branch.value).toBe(9)
+    expect(lsr.getMonthBuilder(1)[0].branch.value).toBe(8)
+  })
+})
