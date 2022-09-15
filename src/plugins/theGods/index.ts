@@ -1,6 +1,6 @@
 import zh from './locale/zh'
 
-interface LunisolarEx extends lunisolar.Lunisolar {
+export interface LunisolarEx extends lunisolar.Lunisolar {
   duty12God: string
 }
 
@@ -20,6 +20,5 @@ const dayGods: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
       return locale.duty12God[godIdx]
     }
   })
-  lsFactory
 }
 export default dayGods
