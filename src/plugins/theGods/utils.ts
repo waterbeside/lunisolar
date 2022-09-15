@@ -25,6 +25,16 @@ export function stemAscGodFunc(offset: number): CheckGodFunc {
   )
 }
 
+// 月神随月将地支逆行
+export function monthGeneralDescGodFunc(offset: number): CheckGodFunc {
+  return getCheckGodFunc(
+    lsr =>
+      ([0, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1][lsr.getMonthBuilder(1)[0].branch.value] + offset) %
+      12,
+    getBranchValue
+  )
+}
+
 export function getCheckGodFunc<T = number>(
   resFrom: (lsr: lunisolar.Lunisolar, ymdh?: YMDH) => T,
   resTo: (lsr: lunisolar.Lunisolar, ymdh: YMDH) => T

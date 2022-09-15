@@ -1,5 +1,6 @@
-import { getBranchValue, getStemValue } from '../../../utils'
-import { getCommonCheckGodFunc, getCheckGodFunc } from '../utils'
+import { getBranchValue, getStemValue, computeSBValue } from '../../../utils'
+import { getCommonCheckGodFunc, monthGeneralDescGodFunc, getCheckGodFunc } from '../utils'
+import { getHateFrontAndBack } from '../../../utils/direction24'
 
 const monthGods: { [key: string]: GodDictItem } = {
   // key : [取得方法, 属于年月日时用四位二进程表示]
@@ -14,28 +15,30 @@ const monthGods: { [key: string]: GodDictItem } = {
      */
     ((
       lsr: lunisolar.Lunisolar,
-      ymdh?: null | 'year' | 'month' | 'day' | 'hour'
+      fromYmdh: YMDH = 'month',
+      toYmdh?: YMDH
     ): [number, boolean] | boolean => {
-      const idxMonth = lsr.char8.month.branch.value
+      const idxMonth = lsr.char8[fromYmdh].branch.value
       const arr = [5, 6, 3, 8, 8, 7, 11, 0, 9, 2, 2, 1]
       const val = arr[idxMonth]
       const isStem = idxMonth % 3 ? false : true // 子午卯酉月和地支比較
-      if (!ymdh) return [val, isStem]
-      return isStem ? val === getStemValue(lsr, 'day') : val === getBranchValue(lsr, 'day')
+      if (!toYmdh) return [val, isStem]
+      return isStem ? val === getStemValue(lsr, toYmdh) : val === getBranchValue(lsr, toYmdh)
     }) as CheckGodFunc,
     4
   ],
   天德合: [
     ((
       lsr: lunisolar.Lunisolar,
-      ymdh?: null | 'year' | 'month' | 'day' | 'hour'
+      fromYmdh: YMDH = 'month',
+      toYmdh?: YMDH
     ): [number, boolean] | boolean => {
-      const idxMonth = lsr.char8.month.branch.value
+      const idxMonth = lsr.char8[fromYmdh].branch.value
       const arr = [8, 1, 8, 5, 3, 2, 2, 5, 4, 11, 7, 6]
       const val = arr[idxMonth]
       const isStem = idxMonth % 3 ? false : true // 子午卯酉月和地支比較
-      if (!ymdh) return [val, isStem]
-      return isStem ? val === getStemValue(lsr, 'day') : val === getBranchValue(lsr, 'day')
+      if (!toYmdh) return [val, isStem]
+      return isStem ? val === getStemValue(lsr, toYmdh) : val === getBranchValue(lsr, toYmdh)
     }) as CheckGodFunc,
     4
   ],
@@ -49,28 +52,30 @@ const monthGods: { [key: string]: GodDictItem } = {
     */
     ((
       lsr: lunisolar.Lunisolar,
-      ymdh?: null | 'year' | 'month' | 'day' | 'hour'
+      fromYmdh: YMDH = 'month',
+      toYmdh?: YMDH
     ): [number, boolean] | boolean => {
       const idxMonth = lsr.char8.month.branch.value
       const arr = [5, 6, 2, 0]
       const val = arr[idxMonth % 4]
       const isStem = (idxMonth + 3) % 4 ? false : true
-      if (!ymdh) return [val, isStem]
-      return isStem ? val === getStemValue(lsr, 'day') : val === getBranchValue(lsr, 'day')
+      if (!toYmdh) return [val, isStem]
+      return isStem ? val === getStemValue(lsr, toYmdh) : val === getBranchValue(lsr, toYmdh)
     }) as CheckGodFunc,
     4
   ],
   月德合: [
     ((
       lsr: lunisolar.Lunisolar,
-      ymdh?: null | 'year' | 'month' | 'day' | 'hour'
+      fromYmdh: YMDH = 'month',
+      toYmdh?: YMDH
     ): [number, boolean] | boolean => {
-      const idxMonth = lsr.char8.month.branch.value
+      const idxMonth = lsr.char8[fromYmdh].branch.value
       const arr = [3, 1, 7, 5]
       const val = arr[idxMonth]
       const isStem = (idxMonth + 3) % 4 ? false : true
-      if (!ymdh) return [val, isStem]
-      return isStem ? val === getStemValue(lsr, 'day') : val === getBranchValue(lsr, 'day')
+      if (!toYmdh) return [val, isStem]
+      return isStem ? val === getStemValue(lsr, toYmdh) : val === getBranchValue(lsr, toYmdh)
     }) as CheckGodFunc,
     4
   ],
@@ -79,11 +84,12 @@ const monthGods: { [key: string]: GodDictItem } = {
   三合: [
     ((
       lsr: lunisolar.Lunisolar,
-      ymdh?: null | 'year' | 'month' | 'day' | 'hour'
+      fromYmdh: YMDH = 'month',
+      toYmdh?: YMDH
     ): [lunisolar.Branch, lunisolar.Branch] | boolean => {
-      const res = lsr.char8.month.branch.triad
-      if (!ymdh) return res
-      return res.map(item => item.value).includes(getBranchValue(lsr, ymdh))
+      const res = lsr.char8[fromYmdh].branch.triad
+      if (!toYmdh) return res
+      return res.map(item => item.value).includes(getBranchValue(lsr, toYmdh))
     }) as CheckGodFunc,
     4
   ],
@@ -120,7 +126,65 @@ const monthGods: { [key: string]: GodDictItem } = {
   益后: [getCommonCheckGodFunc([5, 11, 0, 6, 1, 7, 2, 8, 9, 3, 4, 10], getBranchValue, 0), 4], // 巳亥子午丑未寅申卯酉辰戌
   續世: [getCommonCheckGodFunc([0, 6, 1, 7, 2, 8, 9, 3, 4, 10, 5, 11], getBranchValue, 0), 4], // 午子丑未寅申卯酉辰戌巳亥
   // 月神隨月將逆行者
-  // TODO: 先要添加取月將功能
+  月厭: [monthGeneralDescGodFunc(0), 4],
+  六合: [monthGeneralDescGodFunc(1), 4],
+  天賊: [monthGeneralDescGodFunc(3), 4],
+  天倉: [monthGeneralDescGodFunc(4), 4],
+  六儀: [monthGeneralDescGodFunc(5), 4],
+  六害: [monthGeneralDescGodFunc(6), 4],
+  //
+  天愿: [
+    getCheckGodFunc(
+      lsr => [49, 0, 11, 10, 21, 32, 43, 54, 5, 16, 27, 38][lsr.getMonthBuilder(1)[0].branch.value],
+      (lsr, ymdh = 'day') => lsr.char8[ymdh].value
+    ),
+    4
+  ],
+  兵吉: [
+    getCheckGodFunc<number[], number>(
+      lsr => {
+        const startBranch = lsr.getMonthBuilder(1)[0].branch.value
+        const arr = []
+        for (let i = 2; i < 6; i++) {
+          arr.push((i + startBranch) % 12)
+        }
+        return arr
+      },
+      getBranchValue,
+      'includes'
+    ),
+    4
+  ],
+  // 月神取月建生比者
+  月恩: [getCommonCheckGodFunc([0, 7, 2, 3, 6, 5, 4, 7, 8, 9, 6, 1], getStemValue, 0), 4],
+  複日: [getCommonCheckGodFunc([9, 5, 0, 1, 4, 2, 3, 5, 6, 7, 4, 8], getStemValue, 0), 4],
+  // 不将
+  不將: [
+    getCheckGodFunc<number[], number>(
+      lsr => {
+        // 厌前天干配厌后地支即为阴阳不将
+        const [front, back] = getHateFrontAndBack(lsr.getMonthBuilder(0)[0].branch.value)
+        const res: number[] = []
+        const sn = lsr.getSeasonIndex()
+        const frontStemValue = front.stem.map(item => item.value)
+        // 冬春己不将
+        if (sn === 0 || sn === 3) frontStemValue.push(5)
+        // 夏秋戊不将
+        if (sn === 1 || sn === 2) frontStemValue.push(4)
+        for (const fValue of frontStemValue) {
+          for (const b of back.branch) {
+            if ((fValue + b.value) % 2 !== 0) continue
+            console.log(`${fValue}${b}`)
+            res.push(computeSBValue(fValue, b.value))
+          }
+        }
+        return res
+      },
+      lsr => lsr.char8.day.value,
+      'includes'
+    ),
+    4
+  ]
 }
 
 // 其它，與上邊有一樣的取神方法
@@ -131,5 +195,8 @@ monthGods.致死 = [monthGods.天吏[0], 4]
 monthGods.九焦 = [monthGods.九坎[0], 4]
 // 月神隨月建陰陽順行六辰者
 monthGods.血忌 = [monthGods.續世[0], 4]
+// 月神隨月將逆行者
+monthGods.厭對 = [monthGods.六儀[0], 4]
+monthGods.招搖 = [monthGods.六儀[0], 4]
 
 export { monthGods }
