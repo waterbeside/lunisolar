@@ -1,7 +1,7 @@
 import { HIDDEN_STEMS } from '../constants/calendarData'
 import { Element5 } from './element5'
 import { _GlobalConfig } from '../config'
-import { getTrigramValueByStem } from '../utils'
+import { getTrigramValueByStem, computeSBValue } from '../utils'
 import { Trigram8 } from './trigram8'
 
 /**
@@ -87,7 +87,7 @@ export class Stem {
     if (typeof value === 'number') {
       this._value = value % 10
     } else if (typeof value === 'string') {
-      const stemIndex = _GlobalConfig.local[this._config.lang].stems.indexOf(value)
+      const stemIndex = _GlobalConfig.locales[this._config.lang].stems.indexOf(value)
       if (stemIndex === -1) throw new Error('Invalid stem value')
       this._value = stemIndex
     }
@@ -150,8 +150,7 @@ export class SB {
       const stemValue = this._stem.valueOf(),
         branchValue = this._branch.valueOf()
       // 如果一个为奇数一个为偶数，则不能组合
-      if ((stemValue + branchValue) % 2 !== 0) throw new Error('Invalid SB value')
-      this._value = (stemValue % 10) + ((6 - (branchValue >> 1) + (stemValue >> 1)) % 6) * 10
+      this._value = computeSBValue(stemValue, branchValue)
     } else if (typeof stemOrValue === 'number') {
       this._value = stemOrValue % 60
       const stemValue = this._value % 10
