@@ -82,7 +82,7 @@ interface LocaleData {
   /**
    * Eight Trigram 八卦
    *
-   * There are 5 Trigram in the array，
+   * There are 8 items in the array，
    *
    * like (坎 艮 震 巽 离 坤 兑 乾)
    */
