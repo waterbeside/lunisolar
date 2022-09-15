@@ -74,6 +74,7 @@ interface ILunisolar {
   recentSolarTerm(nodeFlag: 0 | 1 | 2): [SolarTerm, Date]
   getSeasonIndex(): number
   getSeason(isShortName?: boolean): string
+  getMonthBuilder(flag?: 0 | 1): [SB, lunisolar.SolarTerm, Date]
   getLocale(lang?: string): LocaleData
   getConfig(): LunisolarConfigData
   getConfig(key: keyof LunisolarConfigData): LunisolarConfigData[typeof key]
