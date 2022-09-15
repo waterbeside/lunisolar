@@ -38,7 +38,7 @@ const locale: LocaleData = {
   // 五行
   fiveElements: ['木', '火', '土', '金', '水'],
   // 八卦        0 1 2 3 4 5 6 7
-  eightTrigram: '坤震坎兑艮离巽乾'.split(''),
+  eightTrigram: '坤震坎兌艮離巽乾'.split(''),
   formats: {
     LT: 'HH:mm',
     LTS: 'HH:mm:ss',

@@ -17,7 +17,9 @@ const locale = {
       '_'
     ),
 
-  chineseZodiac: ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪']
+  chineseZodiac: ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'],
+  // 八卦        0 1 2 3 4 5 6 7
+  eightTrigram: '坤震坎兑艮离巽乾'.split('')
 }
 
 export default locale

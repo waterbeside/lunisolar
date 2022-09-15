@@ -48,6 +48,8 @@ const ja = {
   chineseZodiac: ['鼠', '牛', '虎', '兎', '竜', '蛇', '馬', '羊', '猿', '鶏', '犬', '猪'],
   // 五行
   fiveElements: ['木', '火', '土', '金', '水'],
+  // 八卦        0 1 2 3 4 5 6 7
+  eightTrigram: '坤震坎兌艮離巽乾'.split(''),
   meridiem: null
 }
 
