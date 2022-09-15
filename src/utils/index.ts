@@ -71,27 +71,39 @@ export const getTrigramValueByStem = function (stemValue: number): number {
   return [7, 0, 4, 3, 2, 5, 1, 5, 7, 0][stemValue]
 }
 
+export const getYmdhSB = (
+  lsr: lunisolar.Lunisolar,
+  ymdh: YMDH,
+  buildFlag: 0 | 1 = 0
+): lunisolar.SB => (ymdh === 'month' ? lsr.getMonthBuilder(buildFlag)[0] : lsr.char8[ymdh])
+
 // 取地支值
 export const getBranchValue: StemOrBranchValueFunc = (
   lsr: lunisolar.Lunisolar,
-  ymdh: 'year' | 'month' | 'day' | 'hour',
+  ymdh: YMDH,
   div?: number
-) => (div ? lsr.char8[ymdh].branch.value % div : lsr.char8[ymdh].branch.value)
+) => {
+  let sb = getYmdhSB(lsr, ymdh, 0)
+  return div ? sb.branch.value % div : sb.branch.value
+}
 
 // 取天干值
 export const getStemValue: StemOrBranchValueFunc = (
   lsr: lunisolar.Lunisolar,
-  ymdh: 'year' | 'month' | 'day' | 'hour',
+  ymdh: YMDH,
   div?: number
-) => (div ? lsr.char8[ymdh].stem.value % div : lsr.char8[ymdh].stem.value)
-
+) => {
+  let sb = getYmdhSB(lsr, ymdh, 0)
+  return div ? sb.stem.value % div : sb.stem.value
+}
 // 取天干八卦
 export const getStemTrigram8Value: StemOrBranchValueFunc = (
   lsr: lunisolar.Lunisolar,
   ymdh: 'year' | 'month' | 'day' | 'hour',
   div?: number
 ) => {
-  const res = lsr.char8[ymdh].stem.trigram8.valueOf()
+  let sb = getYmdhSB(lsr, ymdh, 0)
+  const res = sb.stem.trigram8.valueOf()
   return div ? res % div : res
 }
 
@@ -122,4 +134,15 @@ export const computeSBMonthValueByTerm = (
     ((date.getFullYear() - SB0_MONTH[0]) * 12 + date.getMonth() - SB0_MONTH[1] + 1) % 60
   monthDiff = (monthDiff < 0 ? 60 + monthDiff : monthDiff) + monthOffset
   return monthDiff % 60
+}
+
+/**
+ * 通过天干和地支索引值，计算60个天干地支组合的索引
+ * @param stemValue 天干索引值
+ * @param branchValue 地支索引值
+ */
+export const computeSBValue = (stemValue: number, branchValue: number): number => {
+  // 如果一个为奇数一个为偶数，则不能组合
+  if ((stemValue + branchValue) % 2 !== 0) throw new Error('Invalid SB value')
+  return (stemValue % 10) + ((6 - (branchValue >> 1) + (stemValue >> 1)) % 6) * 10
 }
