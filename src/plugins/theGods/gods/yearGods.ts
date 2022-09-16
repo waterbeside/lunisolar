@@ -55,7 +55,7 @@ const yearGodNames = [
   '畜官',
   '死符',
   '小耗'
-]
+] as const
 
 type YearGods = { [key in typeof yearGodNames[number]]: GodDictItem }
 
@@ -211,7 +211,7 @@ const yearGods: YearGods = {
   炙退: [getCommonCheckGodFunc([3, 0, 9, 6], getBranchValue, 4), 8],
   // 年神隨歲支順行一方者
   飛廉: [getCommonCheckGodFunc([8, 9, 10, 5, 6, 7, 2, 3, 4, 11, 0, 1], getBranchValue, 0), 8]
-}
+} as YearGods
 
 yearGods.畜官 = [...yearGods.官符]
 yearGods.死符 = [...yearGods.支德]
