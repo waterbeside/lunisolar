@@ -2,7 +2,83 @@ import { getBranchValue, getStemValue, computeSBValue } from '../../../utils'
 import { getCommonCheckGodFunc, monthGeneralDescGodFunc, getCheckGodFunc } from '../utils'
 import { getHateFrontAndBack } from '../../../utils/direction24'
 
-const monthGods: { [key: string]: GodDictItem } = {
+const monthGodNames = [
+  '天德',
+  '天德合',
+  '月德',
+  '月德合',
+  '月空',
+  '三合',
+  '五富',
+  '臨日',
+  '驛馬',
+  '天火',
+  '月煞',
+  '大時',
+  '遊禍',
+  '天吏',
+  '九空',
+  '月刑',
+  '九坎',
+  '土符',
+  '大煞',
+  '往亡',
+  '歸忌',
+  '要安',
+  '玉宇',
+  '金堂',
+  '敬安',
+  '普護',
+  '福生',
+  '聖心',
+  '益后',
+  '續世',
+  '月厭',
+  '六合',
+  '天賊',
+  '天倉',
+  '六儀',
+  '六害',
+  '天愿',
+  '兵吉',
+  '月恩',
+  '複日',
+  '不將',
+  '大會',
+  '小會',
+  '行狠',
+  '了戾',
+  '孤辰',
+  '單陰',
+  '純陽',
+  '孤陽',
+  '純陰',
+  '歲薄',
+  '遂陣',
+  '陰陽交破',
+  '陰陽擊沖',
+  '陽破陰沖',
+  '陰位',
+  '陰道沖陽',
+  '三陰',
+  '陽錯',
+  '陰錯',
+  '陰陽俱錯',
+  '絕陰',
+  '絕陽',
+  '天后',
+  '大敗',
+  '咸池',
+  '致死',
+  '九焦',
+  '血忌',
+  '厭對',
+  '招搖'
+] as const
+
+type MonthGods = { [key in typeof monthGodNames[number]]: GodDictItem }
+
+const monthGods: MonthGods = {
   // key : [取得方法, 属于年月日时用四位二进程表示]
   // 月神取月建三合者
   天德: [
@@ -94,7 +170,7 @@ const monthGods: { [key: string]: GodDictItem } = {
     4
   ],
   五富: [getCommonCheckGodFunc([5, 8, 11, 2], getBranchValue, 4, getBranchValue), 4],
-  临日: [getCommonCheckGodFunc([4, 9, 6, 11, 8, 1, 10, 3, 0, 5, 2, 7], getBranchValue, 0), 4],
+  臨日: [getCommonCheckGodFunc([4, 9, 6, 11, 8, 1, 10, 3, 0, 5, 2, 7], getBranchValue, 0), 4],
   驛馬: [getCommonCheckGodFunc([2, 11, 8, 5], getBranchValue, 4), 4],
   天火: [getCommonCheckGodFunc([6, 3, 0, 9], getBranchValue, 4), 4],
   月煞: [getCommonCheckGodFunc([7, 4, 1, 10], getBranchValue, 4), 4],
@@ -156,8 +232,15 @@ const monthGods: { [key: string]: GodDictItem } = {
     4
   ],
   // 月神取月建生比者
-  月恩: [getCommonCheckGodFunc([0, 7, 2, 3, 6, 5, 4, 7, 8, 9, 6, 1], getStemValue, 0), 4],
-  複日: [getCommonCheckGodFunc([9, 5, 0, 1, 4, 2, 3, 5, 6, 7, 4, 8], getStemValue, 0), 4],
+  月恩: [
+    getCommonCheckGodFunc([0, 7, 2, 3, 6, 5, 4, 7, 8, 9, 6, 1], getBranchValue, 0, getStemValue),
+    4
+  ],
+  複日: [
+    getCommonCheckGodFunc([9, 5, 0, 1, 4, 2, 3, 5, 6, 7, 4, 8], getBranchValue, 0, getStemValue),
+    4
+  ],
+  // 月神從厭建起者
   // 不将
   不將: [
     getCheckGodFunc<number[], number>(
@@ -174,7 +257,6 @@ const monthGods: { [key: string]: GodDictItem } = {
         for (const fValue of frontStemValue) {
           for (const b of back.branch) {
             if ((fValue + b.value) % 2 !== 0) continue
-            console.log(`${fValue}${b}`)
             res.push(computeSBValue(fValue, b.value))
           }
         }
@@ -184,8 +266,248 @@ const monthGods: { [key: string]: GodDictItem } = {
       'includes'
     ),
     4
+  ],
+  大會: [
+    getCommonCheckGodFunc(
+      [48, 59, 10, 21, null, null, 42, null, 53, 16, 27, null],
+      getBranchValue,
+      0,
+      lsr => lsr.char8.day.value
+    ),
+    4
+  ],
+  小會: [
+    getCommonCheckGodFunc(
+      [35, 24, null, 15, 4, 5, 54, null, null, null, 45, 34],
+      getBranchValue,
+      0,
+      lsr => lsr.char8.day.value
+    ),
+    4
+  ],
+  行狠: [
+    getCommonCheckGodFunc(
+      [37, null, null, null, 20, 31, null, null, null, null, null, 26],
+      getBranchValue,
+      0,
+      lsr => lsr.char8.day.value
+    ),
+    4
+  ],
+  了戾: [
+    getCommonCheckGodFunc(
+      [49, null, null, null, 32, 43, null, null, null, null, null, 38],
+      getBranchValue,
+      0,
+      lsr => lsr.char8.day.value
+    ),
+    4
+  ],
+  孤辰: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') =>
+        [
+          [1, 13, 25],
+          null,
+          null,
+          null,
+          [32, 56, 44],
+          [55, 7, 19],
+          null,
+          null,
+          null,
+          null,
+          null,
+          [50, 2, 14]
+        ][getBranchValue(lsr, ymdh)],
+      lsr => lsr.char8.day.value,
+      'includes'
+    ),
+    4
+  ],
+  單陰: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') => (getBranchValue(lsr, ymdh) === 4 ? 4 : null),
+      lsr => lsr.char8.day.value
+    ),
+    4
+  ],
+  純陽: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') => (getBranchValue(lsr, ymdh) === 5 ? 5 : null),
+      lsr => lsr.char8.day.value
+    ),
+    4
+  ],
+  孤陽: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') => (getBranchValue(lsr, ymdh) === 11 ? 34 : null),
+      lsr => lsr.char8.day.value
+    ),
+    4
+  ],
+  純陰: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') => (getBranchValue(lsr, ymdh) === 11 ? 35 : null),
+      lsr => lsr.char8.day.value
+    ),
+    4
+  ],
+  歲薄: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') => {
+        const branchValue = getBranchValue(lsr, ymdh)
+        if (branchValue === 5) return [42, 54]
+        if (branchValue === 11) return [48, 24]
+        return null
+      },
+      lsr => lsr.char8.day.value,
+      'includes'
+    ),
+    4
+  ],
+  遂陣: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') => {
+        const branchValue = getBranchValue(lsr, ymdh)
+        if (branchValue === 1) return [48, 24]
+        if (branchValue === 7) return [42, 54]
+        return null
+      },
+      lsr => lsr.char8.day.value,
+      'includes'
+    ),
+    4
+  ],
+  陰陽交破: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') => {
+        const branchValue = getBranchValue(lsr, ymdh)
+        if (branchValue === 5) return 59
+        if (branchValue === 11) return 53
+        return null
+      },
+      lsr => lsr.char8.day.value
+    ),
+    4
+  ],
+  陰陽擊沖: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') => {
+        const branchValue = getBranchValue(lsr, ymdh)
+        if (branchValue === 0) return 42
+        if (branchValue === 6) return 48
+        return null
+      },
+      lsr => lsr.char8.day.value
+    ),
+    4
+  ],
+  陽破陰沖: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') => {
+        const branchValue = getBranchValue(lsr, ymdh)
+        if (branchValue === 1) return 43
+        if (branchValue === 7) return 49
+        return null
+      },
+      lsr => lsr.char8.day.value
+    ),
+    4
+  ],
+  陰位: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') => {
+        const branchValue = getBranchValue(lsr, ymdh)
+        if (branchValue === 4) return 16
+        if (branchValue === 10) return 10
+        return null
+      },
+      lsr => lsr.char8.day.value
+    ),
+    4
+  ],
+  陰道沖陽: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') => {
+        const branchValue = getBranchValue(lsr, ymdh)
+        if (branchValue === 3) return 45
+        if (branchValue === 9) return 15
+        return null
+      },
+      lsr => lsr.char8.day.value
+    ),
+    4
+  ],
+  三陰: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') => {
+        const branchValue = getBranchValue(lsr, ymdh)
+        if (branchValue === 2) return 57
+        if (branchValue === 8) return 51
+        return null
+      },
+      lsr => lsr.char8.day.value
+    ),
+    4
+  ],
+  陽錯: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') =>
+        [null, [49], [50], [51], [40], [53, 5], null, [43, 55], [56], [57], [46], [59]][
+          getBranchValue(lsr, ymdh)
+        ],
+      lsr => lsr.char8.day.value,
+      'includes'
+    ),
+    4
+  ],
+  陰錯: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') =>
+        [null, [59], [46], [57], [56], [43, 31], null, [53, 3], [40], [51], [50], [49]][
+          getBranchValue(lsr, ymdh)
+        ],
+      lsr => lsr.char8.day.value,
+      'includes'
+    ),
+    4
+  ],
+  陰陽俱錯: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') => {
+        const branchValue = getBranchValue(lsr, ymdh)
+        if (branchValue === 1) return 48
+        if (branchValue === 6) return 42
+        return null
+      },
+      lsr => lsr.char8.day.value
+    ),
+    4
+  ],
+  絕陰: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') => {
+        const branchValue = getBranchValue(lsr, ymdh)
+        if (branchValue === 5) return 4
+        return null
+      },
+      lsr => lsr.char8.day.value
+    ),
+    4
+  ],
+  絕陽: [
+    getCheckGodFunc(
+      (lsr, ymdh = 'month') => {
+        const branchValue = getBranchValue(lsr, ymdh)
+        if (branchValue === 0) return 34
+        return null
+      },
+      lsr => lsr.char8.day.value
+    ),
+    4
   ]
-}
+} as MonthGods
 
 // 其它，與上邊有一樣的取神方法
 monthGods.天后 = [monthGods.驛馬[0], 4]
@@ -199,4 +521,4 @@ monthGods.血忌 = [monthGods.續世[0], 4]
 monthGods.厭對 = [monthGods.六儀[0], 4]
 monthGods.招搖 = [monthGods.六儀[0], 4]
 
-export { monthGods }
+export { monthGodNames, monthGods, MonthGods }

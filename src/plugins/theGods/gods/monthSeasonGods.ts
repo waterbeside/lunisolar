@@ -1,7 +1,28 @@
 import { getBranchValue, getStemValue } from '../../../utils'
 import { getCheckGodFunc } from '../utils'
 
-const monthSeasonGods: { [key: string]: GodDictItem } = {
+const monthSeasonGodNames = [
+  '大赦',
+  '母倉',
+  '四相',
+  '時德',
+  '王日',
+  '官日',
+  '守日',
+  '相日',
+  '民日',
+  '四擊',
+  '四忌',
+  '四窮',
+  '四耗',
+  '四廢',
+  '五虛',
+  '八風'
+]
+
+type MonthSeasonGods = { [key in typeof monthSeasonGodNames[number]]: GodDictItem }
+
+const monthSeasonGods: MonthSeasonGods = {
   // 月神随四季者
   大赦: [
     getCheckGodFunc(
@@ -166,4 +187,4 @@ const monthSeasonGods: { [key: string]: GodDictItem } = {
   ]
 }
 
-export { monthSeasonGods }
+export { monthSeasonGodNames, monthSeasonGods, MonthSeasonGods }
