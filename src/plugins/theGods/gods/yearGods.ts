@@ -6,7 +6,60 @@ import {
   branchDescGodFunc
 } from '../utils'
 
-const yearGods: { [key: string]: GodDictItem } = {
+const yearGodNames = [
+  '歲德',
+  '歲德合',
+  '歲禄',
+  '陽貴',
+  '陰貴',
+  '金神',
+  '破敗五鬼',
+  '陰府太歲',
+  '奏書',
+  '博士',
+  '力士',
+  '蠶室',
+  '太歲',
+  '太陽',
+  '喪門',
+  '太陰',
+  '官符',
+  '支德',
+  '歲破',
+  '龍德',
+  '白虎',
+  '福德',
+  '吊客',
+  '病符',
+  '神后',
+  '功曹',
+  '天罡',
+  '勝光',
+  '傳送',
+  '河魁',
+  '六害',
+  '五鬼',
+  '歲馬',
+  '歲刑',
+  '歲煞',
+  '伏兵',
+  '大禍',
+  '坐煞',
+  '向煞',
+  '天官符',
+  '大煞',
+  '黃幡',
+  '豹尾',
+  '炙退',
+  '飛廉',
+  '畜官',
+  '死符',
+  '小耗'
+]
+
+type YearGods = { [key in typeof yearGodNames[number]]: GodDictItem }
+
+const yearGods: YearGods = {
   // key : [取得方法, 属于年月日时用四位二进程表示]
   歲德: [getCommonCheckGodFunc('06284', getStemValue, 5), 8],
   歲德合: [getCommonCheckGodFunc('51739', getStemValue, 5), 8],
@@ -164,4 +217,4 @@ yearGods.畜官 = [...yearGods.官符]
 yearGods.死符 = [...yearGods.支德]
 yearGods.小耗 = [...yearGods.支德]
 
-export { yearGods }
+export { yearGodNames, yearGods, YearGods }
