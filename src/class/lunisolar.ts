@@ -1,6 +1,7 @@
 import { LUNAR_UNITS_SET } from '../constants'
 import { parseDate, prettyUnit, computeSBMonthValueByTerm } from '../utils'
 import { dateDiff, lunarDateDiff } from '../utils/dateDiff'
+import { dateAdd } from '../utils/dateAdd'
 import { format } from '../utils/format'
 import { Lunar } from './lunar'
 import { SolarTerm } from './solarTerm'
@@ -178,5 +179,11 @@ export class Lunisolar implements ILunisolar {
       )
     }
     return dateDiff(this._date, date, unit as GreUnit, float)
+  }
+
+  add(value: number, unit?: Unit): Lunisolar {
+    const date = this.toDate()
+    const newDate = dateAdd(date, value, unit)
+    return new Lunisolar(newDate, this.getConfig())
   }
 }
