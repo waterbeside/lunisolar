@@ -59,6 +59,7 @@ export function getCheckGodFunc<T = number, U = T>(
   ): T | boolean {
     const res = resFrom(lsr, fromYmdh)
     if (!toYmdh) return res
+    if (res === null || res === false) return false
     const to = resTo(lsr, toYmdh)
     return compareSymbol === 'includes' && Array.isArray(res)
       ? res.includes(to)
@@ -68,7 +69,7 @@ export function getCheckGodFunc<T = number, U = T>(
 }
 
 export function getCommonCheckGodFunc(
-  ruleArray: number[] | string,
+  ruleArray: (number | null)[] | string,
   compareFromFunc: StemOrBranchValueFunc,
   fromDiv: number,
   compareToFunc?: StemOrBranchValueFunc
