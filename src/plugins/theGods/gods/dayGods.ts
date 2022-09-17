@@ -1,5 +1,5 @@
 import { getBranchValue, getStemValue, getYmdhSB } from '../../../utils'
-import { getCommonCheckGodFunc, monthGeneralDescGodFunc, getCheckGodFunc } from '../utils'
+import { getCheckGodFunc } from '../utils'
 
 const dayGodNames = [
   '天恩',
@@ -18,8 +18,8 @@ const dayGodNames = [
   '無祿',
   '重日',
   '上朔',
-  // '長星',
-  // '短星',
+  '長星',
+  '短星',
   '反支',
   '四離',
   '四絕',
@@ -154,6 +154,70 @@ const dayGods: DayGods = {
       lsr => [59, 5, 11, 17, 23, 29, 35, 41, 47, 53][getStemValue(lsr, 'year')],
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value
     ),
+    2
+  ],
+  // 日神按月取數者
+  長星: [
+    ((lsr: lunisolar.Lunisolar, fromYmdh?: YMDH, toYmdh?: YMDH): number[] | boolean => {
+      const res = [[7], [4], [1], [9], [15], [10], [8], [2, 5], [3, 4], [1], [12], [9]][
+        lsr.lunar.month - 1
+      ]
+      if (!toYmdh) return res
+      return res.length === 1 ? res[0] === lsr.lunar.day : res.includes(lsr.lunar.day)
+    }) as CheckGodFunc,
+    2
+  ],
+  短星: [
+    ((lsr: lunisolar.Lunisolar, fromYmdh?: YMDH, toYmdh?: YMDH): number[] | boolean => {
+      const res = [[21], [19], [16], [25], [25], [20], [22], [18, 19], [16, 17], [15], [22], [25]][
+        lsr.lunar.month - 1
+      ]
+      if (!toYmdh) return res
+      return res.length === 1 ? res[0] === lsr.lunar.day : res.includes(lsr.lunar.day)
+    }) as CheckGodFunc,
+    2
+  ],
+  // 日神按朔取日数者
+  反支: [
+    ((lsr: lunisolar.Lunisolar, fromYmdh?: YMDH, toYmdh?: YMDH): number | boolean => {
+      const lunarDay = lsr.lunar.day
+      // 取得当月月朔日
+      const lunarFirst = lsr.add(-lunarDay + 1, 'day')
+      const arr = [6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1]
+      const res = arr[lunarFirst.char8.day.branch.value]
+      if (!toYmdh) return res
+      return res === lunarDay
+    }) as CheckGodFunc,
+    2
+  ],
+  // 日神按节气取数者
+  四離: [
+    ((lsr: lunisolar.Lunisolar, fromYmdh?: YMDH, toYmdh?: YMDH): boolean => {
+      const nextDate = lsr.add(1, 'day')
+      if (!nextDate.solarTerm) return false
+      return [23, 11, 5, 17].includes(nextDate.solarTerm.value)
+    }) as CheckGodFunc,
+    2
+  ],
+  四絕: [
+    ((lsr: lunisolar.Lunisolar, fromYmdh?: YMDH, toYmdh?: YMDH): boolean => {
+      const nextDate = lsr.add(1, 'day')
+      if (!nextDate.solarTerm) return false
+      return [2, 8, 14, 20].includes(nextDate.solarTerm.value)
+    }) as CheckGodFunc,
+    2
+  ],
+  氣往亡: [
+    ((lsr: lunisolar.Lunisolar, fromYmdh?: YMDH, toYmdh?: YMDH): number | boolean => {
+      // 節後第幾天（相當于月建後的第幾天）
+      const branchValue = getBranchValue(lsr, 'month')
+      const res = [20, 30, 7, 14, 21, 8, 16, 24, 9, 18, 27, 10][branchValue]
+      if (!toYmdh) return res
+      const diffDate = lsr.add(-res + 1, 'day')
+      if (!diffDate.solarTerm) return false
+      // 節氣索引從小寒開始，對應丑月
+      return ((diffDate.solarTerm.value >> 1) + 13) % 12 === branchValue
+    }) as CheckGodFunc,
     2
   ]
 }
