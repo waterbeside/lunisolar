@@ -407,6 +407,7 @@ declare namespace lunisolar {
     cache<T = any>(key: string): T | undefined
     /**
      * 设置缓存
+     *
      * @param key 缓存key
      * @param value 要设置的内容
      */
@@ -435,12 +436,22 @@ declare namespace lunisolar {
      * Calculate date difference
      *
      * 計算日期差
+     *
+     * @param date 要对比的日期
+     * @param unit 单位
+     * @param float 是否返小数
      */
     diff(date: DateConfigType | Lunisolar, unit?: Unit, float?: boolean): number
-    // add(value: number, unit?: Unit, config?: any): Lunisolar
-
+    /**
+     * 日期加减
+     *
+     * @param value 加减的数值，负数即为减
+     * @param unit 单位
+     */
+    add(value: number, unit?: Unit): Lunisolar
     /**
      * 格式化日期
+     *
      * @param formatStr 格式化字符串
      */
     format(formatStr: string): string

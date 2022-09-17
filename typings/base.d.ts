@@ -88,7 +88,8 @@ interface ILunisolar {
   utcOffset(): number
   toISOString(): string
   toString(): string
-  diff(date: DateParamType, unit?: Unit, config?: any): number
+  diff(date: DateParamType, unit?: Unit, float?: boolean): number
+  add(value: DateParamType, unit?: Unit): Lunisolar
   format(formatStr: string): string
   [props: string]: any
   // add(value: number, unit?: Unit, config?: any): Lunisolar
