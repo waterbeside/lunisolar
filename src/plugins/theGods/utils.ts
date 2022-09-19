@@ -62,7 +62,9 @@ export function getCheckGodFunc<T = number, U = T>(
     if (res === null || res === false) return false
     const to = resTo(lsr, toYmdh)
     return compareSymbol === 'includes' && Array.isArray(res)
-      ? res.includes(to)
+      ? res.length === 1
+        ? res[0] === to
+        : res.includes(to)
       : res === (to as unknown as T)
   }
   return func
@@ -72,10 +74,11 @@ export function getCommonCheckGodFunc(
   ruleArray: (number | null)[] | string,
   compareFromFunc: StemOrBranchValueFunc,
   fromDiv: number,
+  fromDefaultYmdh: YMDH = 'month',
   compareToFunc?: StemOrBranchValueFunc
 ): CheckGodFunc {
   return getCheckGodFunc(
-    (lsr, ymdh) => Number(ruleArray[compareFromFunc(lsr, ymdh ?? 'month', fromDiv)]),
+    (lsr, ymdh) => Number(ruleArray[compareFromFunc(lsr, ymdh ?? fromDefaultYmdh, fromDiv)]),
     compareToFunc || compareFromFunc
   )
 }

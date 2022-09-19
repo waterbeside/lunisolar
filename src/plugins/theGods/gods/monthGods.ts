@@ -156,7 +156,7 @@ const monthGods: MonthGods = {
     4
   ],
   // 按’丙甲壬庚‘顺序，同样是p212页印误
-  月空: [getCommonCheckGodFunc([2, 0, 8, 6], getBranchValue, 4, getStemValue), 4],
+  月空: [getCommonCheckGodFunc([2, 0, 8, 6], getBranchValue, 4, 'month', getStemValue), 4],
   三合: [
     ((
       lsr: lunisolar.Lunisolar,
@@ -169,38 +169,83 @@ const monthGods: MonthGods = {
     }) as CheckGodFunc,
     4
   ],
-  五富: [getCommonCheckGodFunc([5, 8, 11, 2], getBranchValue, 4, getBranchValue), 4],
-  臨日: [getCommonCheckGodFunc([4, 9, 6, 11, 8, 1, 10, 3, 0, 5, 2, 7], getBranchValue, 0), 4],
-  驛馬: [getCommonCheckGodFunc([2, 11, 8, 5], getBranchValue, 4), 4],
-  天火: [getCommonCheckGodFunc([6, 3, 0, 9], getBranchValue, 4), 4],
-  月煞: [getCommonCheckGodFunc([7, 4, 1, 10], getBranchValue, 4), 4],
-  大時: [getCommonCheckGodFunc([9, 6, 3, 0], getBranchValue, 4), 4],
-  遊禍: [getCommonCheckGodFunc([11, 8, 5, 2], getBranchValue, 4), 4],
-  天吏: [getCommonCheckGodFunc([3, 0, 9, 6], getBranchValue, 4), 4],
-  九空: [getCommonCheckGodFunc([10, 7, 4, 1], getBranchValue, 4), 4],
-  月刑: [getCommonCheckGodFunc([3, 10, 5, 0, 4, 8, 6, 1, 2, 9, 7, 11], getBranchValue, 0), 4],
+  五富: [getCommonCheckGodFunc([5, 8, 11, 2], getBranchValue, 4, 'month', getBranchValue), 4],
+  臨日: [
+    getCommonCheckGodFunc([4, 9, 6, 11, 8, 1, 10, 3, 0, 5, 2, 7], getBranchValue, 0, 'month'),
+    4
+  ],
+  驛馬: [getCommonCheckGodFunc([2, 11, 8, 5], getBranchValue, 4, 'month'), 4],
+  天火: [getCommonCheckGodFunc([6, 3, 0, 9], getBranchValue, 4, 'month'), 4],
+  月煞: [getCommonCheckGodFunc([7, 4, 1, 10], getBranchValue, 4, 'month'), 4],
+  大時: [getCommonCheckGodFunc([9, 6, 3, 0], getBranchValue, 4, 'month'), 4],
+  遊禍: [getCommonCheckGodFunc([11, 8, 5, 2], getBranchValue, 4, 'month'), 4],
+  天吏: [getCommonCheckGodFunc([3, 0, 9, 6], getBranchValue, 4, 'month'), 4],
+  九空: [getCommonCheckGodFunc([10, 7, 4, 1], getBranchValue, 4, 'month'), 4],
+  月刑: [
+    getCommonCheckGodFunc([3, 10, 5, 0, 4, 8, 6, 1, 2, 9, 7, 11], getBranchValue, 0, 'month'),
+    4
+  ],
   // 月神随四季者 （ 已移到monthSeasonGods ）
   // 月神隨月建三合逆行一方者
-  九坎: [getCommonCheckGodFunc([8, 5, 4, 1, 10, 7, 3, 0, 9, 6, 2, 11], getBranchValue, 0), 4],
+  九坎: [
+    getCommonCheckGodFunc([8, 5, 4, 1, 10, 7, 3, 0, 9, 6, 2, 11], getBranchValue, 0, 'month'),
+    4
+  ],
   // 月神随四序行三合者
-  土符: [getCommonCheckGodFunc([8, 0, 1, 5, 9, 2, 6, 10, 3, 7, 11, 4], getBranchValue, 0), 4],
+  土符: [
+    getCommonCheckGodFunc([8, 0, 1, 5, 9, 2, 6, 10, 3, 7, 11, 4], getBranchValue, 0, 'month'),
+    4
+  ],
   // 月神随月建逆行一方者
-  大煞: [getCommonCheckGodFunc([8, 9, 10, 5, 6, 7, 2, 3, 4, 11, 0, 1], getBranchValue, 0), 4],
+  大煞: [
+    getCommonCheckGodFunc([8, 9, 10, 5, 6, 7, 2, 3, 4, 11, 0, 1], getBranchValue, 0, 'month'),
+    4
+  ],
   // 月神隨月建三合順行一方者
-  往亡: [getCommonCheckGodFunc([10, 1, 2, 5, 8, 11, 3, 6, 9, 0, 4, 7], getBranchValue, 0), 4],
+  往亡: [
+    getCommonCheckGodFunc([10, 1, 2, 5, 8, 11, 3, 6, 9, 0, 4, 7], getBranchValue, 0, 'month'),
+    4
+  ],
   // 月神隨孟仲季順行三支者
   歸忌: [getCommonCheckGodFunc([2, 0, 1], getBranchValue, 3), 4],
 
   // 月神隨月建陰陽順行六辰者
-  要安: [getCommonCheckGodFunc([7, 1, 2, 8, 3, 9, 4, 10, 5, 11, 6, 0], getBranchValue, 0), 4], // 未丑寅申卯酉辰戌巳亥午子
-  玉宇: [getCommonCheckGodFunc([8, 2, 3, 9, 4, 10, 5, 11, 6, 0, 7, 1], getBranchValue, 0), 4], // 申寅卯酉辰戌巳亥午子未丑
-  金堂: [getCommonCheckGodFunc([9, 3, 4, 10, 5, 11, 6, 0, 7, 1, 8, 2], getBranchValue, 0), 4], // 酉卯辰戌巳亥午子未丑申寅
-  敬安: [getCommonCheckGodFunc([0, 6, 7, 1, 8, 2, 9, 3, 10, 4, 11, 5], getBranchValue, 0), 4], // 子午未丑申寅酉卯戌辰亥巳
-  普護: [getCommonCheckGodFunc([1, 7, 8, 2, 9, 3, 10, 4, 11, 5, 0, 6], getBranchValue, 0), 4], // 丑未申寅酉卯戌辰亥巳子午
-  福生: [getCommonCheckGodFunc([2, 8, 9, 3, 10, 4, 11, 5, 0, 6, 1, 7], getBranchValue, 0), 4], // 寅申酉卯戌辰亥巳子午丑未
-  聖心: [getCommonCheckGodFunc([4, 10, 11, 5, 0, 6, 1, 7, 2, 8, 9, 3], getBranchValue, 0), 4], // 辰戌亥巳子午丑未寅申卯酉
-  益后: [getCommonCheckGodFunc([5, 11, 0, 6, 1, 7, 2, 8, 9, 3, 4, 10], getBranchValue, 0), 4], // 巳亥子午丑未寅申卯酉辰戌
-  續世: [getCommonCheckGodFunc([0, 6, 1, 7, 2, 8, 9, 3, 4, 10, 5, 11], getBranchValue, 0), 4], // 午子丑未寅申卯酉辰戌巳亥
+  要安: [
+    getCommonCheckGodFunc([7, 1, 2, 8, 3, 9, 4, 10, 5, 11, 6, 0], getBranchValue, 0, 'month'),
+    4
+  ], // 未丑寅申卯酉辰戌巳亥午子
+  玉宇: [
+    getCommonCheckGodFunc([8, 2, 3, 9, 4, 10, 5, 11, 6, 0, 7, 1], getBranchValue, 0, 'month'),
+    4
+  ], // 申寅卯酉辰戌巳亥午子未丑
+  金堂: [
+    getCommonCheckGodFunc([9, 3, 4, 10, 5, 11, 6, 0, 7, 1, 8, 2], getBranchValue, 0, 'month'),
+    4
+  ], // 酉卯辰戌巳亥午子未丑申寅
+  敬安: [
+    getCommonCheckGodFunc([0, 6, 7, 1, 8, 2, 9, 3, 10, 4, 11, 5], getBranchValue, 0, 'month'),
+    4
+  ], // 子午未丑申寅酉卯戌辰亥巳
+  普護: [
+    getCommonCheckGodFunc([1, 7, 8, 2, 9, 3, 10, 4, 11, 5, 0, 6], getBranchValue, 0, 'month'),
+    4
+  ], // 丑未申寅酉卯戌辰亥巳子午
+  福生: [
+    getCommonCheckGodFunc([2, 8, 9, 3, 10, 4, 11, 5, 0, 6, 1, 7], getBranchValue, 0, 'month'),
+    4
+  ], // 寅申酉卯戌辰亥巳子午丑未
+  聖心: [
+    getCommonCheckGodFunc([4, 10, 11, 5, 0, 6, 1, 7, 2, 8, 9, 3], getBranchValue, 0, 'month'),
+    4
+  ], // 辰戌亥巳子午丑未寅申卯酉
+  益后: [
+    getCommonCheckGodFunc([5, 11, 0, 6, 1, 7, 2, 8, 9, 3, 4, 10], getBranchValue, 0, 'month'),
+    4
+  ], // 巳亥子午丑未寅申卯酉辰戌
+  續世: [
+    getCommonCheckGodFunc([0, 6, 1, 7, 2, 8, 9, 3, 4, 10, 5, 11], getBranchValue, 0, 'month'),
+    4
+  ], // 午子丑未寅申卯酉辰戌巳亥
   // 月神隨月將逆行者
   月厭: [monthGeneralDescGodFunc(0), 4],
   六合: [monthGeneralDescGodFunc(1), 4],
@@ -233,11 +278,23 @@ const monthGods: MonthGods = {
   ],
   // 月神取月建生比者
   月恩: [
-    getCommonCheckGodFunc([0, 7, 2, 3, 6, 5, 4, 7, 8, 9, 6, 1], getBranchValue, 0, getStemValue),
+    getCommonCheckGodFunc(
+      [0, 7, 2, 3, 6, 5, 4, 7, 8, 9, 6, 1],
+      getBranchValue,
+      0,
+      'month',
+      getStemValue
+    ),
     4
   ],
   複日: [
-    getCommonCheckGodFunc([9, 5, 0, 1, 4, 2, 3, 5, 6, 7, 4, 8], getBranchValue, 0, getStemValue),
+    getCommonCheckGodFunc(
+      [9, 5, 0, 1, 4, 2, 3, 5, 6, 7, 4, 8],
+      getBranchValue,
+      0,
+      'month',
+      getStemValue
+    ),
     4
   ],
   // 月神從厭建起者
@@ -272,6 +329,7 @@ const monthGods: MonthGods = {
       [48, 59, 10, 21, null, null, 42, null, 53, 16, 27, null],
       getBranchValue,
       0,
+      'month',
       lsr => lsr.char8.day.value
     ),
     4
@@ -281,6 +339,7 @@ const monthGods: MonthGods = {
       [35, 24, null, 15, 4, 5, 54, null, null, null, 45, 34],
       getBranchValue,
       0,
+      'month',
       lsr => lsr.char8.day.value
     ),
     4
@@ -290,6 +349,7 @@ const monthGods: MonthGods = {
       [37, null, null, null, 20, 31, null, null, null, null, null, 26],
       getBranchValue,
       0,
+      'month',
       lsr => lsr.char8.day.value
     ),
     4
@@ -299,6 +359,7 @@ const monthGods: MonthGods = {
       [49, null, null, null, 32, 43, null, null, null, null, null, 38],
       getBranchValue,
       0,
+      'month',
       lsr => lsr.char8.day.value
     ),
     4

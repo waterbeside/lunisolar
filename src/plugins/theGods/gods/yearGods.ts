@@ -61,18 +61,18 @@ type YearGods = { [key in typeof yearGodNames[number]]: GodDictItem }
 
 const yearGods: YearGods = {
   // key : [取得方法, 属于年月日时用四位二进程表示]
-  歲德: [getCommonCheckGodFunc('06284', getStemValue, 5), 8],
-  歲德合: [getCommonCheckGodFunc('51739', getStemValue, 5), 8],
+  歲德: [getCommonCheckGodFunc('06284', getStemValue, 5, 'year'), 8],
+  歲德合: [getCommonCheckGodFunc('51739', getStemValue, 5, 'year'), 8],
   歲禄: [
-    getCommonCheckGodFunc([2, 3, 5, 6, 5, 6, 8, 9, 11, 0], getStemValue, 0, getBranchValue),
+    getCommonCheckGodFunc([2, 3, 5, 6, 5, 6, 8, 9, 11, 0], getStemValue, 0, 'year', getBranchValue),
     8
   ],
   陽貴: [
-    getCommonCheckGodFunc([7, 8, 9, 11, 1, 0, 1, 2, 3, 5], getStemValue, 0, getBranchValue),
+    getCommonCheckGodFunc([7, 8, 9, 11, 1, 0, 1, 2, 3, 5], getStemValue, 0, 'year', getBranchValue),
     8
   ],
   陰貴: [
-    getCommonCheckGodFunc([1, 0, 11, 9, 7, 8, 7, 6, 5, 3], getStemValue, 0, getBranchValue),
+    getCommonCheckGodFunc([1, 0, 11, 9, 7, 8, 7, 6, 5, 3], getStemValue, 0, 'year', getBranchValue),
     8
   ],
   金神: [
@@ -168,14 +168,17 @@ const yearGods: YearGods = {
   六害: [branchDescGodFunc(7), 8],
   五鬼: [branchDescGodFunc(4), 8],
   // 年神從歲支三合者
-  歲馬: [getCommonCheckGodFunc([2, 11, 8, 5], getBranchValue, 4), 8],
-  歲刑: [getCommonCheckGodFunc([3, 10, 5, 0, 4, 8, 6, 1, 2, 9, 7, 11], getBranchValue, 0), 8],
+  歲馬: [getCommonCheckGodFunc([2, 11, 8, 5], getBranchValue, 4, 'year'), 8],
+  歲刑: [
+    getCommonCheckGodFunc([3, 10, 5, 0, 4, 8, 6, 1, 2, 9, 7, 11], getBranchValue, 0, 'year'),
+    8
+  ],
   // 劫煞 災煞移到commonGods
   // 劫煞: [getCommonCheckGodFunc([5, 2, 11, 8], getBranchValue, 4), 12],
   // 災煞: [getCommonCheckGodFunc([6, 3, 0, 9], getBranchValue, 4), 12],
-  歲煞: [getCommonCheckGodFunc([7, 4, 1, 10], getBranchValue, 4), 8],
-  伏兵: [getCommonCheckGodFunc([2, 0, 8, 6], getBranchValue, 4, getStemValue), 8],
-  大禍: [getCommonCheckGodFunc([3, 1, 9, 7], getBranchValue, 4, getStemValue), 8],
+  歲煞: [getCommonCheckGodFunc([7, 4, 1, 10], getBranchValue, 4, 'year'), 8],
+  伏兵: [getCommonCheckGodFunc([2, 0, 8, 6], getBranchValue, 4, 'year', getStemValue), 8],
+  大禍: [getCommonCheckGodFunc([3, 1, 9, 7], getBranchValue, 4, 'year', getStemValue), 8],
   坐煞: [
     getCheckGodFunc<number[], number>(
       lsr =>
@@ -204,13 +207,16 @@ const yearGods: YearGods = {
     ),
     8
   ],
-  天官符: [getCommonCheckGodFunc([11, 8, 5, 2], getBranchValue, 4), 8],
-  大煞: [getCommonCheckGodFunc([0, 9, 6, 3], getBranchValue, 4), 8],
-  黃幡: [getCommonCheckGodFunc([4, 1, 10, 7], getBranchValue, 4), 8],
-  豹尾: [getCommonCheckGodFunc([10, 7, 4, 1], getBranchValue, 4), 8],
-  炙退: [getCommonCheckGodFunc([3, 0, 9, 6], getBranchValue, 4), 8],
+  天官符: [getCommonCheckGodFunc([11, 8, 5, 2], getBranchValue, 4, 'year'), 8],
+  大煞: [getCommonCheckGodFunc([0, 9, 6, 3], getBranchValue, 4, 'year'), 8],
+  黃幡: [getCommonCheckGodFunc([4, 1, 10, 7], getBranchValue, 4, 'year'), 8],
+  豹尾: [getCommonCheckGodFunc([10, 7, 4, 1], getBranchValue, 4, 'year'), 8],
+  炙退: [getCommonCheckGodFunc([3, 0, 9, 6], getBranchValue, 4, 'year'), 8],
   // 年神隨歲支順行一方者
-  飛廉: [getCommonCheckGodFunc([8, 9, 10, 5, 6, 7, 2, 3, 4, 11, 0, 1], getBranchValue, 0), 8]
+  飛廉: [
+    getCommonCheckGodFunc([8, 9, 10, 5, 6, 7, 2, 3, 4, 11, 0, 1], getBranchValue, 0, 'year'),
+    8
+  ]
 } as YearGods
 
 yearGods.畜官 = [...yearGods.官符]
