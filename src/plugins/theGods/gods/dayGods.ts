@@ -221,3 +221,5 @@ const dayGods: DayGods = {
     2
   ]
 }
+
+export { dayGodNames, dayGods, DayGods }
