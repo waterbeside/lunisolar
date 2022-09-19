@@ -25,7 +25,6 @@ const takeSoundPlugin: lunisolar.PluginFunc = async (options, lsClass, lsFactory
   Object.defineProperty(sbProto, 'takeSound', {
     get(): string {
       const locale = lsFactory.getLocale(this._config.lang)
-      console.log(locale)
       if (this._takeSoundValue === undefined) {
         this._takeSoundValue = ((this as lunisolar.SB).value >> 1) % 30
       }
