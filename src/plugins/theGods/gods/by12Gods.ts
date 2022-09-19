@@ -14,7 +14,7 @@ by12Gods (black & yellow 12 gods)
 import { getBranchValue } from '../../../utils'
 import { getCheckGodFunc } from '../utils'
 
-const day12GodsList = [
+const by12GodNames = [
   '青龍',
   '明堂',
   '天刑',
@@ -29,8 +29,8 @@ const day12GodsList = [
   '勾陳'
 ] as const
 
-type Day12Gods = { [key in typeof day12GodsList[number]]: GodDictItem }
-const day12Gods: Day12Gods = {} as Day12Gods
+type By12Gods = { [key in typeof by12GodNames[number]]: GodDictItem }
+
 /**
  * 
  ```
@@ -41,11 +41,11 @@ const day12Gods: Day12Gods = {} as Day12Gods
  * @param offset 
  * @returns 
  */
-function createMonth6cGod(offset: number): GodDictItem {
+function theBy12Gods(offset: number, defaultYmdh: YMDH = 'month'): GodDictItem {
   const order = [8, 10, 0, 2, 4, 6] // 申戌子寅辰午
   return [
     getCheckGodFunc(
-      (lsr: lunisolar.Lunisolar, ymdh: YMDH = 'month') =>
+      (lsr: lunisolar.Lunisolar, ymdh: YMDH = defaultYmdh) =>
         (order[getBranchValue(lsr, ymdh) % 6] + offset) % 12,
       getBranchValue
     ),
@@ -53,9 +53,13 @@ function createMonth6cGod(offset: number): GodDictItem {
   ]
 }
 
-for (const idx in day12GodsList) {
-  const item = day12GodsList[idx]
-  day12Gods[item] = createMonth6cGod(Number(idx))
+const createBy12Gods = (defaultYmdh: YMDH = 'month'): By12Gods => {
+  const by12Gods: By12Gods = {} as By12Gods
+  for (const idx in by12GodNames) {
+    const item = by12GodNames[idx]
+    by12Gods[item] = theBy12Gods(Number(idx))
+  }
+  return by12Gods
 }
 
-export { day12Gods }
+export { by12GodNames, createBy12Gods, By12Gods }
