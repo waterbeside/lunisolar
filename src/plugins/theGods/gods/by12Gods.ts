@@ -57,7 +57,7 @@ const createBy12Gods = (defaultYmdh: YMDH = 'month'): By12Gods => {
   const by12Gods: By12Gods = {} as By12Gods
   for (const idx in by12GodNames) {
     const item = by12GodNames[idx]
-    by12Gods[item] = theBy12Gods(Number(idx))
+    by12Gods[item] = theBy12Gods(Number(idx), defaultYmdh)
   }
   return by12Gods
 }
