@@ -371,11 +371,10 @@ declare namespace lunisolar {
     getSeasonIndex(): number
 
     /**
-   * 取得當前日期所在的月建或月將地支，
-     月建：子月從0開始，月將：子月月將日到丑月月將日為0，類推
-   * @param flag 為0時取月建，為1時取月將, default 0
-   *
-   */
+     * 取得當前日期所在的月建或月將地支，
+      月建：子月從0開始，月將：子月月將日到丑月月將日為0，類推
+     * @param flag 為0時取月建，為1時取月將, default 0
+    */
     getMonthBuilder(flag?: 0 | 1): [SB, lunisolar.SolarTerm, Date]
     /**
      * 取得季节
@@ -385,8 +384,17 @@ declare namespace lunisolar {
     getConfig(): LunisolarConfigData
     getConfig(key: keyof LunisolarConfigData): LunisolarConfigData[typeof key]
     getConfig(key?: keyof LunisolarConfigData): any
-
+    /**
+     * 取得當前語言包
+     * @param lang 語言包名稱，不填時為當前設定語言包
+     */
     getLocale(lang?: string): LocaleData
+    /**
+     * 通过语言包的key取得翻译结果
+     * @param key 语言key, 多层key可通过.号分隔，如 'theGods.建'
+     */
+    L(key: keyof LocaleData): LocaleData[typeof key]
+    L<T = any>(key: string): T | string
     /**
      * Returns a Date object for the current time
      *

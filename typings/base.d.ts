@@ -76,6 +76,8 @@ interface ILunisolar {
   getSeason(isShortName?: boolean): string
   getMonthBuilder(flag?: 0 | 1): [SB, lunisolar.SolarTerm, Date]
   getLocale(lang?: string): LocaleData
+  L(key: keyof LocaleData): LocaleData[typeof key]
+  L<T = any>(key: string): T | string
   getConfig(): LunisolarConfigData
   getConfig(key: keyof LunisolarConfigData): LunisolarConfigData[typeof key]
   getConfig(key?: keyof LunisolarConfigData): any
