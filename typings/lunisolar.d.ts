@@ -500,7 +500,7 @@ declare namespace lunisolar {
    * 加载语言包
    * @param localeData 语言包, 可以存入单个或多个，多个则以数组形式传入，最后一个语言包会覆盖前面的。
    */
-  export function locale(localeData: ILocale | ILocale[]): typeof lunisolar
+  export function locale(localeData: ILocale | ILocale[], unChangeLang?: boolean): typeof lunisolar
 
   /**
    * 取得语言包

@@ -8,7 +8,7 @@ interface LunisolarEx extends lunisolar.Lunisolar {
 }
 
 const fetalGodPlugin: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
-  lsFactory.locale(zh)
+  lsFactory.locale(zh, true)
   const lsProto = lsClass.prototype as unknown as LunisolarEx
   // **** 胎神 ****
   Object.defineProperty(lsProto, 'fetalGodData', {

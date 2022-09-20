@@ -17,7 +17,7 @@ interface LunisolarEx extends lunisolar.Lunisolar {
 }
 
 const takeSoundPlugin: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
-  lsFactory.locale(zh)
+  lsFactory.locale(zh, true)
   const lsProto = lsClass.prototype as unknown as LunisolarEx
   // **** 纳音 ****
   const sbProto = lsFactory.SB.prototype as unknown as SB

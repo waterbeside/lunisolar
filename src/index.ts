@@ -51,15 +51,18 @@ lunisolar.extend = <T = any>(plugin: PluginFunc, options?: T): typeof lunisolar 
 /**
  * 加载语言包
  */
-lunisolar.locale = (localeData: ILocale | ILocale[]): typeof lunisolar => {
+lunisolar.locale = (
+  localeData: ILocale | ILocale[],
+  unChangeLang: boolean = false
+): typeof lunisolar => {
   if (Array.isArray(localeData)) {
     for (const item of localeData) {
-      lunisolar.locale(item)
+      lunisolar.locale(item, unChangeLang)
     }
     return lunisolar
   }
   if (!localeData || !localeData.name) return lunisolar
-  _GlobalConfig.lang = localeData.name
+  if (!unChangeLang) _GlobalConfig.lang = localeData.name
   _GlobalConfig.locales[localeData.name] = Object.assign(
     {},
     _GlobalConfig.locales[localeData.name],
