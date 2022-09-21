@@ -61,18 +61,24 @@ type YearGods = { [key in typeof yearGodNames[number]]: GodDictItem }
 
 const yearGods: YearGods = {
   // key : [取得方法, 属于年月日时用四位二进程表示]
-  歲德: [getCommonCheckGodFunc('06284', getStemValue, 5, 'year'), 8],
-  歲德合: [getCommonCheckGodFunc('51739', getStemValue, 5, 'year'), 8],
+  歲德: [getCommonCheckGodFunc('06284', getStemValue, 5, 'year'), [], [], 8],
+  歲德合: [getCommonCheckGodFunc('51739', getStemValue, 5, 'year'), [], [], 8],
   歲禄: [
     getCommonCheckGodFunc([2, 3, 5, 6, 5, 6, 8, 9, 11, 0], getStemValue, 0, 'year', getBranchValue),
+    [],
+    [],
     8
   ],
   陽貴: [
     getCommonCheckGodFunc([7, 8, 9, 11, 1, 0, 1, 2, 3, 5], getStemValue, 0, 'year', getBranchValue),
+    [],
+    [],
     8
   ],
   陰貴: [
     getCommonCheckGodFunc([1, 0, 11, 9, 7, 8, 7, 6, 5, 3], getStemValue, 0, 'year', getBranchValue),
+    [],
+    [],
     8
   ],
   金神: [

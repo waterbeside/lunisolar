@@ -35,6 +35,8 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value,
       'includes'
     ),
+    '覃恩 肆赦 施恩惠 恤孤煢 布政事 行惠愛 雪冤枉 緩刑獄 慶賜 賞賀 宴會 行幸'.split(' '),
+    null,
     2
   ],
   五合: [

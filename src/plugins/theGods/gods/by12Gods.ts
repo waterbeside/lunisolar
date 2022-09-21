@@ -49,6 +49,8 @@ function theBy12Gods(offset: number, defaultYmdh: YMDH = 'month'): GodDictItem {
         (order[getBranchValue(lsr, ymdh) % 6] + offset) % 12,
       getBranchValue
     ),
+    [],
+    [],
     4
   ]
 }

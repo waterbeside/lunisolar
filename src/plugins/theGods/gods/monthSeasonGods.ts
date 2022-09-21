@@ -1,8 +1,9 @@
 import { getBranchValue, getStemValue } from '../../../utils'
 import { getCheckGodFunc } from '../utils'
+import { deGoodAct, snDeGoodAct } from '../actData'
 
 const monthSeasonGodNames = [
-  '大赦',
+  '天赦',
   '母倉',
   '四相',
   '時德',
@@ -24,11 +25,13 @@ type MonthSeasonGods = { [key in typeof monthSeasonGodNames[number]]: GodDictIte
 
 const monthSeasonGods: MonthSeasonGods = {
   // 月神随四季者
-  大赦: [
+  天赦: [
     getCheckGodFunc(
       lsr => [14, 30, 44, 0][lsr.getSeasonIndex()],
       (lsr, ymdh) => lsr.char8[ymdh].value
     ),
+    deGoodAct,
+    ['畋獵', '取魚'],
     4
   ],
   母倉: [
@@ -43,6 +46,8 @@ const monthSeasonGods: MonthSeasonGods = {
       getBranchValue,
       'includes'
     ),
+    ['納財', '栽種', '牧養', '納畜'],
+    null,
     4
   ],
   四相: [
@@ -58,6 +63,8 @@ const monthSeasonGods: MonthSeasonGods = {
       getStemValue,
       'includes'
     ),
+    snDeGoodAct,
+    null,
     4
   ],
   時德: [
@@ -66,6 +73,8 @@ const monthSeasonGods: MonthSeasonGods = {
       lsr => [6, 4, 0, 2][lsr.getSeasonIndex()],
       getBranchValue
     ),
+    snDeGoodAct,
+    null,
     4
   ],
   王日: [
@@ -74,6 +83,12 @@ const monthSeasonGods: MonthSeasonGods = {
       lsr => [2, 5, 8, 11][lsr.getSeasonIndex()],
       getBranchValue
     ),
+    (
+      '頒詔 覃恩 肆赦 施恩封拜 詔命公卿 ' +
+      '招賢 舉正直 施恩惠 恤孤煢 宣政事 行惠愛 雪冤枉 緩刑獄 慶賜 賞賀 宴會 行幸 ' +
+      '遣使 安撫邊境 選將訓兵 上官赴任 臨政親民 裁製'
+    ).split(' '),
+    null,
     4
   ],
   官日: [
@@ -82,6 +97,8 @@ const monthSeasonGods: MonthSeasonGods = {
       lsr => [3, 6, 9, 0][lsr.getSeasonIndex()],
       getBranchValue
     ),
+    ['襲爵受封', '上官赴任', '臨政親民'],
+    null,
     4
   ],
   守日: [
@@ -90,6 +107,8 @@ const monthSeasonGods: MonthSeasonGods = {
       lsr => [4, 7, 10, 1][lsr.getSeasonIndex()],
       getBranchValue
     ),
+    ['襲爵受封', '上官赴任', '臨政親民', '安撫邊境'],
+    null,
     4
   ],
   相日: [
@@ -98,6 +117,8 @@ const monthSeasonGods: MonthSeasonGods = {
       lsr => [5, 8, 11, 2][lsr.getSeasonIndex()],
       getBranchValue
     ),
+    ['襲爵受封', '上官赴任', '臨政親民'],
+    null,
     4
   ],
   民日: [
@@ -106,6 +127,8 @@ const monthSeasonGods: MonthSeasonGods = {
       lsr => [6, 9, 0, 3][lsr.getSeasonIndex()],
       getBranchValue
     ),
+    '宴會 結婚姻 納采問名 進人口 般移 開市 立券 交易 納財 栽種 牧養 納畜'.split(' '),
+    null,
     4
   ],
   四擊: [
@@ -114,6 +137,8 @@ const monthSeasonGods: MonthSeasonGods = {
       lsr => [10, 1, 4, 7][lsr.getSeasonIndex()],
       getBranchValue
     ),
+    null,
+    null,
     4
   ],
   四忌: [
@@ -122,6 +147,8 @@ const monthSeasonGods: MonthSeasonGods = {
       lsr => [0, 12, 36, 48][lsr.getSeasonIndex()],
       (lsr, ymdh) => lsr.char8[ymdh].value
     ),
+    null,
+    null,
     4
   ],
   四窮: [
@@ -130,6 +157,8 @@ const monthSeasonGods: MonthSeasonGods = {
       lsr => [11, 23, 47, 59][lsr.getSeasonIndex()],
       (lsr, ymdh) => lsr.char8[ymdh].value
     ),
+    null,
+    null,
     4
   ],
   四耗: [
@@ -138,6 +167,8 @@ const monthSeasonGods: MonthSeasonGods = {
       lsr => [48, 51, 54, 57][lsr.getSeasonIndex()],
       (lsr, ymdh) => lsr.char8[ymdh].value
     ),
+    null,
+    null,
     4
   ],
   四廢: [
@@ -153,6 +184,8 @@ const monthSeasonGods: MonthSeasonGods = {
       (lsr, ymdh) => lsr.char8[ymdh].value,
       'includes'
     ),
+    null,
+    null,
     4
   ],
   五虛: [
@@ -168,6 +201,8 @@ const monthSeasonGods: MonthSeasonGods = {
       getBranchValue,
       'includes'
     ),
+    null,
+    null,
     4
   ],
   八風: [
@@ -183,6 +218,8 @@ const monthSeasonGods: MonthSeasonGods = {
       (lsr, ymdh) => lsr.char8[ymdh].value,
       'includes'
     ),
+    null,
+    null,
     4
   ]
 }
