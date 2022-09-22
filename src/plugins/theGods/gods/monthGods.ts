@@ -264,6 +264,13 @@ const monthGods: MonthGods = {
     ).split(' '),
     4
   ],
+  // 定日 又為死氣
+  死氣: [
+    getCheckGodFunc((lsr, ymdh = 'month') => (getBranchValue(lsr, ymdh) + 4) % 12, getBranchValue),
+    null,
+    '安撫邊境 選將訓兵 出師 解除 求醫療病 修置產室 栽種'.split(' '),
+    4
+  ],
   // 月神随四季者 （ 已移到monthSeasonGods ）
   // 月神隨月建三合逆行一方者
   九坎: [
@@ -366,7 +373,7 @@ const monthGods: MonthGods = {
     null,
     4
   ],
-  天賊: [monthGeneralDescGodFunc(3), null, null, 4],
+  天賊: [monthGeneralDescGodFunc(3), null, ['行幸', '遣使', '修倉庫', '納財', '出貨財'], 4],
   天倉: [monthGeneralDescGodFunc(4), ['進人口', '納財', '納畜'], null, 4],
   六儀: [monthGeneralDescGodFunc(5), ['臨政親民'], null, 4],
   月害: [

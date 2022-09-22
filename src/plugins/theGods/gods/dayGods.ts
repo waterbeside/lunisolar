@@ -65,6 +65,8 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getBranchValue(lsr, ymdh),
       'includes'
     ),
+    null,
+    null,
     2
   ],
   鳴吠: [
@@ -123,6 +125,8 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value,
       'includes'
     ),
+    null,
+    null,
     2
   ],
   伐日: [
@@ -131,6 +135,8 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value,
       'includes'
     ),
+    null,
+    null,
     2
   ],
   八專: [
@@ -139,6 +145,8 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value,
       'includes'
     ),
+    null,
+    null,
     2
   ],
   觸水龍: [
@@ -147,6 +155,8 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value,
       'includes'
     ),
+    null,
+    null,
     2
   ],
   無祿: [
@@ -155,6 +165,8 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value,
       'includes'
     ),
+    null,
+    null,
     2
   ],
   重日: [
@@ -162,6 +174,8 @@ const dayGods: DayGods = {
       lsr => 35,
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value
     ),
+    null,
+    null,
     2
   ],
   // 日神按年取干支者
@@ -170,6 +184,8 @@ const dayGods: DayGods = {
       lsr => [59, 5, 11, 17, 23, 29, 35, 41, 47, 53][getStemValue(lsr, 'year')],
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value
     ),
+    null,
+    null,
     2
   ],
   // 日神按月取數者
@@ -181,6 +197,8 @@ const dayGods: DayGods = {
       if (!toYmdh) return res
       return res.length === 1 ? res[0] === lsr.lunar.day : res.includes(lsr.lunar.day)
     }) as CheckGodFunc,
+    null,
+    null,
     2
   ],
   短星: [
@@ -191,6 +209,8 @@ const dayGods: DayGods = {
       if (!toYmdh) return res
       return res.length === 1 ? res[0] === lsr.lunar.day : res.includes(lsr.lunar.day)
     }) as CheckGodFunc,
+    null,
+    null,
     2
   ],
   // 日神按朔取日数者
@@ -204,6 +224,8 @@ const dayGods: DayGods = {
       if (!toYmdh) return res
       return res === lunarDay
     }) as CheckGodFunc,
+    null,
+    null,
     2
   ],
   // 日神按节气取数者
@@ -213,6 +235,8 @@ const dayGods: DayGods = {
       if (!nextDate.solarTerm) return false
       return [23, 11, 5, 17].includes(nextDate.solarTerm.value)
     }) as CheckGodFunc,
+    null,
+    null,
     2
   ],
   四絕: [
@@ -221,6 +245,8 @@ const dayGods: DayGods = {
       if (!nextDate.solarTerm) return false
       return [2, 8, 14, 20].includes(nextDate.solarTerm.value)
     }) as CheckGodFunc,
+    null,
+    null,
     2
   ],
   氣往亡: [
@@ -234,6 +260,8 @@ const dayGods: DayGods = {
       // 節氣索引從小寒開始，對應丑月
       return ((diffDate.solarTerm.value >> 1) + 13) % 12 === branchValue
     }) as CheckGodFunc,
+    null,
+    null,
     2
   ]
 }

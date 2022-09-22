@@ -138,7 +138,7 @@ const monthSeasonGods: MonthSeasonGods = {
       getBranchValue
     ),
     null,
-    null,
+    ['安撫邊境', '選將訓兵', '出師'],
     4
   ],
   四忌: [
@@ -168,7 +168,7 @@ const monthSeasonGods: MonthSeasonGods = {
       (lsr, ymdh) => lsr.char8[ymdh].value
     ),
     null,
-    null,
+    '安撫邊境 選將訓兵 出師 修倉庫 開市 立券 交易 納財 開倉庫 出貨財'.split(' '),
     4
   ],
   四廢: [

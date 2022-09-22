@@ -1,3 +1,114 @@
+import { isNumber } from '../../utils'
+
+const a001 = '祈福 求嗣'
+const a001a = '祭祀 祈福 求嗣'
+const a001b = '祈福 求嗣 上冊進表章 施恩封拜 詔命公卿'
+const a002 = '覃恩 肆赦'
+const a003 = '施恩封拜 詔命公卿'
+const a003a = `${a001a} 上冊進表章 頒詔 ${a002} ${a003}`
+const a004 = '招賢 舉正直'
+const a005 = '施恩惠 恤孤煢'
+const a006 = '宣政事 布政事'
+const a007 = '雪冤枉 緩刑獄'
+const a008 = '慶賜 賞賀 宴會'
+const a009 = '行幸 遣使'
+const a010 = '安撫邊境 選將訓兵 出師'
+const a011 = '上官赴任 臨政親民'
+const a011a = `${a010} ${a011}`
+const a012 = '結婚姻 納采問名'
+const a012a = '結婚姻 納采問名 嫁娶'
+const a012b = '結婚姻 納采問名 嫁娶 進人口'
+const a013 = '般移 遠回'
+const a014 = '整容 剃頭 整手足甲'
+const a014a = '解除 整容 剃頭 整手足甲'
+const a015 = '求醫療病'
+const a016 = '營建宮室 修宮室 繕城郭'
+const a017 = '興造動土 豎柱上梁 修倉庫'
+const a018 = '經絡 醞釀'
+const a019 = '開市 立券 交易'
+const a019a = '開市 立券 交易 納財'
+const a020 = '開倉庫 出貨財'
+const a020a = '開市 立券 交易 納財 開倉庫 出貨財'
+const a020b = '修倉庫 開市 立券 交易 納財 開倉庫 出貨財'
+const a021 = '修置產室'
+const a022 = '破屋壞垣 開渠穿井'
+const a023 = '修飾垣墻 破屋壞垣'
+const a024 = '栽種 牧養 納畜'
+const a025 = '破土 安葬'
+const a025a = '破土 安葬 啟攢'
+
+const actDict = {
+  a001,
+  a001a,
+  a001b,
+  a002,
+  a003,
+  a003a,
+  a004,
+  a005,
+  a006,
+  a007,
+  a008,
+  a009,
+  a010,
+  a011,
+  a011a,
+  a012,
+  a012a,
+  a012b,
+  a013,
+  a014,
+  a014a,
+  a015,
+  a016,
+  a017,
+  a018,
+  a019,
+  a019a,
+  a020,
+  a020a,
+  a020b,
+  a021,
+  a022,
+  a023,
+  a024,
+  a025,
+  a025a
+}
+
+type ActGroupKey = keyof typeof actDict
+
+export function getAct(actGroup: (string | number)[]): string[]
+export function getAct(actGroup: (string | number)[], returnString: false): string[]
+export function getAct(actGroup: (string | number)[], returnString: true): string
+export function getAct(
+  actGroup: (string | number)[],
+  returnString: boolean = false
+): string[] | string {
+  let resString = ''
+  const parseItem = function (item: string | number) {
+    const groupKey = 'a' + (isNumber(item) ? ('00' + item).slice(-3) : item)
+    const sp = resString ? ' ' : ''
+    if (actDict.hasOwnProperty(groupKey)) {
+      // if (actDict.hasOwnProperty(groupKey)) {
+      resString = sp + actDict[groupKey as ActGroupKey]
+    } else if (typeof item != 'number') {
+      resString = sp + item
+    }
+  }
+  for (const item of actGroup) {
+    if (typeof item === 'string' && !isNumber(item) && item.indexOf('-')) {
+      const its = item.split('-')
+      if (its.length === 2 && isNumber(its[0]) && isNumber(its[1])) {
+        for (let i = Number(its[0]); i <= Number(its[1]); i++) {
+          parseItem(i)
+        }
+      }
+    } else parseItem(item)
+  }
+  return returnString ? resString : resString.split(' ')
+}
+
 export const commonAct = (
   '祭祀 祈福 求嗣 上冊受封 上表章 襲爵受封 ' +
   '會親友 入學 冠帶 出行 上官赴任 臨政親民 ' +
@@ -12,20 +123,28 @@ export const commonAct = (
 ).split(' ')
 
 // 天德月德天德合月德合所宜 (天赦亦然)
-export const deGoodAct = (
-  '祭祀 祈福 求嗣 上冊進表章 頒詔 覃恩 肆赦 施恩封拜 詔命公卿 ' +
-  '招賢 舉正直 施恩惠 恤孤煢 宣政事 行惠愛 雪冤枉 緩刑獄 慶賜 賞賀 宴會 行幸 ' +
-  '遣使 安撫邊境 選將訓兵 出師 上官赴任 臨政親民 結婚姻 納采問名 嫁娶 般移 解除 ' +
-  '求醫療病 裁製 營建宮室 繕城郭 興造動土 豎柱上梁 修倉庫 栽種 牧養 納畜 安葬'
-).split(' ')
+export const deGoodAct = getAct(
+  ['a003a', 4, 5, '宣政事', '7-11', '012a', 13, '解除', 15, '裁製 營建宮室 繕城郭', 17, 24, '栽種'],
+  false
+)
+// (
+//   '祭祀 祈福 求嗣 上冊進表章 頒詔 覃恩 肆赦 施恩封拜 詔命公卿 ' +
+//   '招賢 舉正直 施恩惠 恤孤煢 宣政事 行惠愛 雪冤枉 緩刑獄 慶賜 賞賀 宴會 行幸 ' +
+//   '遣使 安撫邊境 選將訓兵 出師 上官赴任 臨政親民 結婚姻 納采問名 嫁娶 般移 解除 ' +
+//   '求醫療病 裁製 營建宮室 繕城郭 興造動土 豎柱上梁 修倉庫 栽種 牧養 納畜 安葬'
+// ).split(' ')
 
-// 天願 (比天德少了解除 療病，多了經絡  醞釀等)
-export const heavenWishGoodAct = (
-  '祭祀 祈福 求嗣 上冊進表章 頒詔 覃恩 肆赦 施恩封拜 詔命公卿 ' +
-  '招賢 舉正直 施恩惠 恤孤煢 宣政事 行惠愛 雪冤枉 緩刑獄 慶賜 賞賀 宴會 行幸 ' +
-  '遣使 安撫邊境 選將訓兵 出師 上官赴任 臨政親民 結婚姻 納采問名 嫁娶 進人口 般移 ' +
-  '裁製 營建宮室 繕城郭 興造動土 豎柱上梁 修倉庫 經絡 醞釀 開市 立券 交易 納財 栽種 牧養 納畜 安葬'
-).split(' ')
+// 天願 (比天德少了解除 療病，多了進人口 經絡  醞釀等)
+export const heavenWishGoodAct = getAct(
+  ['a003a', 4, 5, '宣政事', '7-11', '012b', 13, '裁製 營建宮室 繕城郭', 17, 18, 24, '栽種'],
+  false
+)
+// (
+//   '祭祀 祈福 求嗣 上冊進表章 頒詔 覃恩 肆赦 施恩封拜 詔命公卿 ' +
+//   '招賢 舉正直 施恩惠 恤孤煢 宣政事 行惠愛 雪冤枉 緩刑獄 慶賜 賞賀 宴會 行幸 ' +
+//   '遣使 安撫邊境 選將訓兵 出師 上官赴任 臨政親民 結婚姻 納采問名 嫁娶 進人口 般移 ' +
+//   '裁製 營建宮室 繕城郭 興造動土 豎柱上梁 修倉庫 經絡 醞釀 開市 立券 交易 納財 栽種 牧養 納畜 安葬'
+// ).split(' ')
 
 // 月恩 四相 時德
 export const snDeGoodAct = (
