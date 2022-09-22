@@ -32,6 +32,26 @@ const by12GodNames = [
 type By12Gods = { [key in typeof by12GodNames[number]]: GodDictItem }
 
 /**
+ ```
+ 青龍 明堂 金匱 寶光 玉堂 司命 與吉神并則從所宜，與凶神并， 則從所忌
+ ```
+ */
+const by12GodData: { [key in typeof by12GodNames[number]]: [string[] | null, string[] | null] } = {
+  青龍: [null, null],
+  明堂: [null, null],
+  天刑: [null, null],
+  朱雀: [null, null],
+  金匱: [null, null],
+  天德: [null, null],
+  白虎: [null, null],
+  玉堂: [null, null],
+  天牢: [null, null],
+  玄武: [null, null],
+  司命: [null, null],
+  勾陳: [null, null]
+}
+
+/**
  * 
  ```
  子午青龙起在申，卯酉之日又在寅。
@@ -43,14 +63,15 @@ type By12Gods = { [key in typeof by12GodNames[number]]: GodDictItem }
  */
 function theBy12Gods(offset: number, defaultYmdh: YMDH = 'month'): GodDictItem {
   const order = [8, 10, 0, 2, 4, 6] // 申戌子寅辰午
+  const godKey = by12GodNames[offset]
   return [
     getCheckGodFunc(
       (lsr: lunisolar.Lunisolar, ymdh: YMDH = defaultYmdh) =>
         (order[getBranchValue(lsr, ymdh) % 6] + offset) % 12,
       getBranchValue
     ),
-    [],
-    [],
+    by12GodData[godKey][0],
+    by12GodData[godKey][1],
     4
   ]
 }

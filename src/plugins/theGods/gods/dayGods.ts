@@ -45,6 +45,8 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getBranchValue(lsr, ymdh),
       'includes'
     ),
+    ['宴會', '結婚姻', '立券', '交易'],
+    null,
     2
   ],
   除神: [
@@ -53,6 +55,8 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getBranchValue(lsr, ymdh),
       'includes'
     ),
+    ['解除', '沐浴', '整容', '剃頭', '整手足甲', '求醫療病', '掃舍宇'],
+    null,
     2
   ],
   五離: [
@@ -69,6 +73,8 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value,
       'includes'
     ),
+    ['破土', '安葬'],
+    null,
     2
   ],
   鳴吠對: [
@@ -77,6 +83,8 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value,
       'includes'
     ),
+    ['破土', '啟攢'],
+    null,
     2
   ],
   寶日: [
@@ -85,6 +93,8 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value,
       'includes'
     ),
+    ['安撫邊境', '選選將訓兵', '出師'],
+    null,
     2
   ],
   義日: [
@@ -93,6 +103,8 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value,
       'includes'
     ),
+    ['安撫邊境', '選選將訓兵', '出師'],
+    null,
     2
   ],
   製日: [
@@ -101,6 +113,8 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value,
       'includes'
     ),
+    ['安撫邊境', '選選將訓兵', '出師'],
+    null,
     2
   ],
   專日: [
