@@ -1,6 +1,6 @@
 import { getBranchValue, getStemValue } from '../../../utils'
 import { getCheckGodFunc } from '../utils'
-import { deGoodAct, snDeGoodAct } from '../actData'
+import { deGoodAct, snDeGoodAct, getAct } from '../actData'
 
 const monthSeasonGodNames = [
   '天赦',
@@ -46,7 +46,7 @@ const monthSeasonGods: MonthSeasonGods = {
       getBranchValue,
       'includes'
     ),
-    ['納財', '栽種', '牧養', '納畜'],
+    getAct(['納財', 24]),
     null,
     4
   ],
@@ -83,11 +83,7 @@ const monthSeasonGods: MonthSeasonGods = {
       lsr => [2, 5, 8, 11][lsr.getSeasonIndex()],
       getBranchValue
     ),
-    (
-      '頒詔 覃恩 肆赦 施恩封拜 詔命公卿 ' +
-      '招賢 舉正直 施恩惠 恤孤煢 宣政事 行惠愛 雪冤枉 緩刑獄 慶賜 賞賀 宴會 行幸 ' +
-      '遣使 安撫邊境 選將訓兵 上官赴任 臨政親民 裁製'
-    ).split(' '),
+    getAct(['頒詔', 2, 3, '008a', 9, '011a', '裁製'], false),
     null,
     4
   ],
@@ -97,7 +93,7 @@ const monthSeasonGods: MonthSeasonGods = {
       lsr => [3, 6, 9, 0][lsr.getSeasonIndex()],
       getBranchValue
     ),
-    ['襲爵受封', '上官赴任', '臨政親民'],
+    getAct(['011b'], false),
     null,
     4
   ],
@@ -107,7 +103,7 @@ const monthSeasonGods: MonthSeasonGods = {
       lsr => [4, 7, 10, 1][lsr.getSeasonIndex()],
       getBranchValue
     ),
-    ['襲爵受封', '上官赴任', '臨政親民', '安撫邊境'],
+    getAct(['011b', '安撫邊境'], false),
     null,
     4
   ],
@@ -117,7 +113,7 @@ const monthSeasonGods: MonthSeasonGods = {
       lsr => [5, 8, 11, 2][lsr.getSeasonIndex()],
       getBranchValue
     ),
-    ['襲爵受封', '上官赴任', '臨政親民'],
+    getAct(['011b'], false),
     null,
     4
   ],
@@ -127,7 +123,7 @@ const monthSeasonGods: MonthSeasonGods = {
       lsr => [6, 9, 0, 3][lsr.getSeasonIndex()],
       getBranchValue
     ),
-    '宴會 結婚姻 納采問名 進人口 般移 開市 立券 交易 納財 栽種 牧養 納畜'.split(' '),
+    getAct(['宴會', 12, '進人口', '019a', 24], false),
     null,
     4
   ],
@@ -138,7 +134,7 @@ const monthSeasonGods: MonthSeasonGods = {
       getBranchValue
     ),
     null,
-    ['安撫邊境', '選將訓兵', '出師'],
+    getAct([10], false),
     4
   ],
   四忌: [
@@ -168,7 +164,7 @@ const monthSeasonGods: MonthSeasonGods = {
       (lsr, ymdh) => lsr.char8[ymdh].value
     ),
     null,
-    '安撫邊境 選將訓兵 出師 修倉庫 開市 立券 交易 納財 開倉庫 出貨財'.split(' '),
+    getAct([10, '020b'], false),
     4
   ],
   四廢: [

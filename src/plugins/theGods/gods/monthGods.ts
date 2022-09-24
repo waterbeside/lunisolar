@@ -1,7 +1,14 @@
 import { getBranchValue, getStemValue, computeSBValue } from '../../../utils'
 import { getCommonCheckGodFunc, monthGeneralDescGodFunc, getCheckGodFunc } from '../utils'
 import { getHateFrontAndBack } from '../../../utils/direction24'
-import { deGoodAct, heavenWishGoodAct, snDeGoodAct, jieShaBadAct, bigTimeBadAct } from '../actData'
+import {
+  deGoodAct,
+  heavenWishGoodAct,
+  snDeGoodAct,
+  jieShaBadAct,
+  bigTimeBadAct,
+  getAct
+} from '../actData'
 
 const monthGodNames = [
   '天德',
@@ -182,28 +189,25 @@ const monthGods: MonthGods = {
       if (!toYmdh) return res
       return res.map(item => item.value).includes(getBranchValue(lsr, toYmdh))
     }) as CheckGodFunc,
-    (
-      '慶賜 賞賀 宴會 結婚姻 納采問名 嫁娶 進人口 裁製 ' +
-      '修宮室 繕城郭 興造動土 豎柱上梁 修倉庫 經絡 醞釀 開市 立券 交易 納財 安碓磑 納畜'
-    ).split(' '),
+    getAct([8, '012b', '裁製 修宮室 繕城郭', 17, '修倉庫', 18, '019a', '安碓磑 納畜'], false),
     null,
     4
   ],
   五富: [
     getCommonCheckGodFunc([5, 8, 11, 2], getBranchValue, 4, 'month', getBranchValue),
-    '經絡 醞釀 開市 立券 交易 納財 開倉庫 出貨財 栽種 牧養 納畜'.split(' '),
+    getAct([18, '020a', '牧養 納畜'], false),
     null,
     4
   ],
   臨日: [
     getCommonCheckGodFunc([4, 9, 6, 11, 8, 1, 10, 3, 0, 5, 2, 7], getBranchValue, 0, 'month'),
-    ['上冊進表章', '上官赴任', '上官赴任', ' 臨政親民', '陳詞訟'],
+    getAct(['上冊進表章', 11, '陳詞訟'], false),
     null,
     4
   ],
   驛馬: [
     getCommonCheckGodFunc([2, 11, 8, 5], getBranchValue, 4, 'month'),
-    ['行幸', '遣使', '求醫療病'],
+    getAct([9, '求醫療病'], false),
     null,
     4
   ],
@@ -241,34 +245,73 @@ const monthGods: MonthGods = {
   月建: [
     getCheckGodFunc((lsr, ymdh = 'month') => getBranchValue(lsr, ymdh), getBranchValue),
     null,
-    (
-      '祈福 求嗣 上冊進表章 結婚姻 納采問名 嫁娶 般移 ' +
-      '解除 整容 剃頭 整手足甲 求醫療病 營建宮室 修宮室 繕城郭 興造動土 豎柱上梁 修倉庫 ' +
-      '開倉庫 出貨財 修置產室 破屋壞垣 伐木 栽種 破土 安葬 啟攢'
-    ).split(' '),
+    getAct(
+      [
+        1,
+        '上冊進表章',
+        '012a',
+        '般移',
+        '014a',
+        '求醫療病',
+        16,
+        '017a',
+        20,
+        '修置產室 破屋壞垣 伐木',
+        '025a'
+      ],
+      false
+    ),
+    // (
+    //   '祈福 求嗣 上冊進表章 結婚姻 納采問名 嫁娶 般移 ' +
+    //   '解除 整容 剃頭 整手足甲 求醫療病 營建宮室 修宮室 繕城郭 興造動土 豎柱上梁 修倉庫 ' +
+    //   '開倉庫 出貨財 修置產室 破屋壞垣 伐木 栽種 破土 安葬 啟攢'
+    // ).split(' '),
     4
   ],
   // 月破又名大耗
   月破: [
     getCheckGodFunc((lsr, ymdh = 'month') => (getBranchValue(lsr, ymdh) + 6) % 12, getBranchValue),
     null,
-    (
-      '祈福 求嗣 上冊進表章 頒詔 施恩封拜 詔命公卿 ' +
-      '招賢 舉正直 宣政事 布政事 慶賜 賞賀 宴會 行幸 ' +
-      '遣使 安撫邊境 選將訓兵 出師 上官赴任 臨政親民 結婚姻 納采問名 嫁娶 進人口 般移 安床 ' +
-      '整容 剃頭 整手足甲 ' +
-      '裁製 營建宮室 繕城郭 興造動土 豎柱上梁 修倉庫 ' +
-      '鼓鑄 經絡 醞釀 開市 立券 交易 納財 開倉庫 出貨財 ' +
-      '修置產室 破屋壞垣 開渠穿井 安碓磑 補垣塞穴 修飾垣墻 伐木 ' +
-      '栽種 牧養 納畜 破土 安葬 啟攢'
-    ).split(' '),
+    getAct(
+      [
+        1,
+        '上冊進表章 頒詔',
+        '3-4',
+        6,
+        '8-11',
+        '012b',
+        '13-14',
+        '裁製',
+        '營建宮室 繕城郭',
+        '017a',
+        '鼓鑄',
+        18,
+        '020a',
+        '修置產室',
+        22,
+        '安碓磑 補垣塞穴 修飾垣墻 伐木',
+        24,
+        '025a'
+      ],
+      false
+    ),
+    // (
+    //   '祈福 求嗣 上冊進表章 頒詔 施恩封拜 詔命公卿 ' +
+    //   '招賢 舉正直 宣政事 布政事 慶賜 賞賀 宴會 行幸 ' +
+    //   '遣使 安撫邊境 選將訓兵 出師 上官赴任 臨政親民 結婚姻 納采問名 嫁娶 進人口 般移 安床 ' +
+    //   '整容 剃頭 整手足甲 ' +
+    //   '裁製 營建宮室 繕城郭 興造動土 豎柱上梁 修倉庫 ' +
+    //   '鼓鑄 經絡 醞釀 開市 立券 交易 納財 開倉庫 出貨財 ' +
+    //   '修置產室 破屋壞垣 開渠穿井 安碓磑 補垣塞穴 修飾垣墻 伐木 ' +
+    //   '栽種 牧養 納畜 破土 安葬 啟攢'
+    // ).split(' '),
     4
   ],
   // 定日 又為死氣
   死氣: [
     getCheckGodFunc((lsr, ymdh = 'month') => (getBranchValue(lsr, ymdh) + 4) % 12, getBranchValue),
     null,
-    '安撫邊境 選將訓兵 出師 解除 求醫療病 修置產室 栽種'.split(' '),
+    getAct([10, '解除 求醫療病 修置產室 栽種'], false),
     4
   ],
   // 月神随四季者 （ 已移到monthSeasonGods ）
@@ -348,13 +391,13 @@ const monthGods: MonthGods = {
   ], // 辰戌亥巳子午丑未寅申卯酉
   益後: [
     getCommonCheckGodFunc([5, 11, 0, 6, 1, 7, 2, 8, 9, 3, 4, 10], getBranchValue, 0, 'month'),
-    ['祭祀', '祈福', '求嗣'],
+    getAct(['001a']),
     null,
     4
   ], // 巳亥子午丑未寅申卯酉辰戌
   續世: [
     getCommonCheckGodFunc([0, 6, 1, 7, 2, 8, 9, 3, 4, 10, 5, 11], getBranchValue, 0, 'month'),
-    ['祭祀', '祈福', '求嗣'],
+    getAct(['001a']),
     null,
     4
   ], // 午子丑未寅申卯酉辰戌巳亥
@@ -379,14 +422,15 @@ const monthGods: MonthGods = {
   月害: [
     monthGeneralDescGodFunc(6),
     null,
-    (
-      '祈福 求嗣 上冊進表章 頒詔 ' +
-      '慶賜 賞賀 宴會 ' +
-      '安撫邊境 選將訓兵 出師 結婚姻 納采問名 嫁娶 進人口 ' +
-      '求醫療病 修倉庫 ' +
-      '經絡 醞釀 開市 立券 交易 納財 開倉庫 出貨財 修置產室 ' +
-      '牧養 納畜 破土 安葬 啟攢'
-    ).split(' '),
+    getAct([1, '上冊進表章 頒詔', 8, 10, '012b', 18, '020a', '修置產室 牧養', '025a'], false),
+    // ('
+    //   '祈福 求嗣 上冊進表章 頒詔 ' +
+    //   '慶賜 賞賀 宴會 ' +
+    //   '安撫邊境 選將訓兵 出師 結婚姻 納采問名 嫁娶 進人口 ' +
+    //   '求醫療病 修倉庫 ' +
+    //   '經絡 醞釀 開市 立券 交易 納財 開倉庫 出貨財 修置產室 ' +
+    //   '牧養 納畜 破土 安葬 啟攢'
+    // ).split(' '),
     4
   ],
   //
@@ -412,7 +456,7 @@ const monthGods: MonthGods = {
       getBranchValue,
       'includes'
     ),
-    ['安撫邊境', '選將訓兵', '出師'],
+    getAct(['a010'], false),
     null,
     4
   ],
@@ -421,7 +465,8 @@ const monthGods: MonthGods = {
       (lsr, ymdh = 'month') => [6, 6, 8, 8, 10, 10, 0, 0, 2, 2, 4, 4][getBranchValue(lsr, ymdh)],
       getBranchValue
     ),
-    ['上表章', '陳詞訟', '解除', '沐浴', '整容', '剃頭', '整手足甲', '求醫療病'],
+    getAct(['上表章 陳詞訟 沐浴', '014a', 15], false),
+    // ['上表章', '陳詞訟', '解除', '沐浴', '整容', '剃頭', '整手足甲', '求醫療病'],
     null,
     4
   ],

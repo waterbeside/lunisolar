@@ -5,6 +5,7 @@ import {
   branchAscGodFunc,
   branchDescGodFunc
 } from '../utils'
+import { getAct } from '../actData'
 
 const yearGodNames = [
   '歲德',
@@ -239,7 +240,6 @@ const yearGods: YearGods = {
     null,
     null,
     8
-    8
   ],
   天官符: [getCommonCheckGodFunc([11, 8, 5, 2], getBranchValue, 4, 'year'), null, null, 8],
   大煞: [getCommonCheckGodFunc([0, 9, 6, 3], getBranchValue, 4, 'year'), null, null, 8],
@@ -257,6 +257,12 @@ const yearGods: YearGods = {
 
 yearGods.畜官 = [...yearGods.官符]
 yearGods.死符 = [...yearGods.支德]
-yearGods.小耗 = [yearGods.支德[0], null, ['修倉庫', '開市', '立券', '交易', '納財', '開倉庫', '出貨財'], 8]
+yearGods.小耗 = [
+  yearGods.支德[0],
+  null,
+  getAct(['020b']),
+  // ['修倉庫', '開市', '立券', '交易', '納財', '開倉庫', '出貨財'],
+  8
+]
 
 export { yearGodNames, yearGods, YearGods }
