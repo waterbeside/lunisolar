@@ -146,3 +146,7 @@ export const computeSBValue = (stemValue: number, branchValue: number): number =
   if ((stemValue + branchValue) % 2 !== 0) throw new Error('Invalid SB value')
   return (stemValue % 10) + ((6 - (branchValue >> 1) + (stemValue >> 1)) % 6) * 10
 }
+
+export function isNumber(value: number | string): boolean {
+  return !isNaN(Number(value))
+}
