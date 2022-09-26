@@ -242,7 +242,12 @@ const yearGods: YearGods = {
     8
   ],
   天官符: [getCommonCheckGodFunc([11, 8, 5, 2], getBranchValue, 4, 'year'), null, null, 8],
-  大煞: [getCommonCheckGodFunc([0, 9, 6, 3], getBranchValue, 4, 'year'), null, null, 8],
+  大煞: [
+    getCommonCheckGodFunc([0, 9, 6, 3], getBranchValue, 4, 'year'),
+    null,
+    getAct([10], false),
+    8
+  ],
   黃幡: [getCommonCheckGodFunc([4, 1, 10, 7], getBranchValue, 4, 'year'), null, null, 8],
   豹尾: [getCommonCheckGodFunc([10, 7, 4, 1], getBranchValue, 4, 'year'), null, null, 8],
   炙退: [getCommonCheckGodFunc([3, 0, 9, 6], getBranchValue, 4, 'year'), null, null, 8],

@@ -10,6 +10,7 @@ const a004 = '招賢 舉正直'
 const a005 = '施恩惠 恤孤煢'
 const a006 = '宣政事 布政事'
 const a007 = '雪冤枉 緩刑獄'
+const a007a = '行惠愛 雪冤枉 緩刑獄'
 const a008 = '慶賜 賞賀 宴會'
 const a008a = `${a004} ${a005} ${a006} ${a007} ${a008}`
 const a009 = '行幸 遣使'
@@ -41,6 +42,8 @@ const a023 = '修飾垣墻 破屋壞垣'
 const a024 = '栽種 牧養 納畜'
 const a025 = '破土 安葬'
 const a025a = '破土 安葬 啟攢'
+const a026 = '取漁 乘船渡水'
+const a027 = '捕捉 畋獵 取漁'
 
 const actDict = {
   a001,
@@ -53,6 +56,7 @@ const actDict = {
   a005,
   a006,
   a007,
+  a007a,
   a008,
   a008a,
   a009,
@@ -83,7 +87,9 @@ const actDict = {
   a023,
   a024,
   a025,
-  a025a
+  a025a,
+  a026,
+  a027
 }
 
 type ActGroupKey = keyof typeof actDict
@@ -139,7 +145,8 @@ export const deGoodAct = getAct(
     4,
     5,
     '宣政事',
-    '7-11',
+    '007a',
+    '8-11',
     '012a',
     '般移 解除',
     15,
@@ -159,7 +166,20 @@ export const deGoodAct = getAct(
 
 // 天願 (比天德少了解除 療病，多了進人口 經絡  醞釀等)
 export const heavenWishGoodAct = getAct(
-  ['a003a', 4, 5, '宣政事', '7-11', '012b', '般移 裁製 營建宮室 繕城郭', '017a', 18, 24, '栽種'],
+  [
+    'a003a',
+    4,
+    5,
+    '宣政事',
+    '007a',
+    '8-11',
+    '012b',
+    '般移 裁製 營建宮室 繕城郭',
+    '017a',
+    18,
+    24,
+    '栽種'
+  ],
   false
 )
 // (
@@ -198,3 +218,15 @@ export const bigTimeBadAct = (
   `${a020a} 修置產室 ` +
   `${a024}`
 ).split(' ')
+
+// 土符 地囊
+export const earthBagBadAct = getAct(
+  ['017b', 21, '開渠穿井 安碓磑 補垣塞穴 修飾垣墻 平治道涂 破屋壞垣 栽種 破土'],
+  false
+)
+
+// 往亡 氣往亡
+export const goDeadBadAct =
+  `上冊進表章 頒詔 詔命公卿 招賢 宣政事 ${a009} ${a011a} 嫁娶 進人口 般移 ${a015} ${a027}`.split(
+    ' '
+  )

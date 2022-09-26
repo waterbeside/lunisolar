@@ -1,5 +1,6 @@
 import { getBranchValue, getStemValue, getYmdhSB } from '../../../utils'
 import { getCheckGodFunc } from '../utils'
+import { goDeadBadAct, getAct } from '../actData'
 
 const dayGodNames = [
   '天恩',
@@ -66,7 +67,7 @@ const dayGods: DayGods = {
       'includes'
     ),
     null,
-    null,
+    getAct([8, 12, '立券 交易'], false),
     2
   ],
   鳴吠: [
@@ -126,7 +127,7 @@ const dayGods: DayGods = {
       'includes'
     ),
     null,
-    null,
+    getAct([10], false),
     2
   ],
   伐日: [
@@ -136,7 +137,7 @@ const dayGods: DayGods = {
       'includes'
     ),
     null,
-    null,
+    getAct([10], false),
     2
   ],
   八專: [
@@ -146,7 +147,7 @@ const dayGods: DayGods = {
       'includes'
     ),
     null,
-    null,
+    getAct([10, '012a'], false),
     2
   ],
   觸水龍: [
@@ -156,7 +157,7 @@ const dayGods: DayGods = {
       'includes'
     ),
     null,
-    null,
+    getAct([26], false),
     2
   ],
   無祿: [
@@ -166,7 +167,7 @@ const dayGods: DayGods = {
       'includes'
     ),
     null,
-    null,
+    getAct(['祭祀 解除 沐浴', 14, '掃舍宇 修飾垣墻 平治道涂 破屋壞垣 伐木'], false),
     2
   ],
   重日: [
@@ -175,7 +176,7 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value
     ),
     null,
-    null,
+    getAct(['025a'], false),
     2
   ],
   // 日神按年取干支者
@@ -198,7 +199,7 @@ const dayGods: DayGods = {
       return res.length === 1 ? res[0] === lsr.lunar.day : res.includes(lsr.lunar.day)
     }) as CheckGodFunc,
     null,
-    null,
+    getAct(['進人口 裁製 經絡', '019a', '納畜'], false),
     2
   ],
   短星: [
@@ -210,7 +211,7 @@ const dayGods: DayGods = {
       return res.length === 1 ? res[0] === lsr.lunar.day : res.includes(lsr.lunar.day)
     }) as CheckGodFunc,
     null,
-    null,
+    getAct(['進人口 裁製 經絡', '019a', '納畜'], false),
     2
   ],
   // 日神按朔取日数者
@@ -225,7 +226,7 @@ const dayGods: DayGods = {
       return res === lunarDay
     }) as CheckGodFunc,
     null,
-    null,
+    getAct(['上冊進表章', '陳詞訟'], false),
     2
   ],
   // 日神按节气取数者
@@ -261,7 +262,7 @@ const dayGods: DayGods = {
       return ((diffDate.solarTerm.value >> 1) + 13) % 12 === branchValue
     }) as CheckGodFunc,
     null,
-    null,
+    goDeadBadAct,
     2
   ]
 }

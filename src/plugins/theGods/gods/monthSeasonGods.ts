@@ -144,7 +144,7 @@ const monthSeasonGods: MonthSeasonGods = {
       (lsr, ymdh) => lsr.char8[ymdh].value
     ),
     null,
-    null,
+    getAct([10, '012a', '安葬'], false),
     4
   ],
   四窮: [
@@ -154,7 +154,7 @@ const monthSeasonGods: MonthSeasonGods = {
       (lsr, ymdh) => lsr.char8[ymdh].value
     ),
     null,
-    null,
+    getAct([10, '012b', '020b', '安葬'], false),
     4
   ],
   四耗: [
@@ -181,7 +181,30 @@ const monthSeasonGods: MonthSeasonGods = {
       'includes'
     ),
     null,
-    null,
+    getAct(
+      [
+        1,
+        '上冊進表章 頒詔',
+        3,
+        4,
+        6,
+        8,
+        '冠帶',
+        '9-11',
+        '012b',
+        13,
+        '解除 求醫療病 裁製',
+        '017b',
+        '鼓鑄',
+        18,
+        '020a',
+        21,
+        '開渠穿井 安碓磑 補垣塞穴 修飾垣墻',
+        24,
+        '025a'
+      ],
+      false
+    ),
     4
   ],
   五虛: [
@@ -198,7 +221,7 @@ const monthSeasonGods: MonthSeasonGods = {
       'includes'
     ),
     null,
-    null,
+    getAct(['修倉庫', 20], false),
     4
   ],
   八風: [
@@ -215,7 +238,7 @@ const monthSeasonGods: MonthSeasonGods = {
       'includes'
     ),
     null,
-    null,
+    getAct([26], false),
     4
   ]
 }

@@ -1,4 +1,4 @@
-import { getBranchValue, getStemValue, computeSBValue } from '../../../utils'
+import { getBranchValue, getStemValue, computeSBValue, getYmdhSB } from '../../../utils'
 import { getCommonCheckGodFunc, monthGeneralDescGodFunc, getCheckGodFunc } from '../utils'
 import { getHateFrontAndBack } from '../../../utils/direction24'
 import {
@@ -7,6 +7,8 @@ import {
   snDeGoodAct,
   jieShaBadAct,
   bigTimeBadAct,
+  earthBagBadAct,
+  goDeadBadAct,
   getAct
 } from '../actData'
 
@@ -27,8 +29,14 @@ const monthGodNames = [
   '天吏',
   '九空',
   '月刑',
+  '五墓',
   '九坎',
   '土符',
+  '地囊',
+  '陽德',
+  '陰德',
+  '天馬',
+  '兵禁',
   '大煞',
   '往亡',
   '歸忌',
@@ -233,7 +241,12 @@ const monthGods: MonthGods = {
     4
   ],
   天吏: [getCommonCheckGodFunc([3, 0, 9, 6], getBranchValue, 4, 'month'), null, bigTimeBadAct, 4],
-  九空: [getCommonCheckGodFunc([10, 7, 4, 1], getBranchValue, 4, 'month'), null, null, 4],
+  九空: [
+    getCommonCheckGodFunc([10, 7, 4, 1], getBranchValue, 4, 'month'),
+    null,
+    getAct(['進人口', '020b'], false),
+    4
+  ],
   // 月刑為月建所傷之地，故所忌與三煞同
   月刑: [
     getCommonCheckGodFunc([3, 10, 5, 0, 4, 8, 6, 1, 2, 9, 7, 11], getBranchValue, 0, 'month'),
@@ -315,36 +328,100 @@ const monthGods: MonthGods = {
     4
   ],
   // 月神随四季者 （ 已移到monthSeasonGods ）
+  // 月神随建旺取墓辰者
+  五墓: [
+    getCommonCheckGodFunc(
+      [28, 4, 31, 31, 4, 22, 22, 4, 37, 37, 4, 28],
+      getBranchValue,
+      0,
+      'month',
+      (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value
+    ),
+    null,
+    getAct(['冠帶', 9, '011a', '012b', 13, '解除 求醫療病', '16-17', 19, 21, 24, '25a']),
+    4
+  ],
   // 月神隨月建三合逆行一方者
   九坎: [
     getCommonCheckGodFunc([8, 5, 4, 1, 10, 7, 3, 0, 9, 6, 2, 11], getBranchValue, 0, 'month'),
     null,
-    null,
+    getAct(['補垣塞穴', 26], false),
     4
   ],
   // 月神随四序行三合者
   土符: [
     getCommonCheckGodFunc([8, 0, 1, 5, 9, 2, 6, 10, 3, 7, 11, 4], getBranchValue, 0, 'month'),
     null,
+    earthBagBadAct,
+    4
+  ],
+  // 月神隨四時行三合納甲者
+  地囊: [
+    getCheckGodFunc<number[], number>(
+      (lsr, ymdh = 'month') =>
+        [
+          [27, 57],
+          [51, 9],
+          [35, 6],
+          [31, 49],
+          [0, 18],
+          [15, 45],
+          [40, 58],
+          [52, 22],
+          [53, 23],
+          [2, 31],
+          [37, 7],
+          [14, 44]
+        ][getBranchValue(lsr, ymdh)],
+      (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value,
+      'includes'
+    ),
     null,
+    earthBagBadAct,
+    4
+  ],
+  // 月神随月建行纳甲六辰者
+  陽德: [
+    getCommonCheckGodFunc([6, 8, 10, 0, 2, 4], getBranchValue, 6, 'month'),
+    getAct([5, '007a'], false),
+    null,
+    4
+  ],
+  陰德: [
+    getCommonCheckGodFunc([1, 11, 9, 7, 5, 3], getBranchValue, 6, 'month'),
+    getAct([5, '007a'], false),
+    ,
+    null,
+    4
+  ],
+  天馬: [
+    getCommonCheckGodFunc([2, 4, 6, 8, 10, 0], getBranchValue, 6, 'month'),
+    getAct([9, '般移'], false),
+    null,
+    4
+  ],
+  兵禁: [
+    getCommonCheckGodFunc([6, 4, 2, 0, 10, 8], getBranchValue, 6, 'month'),
+    null,
+    getAct([10], false),
     4
   ],
   // 月神随月建逆行一方者
   大煞: [
     getCommonCheckGodFunc([8, 9, 10, 5, 6, 7, 2, 3, 4, 11, 0, 1], getBranchValue, 0, 'month'),
     null,
-    null,
+    getAct([10], false),
     4
   ],
   // 月神隨月建三合順行一方者
   往亡: [
     getCommonCheckGodFunc([10, 1, 2, 5, 8, 11, 3, 6, 9, 0, 4, 7], getBranchValue, 0, 'month'),
     null,
-    null,
+    goDeadBadAct,
     4
   ],
   // 月神隨孟仲季順行三支者
-  歸忌: [getCommonCheckGodFunc([2, 0, 1], getBranchValue, 3), null, null, 4],
+  歸忌: [getCommonCheckGodFunc([2, 0, 1], getBranchValue, 3), null, getAct(['013a'], false), 4],
 
   // 月神隨月建陰陽順行六辰者
   要安: [
@@ -412,11 +489,12 @@ const monthGods: MonthGods = {
   ],
   六合: [
     monthGeneralDescGodFunc(1),
-    '宴會 結婚姻 嫁娶 進人口 經絡 醞釀 立券 交易 納財 納畜 安葬'.split(' '),
+    getAct(['宴會 結婚姻 嫁娶 進人口', 18, '立券 交易 納財 納畜 安葬'], false),
+    // '宴會 結婚姻 嫁娶 進人口 經絡 醞釀 立券 交易 納財 納畜 安葬'.split(' '),
     null,
     4
   ],
-  天賊: [monthGeneralDescGodFunc(3), null, ['行幸', '遣使', '修倉庫', '納財', '出貨財'], 4],
+  天賊: [monthGeneralDescGodFunc(3), null, getAct([9, '修倉庫', '納財', '出貨財'], false), 4],
   天倉: [monthGeneralDescGodFunc(4), ['進人口', '納財', '納畜'], null, 4],
   六儀: [monthGeneralDescGodFunc(5), ['臨政親民'], null, 4],
   月害: [
@@ -456,7 +534,7 @@ const monthGods: MonthGods = {
       getBranchValue,
       'includes'
     ),
-    getAct(['a010'], false),
+    getAct([10], false),
     null,
     4
   ],
@@ -492,7 +570,7 @@ const monthGods: MonthGods = {
       getStemValue
     ),
     null,
-    null,
+    getAct(['025a'], false),
     4
   ],
   // 月神從厭建起者
@@ -817,9 +895,9 @@ monthGods.天后 = [...monthGods.驛馬]
 monthGods.大敗 = [monthGods.大時[0], null, null, 4]
 monthGods.咸池 = [monthGods.大時[0], null, null, 4]
 monthGods.致死 = [monthGods.天吏[0], null, null, 4]
-monthGods.九焦 = [monthGods.九坎[0], null, null, 4]
+monthGods.九焦 = [monthGods.九坎[0], null, getAct(['鼓鑄 栽種 修筑園圃'], false), 4]
 // 月神隨月建陰陽順行六辰者
-monthGods.血忌 = [monthGods.續世[0], null, null, 4]
+monthGods.血忌 = [monthGods.續世[0], null, ['針刺'], 4]
 // 月神隨月將逆行者
 monthGods.厭對 = [monthGods.六儀[0], null, ['嫁娶'], 4]
 monthGods.招搖 = [monthGods.六儀[0], null, ['嫁娶'], 4]
