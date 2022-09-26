@@ -150,3 +150,30 @@ export const computeSBValue = (stemValue: number, branchValue: number): number =
 export function isNumber(value: number | string): boolean {
   return !isNaN(Number(value))
 }
+
+/**
+ * 取得譯文
+ * @param key 譯文key
+ */
+export function getTranslation<T = any, U = LocaleData>(locale: U, key: string): T | string {
+  const keySplit = key.split('.')
+  let curr: any = locale
+  let res = key
+  while (keySplit.length > 0) {
+    const currKey = keySplit.shift()
+    if (currKey === undefined) return ''
+    if (typeof curr === 'string' || typeof curr === 'number' || typeof curr === 'function') {
+      res = curr
+    } else if (Array.isArray(curr)) {
+      const idx = Number(currKey)
+      if (isNaN(idx) || idx >= curr.length) return ''
+      curr = curr[idx]
+      res = curr
+    } else if (curr.hasOwnProperty(currKey)) {
+      curr = curr[currKey]
+    } else {
+      return currKey
+    }
+  }
+  return res
+}

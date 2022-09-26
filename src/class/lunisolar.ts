@@ -1,5 +1,5 @@
 import { LUNAR_UNITS_SET } from '../constants'
-import { parseDate, prettyUnit, computeSBMonthValueByTerm } from '../utils'
+import { parseDate, prettyUnit, computeSBMonthValueByTerm, getTranslation } from '../utils'
 import { dateDiff, lunarDateDiff } from '../utils/dateDiff'
 import { dateAdd } from '../utils/dateAdd'
 import { format } from '../utils/format'
@@ -119,26 +119,7 @@ export class Lunisolar implements ILunisolar {
   L(key: keyof LocaleData): LocaleData[typeof key]
   L<T = any>(key: string): T | string {
     const locale = this.getLocale()
-    const keySplit = key.split('.')
-    let curr: any = locale
-    let res = key
-    while (keySplit.length > 0) {
-      const currKey = keySplit.shift()
-      if (currKey === undefined) return ''
-      if (typeof curr === 'string' || typeof curr === 'number' || typeof curr === 'function') {
-        res = curr
-      } else if (Array.isArray(curr)) {
-        const idx = Number(currKey)
-        if (isNaN(idx) || idx >= curr.length) return ''
-        curr = curr[idx]
-        res = curr
-      } else if (curr.hasOwnProperty(currKey)) {
-        curr = curr[currKey]
-      } else {
-        return currKey
-      }
-    }
-    return res
+    return getTranslation<T, LocaleData>(locale, key)
   }
 
   getConfig(): LunisolarConfigData
