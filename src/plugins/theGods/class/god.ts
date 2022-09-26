@@ -1,25 +1,48 @@
-type GodConfig = {
-  key: string
-  good: string[]
-  bad: string[]
-  desc?: string
-  name?: string
-}
+import { getTranslation } from '../../../utils'
 
 class God {
-  key: string
-  name: string
-  good: string[]
-  bad: string[]
-  constructor(config: GodConfig) {
-    this.key = config.key
-    this.name = config.name ?? config.key
-    this.good = config.good
-    this.bad = config.bad
+  data: GodClassData
+  _config: {
+    lang: string
+    locale: { [key: string]: any }
+  }
+  constructor(
+    data: {
+      key: string
+      good: string[] | null
+      bad: string[] | null
+    },
+    config: GodClassConfig
+  ) {
+    this.data = {
+      key: data.key,
+      good: data.good || [],
+      bad: data.bad || []
+    }
+    this._config = {
+      lang: config.lang ?? 'zh',
+      locale: config.locale
+    }
+  }
+
+  get name() {
+    return getTranslation(this._config.locale, `theGods.names.${this.data.key}`)
+  }
+
+  get good() {
+    return this.data.good.map(item => {
+      return getTranslation(this._config.locale, `theGods.acts.${item}`)
+    })
+  }
+
+  get bad() {
+    return this.data.bad.map(item => {
+      return getTranslation(this._config.locale, `theGods.acts.${item}`)
+    })
   }
 
   toString() {
-    return this.name
+    return getTranslation(this._config.locale, `theGods.names.${this.data.key}`)
   }
 }
 

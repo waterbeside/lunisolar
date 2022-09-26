@@ -6,26 +6,7 @@ import { dayGods } from '../gods/dayGods'
 import { hourGods } from '../gods/hourGods'
 import { createBy12Gods } from '../gods/by12Gods'
 import { God } from './god'
-
-function getGodConfig(lsr: lunisolar.Lunisolar, key: string) {
-  const godData = lsr.L(`theGods.${key}`)
-  let name = key
-  let bad: string[] = []
-  let good: string[] = []
-  if (typeof godData === 'string') {
-    name = godData
-  } else if (Array.isArray(godData)) {
-    if (godData.length >= 3) [good, bad, name] = godData
-    else if (godData.length === 2) [good, bad] = godData
-    else good = godData[0]
-  }
-  return {
-    key,
-    name,
-    bad,
-    good
-  }
-}
+import { getDutyGod } from '../gods/duty12Gods'
 
 function fetchTheGod<T = { [key: string]: GodDictItem }>(
   lsr: lunisolar.Lunisolar,
@@ -35,16 +16,42 @@ function fetchTheGod<T = { [key: string]: GodDictItem }>(
 ): God[] {
   const res: God[] = []
   for (const key in godDict) {
-    const [checkFunc, _] = godDict[key] as GodDictItem
+    const [checkFunc, good, bad, _] = godDict[key] as GodDictItem
     if (checkFunc(lsr, fromYmdh, toYmdh)) {
-      res.push(new God(getGodConfig(lsr, key)))
+      const godData: GodClassData = {
+        key,
+        good: good || [],
+        bad: bad || []
+      }
+      const godConfig: GodClassConfig = {
+        lang: lsr.getConfig('lang') as string,
+        locale: lsr.getLocale()
+      }
+      res.push(new God(godData, godConfig))
     }
   }
   return res
 }
 
 class TheGods {
-  private data: {} = {}
+  _cache: { [key: string]: any } = {}
+  private data: TheGodsClassData = {
+    gods: {
+      y: [],
+      m: [],
+      d: [],
+      h: []
+    },
+    duty12God: null,
+    byGod: {
+      d: null,
+      h: null
+    },
+    day: [],
+    hour: [],
+    goodAct: [],
+    badAct: []
+  }
   constructor(lsr: lunisolar.Lunisolar) {
     const yGods = fetchTheGod(lsr, yearGods, 'year', 'day')
     yGods.push(...fetchTheGod(lsr, commonGods, 'year', 'day'))
@@ -53,7 +60,25 @@ class TheGods {
     mGods.push(...fetchTheGod(lsr, monthSeasonGods, undefined, 'day'))
     const dGods = fetchTheGod(lsr, dayGods, undefined, 'day')
     const hGods = fetchTheGod(lsr, hourGods, 'day', 'hour')
+    this.data.gods.y = yGods
+    this.data.gods.m = mGods
+    this.data.gods.d = dGods
+    this.data.gods.h = hGods
 
+    const godConfig: GodClassConfig = {
+      lang: lsr.getConfig('lang') as string,
+      locale: lsr.getLocale()
+    }
+
+    const dutyGodData = getDutyGod(lsr)
+    this.data.duty12God = new God(
+      {
+        key: dutyGodData[1],
+        good: dutyGodData[2],
+        bad: dutyGodData[3]
+      },
+      godConfig
+    )
   }
 }
 
