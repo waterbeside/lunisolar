@@ -25,6 +25,10 @@ class God {
     }
   }
 
+  get key() {
+    return this.data.key
+  }
+
   get name() {
     return getTranslation(this._config.locale, `theGods.names.${this.data.key}`)
   }
