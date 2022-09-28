@@ -1,6 +1,5 @@
 import { REGEX_PARSE, UNITS } from '../constants'
 import { SB0_MONTH } from '../constants/calendarData'
-import { SB } from '../class/stemBranch'
 
 /**
  * 处理日期单位
