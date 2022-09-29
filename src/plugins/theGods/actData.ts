@@ -94,6 +94,24 @@ const actDict = {
 
 type ActGroupKey = keyof typeof actDict
 
+export const commonActString =
+  '祭祀 祈福 求嗣 上冊受封 上表章 襲爵受封 ' +
+  '會親友 入學 冠帶 出行 上官赴任 臨政親民 ' +
+  '結婚姻 納采問名 嫁娶 進人口 移徙 遠回 ' +
+  '安床 解除 沐浴 剃頭 整手足甲 求醫療病 ' +
+  '療目 針刺 裁衣 筑堤防 修造動土 豎柱上梁' +
+  '修倉庫 鼓鑄 苫蓋 經絡 醞釀 開市 ' +
+  '立券 交易 納財 開倉庫 出貨財 修置產室 ' +
+  '開渠穿井 安碓磑 補垣塞穴 掃舍宇 修飾垣墻 平治道涂 ' +
+  '破屋壞垣 伐木 捕捉 畋獵 取魚 乘船渡水 ' +
+  '栽種 牧養 納畜 破土 安葬 啟攢'
+
+export const commonAct = commonActString.split(' ')
+
+/**
+ * 取得宜忌
+ * @param actGroup 宜忌組合
+ */
 export function getAct(actGroup: (string | number)[]): string[]
 export function getAct(actGroup: (string | number)[], returnString: false): string[]
 export function getAct(actGroup: (string | number)[], returnString: true): string
@@ -125,18 +143,11 @@ export function getAct(
   return returnString ? resString : resString.split(' ')
 }
 
-export const commonAct = (
-  '祭祀 祈福 求嗣 上冊受封 上表章 襲爵受封 ' +
-  '會親友 入學 冠帶 出行 上官赴任 臨政親民 ' +
-  '結婚姻 納采問名 嫁娶 進人口 移徙 遠回 ' +
-  '安床 解除 沐浴 剃頭 整手足甲 求醫療病 ' +
-  '療目 針刺 裁衣 筑堤防 修造動土 豎柱上梁' +
-  '修倉庫 鼓鑄 苫蓋 經絡 醞釀 開市 ' +
-  '立券 交易 納財 開倉庫 出貨財 修置產室 ' +
-  '開渠穿井 安碓磑 補垣塞穴 掃舍宇 修飾垣墻 平治道涂 ' +
-  '破屋壞垣 伐木 捕捉 畋獵 取魚 乘船渡水 ' +
-  '栽種 牧養 納畜 破土 安葬 啟攢'
-).split(' ')
+export function excludeAct(excludes: string[], hay?: string[]): string[] {
+  hay = hay ?? commonActString.replace('上冊受封 上表章', '上冊進表章').split(' ')
+  const excludesSet = new Set(excludes.join(' ').split(' '))
+  return hay.filter(item => !excludesSet.has(item))
+}
 
 // 天德月德天德合月德合所宜 (天赦亦然)
 export const deGoodAct = getAct(
@@ -230,3 +241,8 @@ export const goDeadBadAct =
   `上冊進表章 頒詔 詔命公卿 招賢 宣政事 ${a009} ${a011a} 嫁娶 進人口 般移 ${a015} ${a027}`.split(
     ' '
   )
+
+// 上朔 四離 四絕 晦日
+export const leave4BadAct = excludeAct(
+  `祈福 解除 沐浴 ${a014} 補垣塞穴 掃舍宇 修飾垣墻 平治道涂 破屋壞垣`.split(' ')
+)
