@@ -1,6 +1,6 @@
 import { getBranchValue, getStemValue, getYmdhSB } from '../../../utils'
 import { getCheckGodFunc } from '../utils'
-import { goDeadBadAct, getAct } from '../actData'
+import { goDeadBadAct, leave4BadAct, getAct } from '../actData'
 
 const dayGodNames = [
   '天恩',
@@ -186,7 +186,7 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value
     ),
     null,
-    null,
+    leave4BadAct,
     2
   ],
   // 日神按月取數者
@@ -237,7 +237,7 @@ const dayGods: DayGods = {
       return [23, 11, 5, 17].includes(nextDate.solarTerm.value)
     }) as CheckGodFunc,
     null,
-    null,
+    leave4BadAct,
     2
   ],
   四絕: [
@@ -247,7 +247,7 @@ const dayGods: DayGods = {
       return [2, 8, 14, 20].includes(nextDate.solarTerm.value)
     }) as CheckGodFunc,
     null,
-    null,
+    leave4BadAct,
     2
   ],
   氣往亡: [
