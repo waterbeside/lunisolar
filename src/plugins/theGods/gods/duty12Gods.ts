@@ -98,7 +98,7 @@ const duty12GodData: {
 
 /**
  * @param lsr The instance of Lunisolar
- * @returns [建除12神索引, 名稱，名稱+日]
+ * @returns [建除12神索引, 名稱，宜[], 忌[]]
  */
 function getDuty12God(
   lsr: lunisolar.Lunisolar
