@@ -171,7 +171,7 @@ export function getTranslation<T = any, U = LocaleData>(locale: U, key: string):
     } else if (curr.hasOwnProperty(currKey)) {
       curr = curr[currKey]
     } else {
-      return currKey
+      return keySplit[keySplit.length - 1] || currKey
     }
   }
   return res
