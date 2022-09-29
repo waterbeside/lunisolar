@@ -1,5 +1,6 @@
 import type { TheGods } from './class/theGods'
 import type { God } from './class/god'
+import { GOD_QUERY_STRING as GQS } from './constants'
 /*
 -----
 宜忌等第表
@@ -72,7 +73,9 @@ function getTheSignGodMap() {
   return map
 }
 
-const getGoodBadLevelDict = () => ({
+const getGoodBadLevelDict = (): {
+  [key in LevelKey]: [number, number[], string[]][]
+} => ({
   平日: [
     [0, [11], ['相日', '時德', '六合']],
     [1, [6], ['相日', '六合', '月刑']],
@@ -161,7 +164,10 @@ const getGoodBadLevelDict = () => ({
  * @param theGods TheGods實例
  * @param monthBranchValue 月的地支索引值
  */
-function findLevel(theGods: TheGods, monthBranchValue: number) {
+function findLevel(
+  theGods: TheGods,
+  monthBranchValue: number
+): [number | null, Map<string, boolean>] {
   const dutyGodKey = theGods.getDuty12God().key + '日'
   const life12GodKey = theGods.getLife12God('day').key
   const levelDict = getGoodBadLevelDict()
@@ -170,15 +176,32 @@ function findLevel(theGods: TheGods, monthBranchValue: number) {
   if (dutyGodKey === '建日') signGodMap.set('月建', true)
   if (signGodMap.has(life12GodKey)) signGodMap.set(dutyGodKey, true)
 
-  // for (the) {
-
-  // }
-  let levelDictItem = null
-  if (levelDict.hasOwnProperty(dutyGodKey)) {
-    // levelDictItem = levelDict[dutyGodKey as LevelKey]
-  } else {
-    //
+  for (const godItem of theGods.query(GQS.TDG)) {
+    if (signGodMap.has(godItem.key)) signGodMap.set(godItem.key, true)
+    if (isDe(godItem)) signGodMap.set('德', true)
   }
+  let levelDictItem = null
+  let currLevelKey = null
+  for (const levelkey of levelKeyList) {
+    if (signGodMap.has(levelkey) && signGodMap.get(levelkey) === true) {
+      levelDictItem = levelDict[levelkey]
+      currLevelKey = levelDict[levelkey]
+    }
+  }
+  if (!levelDictItem) return [null, signGodMap]
+  let level = null
+  outer: for (const levelItem of levelDictItem) {
+    const [lv, mv, gl] = levelItem
+    if (mv.includes(monthBranchValue)) {
+      for (const glItem of gl) {
+        if (signGodMap.has(glItem) && signGodMap.get(glItem) === true) {
+          level = lv
+          break outer
+        }
+      }
+    }
+  }
+  return [level, signGodMap]
 }
 
-export { theDeList, getGoodBadLevelDict }
+export { theDeList, getGoodBadLevelDict, findLevel, isDe }
