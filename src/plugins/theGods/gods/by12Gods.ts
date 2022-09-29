@@ -85,4 +85,23 @@ const createBy12Gods = (defaultYmdh: YMDH = 'month'): By12Gods => {
   return by12Gods
 }
 
-export { by12GodNames, createBy12Gods, By12Gods }
+/**
+ * @param lsr The instance of Lunisolar
+ * @returns [黃黑12神索引, 名稱，宜[], 忌[]]
+ */
+function getBy12God(
+  lsr: lunisolar.Lunisolar,
+  fromYmdh: YMDH,
+  toYmdh: YMDH
+): [number, string, string[] | null, string[] | null] {
+  const fromBv = getBranchValue(lsr, fromYmdh)
+  const toBv = getBranchValue(lsr, toYmdh)
+  const offsetList = [4, 2, 0, 10, 8, 6]
+  const offset = offsetList[fromBv % 6]
+  const godIdx = (toBv + offset) % 12
+  const godKey = by12GodNames[godIdx]
+  const [good, bad] = by12GodData[godKey]
+  return [godIdx, godKey, good, bad]
+}
+
+export { by12GodNames, createBy12Gods, getBy12God, By12Gods }
