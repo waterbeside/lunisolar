@@ -59,7 +59,7 @@ const monthGodNames = [
   '兵吉',
   '解神',
   '月恩',
-  '複日',
+  '復日',
   '不將',
   '大會',
   '小會',
@@ -561,7 +561,7 @@ const monthGods: MonthGods = {
     null,
     4
   ],
-  複日: [
+  復日: [
     getCommonCheckGodFunc(
       [9, 5, 0, 1, 4, 2, 3, 5, 6, 7, 4, 8],
       getBranchValue,
