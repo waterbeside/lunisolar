@@ -26,6 +26,8 @@ const hourGods: HourGods = {
   // 時神從日干起者
   日祿: [
     getCommonCheckGodFunc([2, 3, 5, 6, 5, 6, 8, 9, 11, 0], getStemValue, 0, 'day', getBranchValue),
+    null,
+    null,
     1
   ],
   天乙貴人: [
@@ -46,9 +48,16 @@ const hourGods: HourGods = {
       getBranchValue,
       'includes'
     ),
+    null,
+    null,
     1
   ],
-  喜神: [getCommonCheckGodFunc([2, 10, 8, 6, 4], getStemValue, 5, 'day', getBranchValue), 1],
+  喜神: [
+    getCommonCheckGodFunc([2, 10, 8, 6, 4], getStemValue, 5, 'day', getBranchValue),
+    null,
+    null,
+    1
+  ],
   天官貴人: [
     getCheckGodFunc(
       (lsr: lunisolar.Lunisolar, ymdh = 'day') =>
@@ -56,6 +65,8 @@ const hourGods: HourGods = {
       getBranchValue,
       'includes'
     ),
+    null,
+    null,
     1
   ],
   福星貴人: [
@@ -65,6 +76,8 @@ const hourGods: HourGods = {
       getBranchValue,
       'includes'
     ),
+    null,
+    null,
     1
   ],
   五不遇時: [
@@ -74,6 +87,8 @@ const hourGods: HourGods = {
       getBranchValue,
       'includes'
     ),
+    null,
+    null,
     1
   ],
   路空: [
@@ -89,6 +104,8 @@ const hourGods: HourGods = {
       getBranchValue,
       'includes'
     ),
+    null,
+    null,
     1
   ],
   // 時神從日支起者
@@ -97,6 +114,8 @@ const hourGods: HourGods = {
       (lsr: lunisolar.Lunisolar, ymdh = 'day') => getBranchValue(lsr, ymdh),
       getBranchValue
     ),
+    null,
+    null,
     1
   ],
   日合: [
@@ -105,6 +124,8 @@ const hourGods: HourGods = {
         [1, 0, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2][getBranchValue(lsr, ymdh)],
       getBranchValue
     ),
+    null,
+    null,
     1
   ],
   日馬: [
@@ -112,6 +133,8 @@ const hourGods: HourGods = {
       (lsr: lunisolar.Lunisolar, ymdh = 'day') => [2, 11, 8, 5][getBranchValue(lsr, ymdh, 4)],
       getBranchValue
     ),
+    null,
+    null,
     1
   ],
   日破: [
@@ -119,6 +142,8 @@ const hourGods: HourGods = {
       (lsr: lunisolar.Lunisolar, ymdh = 'day') => (getBranchValue(lsr, ymdh) + 6) % 12,
       getBranchValue
     ),
+    null,
+    null,
     1
   ],
   日害: [
@@ -127,6 +152,8 @@ const hourGods: HourGods = {
         [7, 6, 5, 4, 3, 2, 1, 0, 11, 10, 9, 8][getBranchValue(lsr, ymdh)],
       getBranchValue
     ),
+    null,
+    null,
     1
   ],
   日刑: [
@@ -134,6 +161,8 @@ const hourGods: HourGods = {
       (lsr: lunisolar.Lunisolar, ymdh = 'day') => [10, 0, 2, 4, 6, 8][getBranchValue(lsr, ymdh, 6)],
       getBranchValue
     ),
+    null,
+    null,
     1
   ],
   // 時神隨月將及日干支者
@@ -157,6 +186,8 @@ const hourGods: HourGods = {
       getBranchValue,
       'includes'
     ),
+    null,
+    null,
     1
   ],
   九醜: [
@@ -169,6 +200,8 @@ const hourGods: HourGods = {
         lsr.getMonthBuilder(1)[0].branch.value + 12 - (getBranchValue(lsr, ymdh) % 12)
       ]
     }, getBranchValue),
+    null,
+    null,
     1
   ],
   旬空: [
@@ -187,6 +220,8 @@ const hourGods: HourGods = {
       getBranchValue,
       'includes'
     ),
+    null,
+    null,
     1
   ]
 }

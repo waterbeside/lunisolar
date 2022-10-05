@@ -1,4 +1,4 @@
-import { getBranchValue, getStemValue } from '../../utils'
+import { getBranchValue, getStemValue, getTranslation } from '../../../utils'
 
 // 神煞地支順行
 export function branchAscGodFunc(offset: number): CheckGodFunc {
@@ -81,4 +81,8 @@ export function getCommonCheckGodFunc(
     (lsr, ymdh) => Number(ruleArray[compareFromFunc(lsr, ymdh ?? fromDefaultYmdh, fromDiv)]),
     compareToFunc || compareFromFunc
   )
+}
+
+export function actKT(acts: string[], isReturnKey: boolean, locale: { [key: string]: any }) {
+  return acts.map(i => (isReturnKey ? i : getTranslation(locale, `theGods.acts.${i}`)))
 }

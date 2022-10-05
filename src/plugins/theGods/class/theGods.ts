@@ -8,8 +8,9 @@ import { getBy12God } from '../gods/by12Gods'
 import { getDuty12God } from '../gods/duty12Gods'
 import { getLife12God } from '../gods/life12Gods'
 import { God } from './god'
-import { getTranslation } from '../../../utils'
+import { getTranslation, cacheAndReturn } from '../../../utils'
 import { GOD_QUERY_STRING as GQS } from '../constants'
+import { actKT } from '../utils'
 
 function fetchTheGod<T = { [key: string]: GodDictItem }>(
   lsr: lunisolar.Lunisolar,
@@ -180,8 +181,13 @@ class TheGods {
     if (checkQueryString(queryString, GQS.MG, locale)) return [...this.data.gods.m]
     if (checkQueryString(queryString, GQS.DG, locale)) return [...this.data.gods.d]
     if (checkQueryString(queryString, GQS.HG, locale)) return [...this.data.gods.h]
-    if (checkQueryString(queryString, GQS.TDG, locale))
-      return [...this.data.gods.y, ...this.data.gods.m, ...this.data.gods.d]
+    if (checkQueryString(queryString, GQS.TDG, locale)) {
+      return cacheAndReturn(
+        `query:${GQS.TDG}`,
+        [...this.data.gods.y, ...this.data.gods.m, ...this.data.gods.d],
+        this._cache
+      )
+    }
     if (checkQueryString(queryString, GQS.DBYG, locale)) return this.getBy12God('day')
     if (checkQueryString(queryString, GQS.HBYG, locale)) return this.getBy12God('hour')
     if (checkQueryString(queryString, GQS.DTG, locale)) return this.getDuty12God()

@@ -1,8 +1,8 @@
-import type { TheGods } from './class/theGods'
-import type { God } from './class/god'
-import { GOD_QUERY_STRING as GQS } from './constants'
 /*
------
+```
+-----------------------------------
+卷十  p251
+goodBadLevel:
 宜忌等第表
 [級別, 地支[], 神煞名[]]
 級別: 0 to 5
@@ -12,8 +12,19 @@ import { GOD_QUERY_STRING as GQS } from './constants'
 3：中次   凶胜于吉，遇德从宜亦从忌，不遇从忌不从宜
 4：下     凶又逢凶，遇德从忌不从宜，不遇诸事皆忌
 5: 下下   凶叠大凶，遇德亦诸事皆忌
------
+------------------------------------
+actLevel:
+通过goodBadLevel是否遇德再分级
+0: 从宜不从忌
+1: 从宜亦从忌
+2：从忌不从宜
+3：诸事皆忌
+```
 */
+
+import type { TheGods } from '../class/theGods'
+import type { God } from '../class/god'
+import { GOD_QUERY_STRING as GQS } from '../constants'
 
 const theDeList = ['歲德', '歲德合', '月德', '月德合', '天德', '天德合']
 
@@ -159,15 +170,14 @@ const getGoodBadLevelDict = (): {
   ]
 })
 
+type ActLevelData = [number | null, number | null, Map<string, boolean>]
+
 /**
  * 取得等次
  * @param theGods TheGods實例
  * @param monthBranchValue 月的地支索引值
  */
-function findLevel(
-  theGods: TheGods,
-  monthBranchValue: number
-): [number | null, Map<string, boolean>] {
+function findLevel(theGods: TheGods, monthBranchValue: number): ActLevelData {
   const dutyGodKey = theGods.getDuty12God().key + '日'
   const life12GodKey = theGods.getLife12God('day').key
   const levelDict = getGoodBadLevelDict()
@@ -188,7 +198,7 @@ function findLevel(
       currLevelKey = levelDict[levelkey]
     }
   }
-  if (!levelDictItem) return [null, signGodMap]
+  if (!levelDictItem) return [null, null, signGodMap]
   let level = null
   outer: for (const levelItem of levelDictItem) {
     const [lv, mv, gl] = levelItem
@@ -201,7 +211,56 @@ function findLevel(
       }
     }
   }
-  return [level, signGodMap]
+  let actLevel = 1
+  if (level === 5) actLevel = 3
+  else if (level === 4) actLevel = signGodMap.get('德') ? 2 : 3
+  else if (level === 3) actLevel = signGodMap.get('德') ? 1 : 2
+  else if (level === 2) actLevel = signGodMap.get('德') ? 0 : 2
+  else if (level === 1) actLevel = signGodMap.get('德') ? 0 : 1
+  else if (level === 0) actLevel = 0
+  return [level, actLevel, signGodMap]
 }
 
-export { theDeList, getGoodBadLevelDict, findLevel, isDe }
+// function filterActByLevel(theGods: TheGods, levelData: ActLevelData): [string[], string[]] {
+//   const [lv, lv2, signGodMap] = levelData
+//   const rmActs = {
+//     good: new Set<string>(),
+//     bad: new Set<string>()
+//   }
+//   const addActs = {
+//     good: new Set<string>(),
+//     bad: new Set<string>()
+//   }
+//   // 3：诸事皆忌
+//   if (lv2 === 3) return [['諸事不宜'], ['諸事不宜']] // 凶叠大凶，遇德亦诸事皆忌
+//   else if (lv2 === 2) {
+
+//   }
+//   return [[], []]
+
+// }
+
+function filterActByLevel(
+  acts: [string[], string[]],
+  actLevel: number
+): [Set<string>, Set<string>] {
+  if (actLevel === 3) return [new Set(['諸事不宜']), new Set(['諸事不宜'])]
+  const [good, bad] = acts
+  const goodSet = new Set<string>(good)
+  const badSet = new Set<string>()
+  for (const b of bad) {
+    badSet.add(b)
+    if (goodSet.has(b)) {
+      // 2：从忌不从宜
+      if (actLevel === 2) goodSet.delete(b)
+      // 1: 从宜亦从忌
+      else if (actLevel === 1) {
+        goodSet.delete(b)
+        badSet.delete(b)
+      } else if (actLevel === 0) badSet.delete(b)
+    }
+  }
+  return [goodSet, badSet]
+}
+
+export { theDeList, getGoodBadLevelDict, findLevel, isDe, filterActByLevel }

@@ -13,7 +13,18 @@ type CheckGodFunc = {
   <T = number>(lsr: Lunisolar, fromYmdh: YMDH | undefined, toYmdh: null): T
   (lsr: Lunisolar, fromYmdh: YMDH | undefined, toYmdh: YMDH): boolean
 }
-type GodDictItem = [CheckGodFunc, string[] | null, string[] | null, number]
+
+type GodDictItemExtra = {
+  filters: {
+    withGodKeys: Set<string>
+    acts: string[]
+    flag: 0 | 1 | 2 // 0
+  }[]
+}
+
+type GodDictItem =
+  | [CheckGodFunc, string[] | null, string[] | null, number]
+  | [CheckGodFunc, string[] | null, string[] | null, number, GodDictItemExtra]
 
 type GodClassData = {
   key: string
