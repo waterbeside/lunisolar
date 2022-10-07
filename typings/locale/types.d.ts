@@ -88,6 +88,15 @@ interface LocaleData {
    */
   eightTrigram: string[]
   /**
+   * the phase of moon 月相
+   */
+  phaseMoon: {
+    朔: string
+    望: string
+    弦: string
+    晦: string
+  }
+  /**
    * The format of the date
    */
   formats: {

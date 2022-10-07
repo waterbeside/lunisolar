@@ -1,4 +1,4 @@
-import { parseDate } from '../utils'
+import { parseDate, phaseOfTheMoon } from '../utils'
 
 import {
   FIRST_YEAR,
@@ -150,6 +150,13 @@ export class Lunar {
    */
   get lunarNewYearDate(): Date {
     return getLunarNewYearDate(this._y)
+  }
+
+  /**
+   * 取得月相
+   */
+  get phaseOfTheMoon() {
+    return phaseOfTheMoon(this, _GlobalConfig.locales[this._config.lang])
   }
 
   getYearName(): string {

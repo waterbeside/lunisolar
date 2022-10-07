@@ -182,3 +182,19 @@ export function cacheAndReturn(key: string, value: any, cache: { [key: string]: 
   cache[key] = value
   return value
 }
+
+/**
+ * 取得月相
+ * @param lunar Lunar实例
+ * @param locale 语言包
+ * @returns {string}
+ */
+export function phaseOfTheMoon(lunar: lunisolar.Lunar, locale: LocaleData): string {
+  const lunarDay = lunar.day
+  if (lunarDay === 1) return locale.phaseMoon.朔
+  if ([7, 8, 22, 23].includes(lunarDay)) return locale.phaseMoon.弦
+  if (lunarDay === 15) return locale.phaseMoon.望
+  if (lunar.isBigMonth && lunarDay === 30) return locale.phaseMoon.晦
+  if (!lunar.isBigMonth && lunarDay === 29) return locale.phaseMoon.晦
+  return ''
+}

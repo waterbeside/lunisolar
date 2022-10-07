@@ -39,6 +39,13 @@ const locale: LocaleData = {
   fiveElements: ['木', '火', '土', '金', '水'],
   // 八卦        0 1 2 3 4 5 6 7
   eightTrigram: '坤震坎兌艮離巽乾'.split(''),
+  // 月相
+  moonPhase: {
+    朔: '朔',
+    望: '望',
+    弦: '弦',
+    晦: '晦'
+  },
   formats: {
     LT: 'HH:mm',
     LTS: 'HH:mm:ss',
