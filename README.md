@@ -380,6 +380,7 @@ console.log(lsr.format('lY年 lM(lL)lD lH時')) // 二〇二二年 六月(大)�
 | isLeapMonth    | 当前阴历月是否为闰月 |  | boolean |
 | lunarNewYearDate | 取得当年正月初一对应的公历日期 |  | Date |
 | getYearName()  | 取得该阴历年正月初一所在的公历年, 返回汉字字符串 | | string |
+| phaseOfTheMoon | 取得当天月相，如朔、弦、望、晦等，不在上述其中之一者，返回空字符串 || string |
 | getMonthName() | 取得当前阴历月, 返回汉字字符串 | | string |
 | getDayName()   | 取得当前阴历日, 返回汉字字符串 | | string |
 | getHourName()  | 取得当前时辰 | | string |

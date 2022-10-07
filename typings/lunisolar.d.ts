@@ -58,6 +58,10 @@ declare namespace lunisolar {
      */
     get lunarNewYearDate(): Date
     /**
+     * 月相
+     */
+    get phaseOfTheMoon(): string
+    /**
      * 取得該年陰歷正月初一的所在公歷年(中文)
      */
     getYearName(): string

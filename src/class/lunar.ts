@@ -155,7 +155,7 @@ export class Lunar {
   /**
    * 取得月相
    */
-  get phaseOfTheMoon() {
+  get phaseOfTheMoon(): string {
     return phaseOfTheMoon(this, _GlobalConfig.locales[this._config.lang])
   }
 
