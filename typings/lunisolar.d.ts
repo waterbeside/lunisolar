@@ -50,6 +50,10 @@ declare namespace lunisolar {
      */
     get isBigMonth(): boolean
     /**
+     * 是否本月的最后一天（晦日）
+     */
+    get isLastDayOfMonth(): boolean
+    /**
      * 取得陰歷時辰下標 0 ~ 11
      */
     get hour(): number

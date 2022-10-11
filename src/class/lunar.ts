@@ -130,6 +130,12 @@ export class Lunar {
     }
   }
 
+  get isLastDayOfMonth(): boolean {
+    if (this.isBigMonth && this.day === 30) return true
+    if (!this.isBigMonth && this.day === 29) return true
+    return false
+  }
+
   get year(): number {
     return this._y
   }

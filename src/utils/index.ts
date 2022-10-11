@@ -194,7 +194,6 @@ export function phaseOfTheMoon(lunar: lunisolar.Lunar, locale: LocaleData): stri
   if (lunarDay === 1) return locale.phaseMoon.朔
   if ([7, 8, 22, 23].includes(lunarDay)) return locale.phaseMoon.弦
   if (lunarDay === 15) return locale.phaseMoon.望
-  if (lunar.isBigMonth && lunarDay === 30) return locale.phaseMoon.晦
-  if (!lunar.isBigMonth && lunarDay === 29) return locale.phaseMoon.晦
+  if (lunar.isLastDayOfMonth) return locale.phaseMoon.晦
   return ''
 }
