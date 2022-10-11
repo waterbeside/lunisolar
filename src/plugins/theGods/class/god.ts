@@ -11,13 +11,15 @@ class God {
       key: string
       good: string[] | null
       bad: string[] | null
+      extra?: GodDictItemExtra | null
     },
     config: GodClassConfig
   ) {
     this.data = {
       key: data.key,
       good: data.good || [],
-      bad: data.bad || []
+      bad: data.bad || [],
+      extra: data?.extra || null
     }
     this._config = {
       lang: config.lang ?? 'zh',

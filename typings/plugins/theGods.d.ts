@@ -12,9 +12,11 @@ declare module 'lunisolar' {
         key: string
         good: string[] | null
         bad: string[] | null
+        extra?: GodDictItemExtra | null
       },
       config: GodClassConfig
     )
+    get key(): string
     get name(): string
     get good(): string
     get bad(): string

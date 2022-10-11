@@ -10,7 +10,7 @@ import { getLife12God } from '../gods/life12Gods'
 import { God } from './god'
 import { getTranslation, cacheAndReturn } from '../../../utils'
 import { GOD_QUERY_STRING as GQS } from '../constants'
-import { actKT } from '../utils'
+// import { actKT } from '../utils'
 
 function fetchTheGod<T = { [key: string]: GodDictItem }>(
   lsr: lunisolar.Lunisolar,
@@ -20,12 +20,13 @@ function fetchTheGod<T = { [key: string]: GodDictItem }>(
 ): God[] {
   const res: God[] = []
   for (const key in godDict) {
-    const [checkFunc, good, bad, _] = godDict[key] as GodDictItem
+    const [checkFunc, good, bad, _, extra] = godDict[key] as GodDictItem
     if (checkFunc(lsr, fromYmdh, toYmdh)) {
       const godData: GodClassData = {
         key,
         good: good || [],
-        bad: bad || []
+        bad: bad || [],
+        extra: extra || null
       }
       const godConfig: GodClassConfig = {
         lang: lsr.getConfig('lang') as string,
@@ -123,8 +124,8 @@ class TheGods {
   getDuty12God(): God {
     const cacheKey = `duty12God`
     if (this._cache.hasOwnProperty(cacheKey)) return this._cache[cacheKey]
-    const [_, key, good, bad] = getDuty12God(this.lsr)
-    const god = new God({ key, good, bad }, this.godConfig)
+    const [_, key, good, bad, extra] = getDuty12God(this.lsr)
+    const god = new God({ key, good, bad, extra }, this.godConfig)
     this._cache[cacheKey] = god
     return god
   }

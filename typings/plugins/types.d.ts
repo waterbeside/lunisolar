@@ -14,12 +14,44 @@ type CheckGodFunc = {
   (lsr: Lunisolar, fromYmdh: YMDH | undefined, toYmdh: YMDH): boolean
 }
 
+type ActsDictList = {
+  good: string[]
+  bad: string[]
+}
+
+type GodDictItemExtraFilterFunc = (
+  lsr: lunisolar.Lunisolar,
+  gods: Set<string>
+) => {
+  add?: Partial<ActsDictList>
+  remove?: Partial<ActsDictList>
+  replace?: Partial<ActsDictList>
+  meetGodStillBad?: string[]
+  meetDeStillBad?: true
+} | null
+
+/**
+ * 神煞宜忌补充
+ ```
+ meetDeStillBad 是否遇德犹忌
+ meetGodStillBad 遇到某些神煞犹忌 填写神煞key列表
+ meetGodFilter: 遇到某些神煞要对宜忌进行筛选
+  {
+    withGodKeys： 神煞key列表
+    acts: 宜或忌列表
+    flag: 0犹忌， 1只忌， 2不忌, 3宜, 4不宜
+  }
+ ```
+ */
 type GodDictItemExtra = {
-  filters: {
-    withGodKeys: Set<string>
+  meetDeStillBad?: boolean
+  meetGodStillBad?: string[]
+  meetGodActsFilter?: {
+    withGodKeys: string[] | Set<string>
     acts: string[]
-    flag: 0 | 1 | 2 // 0
+    flag: 0 | 1 | 2 | 3 | 4
   }[]
+  actsFilter?: GodDictItemExtraFilterFunc
 }
 
 type GodDictItem =
@@ -30,6 +62,7 @@ type GodClassData = {
   key: string
   good: string[]
   bad: string[]
+  extra: GodDictItemExtra | null
 }
 
 type GodClassConfig = {
@@ -49,4 +82,9 @@ type TheGodsClassData = {
   goodAct: string[]
   badAct: string[]
   [key: string]: any
+}
+
+type ActsSet = {
+  good: Set<string>
+  bad: Set<string>
 }

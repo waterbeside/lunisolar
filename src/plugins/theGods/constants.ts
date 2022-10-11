@@ -14,3 +14,11 @@ export const GOD_QUERY_STRING = {
   GA: 'good act',
   BA: 'bad act'
 }
+
+// 遇德之德
+export const MEETING_DES = ['歲德', '歲德合', '月德', '月德合', '天德', '天德合']
+export const MEETING_DES_SET = new Set(MEETING_DES)
+
+// 赦愿
+export const PARDON_WISH = ['天赦', '天願']
+export const PARDON_WISH_SET = new Set(PARDON_WISH)

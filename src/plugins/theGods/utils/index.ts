@@ -1,4 +1,8 @@
 import { getBranchValue, getStemValue, getTranslation } from '../../../utils'
+import { yearGods } from '../gods/yearGods'
+import { monthGods } from '../gods/monthGods'
+import { monthSeasonGods } from '../gods/monthSeasonGods'
+import { dayGods } from '../gods/dayGods'
 
 // 神煞地支順行
 export function branchAscGodFunc(offset: number): CheckGodFunc {
@@ -85,4 +89,33 @@ export function getCommonCheckGodFunc(
 
 export function actKT(acts: string[], isReturnKey: boolean, locale: { [key: string]: any }) {
   return acts.map(i => (isReturnKey ? i : getTranslation(locale, `theGods.acts.${i}`)))
+}
+
+/**
+ * 通過神煞key取得宜忌
+ * @param godKeys 神煞key列表
+ * @returns 宜忌
+ */
+export function getActsByYmdGodKeys(godKeys: string[]): ActsSet {
+  const good = new Set<string>()
+  const bad = new Set<string>()
+  for (const k of godKeys) {
+    for (const godDict of [monthGods, monthSeasonGods, dayGods, yearGods]) {
+      if (godDict.hasOwnProperty(k)) {
+        const [_, gAct, bAct] = godDict[k]
+        if (gAct) {
+          gAct.forEach(g => {
+            good.add(g)
+          })
+        }
+        if (bAct) {
+          bAct.forEach(g => {
+            bad.add(g)
+          })
+        }
+        break
+      }
+    }
+  }
+  return { good, bad }
 }
