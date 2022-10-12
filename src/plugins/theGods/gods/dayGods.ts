@@ -309,7 +309,11 @@ const dayGods: DayGods = {
     ),
     null,
     leave4BadAct,
-    2
+    2,
+    {
+      meetDeStillBad: true,
+      meetWishStillBad: true
+    }
   ],
   // 日神按月取數者
   長星: [
@@ -349,7 +353,11 @@ const dayGods: DayGods = {
     }) as CheckGodFunc,
     null,
     getAct(['上冊進表章', '陳詞訟'], false),
-    2
+    2,
+    {
+      meetDeStillBad: true,
+      meetWishStillBad: true
+    }
   ],
   // 日神按节气取数者
   四離: [
@@ -360,7 +368,11 @@ const dayGods: DayGods = {
     }) as CheckGodFunc,
     null,
     leave4BadAct,
-    2
+    2,
+    {
+      meetDeStillBad: true,
+      meetWishStillBad: true
+    }
   ],
   四絕: [
     ((lsr: lunisolar.Lunisolar, fromYmdh?: YMDH, toYmdh?: YMDH): boolean => {
@@ -370,7 +382,11 @@ const dayGods: DayGods = {
     }) as CheckGodFunc,
     null,
     leave4BadAct,
-    2
+    2,
+    {
+      meetDeStillBad: true,
+      meetWishStillBad: true
+    }
   ],
   氣往亡: [
     ((lsr: lunisolar.Lunisolar, fromYmdh?: YMDH, toYmdh?: YMDH): number | boolean => {
