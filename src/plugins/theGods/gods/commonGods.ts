@@ -1,6 +1,6 @@
 import { getBranchValue } from '../../../utils'
 import { getCommonCheckGodFunc } from '../utils'
-import { getAct, jieShaBadAct } from '../actData'
+import { jieShaBadAct, commonOnlyBad2 } from '../actData'
 import { MEETING_DES } from '../constants'
 import { getLife12God } from './life12Gods'
 import { getDuty12GodIndexAndKey } from './duty12Gods'
@@ -32,7 +32,7 @@ const commonGods: { [key: string]: GodDictItem } = {
         ) {
           return {
             replace: {
-              bad: getAct([10, 15])
+              bad: commonOnlyBad2
             }
           }
         }
@@ -57,7 +57,7 @@ const commonGods: { [key: string]: GodDictItem } = {
         ) {
           return {
             replace: {
-              bad: getAct([10, 15])
+              bad: commonOnlyBad2
             }
           }
         }

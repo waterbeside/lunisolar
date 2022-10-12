@@ -9,9 +9,11 @@ import {
   bigTimeBadAct,
   earthBagBadAct,
   goDeadBadAct,
-  getAct
+  getAct,
+  commonOnlyBad,
+  commonOnlyBad2
 } from '../actData'
-import { MEETING_DES } from '../constants'
+import { MEETING_DES, PARDON_WISH } from '../constants'
 import { getDuty12GodIndexAndKey } from './duty12Gods'
 
 const monthGodNames = [
@@ -239,7 +241,7 @@ const monthGods: MonthGods = {
         ) {
           return {
             replace: {
-              bad: getAct([10, 15])
+              bad: commonOnlyBad2
             }
           }
         }
@@ -252,20 +254,87 @@ const monthGods: MonthGods = {
     getCommonCheckGodFunc([9, 6, 3, 0], getBranchValue, 4, 'month'),
     null,
     [...bigTimeBadAct, '取魚', '乘船渡水'],
-    4
+    4,
+    {
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        const mbValue = getBranchValue(lsr, 'month')
+        const duty12GodKey = getDuty12GodIndexAndKey(lsr)[1]
+        if (
+          // 寅申巳亥月值除日官日, 辰戌月值執日六合，丑未月值執日六害與二德并
+          ([2, 8, 5, 11].includes(mbValue) && (duty12GodKey === '除' || gods.has('官日'))) ||
+          ([4, 10].includes(mbValue) && (duty12GodKey === '執' || gods.has('六合'))) ||
+          ([1, 7].includes(mbValue) &&
+            (duty12GodKey === '執' || gods.has('六害')) &&
+            ['月德', '天德'].some(i => gods.has(i)))
+        ) {
+          return {
+            replace: {
+              bad: commonOnlyBad
+            }
+          }
+        }
+        return null
+      }
+    }
   ],
   遊禍: [
     getCommonCheckGodFunc([11, 8, 5, 2], getBranchValue, 4, 'month'),
     null,
     ['祈福', '求嗣', '解除', '求醫療病'],
-    4
+    4,
+    {
+      meetDeStillBad: true,
+      meetWishStillBad: true
+    }
   ],
-  天吏: [getCommonCheckGodFunc([3, 0, 9, 6], getBranchValue, 4, 'month'), null, bigTimeBadAct, 4],
+  天吏: [
+    getCommonCheckGodFunc([3, 0, 9, 6], getBranchValue, 4, 'month'),
+    null,
+    bigTimeBadAct,
+    4,
+    {
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        const mbValue = getBranchValue(lsr, 'month')
+        const duty12GodKey = getDuty12GodIndexAndKey(lsr)[1]
+        if (
+          // 寅申巳亥月值危日 遇德
+          [2, 8, 5, 11].includes(mbValue) &&
+          duty12GodKey === '危' &&
+          MEETING_DES.some(i => gods.has(i))
+        ) {
+          return {
+            replace: {
+              bad: commonOnlyBad2
+            }
+          }
+        }
+        return null
+      }
+    }
+  ],
   九空: [
     getCommonCheckGodFunc([10, 7, 4, 1], getBranchValue, 4, 'month'),
     null,
     getAct(['進人口', '020b'], false),
-    4
+    4,
+    {
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        const mbValue = getBranchValue(lsr, 'month')
+        const duty12GodKey = getDuty12GodIndexAndKey(lsr)[1]
+        if (
+          (([2, 8].includes(mbValue) && duty12GodKey === '滿') ||
+            ([0, 3, 6, 9].includes(mbValue) && duty12GodKey === '開')) &&
+          ['月德', '天德合', '月德合'].some(i => gods.has(i))
+        ) {
+          return {
+            replace: {
+              bad: []
+            }
+          }
+        }
+        return null
+      }
+    }
   ],
   // 月刑為月建所傷之地，故所忌與三煞同
   月刑: [
@@ -285,7 +354,7 @@ const monthGods: MonthGods = {
         ) {
           return {
             replace: {
-              bad: getAct([10, 15])
+              bad: commonOnlyBad2
             }
           }
         }
@@ -394,7 +463,25 @@ const monthGods: MonthGods = {
     getCheckGodFunc((lsr, ymdh = 'month') => (getBranchValue(lsr, ymdh) + 4) % 12, getBranchValue),
     null,
     getAct([10, '解除 求醫療病 修置產室 栽種'], false),
-    4
+    4,
+    {
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        if (MEETING_DES.some(i => gods.has(i))) {
+          return {
+            replace: {
+              bad: commonOnlyBad2
+            }
+          }
+        }
+        const mbValue = getBranchValue(lsr, 'month')
+        if ([4, 10].includes(mbValue) && gods.has('月厭')) {
+          return {
+            meetDeStillBad: true
+          }
+        }
+        return null
+      }
+    }
   ],
   // 月神随四季者 （ 已移到monthSeasonGods ）
   // 月神随建旺取墓辰者
@@ -408,21 +495,41 @@ const monthGods: MonthGods = {
     ),
     null,
     getAct(['冠帶', 9, '011a', '012b', 13, '解除 求醫療病', '16-17', 19, 21, 24, '25a']),
-    4
+    4,
+    {
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        const mbValue = getBranchValue(lsr, 'month')
+        if ([6, 0].includes(mbValue) && gods.has('月德')) {
+          return {
+            replace: {
+              bad: []
+            }
+          }
+        }
+        return null
+      }
+    }
   ],
   // 月神隨月建三合逆行一方者
   九坎: [
     getCommonCheckGodFunc([8, 5, 4, 1, 10, 7, 3, 0, 9, 6, 2, 11], getBranchValue, 0, 'month'),
     null,
     getAct(['補垣塞穴', 26], false),
-    4
+    4,
+    {
+      meetDeStillBad: true
+    }
   ],
   // 月神随四序行三合者
   土符: [
     getCommonCheckGodFunc([8, 0, 1, 5, 9, 2, 6, 10, 3, 7, 11, 4], getBranchValue, 0, 'month'),
     null,
     earthBagBadAct,
-    4
+    4,
+    {
+      meetDeStillBad: true,
+      meetWishStillBad: true
+    }
   ],
   // 月神隨四時行三合納甲者
   地囊: [
@@ -447,7 +554,11 @@ const monthGods: MonthGods = {
     ),
     null,
     earthBagBadAct,
-    4
+    4,
+    {
+      meetDeStillBad: true,
+      meetWishStillBad: true
+    }
   ],
   // 月神随月建行纳甲六辰者
   陽德: [
@@ -473,24 +584,45 @@ const monthGods: MonthGods = {
     getCommonCheckGodFunc([6, 4, 2, 0, 10, 8], getBranchValue, 6, 'month'),
     null,
     getAct([10], false),
-    4
+    4,
+    {
+      meetDeStillBad: true,
+      meetWishStillBad: true
+    }
   ],
   // 月神随月建逆行一方者
   大煞: [
     getCommonCheckGodFunc([8, 9, 10, 5, 6, 7, 2, 3, 4, 11, 0, 1], getBranchValue, 0, 'month'),
     null,
     getAct([10], false),
-    4
+    4,
+    {
+      meetDeStillBad: true,
+      meetWishStillBad: true
+    }
   ],
   // 月神隨月建三合順行一方者
   往亡: [
     getCommonCheckGodFunc([10, 1, 2, 5, 8, 11, 3, 6, 9, 0, 4, 7], getBranchValue, 0, 'month'),
     null,
     goDeadBadAct,
-    4
+    4,
+    {
+      meetDeStillBad: true,
+      meetWishStillBad: true
+    }
   ],
   // 月神隨孟仲季順行三支者
-  歸忌: [getCommonCheckGodFunc([2, 0, 1], getBranchValue, 3), null, getAct(['013a'], false), 4],
+  歸忌: [
+    getCommonCheckGodFunc([2, 0, 1], getBranchValue, 3),
+    null,
+    getAct(['013a'], false),
+    4,
+    {
+      meetDeStillBad: true,
+      meetWishStillBad: true
+    }
+  ],
 
   // 月神隨月建陰陽順行六辰者
   要安: [
@@ -554,7 +686,26 @@ const monthGods: MonthGods = {
     [...jieShaBadAct, '進人口', '遠回', '平治道涂', '伐木', '修筑園圃'].filter(
       item => item != '掃舍宇'
     ),
-    4
+    4,
+    {
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        const mbValue = getBranchValue(lsr, 'month')
+        const duty12GodKey = getDuty12GodIndexAndKey(lsr)[1]
+        if (
+          // 寅申月值成日，丑未月值開日，遇天德合月德月德合
+          (([2, 8].includes(mbValue) && duty12GodKey === '成') ||
+            ([1, 7].includes(mbValue) && duty12GodKey === '開')) &&
+          ['月德', '天德合', '月德合'].some(i => gods.has(i))
+        ) {
+          return {
+            replace: {
+              bad: getAct(['9-10', '012a', 15, '013a', '栽種'])
+            }
+          }
+        }
+        return null
+      }
+    }
   ],
   六合: [
     monthGeneralDescGodFunc(1),
@@ -575,7 +726,15 @@ const monthGods: MonthGods = {
       }
     }
   ],
-  天賊: [monthGeneralDescGodFunc(3), null, getAct([9, '修倉庫', '納財', '出貨財'], false), 4],
+  天賊: [
+    monthGeneralDescGodFunc(3),
+    null,
+    getAct([9, '修倉庫', '納財', '出貨財'], false),
+    4,
+    {
+      meetDeStillBad: true
+    }
+  ],
   天倉: [monthGeneralDescGodFunc(4), ['進人口', '納財', '納畜'], null, 4],
   六儀: [monthGeneralDescGodFunc(5), ['臨政親民'], null, 4],
   月害: [
@@ -597,13 +756,13 @@ const monthGods: MonthGods = {
         const duty12GodKey = getDuty12GodIndexAndKey(lsr)[1]
         if (
           // 卯酉值除日守日，丑未值執日，大時 ，遇天德月德
-          (([3, 9].includes(mbValue) && (duty12GodKey === '平' || gods.has('守日'))) ||
+          (([3, 9].includes(mbValue) && (duty12GodKey === '除' || gods.has('守日'))) ||
             ([1, 7].includes(mbValue) && (duty12GodKey === '執' || gods.has('大時')))) &&
           ['月德', '天德合', '天願'].some(i => gods.has(i))
         ) {
           return {
             replace: {
-              bad: getAct([10, 15])
+              bad: commonOnlyBad2
             }
           }
         }
@@ -669,9 +828,25 @@ const monthGods: MonthGods = {
       'month',
       getStemValue
     ),
-    null,
+    ['裁製'],
     getAct(['025a'], false),
-    4
+    4,
+    {
+      // 與重日同
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        if (MEETING_DES.some(i => gods.has(i)) || ['天赦', '六合'].some(i => gods.has(i))) {
+          return {
+            replace: {
+              bad: []
+            },
+            gRemove: {
+              good: getAct(['025a'], false)
+            }
+          }
+        }
+        return null
+      }
+    }
   ],
   // 月神從厭建起者
   // 不将
@@ -1003,13 +1178,39 @@ const monthGods: MonthGods = {
 // 其它，與上邊有一樣的取神方法
 monthGods.天后 = [...monthGods.驛馬]
 monthGods.大敗 = [monthGods.大時[0], null, null, 4]
-monthGods.咸池 = [monthGods.大時[0], null, null, 4]
+monthGods.咸池 = [monthGods.大時[0], null, ['取魚', '乘船渡水'], 4, monthGods.大時[4]]
 monthGods.致死 = [monthGods.天吏[0], null, null, 4]
 monthGods.九焦 = [monthGods.九坎[0], null, getAct(['鼓鑄 栽種 修筑園圃'], false), 4]
 // 月神隨月建陰陽順行六辰者
-monthGods.血忌 = [monthGods.續世[0], null, ['針刺'], 4]
+monthGods.血忌 = [
+  monthGods.續世[0],
+  null,
+  ['針刺'],
+  4,
+  {
+    meetDeStillBad: true,
+    meetWishStillBad: true
+  }
+]
 // 月神隨月將逆行者
-monthGods.厭對 = [monthGods.六儀[0], null, ['嫁娶'], 4]
+monthGods.厭對 = [
+  monthGods.六儀[0],
+  null,
+  ['嫁娶'],
+  4,
+  {
+    actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+      if (MEETING_DES.some(i => gods.has(i)) || gods.has('天赦')) {
+        return {
+          replace: {
+            bad: []
+          }
+        }
+      }
+      return null
+    }
+  }
+]
 monthGods.招搖 = [monthGods.六儀[0], null, ['嫁娶'], 4]
 
 export { monthGodNames, monthGods, MonthGods }

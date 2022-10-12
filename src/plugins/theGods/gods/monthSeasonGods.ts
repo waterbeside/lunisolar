@@ -1,6 +1,7 @@
 import { getBranchValue, getStemValue } from '../../../utils'
 import { getCheckGodFunc } from '../utils'
-import { deGoodAct, snDeGoodAct, getAct } from '../actData'
+import { deGoodAct, snDeGoodAct, getAct, commonOnlyBad } from '../actData'
+import { MEETING_DES } from '../constants'
 
 const monthSeasonGodNames = [
   '天赦',
@@ -135,7 +136,11 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     null,
     getAct([10], false),
-    4
+    4,
+    {
+      meetDeStillBad: true,
+      meetWishStillBad: true
+    }
   ],
   四忌: [
     getCheckGodFunc(
@@ -145,7 +150,23 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     null,
     getAct([10, '012a', '安葬'], false),
-    4
+    4,
+    {
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        const mbValue = getBranchValue(lsr, 'month')
+        // 寅月乙亥日，與天願并
+        if (mbValue === 2 && lsr.char8.day.value === 11 && gods.has('天願')) {
+          return {
+            replace: {
+              bad: commonOnlyBad
+            }
+          }
+        }
+        return {
+          meetDeStillBad: true
+        }
+      }
+    }
   ],
   四窮: [
     getCheckGodFunc(
@@ -155,7 +176,23 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     null,
     getAct([10, '012b', '020b', '安葬'], false),
-    4
+    4,
+    {
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        const mbValue = getBranchValue(lsr, 'month')
+        // 寅月乙亥日，與天願并
+        if (mbValue === 2 && lsr.char8.day.value === 11 && gods.has('天願')) {
+          return {
+            replace: {
+              bad: commonOnlyBad
+            }
+          }
+        }
+        return {
+          meetDeStillBad: true
+        }
+      }
+    }
   ],
   四耗: [
     getCheckGodFunc(
@@ -165,7 +202,24 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     null,
     getAct([10, '020b'], false),
-    4
+    4,
+    {
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        const mbValue = getBranchValue(lsr, 'month')
+        if (
+          (mbValue === 4 && ['天德', '月德'].some(i => gods.has(i))) ||
+          (mbValue === 5 && gods.has('月德合')) ||
+          ([1, 4, 7, 10].includes(mbValue) && gods.has('三合'))
+        ) {
+          return {
+            replace: {
+              bad: commonOnlyBad
+            }
+          }
+        }
+        return null
+      }
+    }
   ],
   四廢: [
     getCheckGodFunc(
@@ -205,7 +259,20 @@ const monthSeasonGods: MonthSeasonGods = {
       ],
       false
     ),
-    4
+    4,
+    {
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        if (gods.has('月破')) {
+          return {
+            isAllBad: true,
+            meetDeStillBad: true
+          }
+        }
+        return {
+          meetDeStillBad: true
+        }
+      }
+    }
   ],
   五虛: [
     getCheckGodFunc(
@@ -222,7 +289,19 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     null,
     getAct(['修倉庫', 20], false),
-    4
+    4,
+    {
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        if (MEETING_DES.some(i => gods.has(i)) || gods.has('六合')) {
+          return {
+            replace: {
+              bad: []
+            }
+          }
+        }
+        return null
+      }
+    }
   ],
   八風: [
     getCheckGodFunc(
@@ -239,7 +318,19 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     null,
     getAct([26], false),
-    4
+    4,
+    {
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        if (MEETING_DES.some(i => gods.has(i)) || gods.has('六合')) {
+          return {
+            replace: {
+              bad: []
+            }
+          }
+        }
+        return null
+      }
+    }
   ]
 }
 

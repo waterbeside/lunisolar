@@ -1,6 +1,7 @@
 import { getBranchValue, getStemValue, getYmdhSB } from '../../../utils'
 import { getCheckGodFunc } from '../utils'
-import { goDeadBadAct, leave4BadAct, getAct } from '../actData'
+import { goDeadBadAct, leave4BadAct, getAct, commonOnlyBad } from '../actData'
+import { MEETING_DES, PARDON_WISH } from '../constants'
 
 const dayGodNames = [
   '天恩',
@@ -68,7 +69,19 @@ const dayGods: DayGods = {
     ),
     null,
     getAct([8, 12, '立券 交易'], false),
-    2
+    2,
+    {
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        if (MEETING_DES.some(i => gods.has(i)) || ['天赦', '六合', '三合'].some(i => gods.has(i))) {
+          return {
+            replace: {
+              bad: []
+            }
+          }
+        }
+        return null
+      }
+    }
   ],
   鳴吠: [
     getCheckGodFunc(
@@ -128,7 +141,11 @@ const dayGods: DayGods = {
     ),
     null,
     getAct([10], false),
-    2
+    2,
+    {
+      meetDeStillBad: true,
+      meetWishStillBad: true
+    }
   ],
   伐日: [
     getCheckGodFunc(
@@ -138,7 +155,11 @@ const dayGods: DayGods = {
     ),
     null,
     getAct([10], false),
-    2
+    2,
+    {
+      meetDeStillBad: true,
+      meetWishStillBad: true
+    }
   ],
   八專: [
     getCheckGodFunc(
@@ -148,7 +169,20 @@ const dayGods: DayGods = {
     ),
     null,
     getAct([10, '012a'], false),
-    2
+    2,
+    {
+      meetDeStillBad: true,
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        if (gods.has('天願')) {
+          return {
+            replace: {
+              bad: commonOnlyBad
+            }
+          }
+        }
+        return null
+      }
+    }
   ],
   觸水龍: [
     getCheckGodFunc(
@@ -158,7 +192,11 @@ const dayGods: DayGods = {
     ),
     null,
     getAct([26], false),
-    2
+    2,
+    {
+      meetDeStillBad: true,
+      meetWishStillBad: true
+    }
   ],
   無祿: [
     getCheckGodFunc(
@@ -167,8 +205,77 @@ const dayGods: DayGods = {
       'includes'
     ),
     null,
-    getAct(['祭祀 解除 沐浴', 14, '掃舍宇 修飾垣墻 平治道涂 破屋壞垣 伐木'], false),
-    2
+    null,
+    // getAct(['祭祀 解除 沐浴', 14, '掃舍宇 修飾垣墻 平治道涂 破屋壞垣 伐木'], false),
+    2,
+    {
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        const onlyActs = getAct(
+          ['祭祀 解除 沐浴', 14, '掃舍宇 修飾垣墻 平治道涂 破屋壞垣 伐木'],
+          false
+        )
+        const ybValue = getBranchValue(lsr, 'year')
+        const mbValue = getBranchValue(lsr, 'month')
+        const db = getBranchValue(lsr, 'day')
+        const ds = getStemValue(lsr, 'day')
+        const dsb = `${ds}-${db}`
+        // 惟有癸亥为干支具尽日，虽值德、合、太阳、岁、月填实等，仍以无禄论。
+        if (dsb === '9-11') {
+          return {
+            gIntersection: {
+              good: onlyActs,
+              bad: onlyActs
+            }
+          }
+        }
+        // 與天德月德并，不以無无禄论
+        if (['天德', '月德'].some(i => gods.has(i))) return null
+        // 太岁、月建填实禄位不以无禄论
+        const exclude01: [number, string[]][] = [
+          [2, ['0-4']],
+          [3, ['1-5']],
+          [5, ['2-8', '4-10']],
+          [6, ['3-11', '5-1']],
+          [8, ['6-4']],
+          [9, ['7-5']],
+          [11, ['8-8']]
+        ]
+        for (const item of exclude01) {
+          if ((ybValue === item[0] || mbValue === item[0]) && item[1].includes(dsb)) return null
+        }
+        // 岁德合、月德合所会之辰不以无禄论。
+        // 如甲、己年亥、卯、未月之己丑日；乙庚年巳酉丑月之乙巳日；
+        // 丙辛年寅午戌月之辛巳日；丁壬年 申子辰月之丁亥日
+        const exclude02: [number[], number[], string][] = [
+          [[0, 5], [11, 3, 7], '5-1'],
+          [[1, 6], [5, 9, 2], '1-5'],
+          [[2, 7], [2, 6, 10], '7-5'],
+          [[3, 8], [8, 0, 4], '3-11']
+        ]
+        for (const item of exclude02) {
+          if (item[0].includes(ybValue) && item[1].includes(mbValue) && dsb === item[2]) return null
+        }
+        // 岁德、天德合所会之辰不以无禄论。
+        // 如乙庚年亥月之庚辰日；丙辛年巳月之丙申日；
+        // 丁壬年寅月之壬申日；戊癸年申月之戊戌日
+        const exclude03: [number[], number, string][] = [
+          // [[0, 5], [11, 3, 7], '5-1'],
+          [[1, 6], 11, '6-4'],
+          [[2, 7], 5, '2-8'],
+          [[3, 8], 2, '8-8'],
+          [[4, 9], 8, '4-10']
+        ]
+        for (const item of exclude03) {
+          if (item[0].includes(ybValue) && item[1] === mbValue && dsb === item[2]) return null
+        }
+        return {
+          gIntersection: {
+            good: onlyActs,
+            bad: onlyActs
+          }
+        }
+      }
+    }
   ],
   重日: [
     getCheckGodFunc(
@@ -177,7 +284,22 @@ const dayGods: DayGods = {
     ),
     null,
     getAct(['025a'], false),
-    2
+    2,
+    {
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        if (MEETING_DES.some(i => gods.has(i)) || ['天赦', '六合'].some(i => gods.has(i))) {
+          return {
+            replace: {
+              bad: []
+            },
+            gRemove: {
+              good: getAct(['025a'], false)
+            }
+          }
+        }
+        return null
+      }
+    }
   ],
   // 日神按年取干支者
   上朔: [
@@ -263,7 +385,11 @@ const dayGods: DayGods = {
     }) as CheckGodFunc,
     null,
     goDeadBadAct,
-    2
+    2,
+    {
+      meetDeStillBad: true,
+      meetWishStillBad: true
+    }
   ]
 }
 

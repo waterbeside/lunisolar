@@ -26,8 +26,12 @@ type GodDictItemExtraFilterFunc = (
   add?: Partial<ActsDictList>
   remove?: Partial<ActsDictList>
   replace?: Partial<ActsDictList>
+  gRemove?: Partial<ActsDictList>
+  gIntersection?: Partial<ActsDictList>
   meetGodStillBad?: string[]
   meetDeStillBad?: true
+  meetWishStillBad?: true
+  isAllBad?: true
 } | null
 
 /**
@@ -45,18 +49,15 @@ type GodDictItemExtraFilterFunc = (
  */
 type GodDictItemExtra = {
   meetDeStillBad?: boolean
+  meetWishStillBad?: true
   meetGodStillBad?: string[]
-  meetGodActsFilter?: {
-    withGodKeys: string[] | Set<string>
-    acts: string[]
-    flag: 0 | 1 | 2 | 3 | 4
-  }[]
   actsFilter?: GodDictItemExtraFilterFunc
 }
 
 type GodDictItem =
   | [CheckGodFunc, string[] | null, string[] | null, number]
   | [CheckGodFunc, string[] | null, string[] | null, number, GodDictItemExtra]
+  | [CheckGodFunc, string[] | null, string[] | null, number, undefined]
 
 type GodClassData = {
   key: string

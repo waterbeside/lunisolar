@@ -246,3 +246,6 @@ export const goDeadBadAct =
 export const leave4BadAct = excludeAct(
   `祈福 解除 沐浴 ${a014} 補垣塞穴 掃舍宇 修飾垣墻 平治道涂 破屋壞垣`.split(' ')
 )
+
+export const commonOnlyBad = getAct([10], false)
+export const commonOnlyBad2 = getAct([10, 15], false)

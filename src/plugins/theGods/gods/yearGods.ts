@@ -5,6 +5,7 @@ import {
   branchAscGodFunc,
   branchDescGodFunc
 } from '../utils'
+import { MEETING_DES } from '../constants'
 import { getAct } from '../actData'
 
 const yearGodNames = [
@@ -246,7 +247,11 @@ const yearGods: YearGods = {
     getCommonCheckGodFunc([0, 9, 6, 3], getBranchValue, 4, 'year'),
     null,
     getAct([10], false),
-    8
+    8,
+    {
+      meetDeStillBad: true,
+      meetWishStillBad: true
+    }
   ],
   黃幡: [getCommonCheckGodFunc([4, 1, 10, 7], getBranchValue, 4, 'year'), null, null, 8],
   豹尾: [getCommonCheckGodFunc([10, 7, 4, 1], getBranchValue, 4, 'year'), null, null, 8],
@@ -267,7 +272,25 @@ yearGods.小耗 = [
   null,
   getAct(['020b']),
   // ['修倉庫', '開市', '立券', '交易', '納財', '開倉庫', '出貨財'],
-  8
+  8,
+  {
+    actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+      const mbValue = getBranchValue(lsr, 'month')
+      if (MEETING_DES.some(i => gods.has(i))) {
+        return {
+          replace: {
+            bad: []
+          }
+        }
+      }
+      if ([0, 3, 6, 9].includes(mbValue) && gods.has('劫煞')) {
+        return {
+          meetDeStillBad: true
+        }
+      }
+      return null
+    }
+  }
 ]
 
 export { yearGodNames, yearGods, YearGods }
