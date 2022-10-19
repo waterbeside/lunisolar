@@ -22,7 +22,7 @@ export const GOD_QUERY_STRING = {
 }
 
 // 遇德之德
-export const MEETING_DES = ['歲德', '歲德合', '月德', '月德合', '天德', '天德合']
+export const MEETING_DES = ['月德', '月德合', '天德', '天德合']
 export const MEETING_DES_SET = new Set(MEETING_DES)
 
 // 赦愿
