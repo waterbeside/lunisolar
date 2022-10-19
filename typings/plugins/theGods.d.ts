@@ -24,13 +24,34 @@ declare module 'lunisolar' {
   }
 
   export class TheGods {
-    _cache: { [key: string]: any }
-    private data: TheGodsClassData
+    private _cache: { [key: string]: any }
+    data: TheGodsClassData
+    lsr: luisolar.Lunisolar
     constructor(lsr: lunisolar.Lunisolar)
+    get locale(): { [key: string]: any }
+    get godConfig(): GodClassConfig
+    getDuty12God(): God
+    getLife12God(ymdh: YMDH): God
+    getBy12God(ymdh: 'day' | 'hour'): God
+    getActs(
+      actType?: 0 | 1 | 2 | 3,
+      returnKey?: boolean,
+      replacer?: { [key: string]: string }
+    ): ActsDictList
+    getGoodAct(
+      actType?: 0 | 1 | 2 | 3,
+      returnKey?: boolean,
+      replacer?: { [key: string]: string }
+    ): string[]
+    getBadAct(
+      actType?: 0 | 1 | 2 | 3,
+      returnKey?: boolean,
+      replacer?: { [key: string]: string }
+    ): string[]
+    query(queryString: string): God | God[] | string[] | null
   }
 
   interface Lunisolar {
-    // duty12God: God
     theGods: TheGods
   }
 }

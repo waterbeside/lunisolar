@@ -39,17 +39,6 @@ function fetchTheGod<T = { [key: string]: GodDictItem }>(
   return res
 }
 
-// function getActFromGod(gods: God[], whichAct: 0 | 1 = 0, acts = new Set()) {
-//   // const acts = new Set()
-//   for (const g of gods) {
-//     const itemActs = whichAct === 1 ? g.data.bad : g.data.good
-//     for (const ia of itemActs) {
-//       acts.add(ia)
-//     }
-//   }
-//   return acts
-// }
-
 function createLife12Gods(lsr: lunisolar.Lunisolar, ymdh: YMDH, godConfig: GodClassConfig) {
   const [_, key] = getLife12God(lsr, ymdh)
   return new God(
@@ -131,7 +120,7 @@ class TheGods {
     return god
   }
 
-  getLife12God(ymdh: YMDH) {
+  getLife12God(ymdh: YMDH): God {
     const cacheKey = `live12God:${ymdh}`
     if (this._cache.hasOwnProperty(cacheKey)) return this._cache[cacheKey]
     const god = createLife12Gods(this.lsr, ymdh, this.godConfig)
@@ -139,7 +128,7 @@ class TheGods {
     return god
   }
 
-  getBy12God(ymdh: 'day' | 'hour') {
+  getBy12God(ymdh: 'day' | 'hour'): God {
     const fromYmdh = ymdh === 'day' ? 'month' : 'day'
     const cacheKey = `by12God:${ymdh}`
     if (this._cache.hasOwnProperty(cacheKey)) return this._cache[cacheKey]
@@ -180,7 +169,7 @@ class TheGods {
     return this.getActs(actType, returnKey, replacer).bad
   }
 
-  query(queryString: string) {
+  query(queryString: string): God | God[] | string[] | null {
     const locale = this.locale
     if (checkQueryString(queryString, GQS.YG, locale)) return [...this.data.gods.y]
     if (checkQueryString(queryString, GQS.MG, locale)) return [...this.data.gods.m]
@@ -191,7 +180,7 @@ class TheGods {
         `query:${GQS.TDG}`,
         [...this.data.gods.y, ...this.data.gods.m, ...this.data.gods.d],
         this._cache
-      )
+      ) as God[]
     }
     if (checkQueryString(queryString, GQS.DBYG, locale)) return this.getBy12God('day')
     if (checkQueryString(queryString, GQS.HBYG, locale)) return this.getBy12God('hour')
@@ -208,6 +197,7 @@ class TheGods {
     if (checkQueryString(queryString, GQS.BA1, locale)) return this.getBadAct(1)
     if (checkQueryString(queryString, GQS.BA2, locale)) return this.getBadAct(2)
     if (checkQueryString(queryString, GQS.BA3, locale)) return this.getBadAct(3)
+    return null
   }
 }
 
