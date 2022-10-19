@@ -1,7 +1,7 @@
 import { getBranchValue, getStemValue, getYmdhSB } from '../../../utils'
 import { getCheckGodFunc } from '../utils'
 import { goDeadBadAct, leave4BadAct, getAct, commonOnlyBad } from '../actData'
-import { MEETING_DES, PARDON_WISH } from '../constants'
+import { MEETING_DES } from '../constants'
 
 const dayGodNames = [
   '天恩',
@@ -222,10 +222,7 @@ const dayGods: DayGods = {
         // 惟有癸亥为干支具尽日，虽值德、合、太阳、岁、月填实等，仍以无禄论。
         if (dsb === '9-11') {
           return {
-            gIntersection: {
-              good: onlyActs,
-              bad: onlyActs
-            }
+            gOnlySign: onlyActs
           }
         }
         // 與天德月德并，不以無无禄论
@@ -269,10 +266,7 @@ const dayGods: DayGods = {
           if (item[0].includes(ybValue) && item[1] === mbValue && dsb === item[2]) return null
         }
         return {
-          gIntersection: {
-            good: onlyActs,
-            bad: onlyActs
-          }
+          gOnlySign: onlyActs
         }
       }
     }

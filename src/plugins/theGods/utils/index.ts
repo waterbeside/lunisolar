@@ -119,3 +119,28 @@ export function getActsByYmdGodKeys(godKeys: string[]): ActsSet {
   }
   return { good, bad }
 }
+
+export const removeSetByList = function (setData: Set<string>, removes: string[]) {
+  for (const item of removes) setData.delete(item)
+}
+
+export const filterActsNotInSet = function (acts: ActsSet, filterList: string[]) {
+  const good = new Set<string>()
+  const bad = new Set<string>()
+  for (const item of filterList) {
+    if (acts.good.has(item)) good.add(item)
+    if (acts.bad.has(item)) bad.add(item)
+  }
+  acts.good = good
+  acts.bad = bad
+  return acts
+}
+
+// act replacer to string
+export const arToString = function (replacer: { [key: string]: string }): string {
+  let res = ''
+  for (const key in replacer) {
+    res += `${key}${replacer[key]}`
+  }
+  return res
+}

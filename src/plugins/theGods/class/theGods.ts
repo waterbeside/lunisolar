@@ -10,7 +10,8 @@ import { getLife12God } from '../gods/life12Gods'
 import { God } from './god'
 import { getTranslation, cacheAndReturn } from '../../../utils'
 import { GOD_QUERY_STRING as GQS } from '../constants'
-// import { actKT } from '../utils'
+import { orderActs, getTodayActs } from '../utils/extractGodActs'
+import { arToString } from '../utils'
 
 function fetchTheGod<T = { [key: string]: GodDictItem }>(
   lsr: lunisolar.Lunisolar,
@@ -38,16 +39,16 @@ function fetchTheGod<T = { [key: string]: GodDictItem }>(
   return res
 }
 
-function getActFromGod(gods: God[], whichAct: 0 | 1 = 0, acts = new Set()) {
-  // const acts = new Set()
-  for (const g of gods) {
-    const itemActs = whichAct === 1 ? g.data.bad : g.data.good
-    for (const ia of itemActs) {
-      acts.add(ia)
-    }
-  }
-  return acts
-}
+// function getActFromGod(gods: God[], whichAct: 0 | 1 = 0, acts = new Set()) {
+//   // const acts = new Set()
+//   for (const g of gods) {
+//     const itemActs = whichAct === 1 ? g.data.bad : g.data.good
+//     for (const ia of itemActs) {
+//       acts.add(ia)
+//     }
+//   }
+//   return acts
+// }
 
 function createLife12Gods(lsr: lunisolar.Lunisolar, ymdh: YMDH, godConfig: GodClassConfig) {
   const [_, key] = getLife12God(lsr, ymdh)
@@ -148,32 +149,35 @@ class TheGods {
     return god
   }
 
-  getAct(whichAct: 0 | 1 = 0, returnKey: boolean = false): string[] {
-    let theActs: string[] = []
-    const actTypeString = whichAct === 1 ? 'bad' : 'good'
-    if (this.data[actTypeString]) {
-      theActs = [...this.data[actTypeString]]
-    } else {
-      const acts = new Set<string>()
-      const gods = [
-        ...this.data.gods.y,
-        ...this.data.gods.m,
-        ...this.data.gods.d,
-        this.getDuty12God()
-      ]
-      getActFromGod(gods, whichAct, acts)
-      theActs = Array.from(acts)
-      this.data[actTypeString] = theActs
-    }
-    return returnKey ? theActs : theActs.map(item => getTranslation(this._cache.locale, item))
+  getActs(
+    actType: 0 | 1 | 2 | 3 = 0,
+    returnKey: boolean = false,
+    replacer?: { [key: string]: string }
+  ): ActsDictList {
+    const cacheKey = `theGods:getActs:${actType}:${returnKey ? 1 : 0}: ${
+      replacer ? arToString(replacer) : 'null'
+    }`
+    if (this._cache[cacheKey]) return this._cache[cacheKey]
+    const acts = getTodayActs(this)
+    const res = orderActs(acts, actType, returnKey ? this.locale : false, replacer)
+    this._cache[cacheKey] = res
+    return res
   }
 
-  getGoodAct(returnKey: boolean = false): string[] {
-    return this.getAct(0, returnKey)
+  getGoodAct(
+    actType: 0 | 1 | 2 | 3 = 0,
+    returnKey: boolean = false,
+    replacer?: { [key: string]: string }
+  ): string[] {
+    return this.getActs(actType, returnKey, replacer).good
   }
 
-  getBadAct(returnKey: boolean = false): string[] {
-    return this.getAct(1, returnKey)
+  getBadAct(
+    actType: 0 | 1 | 2 | 3 = 0,
+    returnKey: boolean = false,
+    replacer?: { [key: string]: string }
+  ): string[] {
+    return this.getActs(actType, returnKey, replacer).bad
   }
 
   query(queryString: string, returnKey: boolean = false) {

@@ -1,6 +1,6 @@
 import { getBranchValue } from '../../../utils'
 import { getCommonCheckGodFunc } from '../utils'
-import { jieShaBadAct, commonOnlyBad2 } from '../actData'
+import { jieShaBadAct, jieShaBadActStr, commonOnlyBad2 } from '../actData'
 import { MEETING_DES } from '../constants'
 import { getLife12God } from './life12Gods'
 import { getDuty12GodIndexAndKey } from './duty12Gods'
@@ -43,7 +43,7 @@ const commonGods: { [key: string]: GodDictItem } = {
   災煞: [
     getCommonCheckGodFunc([6, 3, 0, 9], getBranchValue, 4),
     null,
-    [...jieShaBadAct, '苫蓋'],
+    `${jieShaBadActStr} 苫蓋`.split(' '),
     12,
     {
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {

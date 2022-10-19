@@ -94,7 +94,8 @@ const actDict = {
 
 type ActGroupKey = keyof typeof actDict
 
-export const commonActString =
+// 通書六十事
+export const commonActsStr =
   '祭祀 祈福 求嗣 上冊受封 上表章 襲爵受封 ' +
   '會親友 入學 冠帶 出行 上官赴任 臨政親民 ' +
   '結婚姻 納采問名 嫁娶 進人口 移徙 遠回 ' +
@@ -106,7 +107,52 @@ export const commonActString =
   '破屋壞垣 伐木 捕捉 畋獵 取魚 乘船渡水 ' +
   '栽種 牧養 納畜 破土 安葬 啟攢'
 
-export const commonAct = commonActString.split(' ')
+export const commonActs = commonActsStr.split(' ')
+
+// 御用六十七事
+export const emperorActsStr =
+  '祭祀 祈福 求嗣 上刪進表章 頒詔 覃恩 ' +
+  '肆赦 施恩封拜 詔命公卿 招賢 舉正直 施恩惠 ' +
+  '恤孤煢 宣政事 布政事 行惠愛 雪冤枉 緩刑獄 ' +
+  '慶幸 賞賀 宴會 入學 冠帶 行幸 ' +
+  '遣使 安撫邊境 選將訓兵 出師 上官赴任 臨政親民 ' +
+  '結婚姻 納采問名 嫁娶 進人口 般移 安床 ' +
+  '解除 沐浴 剃頭 整手足甲 求醫療病 製裁 ' +
+  '營建建宮室 修宮室 繕城郭 筑堤防 興造動土 豎柱上梁 ' +
+  '經絡 開市 立券 交易 納財 修置產室 ' +
+  '開渠穿井 安碓磑 補垣 掃舍宇 修飾垣墻 平治道涂 ' +
+  '伐木 捕捉 畋獵 取魚 栽種 牧養 納畜 '
+
+export const emperorActs = emperorActsStr.split(' ')
+
+// 民用三十七事
+export const civilActsStr =
+  '祭祀 上表章 上官 入學 冠帶 結婚姻 ' +
+  '會親友 嫁娶 進人口 出行 移徙 安床 ' +
+  '沐浴 剃頭 療病 裁衣 修造動土 豎柱上梁' +
+  '經絡 開市 立券 交易 納財 修置產室 ' +
+  '開渠穿井 安碓磑 掃舍宇 平治道涂 破屋壞垣 伐木 ' +
+  '捕捉 畋獵 栽種 牧養 破土 安葬 啟攢'
+
+export const civilActs = civilActsStr.split(' ')
+
+// 辯方書卷十一 的所有宜忌
+export const defaultActsStr =
+  '祭祀 祈福 求嗣 上刪進表章 上表章 頒詔 覃恩 ' +
+  '肆赦  施恩封拜 詔命公卿 招賢 舉正直 施恩惠 ' +
+  '恤孤煢 宣政事 布政事 行惠愛 雪冤枉 緩刑獄 ' +
+  '慶幸 賞賀 宴會 入學 冠帶 行幸 ' +
+  '遣使 安撫邊境 選將訓兵 出師 上官赴任 臨政親民 ' +
+  '結婚姻 納采問名 嫁娶 進人口 般移 遠回 安床 ' +
+  '解除 沐浴 整容 剃頭 整手足甲 求醫療病 療目 針制 製裁 ' +
+  '營建建宮室 修宮室 繕城郭 筑堤防 興造動土 豎柱上梁 ' +
+  '修倉庫 鼓鑄 苫蓋 經絡 醞釀 ' +
+  '開市 立券 交易 納財 開倉庫 出貨財 修置產室 ' +
+  '開渠穿井 安碓磑 補垣塞穴 掃舍宇 修飾垣墻 平治道涂 ' +
+  '伐木 捕捉 畋獵 取魚 乘船渡水 栽種 牧養 納畜 ' +
+  '破土 安葬 啟攢'
+
+export const defaultActs = defaultActsStr.split(' ')
 
 /**
  * 取得宜忌
@@ -144,7 +190,7 @@ export function getAct(
 }
 
 export function excludeAct(excludes: string[], hay?: string[]): string[] {
-  hay = hay ?? commonActString.replace('上冊受封 上表章', '上冊進表章').split(' ')
+  hay = hay ?? defaultActsStr.split(' ')
   const excludesSet = new Set(excludes.join(' ').split(' '))
   return hay.filter(item => !excludesSet.has(item))
 }
@@ -208,7 +254,7 @@ export const snDeGoodAct = (
 ).split(' ')
 
 // 劫煞
-export const jieShaBadAct = (
+export const jieShaBadActStr =
   `${a001} 上冊進表章 頒詔 ${a003} ` +
   `${a004} ${a006} ${a008} 冠帶 ${a009} ` +
   `${a011a} ${a012a} ${a013} ` +
@@ -217,7 +263,13 @@ export const jieShaBadAct = (
   `鼓鑄 ${a018} ${a020a} 修置產室 開渠穿井 ` +
   `安碓磑 掃舍宇 ${a023} ` +
   `${a024} ${a025a}`
-).split(' ')
+
+export const jieShaBadAct = jieShaBadActStr.split(' ')
+
+// 月厭
+export const monthHateBadAct = `${jieShaBadActStr} 進人口 遠回 平治道涂 伐木 修筑園圃`
+  .split(' ')
+  .filter(i => i != '掃舍宇')
 
 // 大時 天吏 之忌
 export const bigTimeBadAct = (

@@ -5,7 +5,8 @@ import {
   deGoodAct,
   heavenWishGoodAct,
   snDeGoodAct,
-  jieShaBadAct,
+  jieShaBadActStr,
+  monthHateBadAct,
   bigTimeBadAct,
   earthBagBadAct,
   goDeadBadAct,
@@ -13,7 +14,7 @@ import {
   commonOnlyBad,
   commonOnlyBad2
 } from '../actData'
-import { MEETING_DES, PARDON_WISH } from '../constants'
+import { MEETING_DES } from '../constants'
 import { getDuty12GodIndexAndKey } from './duty12Gods'
 
 const monthGodNames = [
@@ -75,7 +76,7 @@ const monthGodNames = [
   '孤陽',
   '純陰',
   '歲薄',
-  '遂陣',
+  '逐陣',
   '陰陽交破',
   '陰陽擊沖',
   '陽破陰沖',
@@ -228,7 +229,7 @@ const monthGods: MonthGods = {
   月煞: [
     getCommonCheckGodFunc([7, 4, 1, 10], getBranchValue, 4, 'month'),
     null,
-    [...jieShaBadAct, '修倉庫', '開倉庫', '出貨財'],
+    `${jieShaBadActStr} 修倉庫 開倉庫 出貨財`.split(' '),
     4,
     {
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
@@ -340,7 +341,7 @@ const monthGods: MonthGods = {
   月刑: [
     getCommonCheckGodFunc([3, 10, 5, 0, 4, 8, 6, 1, 2, 9, 7, 11], getBranchValue, 0, 'month'),
     null,
-    [...jieShaBadAct, '進人口'],
+    `${jieShaBadActStr} 進人口`.split(' '),
     4,
     {
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
@@ -683,9 +684,7 @@ const monthGods: MonthGods = {
   月厭: [
     monthGeneralDescGodFunc(0),
     null,
-    [...jieShaBadAct, '進人口', '遠回', '平治道涂', '伐木', '修筑園圃'].filter(
-      item => item != '掃舍宇'
-    ),
+    monthHateBadAct,
     4,
     {
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
@@ -945,6 +944,8 @@ const monthGods: MonthGods = {
       lsr => lsr.char8.day.value,
       'includes'
     ),
+    null,
+    null,
     4
   ],
   單陰: [
@@ -998,7 +999,7 @@ const monthGods: MonthGods = {
     null,
     4
   ],
-  遂陣: [
+  逐陣: [
     getCheckGodFunc(
       (lsr, ymdh = 'month') => {
         const branchValue = getBranchValue(lsr, ymdh)

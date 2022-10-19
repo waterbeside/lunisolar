@@ -27,7 +27,7 @@ type GodDictItemExtraFilterFunc = (
   remove?: Partial<ActsDictList>
   replace?: Partial<ActsDictList>
   gRemove?: Partial<ActsDictList>
-  gIntersection?: Partial<ActsDictList>
+  gOnlySign?: string[]
   meetGodStillBad?: string[]
   meetDeStillBad?: true
   meetWishStillBad?: true
