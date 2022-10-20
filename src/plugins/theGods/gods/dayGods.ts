@@ -109,7 +109,7 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value,
       'includes'
     ),
-    ['安撫邊境', '選選將訓兵', '出師'],
+    ['安撫邊境', '選將訓兵', '出師'],
     null,
     2
   ],
@@ -119,7 +119,7 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value,
       'includes'
     ),
-    ['安撫邊境', '選選將訓兵', '出師'],
+    ['安撫邊境', '選將訓兵', '出師'],
     null,
     2
   ],
@@ -129,7 +129,7 @@ const dayGods: DayGods = {
       (lsr, ymdh = 'day') => getYmdhSB(lsr, ymdh, 0).value,
       'includes'
     ),
-    ['安撫邊境', '選選將訓兵', '出師'],
+    ['安撫邊境', '選將訓兵', '出師'],
     null,
     2
   ],
