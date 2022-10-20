@@ -50,4 +50,29 @@ describe('plugins/theGods life12God', () => {
     const lsr = lunisolar('2022-10-4') as unknown as Lunisolar
     expect(lsr.theGods.getLife12God('day').name).toBe('絕')
   })
+
+  describe('plugins/theGods 神煞', () => {
+    it('2022-10-19', () => {
+      // 壬寅年 庚戌月 乙巳日
+      const lsr = lunisolar('2022-10-19') as unknown as Lunisolar
+      // 年神
+      const tobeYearGods = ['陰貴', '太陰', '六害', '歲刑', '天官符']
+      expect(lsr.theGods.getGods('Y').map(g => g.key)).toEqual(tobeYearGods)
+      // 月神
+      const tobeMonthGods = ['遊禍', '陰德', '續世', '血忌']
+      expect(lsr.theGods.getGods('M').map(g => g.key)).toEqual(tobeMonthGods)
+      // 日神
+      const tobeDayGods = ['寶日', '無祿']
+      expect(lsr.theGods.getGods('D').map(g => g.key)).toEqual(tobeDayGods)
+
+      const gods = lsr.theGods.getGods('YMD')
+      expect(gods.map(g => g.key)).toEqual([...tobeYearGods, ...tobeMonthGods, ...tobeDayGods])
+
+      const acts = lsr.theGods.getActs(0)
+      console.log(acts)
+
+      // console.log()
+      // const yg = lsr.theGods.yearGods
+    })
+  })
 })
