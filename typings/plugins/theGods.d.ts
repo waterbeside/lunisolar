@@ -3,7 +3,7 @@ import { PluginFunc } from 'lunisolar'
 declare module 'lunisolar' {
   export class God {
     data: GodClassData
-    _config: {
+    private _config: {
       lang: string
       locale: { [key: string]: any }
     }

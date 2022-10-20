@@ -2,7 +2,7 @@ import { getTranslation } from '../../../utils'
 
 class God {
   data: GodClassData
-  _config: {
+  private _config: {
     lang: string
     locale: { [key: string]: any }
   }
