@@ -17,10 +17,6 @@ const yearGodNames = [
   '金神',
   '破敗五鬼',
   '陰府太歲',
-  '奏書',
-  '博士',
-  '力士',
-  '蠶室',
   '太歲',
   '太陽',
   '喪門',
@@ -119,43 +115,6 @@ const yearGods: YearGods = {
         ][getStemValue(lsr, ymdh, 5)],
       getStemTrigram8Value,
       'includes'
-    ),
-    null,
-    null,
-    8
-  ],
-  // 年神隨歲方順行者
-  奏書: [
-    getCheckGodFunc(
-      (lsr, ymdh = 'year') => [7, 7, 4, 4, 4, 6, 6, 6, 0, 0, 0, 7][getBranchValue(lsr, ymdh)],
-      getStemTrigram8Value
-    ),
-    null,
-    null,
-    8
-  ],
-  博士: [
-    getCheckGodFunc(
-      (lsr, ymdh = 'year') => [6, 6, 0, 0, 0, 7, 7, 7, 4, 4, 4, 6][getBranchValue(lsr, ymdh)],
-      getStemTrigram8Value
-    ),
-    null,
-    null,
-    8
-  ],
-  力士: [
-    getCheckGodFunc(
-      (lsr, ymdh = 'year') => [4, 4, 6, 6, 6, 0, 0, 0, 7, 7, 7, 4][getBranchValue(lsr, ymdh)],
-      getStemTrigram8Value
-    ),
-    null,
-    null,
-    8
-  ],
-  蠶室: [
-    getCheckGodFunc(
-      (lsr, ymdh = 'year') => [0, 0, 7, 7, 7, 4, 4, 4, 6, 6, 6, 0][getBranchValue(lsr, ymdh)],
-      getStemTrigram8Value
     ),
     null,
     null,
