@@ -18,54 +18,55 @@ function filterGodActsByExtra(
     good: new Set(god.data.good),
     bad: new Set(god.data.bad)
   }
-  if (!extra) return null
 
-  const actsFilterRes = extra.actsFilter ? extra.actsFilter(theGods.lsr, gods) : null
+  const actsFilterRes = extra && extra.actsFilter ? extra.actsFilter(theGods.lsr, gods) : null
 
-  const modifyGodActs = (gb: 'good' | 'bad') => {
-    // replace
-    if (actsFilterRes?.replace && actsFilterRes?.replace[gb]) {
-      godActs[gb] = new Set(actsFilterRes.replace[gb] as string[])
-    } else {
-      // add
-      if (actsFilterRes?.add && actsFilterRes?.add[gb]) {
-        ;(actsFilterRes.add[gb] as string[]).forEach(i => {
-          godActs[gb].add(i)
-        })
+  if (extra) {
+    const modifyGodActs = (gb: 'good' | 'bad') => {
+      // replace
+      if (actsFilterRes?.replace && actsFilterRes?.replace[gb]) {
+        godActs[gb] = new Set(actsFilterRes.replace[gb] as string[])
+      } else {
+        // add
+        if (actsFilterRes?.add && actsFilterRes?.add[gb]) {
+          ;(actsFilterRes.add[gb] as string[]).forEach(i => {
+            godActs[gb].add(i)
+          })
+        }
+        // remove
+        if (actsFilterRes?.remove && actsFilterRes?.remove[gb]) {
+          ;(actsFilterRes.remove[gb] as string[]).forEach(i => {
+            godActs[gb].delete(i)
+          })
+        }
       }
-      // remove
-      if (actsFilterRes?.remove && actsFilterRes?.remove[gb]) {
-        ;(actsFilterRes.remove[gb] as string[]).forEach(i => {
-          godActs[gb].delete(i)
+      // global queue
+      if (actsFilterRes?.gRemove) {
+        ;(actsFilterRes.gRemove[gb] || []).forEach(item => {
+          processData.gRemove[gb].push(item)
         })
       }
     }
-    // global queue
-    if (actsFilterRes?.gRemove) {
-      ;(actsFilterRes.gRemove[gb] || []).forEach(item => {
-        processData.gRemove[gb].push(item)
+    modifyGodActs('good')
+    modifyGodActs('bad')
+    if (actsFilterRes?.gOnlySign) {
+      ;(actsFilterRes.gOnlySign || []).forEach(item => {
+        processData.gOnlySign.push(item)
       })
     }
-  }
-  modifyGodActs('good')
-  modifyGodActs('bad')
-  if (actsFilterRes?.gOnlySign) {
-    ;(actsFilterRes.gOnlySign || []).forEach(item => {
-      processData.gOnlySign.push(item)
-    })
   }
   const badArray = Array.from(godActs.bad.keys())
   const goodArray = Array.from(godActs.good.keys())
 
   for (const item of badArray) {
     // 遇德犹忌
-    if (actsFilterRes?.meetDeStillBad || extra.meetDeStillBad) processData.mdsbActs.push(item)
+    if (actsFilterRes?.meetDeStillBad || extra?.meetDeStillBad) processData.mdsbActs.push(item)
     // 遇赦愿犹忌
-    if (actsFilterRes?.meetWishStillBad || extra.meetWishStillBad) processData.mwsbActs.push(item)
-    processData.acts.bad.add(item)
+    if (actsFilterRes?.meetWishStillBad || extra?.meetWishStillBad) processData.mwsbActs.push(item)
+    if (item) processData.acts.bad.add(item)
   }
   for (const item of goodArray) {
-    processData.acts.good.add(item)
+    if (item) processData.acts.good.add(item)
   }
   return godActs
 }
@@ -111,6 +112,7 @@ export const extractGodActs = function (theGods: TheGods): ProcessData {
   for (const godItem of godsList) {
     filterGodActsByExtra(godItem, theGods, gods, processData)
   }
+  filterGodActsByExtra(theGods.getDuty12God(), theGods, gods, processData)
   return processData
 }
 
@@ -227,7 +229,7 @@ export const orderActs = function (
     if (acts.bad.has(item)) bad.push(t(item))
   }
   return {
-    good,
+    good: good.length === 0 ? [t('諸事不宜')] : good,
     bad
   }
 }
