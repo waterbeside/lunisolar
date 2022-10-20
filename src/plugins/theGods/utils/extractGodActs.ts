@@ -135,7 +135,9 @@ export const getTodayActs = function (theGods: TheGods): ActsSet {
   removeSetByList(processData.acts.good, processData.gRemove.good)
   removeSetByList(processData.acts.bad, processData.gRemove.bad)
   // 處理gOnlySign，（無祿日的處理）
-  filterActsNotInSet(processData.acts, processData.gOnlySign)
+  if (processData.gOnlySign && processData.gOnlySign.length > 0) {
+    filterActsNotInSet(processData.acts, processData.gOnlySign)
+  }
   // 查出宜忌等第
   const levelData = findLevel(theGods, processData.signGods)
   // 使用等第表篩選宜忌
