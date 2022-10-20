@@ -111,6 +111,27 @@ class TheGods {
     }
   }
 
+  getGods(ymdh: 'Y' | 'M' | 'D' | 'H' | string): God[] {
+    ymdh = ymdh.toLowerCase()
+    const u: { [key: string]: 'y' | 'm' | 'd' | 'h' } = {
+      year: 'y',
+      month: 'm',
+      d: 'd',
+      h: 'h'
+    }
+    if (u.hasOwnProperty(ymdh)) {
+      return this.data.gods[u[ymdh]]
+    }
+    const res: God[] = []
+    for (let i = 0; i < ymdh.length; i++) {
+      const c = ymdh[i]
+      if (!this.data.gods.hasOwnProperty(c)) continue
+      const gods = this.data.gods[c as 'y' | 'm' | 'd' | 'h']
+      res.push(...gods)
+    }
+    return res
+  }
+
   getDuty12God(): God {
     const cacheKey = `duty12God`
     if (this._cache.hasOwnProperty(cacheKey)) return this._cache[cacheKey]
@@ -150,6 +171,7 @@ class TheGods {
     const acts = getTodayActs(this)
     const res = orderActs(acts, actType, returnKey ? this.locale : false, replacer)
     this._cache[cacheKey] = res
+
     return res
   }
 
@@ -171,14 +193,15 @@ class TheGods {
 
   query(queryString: string): God | God[] | string[] | null {
     const locale = this.locale
-    if (checkQueryString(queryString, GQS.YG, locale)) return [...this.data.gods.y]
-    if (checkQueryString(queryString, GQS.MG, locale)) return [...this.data.gods.m]
-    if (checkQueryString(queryString, GQS.DG, locale)) return [...this.data.gods.d]
-    if (checkQueryString(queryString, GQS.HG, locale)) return [...this.data.gods.h]
+    if (checkQueryString(queryString, GQS.YG, locale)) return this.getGods('Y')
+    if (checkQueryString(queryString, GQS.MG, locale)) return this.getGods('M')
+    if (checkQueryString(queryString, GQS.DG, locale)) return this.getGods('D')
+    if (checkQueryString(queryString, GQS.HG, locale)) return this.getGods('H')
     if (checkQueryString(queryString, GQS.TDG, locale)) {
       return cacheAndReturn(
         `query:${GQS.TDG}`,
-        [...this.data.gods.y, ...this.data.gods.m, ...this.data.gods.d],
+        this.getGods('YMD'),
+        // [...this.data.gods.y, ...this.data.gods.m, ...this.data.gods.d],
         this._cache
       ) as God[]
     }
