@@ -200,8 +200,8 @@ class TheGods {
     if (checkQueryString(queryString, GQS.TDG, locale)) {
       return cacheAndReturn(
         `query:${GQS.TDG}`,
-        this.getGods('YMD'),
-        // [...this.data.gods.y, ...this.data.gods.m, ...this.data.gods.d],
+        this.getGods('MD'),
+        // [...this.data.gods.m, ...this.data.gods.d],
         this._cache
       ) as God[]
     }
