@@ -70,7 +70,45 @@ describe('plugins/theGods life12God', () => {
 
       const acts = lsr.theGods.getActs(0)
       console.log(acts)
+    })
 
+    it('2018-7-9', () => {
+      // 戊戌年 已未月 壬寅日
+      const lsr = lunisolar('2018-7-9') as unknown as Lunisolar
+      // 年神
+      const tobeYearGods = ['官符', '神后', '伏兵', '坐煞', '畜官']
+      expect(lsr.theGods.getGods('Y').map(g => g.key)).toEqual(tobeYearGods)
+      // 月神
+      const tobeMonthGods = ['五富', '遊禍', '母倉']
+      expect(lsr.theGods.getGods('M').map(g => g.key)).toEqual(tobeMonthGods)
+      // 日神
+      const tobeDayGods = ['五合', '鳴吠對', '寶日']
+      expect(lsr.theGods.getGods('D').map(g => g.key)).toEqual(tobeDayGods)
+
+      const gods = lsr.theGods.getGods('MD')
+      expect(gods.map(g => g.key)).toEqual([...tobeMonthGods, ...tobeDayGods])
+      // console.log(gods)
+      // console.log(gods.map(g => g.key))
+
+      const acts = lsr.theGods.getActs(0)
+      console.log(acts)
+    })
+
+    it('2022-10-21', () => {
+      // 戊戌年 已未月 壬寅日
+      const lsr = lunisolar('2022-10-21') as unknown as Lunisolar
+      // 年神
+      const tobeYearGods = ['歲德合', '支德', '向煞', '死符', '小耗']
+      expect(lsr.theGods.getGods('Y').map(g => g.key)).toEqual(tobeYearGods)
+      // 月神
+      const tobeMonthGods = ['天德合', '月刑', '玉宇', '天倉', '母倉', '五虛', '八風']
+      expect(lsr.theGods.getGods('M').map(g => g.key)).toEqual(tobeMonthGods)
+      // 日神
+      const tobeDayGods = ['寶日', '八專']
+      expect(lsr.theGods.getGods('D').map(g => g.key)).toEqual(tobeDayGods)
+
+      const acts = lsr.theGods.getActs(0)
+      console.log(acts)
       // console.log()
       // const yg = lsr.theGods.yearGods
     })
