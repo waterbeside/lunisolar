@@ -191,9 +191,9 @@ export function cacheAndReturn(key: string, value: any, cache: { [key: string]: 
  */
 export function phaseOfTheMoon(lunar: lunisolar.Lunar, locale: LocaleData): string {
   const lunarDay = lunar.day
-  if (lunarDay === 1) return locale.phaseMoon.朔
-  if ([7, 8, 22, 23].includes(lunarDay)) return locale.phaseMoon.弦
-  if (lunarDay === 15) return locale.phaseMoon.望
-  if (lunar.isLastDayOfMonth) return locale.phaseMoon.晦
+  if (lunarDay === 1) return locale.moonPhase.朔
+  if ([7, 8, 22, 23].includes(lunarDay)) return locale.moonPhase.弦
+  if (lunarDay === 15) return locale.moonPhase.望
+  if (lunar.isLastDayOfMonth) return locale.moonPhase.晦
   return ''
 }

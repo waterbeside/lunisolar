@@ -90,7 +90,7 @@ interface LocaleData {
   /**
    * the phase of moon 月相
    */
-  phaseMoon: {
+  moonPhase: {
     朔: string
     望: string
     弦: string
