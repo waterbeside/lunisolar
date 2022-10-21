@@ -363,7 +363,7 @@ const monthGods: MonthGods = {
       }
     }
   ],
-  // 月建 月破
+  // 月建
   月建: [
     getCheckGodFunc((lsr, ymdh = 'month') => getBranchValue(lsr, ymdh), getBranchValue),
     null,
@@ -484,6 +484,32 @@ const monthGods: MonthGods = {
       }
     }
   ],
+  // 執日 = 小耗 = 支德
+  小耗: [
+    getCheckGodFunc((lsr, ymdh = 'month') => (getBranchValue(lsr, ymdh) + 5) % 12, getBranchValue),
+    null,
+    getAct(['020b'], false),
+    4,
+    {
+      actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
+        if (MEETING_DES.some(i => gods.has(i)) || gods.has('天願')) {
+          return {
+            replace: {
+              bad: []
+            }
+          }
+        }
+        const mbValue = getBranchValue(lsr, 'month')
+        if ([0, 3, 6, 9].includes(mbValue) && gods.has('劫煞')) {
+          return {
+            meetDeStillBad: true
+          }
+        }
+        return null
+      }
+    }
+  ],
+
   // 月神随四季者 （ 已移到monthSeasonGods ）
   // 月神随建旺取墓辰者
   五墓: [
