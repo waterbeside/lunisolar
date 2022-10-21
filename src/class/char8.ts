@@ -2,7 +2,7 @@ import { SB } from './stemBranch'
 import { SolarTerm } from './solarTerm'
 import { Lunar } from './lunar'
 import { parseDate, computeSBMonthValueByTerm } from '../utils'
-import { SB0_MONTH, SB0_DATE } from '../constants/calendarData'
+import { SB0_DATE } from '../constants/calendarData'
 import { _GlobalConfig } from '../config'
 
 export class Char8 {
