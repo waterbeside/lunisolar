@@ -53,15 +53,15 @@ export function getCheckGodFunc<T = number, U = T>(
   resTo: (lsr: lunisolar.Lunisolar, ymdh: YMDH) => U,
   compareSymbol: string = '='
 ): CheckGodFunc {
-  function func<T = number>(lsr: lunisolar.Lunisolar, fromYmdh?: YMDH): T
-  function func<T = number>(lsr: lunisolar.Lunisolar, fromYmdh: YMDH | undefined, toYmdh: null): T
+  function func<V = number>(lsr: lunisolar.Lunisolar, fromYmdh?: YMDH): V
+  function func<V = number>(lsr: lunisolar.Lunisolar, fromYmdh: YMDH | undefined, toYmdh: null): V
   function func(lsr: lunisolar.Lunisolar, fromYmdh: YMDH | undefined, toYmdh: YMDH): boolean
   function func(
     lsr: lunisolar.Lunisolar,
     fromYmdh: undefined | YMDH,
     toYmdh: null | YMDH = null
   ): T | boolean {
-    const res = resFrom(lsr, fromYmdh)
+    const res = resFrom(lsr, fromYmdh) as T | boolean
     if (!toYmdh) return res
     if (res === null || res === false) return false
     const to = resTo(lsr, toYmdh)

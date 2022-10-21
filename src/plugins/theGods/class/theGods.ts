@@ -13,15 +13,15 @@ import { GOD_QUERY_STRING as GQS } from '../constants'
 import { orderActs, getTodayActs } from '../utils/extractGodActs'
 import { arToString } from '../utils'
 
-function fetchTheGod<T = { [key: string]: GodDictItem }>(
+function fetchTheGod(
   lsr: lunisolar.Lunisolar,
-  godDict: T,
+  godDict: { [key: string]: GodDictItem },
   fromYmdh: YMDH | undefined,
   toYmdh: YMDH
 ): God[] {
   const res: God[] = []
   for (const key in godDict) {
-    const [checkFunc, good, bad, _, extra] = godDict[key] as GodDictItem
+    const [checkFunc, good, bad, _, extra] = godDict[key]
     if (checkFunc(lsr, fromYmdh, toYmdh)) {
       const godData: GodClassData = {
         key,

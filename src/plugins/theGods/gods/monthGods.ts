@@ -976,7 +976,7 @@ const monthGods: MonthGods = {
   ],
   單陰: [
     getCheckGodFunc(
-      (lsr, ymdh = 'month') => (getBranchValue(lsr, ymdh) === 4 ? 4 : null),
+      (lsr, ymdh = 'month'): number | null => (getBranchValue(lsr, ymdh) === 4 ? 4 : null),
       lsr => lsr.char8.day.value
     ),
     null,
@@ -985,7 +985,7 @@ const monthGods: MonthGods = {
   ],
   純陽: [
     getCheckGodFunc(
-      (lsr, ymdh = 'month') => (getBranchValue(lsr, ymdh) === 5 ? 5 : null),
+      (lsr, ymdh = 'month'): number | null => (getBranchValue(lsr, ymdh) === 5 ? 5 : null),
       lsr => lsr.char8.day.value
     ),
     null,
@@ -994,7 +994,7 @@ const monthGods: MonthGods = {
   ],
   孤陽: [
     getCheckGodFunc(
-      (lsr, ymdh = 'month') => (getBranchValue(lsr, ymdh) === 11 ? 34 : null),
+      (lsr, ymdh = 'month'): number | null => (getBranchValue(lsr, ymdh) === 11 ? 34 : null),
       lsr => lsr.char8.day.value
     ),
     null,
@@ -1003,7 +1003,7 @@ const monthGods: MonthGods = {
   ],
   純陰: [
     getCheckGodFunc(
-      (lsr, ymdh = 'month') => (getBranchValue(lsr, ymdh) === 11 ? 35 : null),
+      (lsr, ymdh = 'month'): number | null => (getBranchValue(lsr, ymdh) === 11 ? 35 : null),
       lsr => lsr.char8.day.value
     ),
     null,
@@ -1042,7 +1042,7 @@ const monthGods: MonthGods = {
   ],
   陰陽交破: [
     getCheckGodFunc(
-      (lsr, ymdh = 'month') => {
+      (lsr, ymdh = 'month'): number | null => {
         const branchValue = getBranchValue(lsr, ymdh)
         if (branchValue === 5) return 59
         if (branchValue === 11) return 53
@@ -1056,7 +1056,7 @@ const monthGods: MonthGods = {
   ],
   陰陽擊沖: [
     getCheckGodFunc(
-      (lsr, ymdh = 'month') => {
+      (lsr, ymdh = 'month'): number | null => {
         const branchValue = getBranchValue(lsr, ymdh)
         if (branchValue === 0) return 42
         if (branchValue === 6) return 48
@@ -1070,7 +1070,7 @@ const monthGods: MonthGods = {
   ],
   陽破陰沖: [
     getCheckGodFunc(
-      (lsr, ymdh = 'month') => {
+      (lsr, ymdh = 'month'): number | null => {
         const branchValue = getBranchValue(lsr, ymdh)
         if (branchValue === 1) return 43
         if (branchValue === 7) return 49
@@ -1084,7 +1084,7 @@ const monthGods: MonthGods = {
   ],
   陰位: [
     getCheckGodFunc(
-      (lsr, ymdh = 'month') => {
+      (lsr, ymdh = 'month'): number | null => {
         const branchValue = getBranchValue(lsr, ymdh)
         if (branchValue === 4) return 16
         if (branchValue === 10) return 10
@@ -1098,7 +1098,7 @@ const monthGods: MonthGods = {
   ],
   陰道沖陽: [
     getCheckGodFunc(
-      (lsr, ymdh = 'month') => {
+      (lsr, ymdh = 'month'): number | null => {
         const branchValue = getBranchValue(lsr, ymdh)
         if (branchValue === 3) return 45
         if (branchValue === 9) return 15
@@ -1112,7 +1112,7 @@ const monthGods: MonthGods = {
   ],
   三陰: [
     getCheckGodFunc(
-      (lsr, ymdh = 'month') => {
+      (lsr, ymdh = 'month'): number | null => {
         const branchValue = getBranchValue(lsr, ymdh)
         if (branchValue === 2) return 57
         if (branchValue === 8) return 51
@@ -1152,7 +1152,7 @@ const monthGods: MonthGods = {
   ],
   陰陽俱錯: [
     getCheckGodFunc(
-      (lsr, ymdh = 'month') => {
+      (lsr, ymdh = 'month'): number | null => {
         const branchValue = getBranchValue(lsr, ymdh)
         if (branchValue === 1) return 48
         if (branchValue === 6) return 42
@@ -1166,7 +1166,7 @@ const monthGods: MonthGods = {
   ],
   絕陰: [
     getCheckGodFunc(
-      (lsr, ymdh = 'month') => {
+      (lsr, ymdh = 'month'): number | null => {
         const branchValue = getBranchValue(lsr, ymdh)
         if (branchValue === 5) return 4
         return null
@@ -1179,7 +1179,7 @@ const monthGods: MonthGods = {
   ],
   絕陽: [
     getCheckGodFunc(
-      (lsr, ymdh = 'month') => {
+      (lsr, ymdh = 'month'): number | null => {
         const branchValue = getBranchValue(lsr, ymdh)
         if (branchValue === 0) return 34
         return null
@@ -1193,7 +1193,8 @@ const monthGods: MonthGods = {
   天狗: [
     // 盖天狗者，戌日值满也 （必定是申月）
     getCheckGodFunc(
-      (lsr, ymdh = 'month') => ((getBranchValue(lsr, ymdh) + 2) % 12 === 10 ? 10 : null),
+      (lsr, ymdh = 'month'): number | null =>
+        (getBranchValue(lsr, ymdh) + 2) % 12 === 10 ? 10 : null,
       lsr => lsr.char8.day.value
     ),
     null,
