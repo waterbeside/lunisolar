@@ -1,17 +1,18 @@
 # lunisolar
 
-**lunisolar** 是一个使用`Typescript`编写的农历库, 可取得各类农历数据
+**lunisolar** 是一个使用`Typescript`编写的专业农历库, 可取得各类农历数据，参考中国中代书籍，数据来源有依有据。
 
 具体包含以下功能：
 
-- 公历日期转阴历日期 (done)
-- 八字查询 (done)
-- 节气日期查询 (done)
-- 每日胎神 (done)
-- 纳音 (done)
-- 建除十二神 (done)
-- 时辰凶吉 (planning)
-- 宜忌 (planning)
+- ✅公历日期转阴历日期
+- ✅八字查询
+- ✅节气日期查询
+- ✅每日胎神
+- ✅五行纳音
+- ✅建除十二神
+- ✅神煞宜忌 <内容基于：协纪辨方书>
+- ~~时辰凶吉~~ (planning)
+- ~~紫微斗数~~ (planning)
 - ...更多功能开发中
 
 ## 快速上手
@@ -23,7 +24,6 @@ import lunisolar from 'lunisolar'
 // 使用
 
 const d = lunisolar('2022/07/18 14:40')
-
 
 // --- format ---
 
@@ -199,14 +199,14 @@ lunisolar(new Date(2022, 6, 20))
 lunisolar(lunisolar())
 ```
 
-### 2.2 克隆 Lunisolar 对象
+### 2.2 克隆 Lunisolar 实例对象
 
 ```javascript
 const lsr1 = lunisolar('2022-07-18 14:40')
-const lsr2 = lsr.clone()
+const lsr2 = lsr1.clone()
 ```
 
-## 3 Lunisolar对象
+## 3 Lunisolar类
 
 通过`lunisolar()`函数获得一个`Lunisolar`实例
 
@@ -214,9 +214,9 @@ Lunisolar具有以下属性和方法
 
 | 属性或方法  | 描述 | 参数  | 返回类型 |
 | --- | ---  | --- | --- |
-| lunar      | 阴历数据对象 | | [Lunar](#42-lunar对象) |
-| char8      | 八字对象 | | [Char8](#52-char8对象) |
-| term       | 返回当前日期的节气对象，如果不是节气，返回null | | [Term](#6节气) \| null |
+| lunar      | 阴历数据对象 | | [Lunar](#42-lunar类) |
+| char8      | 八字对象 | | [Char8](#52-char8类) |
+| term       | 返回当前日期的节气对象，如果不是节气，返回null | | [Term](#6-节气) \| null |
 | getSeason()  | 取得当前季节 | | string |
 | getSeasonIndex()  | 以春夏秋冬为顺序取得当前季节索引 | | number |
 | toDate()   | 返回Date对象 | | Date |
@@ -351,7 +351,7 @@ a.diff(b) // -86400000 a比b大的话将返回负数
 
 ## 4. 阴历数据
 
-### 4.1 取得数据
+### 4.1 取得阴历
 
 ```javascript
 const lsr = lunisolar('2022-07-18 14:40')
@@ -365,7 +365,7 @@ console.log(lsr.lunar.getHourName()) // 未
 console.log(lsr.format('lY年 lM(lL)lD lH時')) // 二〇二二年 六月(大)二十 未時
 ```
 
-### 4.2 Lunar对象
+### 4.2 Lunar类
 
 通过`lunisolar().lunar`取得`Lunar`对象实例
 
@@ -378,7 +378,8 @@ console.log(lsr.format('lY年 lM(lL)lD lH時')) // 二〇二二年 六月(大)�
 | day            | 取得当前阴历日号数字 | | number |
 | hour           | 取得当前时辰下标 0 ~ 11 | | number |
 | isLeapMonth    | 当前阴历月是否为闰月 |  | boolean |
-| lunarNewYearDate | 取得当年正月初一对应的公历日期 |  | Date |
+| lunarNewYearDay | 取得当年正月初一对应的公历日期 |  | Date |
+| lastDayOfYear | 取得当年的最后一天 |  | Date |
 | getYearName()  | 取得该阴历年正月初一所在的公历年, 返回汉字字符串 | | string |
 | phaseOfTheMoon | 取得当天月相，如朔、弦、望、晦等，不在上述其中之一者，返回空字符串 || string |
 | getMonthName() | 取得当前阴历月, 返回汉字字符串 | | string |
@@ -386,7 +387,7 @@ console.log(lsr.format('lY年 lM(lL)lD lH時')) // 二〇二二年 六月(大)�
 | getHourName()  | 取得当前时辰 | | string |
 | valueOf()      | 返回Date对象的valueOf(), 即时间戳 | | number |
 | toString()     | 返回当前阴历的格式化后的日期时间 如“二〇二二年六月二十未時” | | string |
-| getLunarNewYearDate(year?: number) | 取得当年正月初一对应的公历日期 | year?: number<br> year为指定的年份，为空时则为Lunisolar已设定的年份 | Date |
+| getLunarNewYearDay(year?: number) | 取得当年正月初一对应的公历日期 | year?: number<br> year为指定的年份，为空时则为Lunisolar已设定的年份 | Date |
 
 ## 5 八字（天干地支）
 
@@ -405,13 +406,13 @@ console.log(lsr.char8.hour.toString()) // 丁未
 console.log(lsr.format('cY cM cD cH')) // '壬寅 丁未 壬申 丁未'
 ```
 
-### 5.2 Char8对象
+### 5.2 Char8类
 
 通过`lunisolar().char8`取得`Char8`实例
 
 | 属性或方法  | 描述 | 参数  | 返回类型 |
 | --- | ---  | --- | --- |
-| list           | 取得八字四柱的天干地支对象列表 | | [[SB](#53-sb对象),SB,SB,SB] |
+| list           | 取得八字四柱的天干地支对象列表 | | [[SB](#53-sb类),SB,SB,SB] |
 | year           | 年柱的干支对象 | | SB |
 | month          | 月柱的干支对象 | | SB |
 | day            | 日柱的干支对象 | | SB |
@@ -420,7 +421,7 @@ console.log(lsr.format('cY cM cD cH')) // '壬寅 丁未 壬申 丁未'
 | valueOf()      | 返回一个8位10进程数字，每两位分别表时年月日时的天干地支序号 | | number |
 | toString()     | 返回格式化后的八字 如“壬寅 丁未 壬申 丁未” | | string |
 
-### 5.3 SB对象
+### 5.3 SB类
 
 SB干支对象, 为StemBranch的缩写
 
@@ -429,34 +430,34 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | 属性或方法  | 描述 | 参数  | 返回类型 |
 | --- | ---  | --- | --- |
 | value | 取得60干支顺序索引值  | | number |
-| stem | 天干对象 | | [Stem](#54-stem天干对象) |
-| branch | 地支对象 | | [Branch](#55-branch地支对象)  |
+| stem | 天干对象 | | [Stem](#54-stem天干类) |
+| branch | 地支对象 | | [Branch](#55-branch地支类)  |
 | valueOf()      | 返回60干支顺序索引值 | | number |
 | toString()     | 返回格式化后天干地支字符串如 “壬寅” | | string |
 | takeSound | 五行纳音，需加载`advanced`插件, 参考 [#8 纳音](#8-纳音) | | string |
 
-### 5.4 Stem天干对象
+### 5.4 Stem天干类
 
 | 属性或方法  | 描述 | 参数  | 返回类型 |
 | --- | ---  | --- | --- |
 | value | 天干索引值，范围[0, 9]  | | number |
-| e5 | 五行属性对象 | | [Element5](#56-element5五行对象) |
-| trigram8 | 纳甲配卦 | | [Trigram8](#57-trigram8-八卦对象)
+| e5 | 五行属性对象 | | [Element5](#56-element5五行类) |
+| trigram8 | 纳甲配卦 | | [Trigram8](#57-trigram8-八卦类)
 | valueOf()      | 返回天干索引值 | | number |
 | toString()     | 返回天干字符串| | string |
 
-### 5.5 Branch地支对象
+### 5.5 Branch地支类
 
 | 属性或方法  | 描述 | 参数  | 返回类型 |
 | --- | ---  | --- | --- |
 | value | 地支索引值，范围[0, 11]  | | number |
-| e5 | 五行属性对象 | | [Element5](#56-element5五行对象) |
+| e5 | 五行属性对象 | | [Element5](#56-element5五行类) |
 | hiddenStems | 取得地支所藏的天干对象列表，长度最多3个，分别为 `[本气, 中 气, 余气]` | | Stem[] |
 | triad | 三合地支, 返回当前地支的另外两个与之三合的地支 | | [Branch, Branch] |
 | valueOf()      | 返回地支索引值 | | number |
 | toString()     | 返回地支字符串| | string |
 
-### 5.6 Element5五行对象
+### 5.6 Element5五行类
 
 | 属性或方法  | 描述 | 参数  | 返回类型 |
 | --- | ---  | --- | --- |
@@ -464,7 +465,7 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | valueOf()      | 返回五行属性索引值 | | number |
 | toString()     | 返回五行属性字符串| | string |
 
-### 5.7 Trigram8 八卦对象
+### 5.7 Trigram8 八卦类
 
 八卦中每卦都三爻，阴爻用0表示，阳爻用1表示。
 
@@ -500,7 +501,7 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 
 6.3 通过 `lunisolar.SolarTerm` 取得`SolarTerm`类以调用静态方法
 
-6.4 节气对象 SolarTerm
+6.4 节气类 SolarTerm
 
 | 属性或方法  | 描述 | 参数  | 返回类型 |
 | --- | ---  | --- | --- |
@@ -538,7 +539,7 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 
 ### 7.1 用法
 
-查询胎神要先导入 advanced 插件，
+查询胎神要先导入 fetalGod 插件，
 
 之后可使用lunisolar().fetalGod 取得胎神描述，
 
@@ -602,19 +603,13 @@ expect().toBe('大海水')
 
 **建除十二神**，又称**十二值神**。即 “`建、除、满、平、定、执、破、危、成、收、开、闭`”共十二位神，每日轮值，周而复始，观所值以定吉凶。
 
-查询十二值神，先加载`theGods`插件, 然后通过 lunisolar().duty12God 属性取得当日的值神
+十二值神已归到神煞类之下，请参考[神煞宜忌](doc/theGods.md)
 
-示例：
+## 10 神煞宜忌
 
-```typescript
-import lunisolar from 'lunisolar'
-import theGods from 'lunisolar/plugins/theGods'
+神煞宜忌的所有内容，都基于 **《协纪辨方书》**
 
-lunisolar.extend(theGods)
-lunisolar('2022-08-11').duty12God  // 建
-lunisolar('2022-08-16').duty12God  // 執
-lunisolar('2022-08-25').duty12God  // 滿
-```
+因其数据内容较多，故作为一个插件单独介绍，请点击跳转到[【神煞宜忌】](doc/theGods.md)查看介绍和使用说明
 
 ## 插件 plugins
 
