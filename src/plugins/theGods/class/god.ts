@@ -48,7 +48,7 @@ class God {
   }
 
   toString() {
-    return getTranslation(this._config.locale, `theGods.names.${this.data.key}`)
+    return this.name
   }
 }
 
