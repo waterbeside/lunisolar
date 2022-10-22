@@ -41,4 +41,12 @@ describe('test lunar class', () => {
       expect(error.message).toBe('Invalid lunar year: out of range')
     }
   })
+
+  it('2022-10-22', () => {
+    const lunar = new Lunar('2022-10-22')
+    const ldoy = lunar.lastDayOfYear
+    expect(ldoy.getFullYear()).toBe(2023)
+    expect(ldoy.getMonth()).toBe(0)
+    expect(ldoy.getDate()).toBe(21)
+  })
 })
