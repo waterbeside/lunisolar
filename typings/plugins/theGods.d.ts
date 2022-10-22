@@ -32,18 +32,18 @@ declare module 'lunisolar' {
     get godConfig(): GodClassConfig
     getDuty12God(): God
     getLife12God(ymdh: YMDH): God
-    getBy12God(ymdh: 'day' | 'hour'): God
+    getBy12God(dh: 'day' | 'hour'): God
     getActs(
       actType?: 0 | 1 | 2 | 3,
       returnKey?: boolean,
       replacer?: { [key: string]: string }
     ): ActsDictList
-    getGoodAct(
+    getGoodActs(
       actType?: 0 | 1 | 2 | 3,
       returnKey?: boolean,
       replacer?: { [key: string]: string }
     ): string[]
-    getBadAct(
+    getBadActs(
       actType?: 0 | 1 | 2 | 3,
       returnKey?: boolean,
       replacer?: { [key: string]: string }

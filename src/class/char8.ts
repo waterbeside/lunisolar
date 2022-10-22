@@ -103,7 +103,7 @@ export class Char8 {
       else if (date.valueOf() >= endDate.valueOf()) year++
     } else if (changeAgeTerm === null && typeof date !== 'number') {
       // changeAgeTerm 为null时，则以正月初一换岁
-      const theNewYearDate = Lunar.getLunarNewYearDate(year)
+      const theNewYearDate = Lunar.getLunarNewYearDay(year)
       if (date.valueOf() < theNewYearDate.valueOf() - 60 * 60 * 1000) year--
     }
     const stemValue = (year - 4) % 10

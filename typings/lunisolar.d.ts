@@ -60,7 +60,7 @@ declare namespace lunisolar {
     /**
       取得當年陰歷年正月初一的对应的公历日期
      */
-    get lunarNewYearDate(): Date
+    get lunarNewYearDay(): Date
     /**
      * 月相
      */
@@ -86,7 +86,7 @@ declare namespace lunisolar {
       @param {number} year 要查询的公历年份
       @returns {Date}
      */
-    static getLunarNewYearDate(year: number): Date
+    static getLunarNewYearDay(year: number): Date
   }
 
   /**
