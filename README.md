@@ -378,6 +378,7 @@ console.log(lsr.format('lY年 lM(lL)lD lH時')) // 二〇二二年 六月(大)�
 | day            | 取得当前阴历日号数字 | | number |
 | hour           | 取得当前时辰下标 0 ~ 11 | | number |
 | isLeapMonth    | 当前阴历月是否为闰月 |  | boolean |
+| isBigMonth     | 当前所在阴历月是否为大月 | | boolean |
 | lunarNewYearDay | 取得当年正月初一对应的公历日期 |  | Date |
 | lastDayOfYear | 取得当年的最后一天 |  | Date |
 | getYearName()  | 取得该阴历年正月初一所在的公历年, 返回汉字字符串 | | string |
