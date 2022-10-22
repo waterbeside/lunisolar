@@ -149,11 +149,11 @@ class TheGods {
     return god
   }
 
-  getBy12God(ymdh: 'day' | 'hour'): God {
-    const fromYmdh = ymdh === 'day' ? 'month' : 'day'
-    const cacheKey = `by12God:${ymdh}`
+  getBy12God(dh: 'day' | 'hour'): God {
+    const fromYmdh = dh === 'day' ? 'month' : 'day'
+    const cacheKey = `by12God:${dh}`
     if (this._cache.hasOwnProperty(cacheKey)) return this._cache[cacheKey]
-    const [_, key, good, bad] = getBy12God(this.lsr, fromYmdh, ymdh)
+    const [_, key, good, bad] = getBy12God(this.lsr, fromYmdh, dh)
     const god = new God({ key, good, bad }, this.godConfig)
     this._cache[cacheKey] = god
     return god
@@ -175,7 +175,7 @@ class TheGods {
     return res
   }
 
-  getGoodAct(
+  getGoodActs(
     actType: 0 | 1 | 2 | 3 = 0,
     returnKey: boolean = false,
     replacer?: { [key: string]: string }
@@ -183,7 +183,7 @@ class TheGods {
     return this.getActs(actType, returnKey, replacer).good
   }
 
-  getBadAct(
+  getBadActs(
     actType: 0 | 1 | 2 | 3 = 0,
     returnKey: boolean = false,
     replacer?: { [key: string]: string }
@@ -212,14 +212,14 @@ class TheGods {
     if (checkQueryString(queryString, GQS.MLLG, locale)) return this.getLife12God('month')
     if (checkQueryString(queryString, GQS.DLLG, locale)) return this.getLife12God('day')
     if (checkQueryString(queryString, GQS.HLLG, locale)) return this.getLife12God('hour')
-    if (checkQueryString(queryString, GQS.GA, locale)) return this.getGoodAct(0)
-    if (checkQueryString(queryString, GQS.GA1, locale)) return this.getGoodAct(1)
-    if (checkQueryString(queryString, GQS.GA2, locale)) return this.getGoodAct(2)
-    if (checkQueryString(queryString, GQS.GA3, locale)) return this.getGoodAct(3)
-    if (checkQueryString(queryString, GQS.BA, locale)) return this.getBadAct(0)
-    if (checkQueryString(queryString, GQS.BA1, locale)) return this.getBadAct(1)
-    if (checkQueryString(queryString, GQS.BA2, locale)) return this.getBadAct(2)
-    if (checkQueryString(queryString, GQS.BA3, locale)) return this.getBadAct(3)
+    if (checkQueryString(queryString, GQS.GA, locale)) return this.getGoodActs(0)
+    if (checkQueryString(queryString, GQS.GA1, locale)) return this.getGoodActs(1)
+    if (checkQueryString(queryString, GQS.GA2, locale)) return this.getGoodActs(2)
+    if (checkQueryString(queryString, GQS.GA3, locale)) return this.getGoodActs(3)
+    if (checkQueryString(queryString, GQS.BA, locale)) return this.getBadActs(0)
+    if (checkQueryString(queryString, GQS.BA1, locale)) return this.getBadActs(1)
+    if (checkQueryString(queryString, GQS.BA2, locale)) return this.getBadActs(2)
+    if (checkQueryString(queryString, GQS.BA3, locale)) return this.getBadActs(3)
     return null
   }
 }
