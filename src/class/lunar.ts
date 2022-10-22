@@ -8,7 +8,7 @@ import {
 } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
 
-function getLunarNewYearDate(year: number): Date {
+function getLunarNewYearDay(year: number): Date {
   const lnyd = LUNAR_NEW_YEAR_DATE[year - FIRST_YEAR]
   return parseDate(`${year}/${Math.floor(lnyd / 100)}/${lnyd % 100}`)
 }
@@ -97,14 +97,14 @@ export class Lunar {
     ) {
       throw new Error('Invalid lunar year: out of range')
     }
-    let dateDiff = getDateDiff(getLunarNewYearDate(year), date)
+    let dateDiff = getDateDiff(getLunarNewYearDay(year), date)
 
     if (date && hours === 23) {
       dateDiff = dateDiff + 1
     }
     if (dateDiff < 0) {
       year = year - 1
-      dateDiff = getDateDiff(getLunarNewYearDate(year), date)
+      dateDiff = getDateDiff(getLunarNewYearDay(year), date)
     }
     this._y = year
     // 取得當年的闰月
@@ -154,8 +154,16 @@ export class Lunar {
   /**
    * 当年正月初一的日期
    */
-  get lunarNewYearDate(): Date {
-    return getLunarNewYearDate(this._y)
+  get lunarNewYearDay(): Date {
+    return getLunarNewYearDay(this._y)
+  }
+
+  /**
+   * 取得本农历年的取后一天
+   */
+  get lastDayOfYear(): Date {
+    const nextNewYearDay = getLunarNewYearDay(this.year + 1)
+    return new Date(nextNewYearDay.valueOf() - 24 * 60 * 60 * 1000)
   }
 
   /**
@@ -203,7 +211,7 @@ export class Lunar {
     return this._date.valueOf()
   }
 
-  static getLunarNewYearDate(year: number): Date {
-    return getLunarNewYearDate(year)
+  static getLunarNewYearDay(year: number): Date {
+    return getLunarNewYearDay(year)
   }
 }
