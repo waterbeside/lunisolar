@@ -10,7 +10,7 @@ const commonGods: { [key: string]: GodDictItem } = {
     getCommonCheckGodFunc([5, 2, 11, 8], getBranchValue, 4),
     null,
     jieShaBadAct,
-    12,
+    -12,
     {
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         const mbValue = getBranchValue(lsr, 'month')
@@ -44,7 +44,7 @@ const commonGods: { [key: string]: GodDictItem } = {
     getCommonCheckGodFunc([6, 3, 0, 9], getBranchValue, 4),
     null,
     `${jieShaBadActStr} 苫蓋`.split(' '),
-    12,
+    -12,
     {
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         const mbValue = getBranchValue(lsr, 'month')

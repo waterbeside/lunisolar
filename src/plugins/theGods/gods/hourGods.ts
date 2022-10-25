@@ -20,7 +20,7 @@ const hourGodNames = [
   '旬空'
 ] as const
 
-type HourGods = { [key in typeof hourGodNames[number]]: GodDictItem }
+type HourGods = Record<typeof hourGodNames[number], GodDictItem>
 
 const hourGods: HourGods = {
   // 時神從日干起者
@@ -144,7 +144,7 @@ const hourGods: HourGods = {
     ),
     null,
     null,
-    1
+    -1
   ],
   日害: [
     getCheckGodFunc(
@@ -154,7 +154,7 @@ const hourGods: HourGods = {
     ),
     null,
     null,
-    1
+    -1
   ],
   日刑: [
     getCheckGodFunc(
@@ -163,7 +163,7 @@ const hourGods: HourGods = {
     ),
     null,
     null,
-    1
+    -1
   ],
   // 時神隨月將及日干支者
   貴登天門時: [
@@ -202,7 +202,7 @@ const hourGods: HourGods = {
     }, getBranchValue),
     null,
     null,
-    1
+    -1
   ],
   旬空: [
     getCheckGodFunc(
@@ -222,8 +222,8 @@ const hourGods: HourGods = {
     ),
     null,
     null,
-    1
+    -1
   ]
 }
 
-export { hourGodNames, hourGods, HourGods }
+export { hourGods, HourGods }

@@ -36,19 +36,21 @@ type By12Gods = { [key in typeof by12GodNames[number]]: GodDictItem }
  青龍 明堂 金匱 寶光 玉堂 司命 與吉神并則從所宜，與凶神并， 則從所忌
  ```
  */
-const by12GodData: { [key in typeof by12GodNames[number]]: [string[] | null, string[] | null] } = {
-  青龍: [null, null],
-  明堂: [null, null],
-  天刑: [null, null],
-  朱雀: [null, null],
-  金匱: [null, null],
-  天德: [null, null],
-  白虎: [null, null],
-  玉堂: [null, null],
-  天牢: [null, null],
-  玄武: [null, null],
-  司命: [null, null],
-  勾陳: [null, null]
+const by12GodData: {
+  [key in typeof by12GodNames[number]]: [string[] | null, string[] | null, number]
+} = {
+  青龍: [null, null, 1],
+  明堂: [null, null, 1],
+  天刑: [null, null, -1],
+  朱雀: [null, null, -1],
+  金匱: [null, null, 1],
+  天德: [null, null, 1],
+  白虎: [null, null, -1],
+  玉堂: [null, null, 1],
+  天牢: [null, null, -1],
+  玄武: [null, null, -1],
+  司命: [null, null, 1],
+  勾陳: [null, null, -1]
 }
 
 /**

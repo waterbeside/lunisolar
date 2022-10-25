@@ -1,5 +1,6 @@
 /*
 建除12神
+建满平收黑,除危定执黄; 成开皆可用,闭破不可当。
 */
 import { getBranchValue } from '../../../utils'
 
@@ -22,20 +23,23 @@ const duty12GodData: {
   [key in typeof duty12GodNames[number]]: [
     string[] | null,
     string[] | null,
-    GodDictItemExtra | null
+    GodDictItemExtra | null,
+    number
   ]
 } = {
   建: [
     '施恩封拜 詔命公卿 招賢 舉正直 行幸 遣使 上官赴任 臨政親民 訓兵 出師'.split(' '),
     ['結姻親', '開倉庫'],
-    null
+    null,
+    -1
   ],
   除: [
     '解除 沐浴 整容 剃頭 整手足甲 求醫療病 掃舍宇 施恩封拜 舉正直 行幸 遣使 上官赴任 臨政親民 安撫邊境 選將訓兵 出師'.split(
       ' '
     ),
     null,
-    null
+    null,
+    1
   ],
   滿: [
     (
@@ -59,7 +63,8 @@ const duty12GodData: {
         }
         return null
       }
-    }
+    },
+    -1
   ],
   // 平日 又為死神
   平: [
@@ -71,23 +76,26 @@ const duty12GodData: {
       '求醫療病 裁製 營建宮室 修宮室 繕城郭 興造動土 豎柱上梁 修倉庫  ' +
       '鼓鑄 經絡 醞釀 開市 立券 交易 納財 開倉庫 出貨財 修置產室 開渠穿井 栽種 收養 納畜 破土 安葬 啟攢'
     ).split(' '),
-    null
+    null,
+    -1
   ],
   定: [
     ['冠帶', '運謀算', '畫計策'],
     ['上表章', '陳詞訟', '戰鬥', '征伐', '求醫療病', '安置產室', '經營', '栽種'],
-    null
+    null,
+    1
   ],
-  執: [['捕捉'], null, null],
-  破: [['求醫療病', '破屋壞垣'], null, null],
-  危: [['安撫邊境', '選將訓兵', '安床'], null, null],
+  執: [['捕捉'], null, null, 1],
+  破: [['求醫療病', '破屋壞垣'], null, null, -1],
+  危: [['安撫邊境', '選將訓兵', '安床'], null, null, 1],
   成: [
     (
       '入學 安撫邊境 般移 筑堤防 開市 施恩封拜 舉正直 慶賜 賞賀 宴會 行幸 遣使 ' +
       '上官赴任 臨政親民 結婚姻 納采問名 嫁娶 求醫療病'
     ).split(' '),
     null,
-    null
+    null,
+    1
   ],
   收: [
     ['進人口', '納財', '捕捉', '納畜'],
@@ -109,7 +117,8 @@ const duty12GodData: {
         }
         return null
       }
-    }
+    },
+    -1
   ],
   開: [
     (
@@ -120,7 +129,8 @@ const duty12GodData: {
       '開市 修置產室 開渠穿井 安碓磑 栽種 牧養'
     ).split(' '),
     ['伐木', '畋獵', '取魚', '破土', '安葬', '啟攢'],
-    null
+    null,
+    1
   ],
   // 閉日又名血支
   閉: [
@@ -132,7 +142,8 @@ const duty12GodData: {
       '求醫療病 營建宮室 修宮室 興造動土 豎柱上梁  ' +
       '開市 開倉庫 出貨財 修置產室 開渠穿井 針刺 療目'
     ).split(' '),
-    null
+    null,
+    -1
   ]
 }
 
@@ -150,9 +161,12 @@ function getDuty12GodIndexAndKey(
  */
 function getDuty12God(
   lsr: lunisolar.Lunisolar
-): [number, string, string[] | null, string[] | null, GodDictItemExtra | null] {
+): [number, string, string[] | null, string[] | null, GodDictItemExtra | null, number] {
   const [godIdx, key] = getDuty12GodIndexAndKey(lsr)
-  const [goodAct, badAct, extra] = duty12GodData[key]
-  return [godIdx, key, goodAct, badAct, extra]
+  const extraDefault = {
+    showGB: false
+  }
+  const [goodAct, badAct, extra, luckLevel] = duty12GodData[key]
+  return [godIdx, key, goodAct, badAct, Object.assign({}, extraDefault, extra), luckLevel]
 }
 export { duty12GodNames, getDuty12GodIndexAndKey, getDuty12God }

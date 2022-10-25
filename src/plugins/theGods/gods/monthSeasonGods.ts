@@ -136,7 +136,7 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     null,
     getAct([10], false),
-    4,
+    -4,
     {
       meetDeStillBad: true,
       meetWishStillBad: true
@@ -150,7 +150,7 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     null,
     getAct([10, '012a', '安葬'], false),
-    4,
+    -4,
     {
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         const mbValue = getBranchValue(lsr, 'month')
@@ -176,7 +176,7 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     null,
     getAct([10, '012b', '020b', '安葬'], false),
-    4,
+    -4,
     {
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         const mbValue = getBranchValue(lsr, 'month')
@@ -202,7 +202,7 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     null,
     getAct([10, '020b'], false),
-    4,
+    -4,
     {
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         const mbValue = getBranchValue(lsr, 'month')
@@ -259,7 +259,7 @@ const monthSeasonGods: MonthSeasonGods = {
       ],
       false
     ),
-    4,
+    -4,
     {
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         if (gods.has('月破')) {
@@ -289,7 +289,7 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     null,
     getAct(['修倉庫', 20], false),
-    4,
+    -4,
     {
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         if (MEETING_DES.some(i => gods.has(i)) || gods.has('六合')) {
@@ -318,7 +318,7 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     null,
     getAct([26], false),
-    4,
+    -4,
     {
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         if (MEETING_DES.some(i => gods.has(i)) || gods.has('六合')) {
@@ -334,4 +334,4 @@ const monthSeasonGods: MonthSeasonGods = {
   ]
 }
 
-export { monthSeasonGodNames, monthSeasonGods, MonthSeasonGods }
+export { monthSeasonGods, MonthSeasonGods }

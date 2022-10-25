@@ -6,19 +6,13 @@ class God {
     lang: string
     locale: { [key: string]: any }
   }
-  constructor(
-    data: {
-      key: string
-      good: string[] | null
-      bad: string[] | null
-      extra?: GodDictItemExtra | null
-    },
-    config: GodClassConfig
-  ) {
+  constructor(data: GodClassDataParam, config: GodClassConfig) {
     this.data = {
       key: data.key,
       good: data.good || [],
       bad: data.bad || [],
+      luckLevel: data?.luckLevel || 0,
+      cate: data?.cate || null,
       extra: data?.extra || null
     }
     this._config = {
@@ -33,6 +27,14 @@ class God {
 
   get name() {
     return getTranslation(this._config.locale, `theGods.names.${this.data.key}`)
+  }
+
+  get cate(): YMDH | null {
+    return this.data.cate
+  }
+
+  get luckLevel(): number {
+    return this.data.luckLevel
   }
 
   get good() {

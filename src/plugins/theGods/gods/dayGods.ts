@@ -39,7 +39,10 @@ const dayGods: DayGods = {
     ),
     '覃恩 肆赦 施恩惠 恤孤煢 布政事 行惠愛 雪冤枉 緩刑獄 慶賜 賞賀 宴會 行幸'.split(' '),
     null,
-    2
+    2,
+    {
+      showGB: true
+    }
   ],
   五合: [
     getCheckGodFunc(
@@ -49,7 +52,10 @@ const dayGods: DayGods = {
     ),
     ['宴會', '結婚姻', '立券', '交易'],
     null,
-    2
+    2,
+    {
+      showGB: true
+    }
   ],
   除神: [
     getCheckGodFunc(
@@ -59,7 +65,10 @@ const dayGods: DayGods = {
     ),
     ['解除', '沐浴', '整容', '剃頭', '整手足甲', '求醫療病', '掃舍宇'],
     null,
-    2
+    2,
+    {
+      showGB: true
+    }
   ],
   五離: [
     getCheckGodFunc(
@@ -69,8 +78,9 @@ const dayGods: DayGods = {
     ),
     null,
     getAct([8, 12, '立券 交易'], false),
-    2,
+    -2,
     {
+      showGB: true,
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         if (MEETING_DES.some(i => gods.has(i)) || ['天赦', '六合', '三合'].some(i => gods.has(i))) {
           return {
@@ -91,7 +101,10 @@ const dayGods: DayGods = {
     ),
     ['破土', '安葬'],
     null,
-    2
+    2,
+    {
+      showGB: true
+    }
   ],
   鳴吠對: [
     getCheckGodFunc(
@@ -101,7 +114,10 @@ const dayGods: DayGods = {
     ),
     ['破土', '啟攢'],
     null,
-    2
+    2,
+    {
+      showGB: true
+    }
   ],
   寶日: [
     getCheckGodFunc(
@@ -111,7 +127,10 @@ const dayGods: DayGods = {
     ),
     ['安撫邊境', '選將訓兵', '出師'],
     null,
-    2
+    2,
+    {
+      showGB: true
+    }
   ],
   義日: [
     getCheckGodFunc(
@@ -121,7 +140,10 @@ const dayGods: DayGods = {
     ),
     ['安撫邊境', '選將訓兵', '出師'],
     null,
-    2
+    2,
+    {
+      showGB: true
+    }
   ],
   製日: [
     getCheckGodFunc(
@@ -131,7 +153,10 @@ const dayGods: DayGods = {
     ),
     ['安撫邊境', '選將訓兵', '出師'],
     null,
-    2
+    2,
+    {
+      showGB: true
+    }
   ],
   專日: [
     getCheckGodFunc(
@@ -141,8 +166,9 @@ const dayGods: DayGods = {
     ),
     null,
     getAct([10], false),
-    2,
+    -2,
     {
+      showGB: true,
       meetDeStillBad: true,
       meetWishStillBad: true
     }
@@ -155,8 +181,9 @@ const dayGods: DayGods = {
     ),
     null,
     getAct([10], false),
-    2,
+    -2,
     {
+      showGB: true,
       meetDeStillBad: true,
       meetWishStillBad: true
     }
@@ -169,8 +196,9 @@ const dayGods: DayGods = {
     ),
     null,
     getAct([10, '012a'], false),
-    2,
+    -2,
     {
+      showGB: true,
       meetDeStillBad: true,
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         if (gods.has('天願')) {
@@ -192,8 +220,9 @@ const dayGods: DayGods = {
     ),
     null,
     getAct([26], false),
-    2,
+    -2,
     {
+      showGB: true,
       meetDeStillBad: true,
       meetWishStillBad: true
     }
@@ -207,8 +236,9 @@ const dayGods: DayGods = {
     null,
     null,
     // getAct(['祭祀 解除 沐浴', 14, '掃舍宇 修飾垣墻 平治道涂 破屋壞垣 伐木'], false),
-    2,
+    -2,
     {
+      showGB: true,
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         const onlyActs = getAct(
           ['祭祀 解除 沐浴', 14, '掃舍宇 修飾垣墻 平治道涂 破屋壞垣 伐木'],
@@ -278,8 +308,9 @@ const dayGods: DayGods = {
     ),
     null,
     getAct(['025a'], false),
-    2,
+    -2,
     {
+      showGB: true,
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         if (MEETING_DES.some(i => gods.has(i)) || ['天赦', '六合'].some(i => gods.has(i))) {
           return {
@@ -303,8 +334,9 @@ const dayGods: DayGods = {
     ),
     null,
     leave4BadAct,
-    2,
+    -2,
     {
+      showGB: true,
       meetDeStillBad: true,
       meetWishStillBad: true
     }
@@ -320,7 +352,10 @@ const dayGods: DayGods = {
     }) as CheckGodFunc,
     null,
     getAct(['進人口 裁製 經絡', '019a', '納畜'], false),
-    2
+    -2,
+    {
+      showGB: true
+    }
   ],
   短星: [
     ((lsr: lunisolar.Lunisolar, fromYmdh?: YMDH, toYmdh?: YMDH): number[] | boolean => {
@@ -332,7 +367,10 @@ const dayGods: DayGods = {
     }) as CheckGodFunc,
     null,
     getAct(['進人口 裁製 經絡', '019a', '納畜'], false),
-    2
+    -2,
+    {
+      showGB: true
+    }
   ],
   // 日神按朔取日数者
   反支: [
@@ -347,8 +385,9 @@ const dayGods: DayGods = {
     }) as CheckGodFunc,
     null,
     getAct(['上冊進表章', '陳詞訟'], false),
-    2,
+    -2,
     {
+      showGB: true,
       meetDeStillBad: true,
       meetWishStillBad: true
     }
@@ -362,8 +401,9 @@ const dayGods: DayGods = {
     }) as CheckGodFunc,
     null,
     leave4BadAct,
-    2,
+    -2,
     {
+      showGB: true,
       meetDeStillBad: true,
       meetWishStillBad: true
     }
@@ -376,8 +416,9 @@ const dayGods: DayGods = {
     }) as CheckGodFunc,
     null,
     leave4BadAct,
-    2,
+    -2,
     {
+      showGB: true,
       meetDeStillBad: true,
       meetWishStillBad: true
     }
@@ -395,8 +436,9 @@ const dayGods: DayGods = {
     }) as CheckGodFunc,
     null,
     goDeadBadAct,
-    2,
+    -2,
     {
+      showGB: true,
       meetDeStillBad: true,
       meetWishStillBad: true
     }

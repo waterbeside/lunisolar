@@ -1,5 +1,6 @@
 import { getBranchValue, getStemTrigram8Value } from '../../../utils'
 import { getCheckGodFunc } from '../utils'
+import { getAct } from '../actData'
 
 // 年神隨歲方順行者
 export const yearGods = {
@@ -8,7 +9,7 @@ export const yearGods = {
       (lsr, ymdh = 'year') => [7, 7, 4, 4, 4, 6, 6, 6, 0, 0, 0, 7][getBranchValue(lsr, ymdh)],
       getStemTrigram8Value
     ),
-    null,
+    getAct(['祭祀 祈福 營建宮室 修飾垣墻']),
     null,
     8
   ],
@@ -17,7 +18,7 @@ export const yearGods = {
       (lsr, ymdh = 'year') => [6, 6, 0, 0, 0, 7, 7, 7, 4, 4, 4, 6][getBranchValue(lsr, ymdh)],
       getStemTrigram8Value
     ),
-    null,
+    getAct([16, 17]),
     null,
     8
   ],
@@ -28,7 +29,7 @@ export const yearGods = {
     ),
     null,
     null,
-    8
+    -8
   ],
   蠶室: [
     getCheckGodFunc(
@@ -36,7 +37,7 @@ export const yearGods = {
       getStemTrigram8Value
     ),
     null,
-    null,
-    8
+    getAct([16, 17]),
+    -8
   ]
 }
