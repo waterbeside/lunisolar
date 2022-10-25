@@ -123,7 +123,9 @@ dh: 'day' | 'hour'
 
 按《辨方书·卷九》把各类神煞划分为年神、月神、日神、时神
 
-方法:
+### 6.1 getGods方法
+
+取得指定年、月、日、时的神煞
 
 ```typescript
 theGods.getGods(ymdh: 'Y' | 'M' | 'D' | 'H' | string): God[]
@@ -132,7 +134,8 @@ theGods.getGods(ymdh: 'Y' | 'M' | 'D' | 'H' | string): God[]
 参数：
 
 ```typescript
-ymdh: 'Y' | 'M' | 'D' | 'H' | string
+ymdh?: 'Y' | 'M' | 'D' | 'H' | string
+// 默认值为 "MD"
 ```
 
 参数ymdh可以指定`'Y' | 'M' | 'D' | 'H'`其中一个，分别以取当时的年、月、日、时神。
@@ -143,6 +146,30 @@ ymdh: 'Y' | 'M' | 'D' | 'H' | string
 lunisolar().theGods.getGods('YMD') // 同时取得年、月、日神
 lunisolar().theGods.getGods('MD') // 同时取得月、日神
 ```
+
+### 6.2 getGoodGods方法
+
+取得指定指定年、月、日、时的吉神
+
+```typescript
+theGods.getGoodGods(ymdh: 'Y' | 'M' | 'D' | 'H' | string): God[]
+```
+
+参数:
+
+参数与`getGods`方法一致, 默认值为 "MD"
+
+### 6.3 getGoodGods方法
+
+取得指定指定年、月、日、时的凶神
+
+```typescript
+theGods.getBadGods(ymdh: 'Y' | 'M' | 'D' | 'H' | string): God[]
+```
+
+参数:
+
+参数与`getGods`方法一致, 默认值为 "MD"
 
 ## 7 宜忌
 
@@ -250,7 +277,9 @@ queryString 存入的字符串，对应返回的内容参见下表, 其中zh的�
 | 属性或方法  | 描述 | 参数  | 返回类型 |
 | --- | ---  | --- | --- |
 | lsr | 当前Lunisolar对象实例  | | Lunisolar |
-| getGods(ymdh) | 取得神煞 | 参数可以是 "Y","M": "D": "H"的任一个或多个字符的组合，返回其对应的年神、月神、日神、时神或其组合 | [God[]](#god-类) |
+| getGods(ymdh) | 取得神煞 | 参数默认为"MD", 可以是 "Y","M": "D": "H"的任一个或多个字符的组合，返回其对应的年神、月神、日神、时神或其组合 | [God[]](#god-类) |
+| getGoodGods(ymdh) | 取得吉神 | 参数默认为"MD", 参数同上 | [God[]](#god-类) |
+| getBadGods(ymdh) | 取得凶神 | 参数默认为"MD", 参数同上 | [God[]](#god-类) |
 | getDuty12God() | 取得当日建除十二神（建、除、满...) | | [God](#god-类) |
 | getLife12God(ymdh) | 取得长生十二神(长生、沐浴、冠帶...) | 参数可以是 "year"、"month"、"day"、 "hour"的其中一个 | [God](#god-类) |
 | getActs(actType, returnKey, replacer) | 取得当日宜忌 | **actType**: 0 \| 1 \| 2 \| 3 <br> 指返回宜忌的分类<br> **returnKey**: boolean<br> 是否返回宜忌的key，默认为false, 即返回国际化翻译后的宜忌<br> **replacer**: { [key: string]: string } <br> 用于替换宜忌词条的字典对象| {good: string[], bad: string[]} |
