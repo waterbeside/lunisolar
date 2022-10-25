@@ -11,22 +11,26 @@ import { God } from './god'
 import { getTranslation, cacheAndReturn } from '../../../utils'
 import { GOD_QUERY_STRING as GQS } from '../constants'
 import { orderActs, getTodayActs } from '../utils/extractGodActs'
-import { arToString } from '../utils'
+import { arToString, prettyGetGodsYMDH } from '../utils'
 
 function fetchTheGod(
   lsr: lunisolar.Lunisolar,
   godDict: { [key: string]: GodDictItem },
   fromYmdh: YMDH | undefined,
-  toYmdh: YMDH
+  toYmdh: YMDH,
+  godCate: YMDH
 ): God[] {
   const res: God[] = []
   for (const key in godDict) {
-    const [checkFunc, good, bad, _, extra] = godDict[key]
+    const [checkFunc, good, bad, luckNum, extra] = godDict[key]
+    const luckLevel = luckNum > 0 ? 1 : -1
     if (checkFunc(lsr, fromYmdh, toYmdh)) {
-      const godData: GodClassData = {
+      const godData: GodClassDataParam = {
         key,
         good: good || [],
         bad: bad || [],
+        luckLevel,
+        cate: godCate,
         extra: extra || null
       }
       const godConfig: GodClassConfig = {
@@ -45,7 +49,8 @@ function createLife12Gods(lsr: lunisolar.Lunisolar, ymdh: YMDH, godConfig: GodCl
     {
       key,
       good: null,
-      bad: null
+      bad: null,
+      cate: ymdh
     },
     godConfig
   )
@@ -80,13 +85,13 @@ class TheGods {
   lsr: lunisolar.Lunisolar
   constructor(lsr: lunisolar.Lunisolar) {
     this.lsr = lsr
-    const yGods = fetchTheGod(lsr, yearGods, 'year', 'day')
-    yGods.push(...fetchTheGod(lsr, commonGods, 'year', 'day'))
-    const mGods = fetchTheGod(lsr, monthGods, 'month', 'day')
-    mGods.push(...fetchTheGod(lsr, commonGods, 'month', 'day'))
-    mGods.push(...fetchTheGod(lsr, monthSeasonGods, undefined, 'day'))
-    const dGods = fetchTheGod(lsr, dayGods, undefined, 'day')
-    const hGods = fetchTheGod(lsr, hourGods, 'day', 'hour')
+    const yGods = fetchTheGod(lsr, yearGods, 'year', 'day', 'year')
+    yGods.push(...fetchTheGod(lsr, commonGods, 'year', 'day', 'year'))
+    const mGods = fetchTheGod(lsr, monthGods, 'month', 'day', 'month')
+    mGods.push(...fetchTheGod(lsr, commonGods, 'month', 'day', 'month'))
+    mGods.push(...fetchTheGod(lsr, monthSeasonGods, undefined, 'day', 'month'))
+    const dGods = fetchTheGod(lsr, dayGods, undefined, 'day', 'day')
+    const hGods = fetchTheGod(lsr, hourGods, 'day', 'hour', 'hour')
     this.data.gods.y = yGods
     this.data.gods.m = mGods
     this.data.gods.d = dGods
@@ -111,32 +116,49 @@ class TheGods {
     }
   }
 
-  getGods(ymdh: 'Y' | 'M' | 'D' | 'H' | string): God[] {
-    ymdh = ymdh.toLowerCase()
-    const u: { [key: string]: 'y' | 'm' | 'd' | 'h' } = {
-      year: 'y',
-      month: 'm',
-      d: 'd',
-      h: 'h'
+  getGods(ymdh: 'Y' | 'M' | 'D' | 'H' | string = 'MD'): God[] {
+    ymdh = prettyGetGodsYMDH(ymdh)
+    if (this.data.gods.hasOwnProperty(ymdh)) {
+      return this.data.gods[ymdh as 'y' | 'm' | 'd' | 'h']
     }
-    if (u.hasOwnProperty(ymdh)) {
-      return this.data.gods[u[ymdh]]
+    const cacheKey = `theGods:getGods:${ymdh}`
+    const fn = () => {
+      const res: God[] = []
+      const used = new Set<string>()
+      for (let i = 0; i < ymdh.length; i++) {
+        const c = ymdh[i]
+        if (used.has(c)) continue
+        if (!this.data.gods.hasOwnProperty(c)) continue
+        const gods = this.data.gods[c as 'y' | 'm' | 'd' | 'h']
+        used.add(c)
+        res.push(...gods)
+      }
+      return res
     }
-    const res: God[] = []
-    for (let i = 0; i < ymdh.length; i++) {
-      const c = ymdh[i]
-      if (!this.data.gods.hasOwnProperty(c)) continue
-      const gods = this.data.gods[c as 'y' | 'm' | 'd' | 'h']
-      res.push(...gods)
-    }
-    return res
+    return cacheAndReturn(cacheKey, fn, this._cache)
+  }
+
+  getGoodGods(ymdh: 'Y' | 'M' | 'D' | 'H' | string = 'MD') {
+    return this.getGods(ymdh).filter(g => {
+      const data = g.data
+      const isShow = data?.extra?.showGB || false
+      return data.luckLevel > 0 && isShow
+    })
+  }
+
+  getBadGods(ymdh: 'Y' | 'M' | 'D' | 'H' | string = 'MD') {
+    return this.getGods(ymdh).filter(g => {
+      const data = g.data
+      const isShow = data?.extra?.showGB || false
+      return data.luckLevel < 0 && isShow
+    })
   }
 
   getDuty12God(): God {
     const cacheKey = `duty12God`
     if (this._cache.hasOwnProperty(cacheKey)) return this._cache[cacheKey]
-    const [_, key, good, bad, extra] = getDuty12God(this.lsr)
-    const god = new God({ key, good, bad, extra }, this.godConfig)
+    const [_, key, good, bad, extra, luckLevel] = getDuty12God(this.lsr)
+    const god = new God({ key, good, bad, luckLevel, extra }, this.godConfig)
     this._cache[cacheKey] = god
     return god
   }
@@ -167,12 +189,15 @@ class TheGods {
     const cacheKey = `theGods:getActs:${actType}:${returnKey ? 1 : 0}: ${
       replacer ? arToString(replacer) : 'null'
     }`
-    if (this._cache[cacheKey]) return this._cache[cacheKey]
-    const acts = getTodayActs(this)
-    const res = orderActs(acts, actType, returnKey ? this.locale : false, replacer)
-    this._cache[cacheKey] = res
-
-    return res
+    return cacheAndReturn(
+      cacheKey,
+      () => {
+        const acts = getTodayActs(this)
+        const res = orderActs(acts, actType, returnKey ? this.locale : false, replacer)
+        return res
+      },
+      this._cache
+    )
   }
 
   getGoodActs(
@@ -197,14 +222,7 @@ class TheGods {
     if (checkQueryString(queryString, GQS.MG, locale)) return this.getGods('M')
     if (checkQueryString(queryString, GQS.DG, locale)) return this.getGods('D')
     if (checkQueryString(queryString, GQS.HG, locale)) return this.getGods('H')
-    if (checkQueryString(queryString, GQS.TDG, locale)) {
-      return cacheAndReturn(
-        `query:${GQS.TDG}`,
-        this.getGods('MD'),
-        // [...this.data.gods.m, ...this.data.gods.d],
-        this._cache
-      ) as God[]
-    }
+    if (checkQueryString(queryString, GQS.TDG, locale)) return this.getGods('MD')
     if (checkQueryString(queryString, GQS.DBYG, locale)) return this.getBy12God('day')
     if (checkQueryString(queryString, GQS.HBYG, locale)) return this.getBy12God('hour')
     if (checkQueryString(queryString, GQS.DTG, locale)) return this.getDuty12God()

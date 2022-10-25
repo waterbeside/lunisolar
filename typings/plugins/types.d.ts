@@ -48,6 +48,8 @@ type GodDictItemExtraFilterFunc = (
  ```
  */
 type GodDictItemExtra = {
+  alias?: sting[]
+  showGB?: boolean
   meetDeStillBad?: boolean
   meetWishStillBad?: true
   meetGodStillBad?: string[]
@@ -63,7 +65,18 @@ type GodClassData = {
   key: string
   good: string[]
   bad: string[]
+  luckLevel: number
+  cate: YMDH | null
   extra: GodDictItemExtra | null
+}
+
+type GodClassDataParam = {
+  key: string
+  good: string[] | null
+  bad: string[] | null
+  luckLevel?: number
+  cate?: YMDH | null
+  extra?: GodDictItemExtra | null
 }
 
 type GodClassConfig = {

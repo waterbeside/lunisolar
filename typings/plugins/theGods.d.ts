@@ -30,6 +30,9 @@ declare module 'lunisolar' {
     constructor(lsr: lunisolar.Lunisolar)
     get locale(): { [key: string]: any }
     get godConfig(): GodClassConfig
+    getGods(ymdh: 'Y' | 'M' | 'D' | 'H' | string = 'MD'): God[]
+    getGoodGods(ymdh: 'Y' | 'M' | 'D' | 'H' | string = 'MD')
+    getBadGods(ymdh: 'Y' | 'M' | 'D' | 'H' | string = 'MD')
     getDuty12God(): God
     getLife12God(ymdh: YMDH): God
     getBy12God(dh: 'day' | 'hour'): God
