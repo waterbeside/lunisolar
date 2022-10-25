@@ -293,9 +293,9 @@ export function filterActAfterLevel(
         if (!mdsbActsSet.has(i)) bad.delete(i)
       })
     }
-    if (!bad.has('修造动土') && !bad.has('竖柱上梁')) {
+    if (!bad.has('修造動土') && !bad.has('豎柱上梁')) {
       ;[
-        '修宫室',
+        '修宮室',
         '繕城郭',
         '筑堤防',
         '鼓鑄',
