@@ -2,7 +2,7 @@ import type { TheGods } from '../class/theGods'
 import type { God } from '../class/god'
 import type { ProcessData } from '../constants'
 import { removeSetByList, filterActsNotInSet } from './index'
-import { GOD_QUERY_STRING as GQS, MEETING_DES_SET } from '../constants'
+import { MEETING_DES_SET } from '../constants'
 import { getTheSignGodSet, findLevel, filterActByLevel, filterActAfterLevel } from './goodBadLevel'
 import { defaultActs, commonActs, emperorActs, civilActs } from '../actData'
 import { getTranslation } from '../../../utils'
@@ -100,9 +100,8 @@ export const extractGodActs = function (theGods: TheGods): ProcessData {
   }
   if (signGodsSet.has(dutyGodKey)) signGods.add(dutyGodKey)
   if (signGodsSet.has(`月令${life12GodKey}`)) signGods.add(`月令${life12GodKey}`)
-  // if (dutyGodKey === '建日') signGodMap.set('月建', true)
-  const godsList = theGods.query(GQS.TDG) as God[]
-  // 第一次循环生成gods set，以及signGodSet
+  const godsList = theGods.getGods('MD')
+  // 第一次循环生成gods set，以及signGods
   for (const godItem of godsList) {
     if (signGodsSet.has(godItem.key)) signGods.add(godItem.key)
     // 遇德
