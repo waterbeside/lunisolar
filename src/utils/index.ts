@@ -177,10 +177,15 @@ export function getTranslation<T = any, U = LocaleData>(locale: U, key: string):
   return res
 }
 
-export function cacheAndReturn(key: string, value: any, cache: { [key: string]: any }) {
-  if (cache.hasOwnProperty(key)) return cache[key]
-  cache[key] = value
-  return value
+export function cacheAndReturn<T = any>(
+  key: string,
+  getDataFn: () => T,
+  cache: { [key: string]: any }
+): T {
+  if (cache.hasOwnProperty(key)) return cache[key] as T
+  const res = getDataFn()
+  cache[key] = res
+  return res
 }
 
 /**
