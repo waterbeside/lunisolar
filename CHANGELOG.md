@@ -1,3 +1,18 @@
+# [1.1.0](https://github.com/waterbeside/lunisolar/compare/v1.0.0...v1.1.0) (2022-10-25)
+
+
+### Bug Fixes
+
+* 修正错误的宜忌key ([540399d](https://github.com/waterbeside/lunisolar/commit/540399de7b2d1dcd29eb11e8cc63b7700e86afdb))
+
+
+### Features
+
+*  标识吉凶神煞 ([56d1cc0](https://github.com/waterbeside/lunisolar/commit/56d1cc0c49bc3c7a002db7d97ceb7eeb2d474fd6))
+* 通过theGods.getGoodGods和theGods.getBadGods方法取得吉神、凶神 ([e863485](https://github.com/waterbeside/lunisolar/commit/e863485052b6da84bbbf2355117307ecc5193ff3))
+
+
+
 # [1.0.0](https://github.com/waterbeside/lunisolar/compare/v0.2.0...v1.0.0) (2022-10-22)
 
 
