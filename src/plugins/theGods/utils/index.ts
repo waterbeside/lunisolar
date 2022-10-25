@@ -4,6 +4,18 @@ import { monthGods } from '../gods/monthGods'
 import { monthSeasonGods } from '../gods/monthSeasonGods'
 import { dayGods } from '../gods/dayGods'
 
+// 處理getGods方法的ymdh參數
+export function prettyGetGodsYMDH(ymdh: 'Y' | 'M' | 'D' | 'H' | string) {
+  ymdh = ymdh.toLowerCase()
+  const u: { [key: string]: 'y' | 'm' | 'd' | 'h' } = {
+    year: 'y',
+    month: 'm',
+    d: 'd',
+    h: 'h'
+  }
+  return u.hasOwnProperty(ymdh) ? u[ymdh] : ymdh
+}
+
 // 神煞地支順行
 export function branchAscGodFunc(offset: number): CheckGodFunc {
   return getCheckGodFunc(
