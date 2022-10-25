@@ -107,6 +107,21 @@ describe('plugins/theGods life12God', () => {
       const tobeDayGods = ['寶日', '八專']
       expect(lsr.theGods.getGods('D').map(g => g.key)).toEqual(tobeDayGods)
 
+      expect(lsr.theGods.getGoodGods('MD').map(g => g.key)).toEqual([
+        '天德合',
+        '玉宇',
+        '天倉',
+        '母倉',
+        '寶日'
+      ])
+      expect(lsr.theGods.getBadGods('MD').map(g => g.key)).toEqual([
+        '月刑',
+        '河魁',
+        '五虛',
+        '八風',
+        '八專'
+      ])
+
       const acts = lsr.theGods.getActs(0)
       console.log(acts)
       // console.log()
