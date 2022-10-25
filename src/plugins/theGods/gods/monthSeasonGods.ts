@@ -33,7 +33,10 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     deGoodAct,
     ['畋獵', '取魚'],
-    4
+    4,
+    {
+      showGB: true
+    }
   ],
   母倉: [
     getCheckGodFunc(
@@ -49,7 +52,10 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     getAct(['納財', 24]),
     null,
-    4
+    4,
+    {
+      showGB: true
+    }
   ],
   四相: [
     getCheckGodFunc(
@@ -66,7 +72,10 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     snDeGoodAct,
     null,
-    4
+    4,
+    {
+      showGB: true
+    }
   ],
   時德: [
     getCheckGodFunc(
@@ -76,7 +85,10 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     snDeGoodAct,
     null,
-    4
+    4,
+    {
+      showGB: true
+    }
   ],
   王日: [
     getCheckGodFunc(
@@ -86,7 +98,10 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     getAct(['頒詔', 2, 3, '008a', 9, '011a', '裁製'], false),
     null,
-    4
+    4,
+    {
+      showGB: true
+    }
   ],
   官日: [
     getCheckGodFunc(
@@ -96,7 +111,10 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     getAct(['011b'], false),
     null,
-    4
+    4,
+    {
+      showGB: true
+    }
   ],
   守日: [
     getCheckGodFunc(
@@ -106,7 +124,10 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     getAct(['011b', '安撫邊境'], false),
     null,
-    4
+    4,
+    {
+      showGB: true
+    }
   ],
   相日: [
     getCheckGodFunc(
@@ -116,7 +137,10 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     getAct(['011b'], false),
     null,
-    4
+    4,
+    {
+      showGB: true
+    }
   ],
   民日: [
     getCheckGodFunc(
@@ -126,7 +150,10 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     getAct(['宴會', 12, '進人口', '019a', 24], false),
     null,
-    4
+    4,
+    {
+      showGB: true
+    }
   ],
   四擊: [
     getCheckGodFunc(
@@ -138,6 +165,7 @@ const monthSeasonGods: MonthSeasonGods = {
     getAct([10], false),
     -4,
     {
+      showGB: true,
       meetDeStillBad: true,
       meetWishStillBad: true
     }
@@ -152,6 +180,7 @@ const monthSeasonGods: MonthSeasonGods = {
     getAct([10, '012a', '安葬'], false),
     -4,
     {
+      showGB: true,
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         const mbValue = getBranchValue(lsr, 'month')
         // 寅月乙亥日，與天願并
@@ -178,6 +207,7 @@ const monthSeasonGods: MonthSeasonGods = {
     getAct([10, '012b', '020b', '安葬'], false),
     -4,
     {
+      showGB: true,
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         const mbValue = getBranchValue(lsr, 'month')
         // 寅月乙亥日，與天願并
@@ -204,6 +234,7 @@ const monthSeasonGods: MonthSeasonGods = {
     getAct([10, '020b'], false),
     -4,
     {
+      showGB: true,
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         const mbValue = getBranchValue(lsr, 'month')
         if (
@@ -261,6 +292,7 @@ const monthSeasonGods: MonthSeasonGods = {
     ),
     -4,
     {
+      showGB: true,
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         if (gods.has('月破')) {
           return {
@@ -291,6 +323,7 @@ const monthSeasonGods: MonthSeasonGods = {
     getAct(['修倉庫', 20], false),
     -4,
     {
+      showGB: true,
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         if (MEETING_DES.some(i => gods.has(i)) || gods.has('六合')) {
           return {
@@ -320,6 +353,7 @@ const monthSeasonGods: MonthSeasonGods = {
     getAct([26], false),
     -4,
     {
+      showGB: true,
       actsFilter: (lsr: lunisolar.Lunisolar, gods: Set<string>) => {
         if (MEETING_DES.some(i => gods.has(i)) || gods.has('六合')) {
           return {
