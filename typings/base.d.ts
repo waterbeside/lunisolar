@@ -67,7 +67,7 @@ interface ILunisolar {
   _solarTerm?: Term | null
   _lunar?: Lunar
   _char8?: Char8
-  _cache: { [key: string]: any } = {}
+  _cache: Map<string, any>
   get lunar(): Lunar
   get char8(): Char8
   get solarTerm(): Term | null

@@ -16,7 +16,7 @@ export class Lunisolar implements ILunisolar {
   _solarTerm?: SolarTerm | null
   _lunar?: Lunar
   _char8?: Char8
-  _cache: { [key: string]: any } = {}
+  _cache = new Map<string, any>()
   constructor(date?: DateParamType, config?: lunisolar.ConfigType) {
     this._date = parseDate(date)
     this._config = Object.assign({}, _GlobalConfig, config)
@@ -142,9 +142,9 @@ export class Lunisolar implements ILunisolar {
   cache<T = any>(key: string, value: T): void
   cache<T = any>(key: string, value?: T): T | undefined | void {
     if (typeof value === 'undefined') {
-      return typeof this._cache[key] !== 'undefined' ? this._cache[key] : undefined
+      return this._cache.has(key) ? this._cache.get(key) : undefined
     }
-    this._cache[key] = value
+    this._cache.set(key, value)
   }
 
   unix() {

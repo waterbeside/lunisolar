@@ -346,7 +346,7 @@ declare namespace lunisolar {
     _solarTerm?: SolarTerm | null
     _lunar?: Lunar
     _char8?: Char8
-    _cache: { [key: string]: any }
+    _cache: Map<string, any>
     constructor(date?: DateParamType, config?: ConfigType)
     /**
      * get lunar object
