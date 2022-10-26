@@ -7,7 +7,7 @@ const hourGodNames = [
   '喜神',
   '天官貴人',
   '福星貴人',
-  '五不遇時',
+  '五不遇',
   '路空',
   '日建',
   '日合',
@@ -15,7 +15,7 @@ const hourGodNames = [
   '日破',
   '日害',
   '日刑',
-  '貴登天門時',
+  '貴登天門',
   '九醜',
   '旬空'
 ] as const
@@ -28,7 +28,10 @@ const hourGods: HourGods = {
     getCommonCheckGodFunc([2, 3, 5, 6, 5, 6, 8, 9, 11, 0], getStemValue, 0, 'day', getBranchValue),
     null,
     null,
-    1
+    1,
+    {
+      showGB: true
+    }
   ],
   天乙貴人: [
     getCheckGodFunc(
@@ -50,13 +53,23 @@ const hourGods: HourGods = {
     ),
     null,
     null,
-    1
+    1,
+    {
+      showGB: true,
+      checkBy: 'branch',
+      isDay60HourGod: true
+    }
   ],
   喜神: [
     getCommonCheckGodFunc([2, 10, 8, 6, 4], getStemValue, 5, 'day', getBranchValue),
     null,
     null,
-    1
+    1,
+    {
+      showGB: true,
+      checkBy: 'branch',
+      isDay60HourGod: true
+    }
   ],
   天官貴人: [
     getCheckGodFunc(
@@ -67,7 +80,12 @@ const hourGods: HourGods = {
     ),
     null,
     null,
-    1
+    1,
+    {
+      showGB: true,
+      checkBy: 'branch',
+      isDay60HourGod: true
+    }
   ],
   福星貴人: [
     getCheckGodFunc(
@@ -78,9 +96,14 @@ const hourGods: HourGods = {
     ),
     null,
     null,
-    1
+    1,
+    {
+      showGB: true,
+      checkBy: 'branch',
+      isDay60HourGod: true
+    }
   ],
-  五不遇時: [
+  五不遇: [
     getCheckGodFunc(
       (lsr: lunisolar.Lunisolar, ymdh = 'day') =>
         [[6], [5], [4], [3], [2], [1, 11], [0, 10], [9], [8], [7]][getStemValue(lsr, ymdh)],
@@ -89,7 +112,12 @@ const hourGods: HourGods = {
     ),
     null,
     null,
-    1
+    -1,
+    {
+      showGB: true,
+      checkBy: 'branch',
+      isDay60HourGod: true
+    }
   ],
   路空: [
     getCheckGodFunc(
@@ -106,7 +134,12 @@ const hourGods: HourGods = {
     ),
     null,
     null,
-    1
+    -1,
+    {
+      showGB: true,
+      checkBy: 'branch',
+      isDay60HourGod: true
+    }
   ],
   // 時神從日支起者
   日建: [
@@ -116,7 +149,12 @@ const hourGods: HourGods = {
     ),
     null,
     null,
-    1
+    1,
+    {
+      showGB: true,
+      checkBy: 'branch',
+      isDay60HourGod: true
+    }
   ],
   日合: [
     getCheckGodFunc(
@@ -126,7 +164,12 @@ const hourGods: HourGods = {
     ),
     null,
     null,
-    1
+    1,
+    {
+      showGB: true,
+      checkBy: 'branch',
+      isDay60HourGod: true
+    }
   ],
   日馬: [
     getCheckGodFunc(
@@ -135,7 +178,12 @@ const hourGods: HourGods = {
     ),
     null,
     null,
-    1
+    1,
+    {
+      showGB: true,
+      checkBy: 'branch',
+      isDay60HourGod: true
+    }
   ],
   日破: [
     getCheckGodFunc(
@@ -144,7 +192,12 @@ const hourGods: HourGods = {
     ),
     null,
     null,
-    -1
+    -1,
+    {
+      showGB: true,
+      checkBy: 'branch',
+      isDay60HourGod: true
+    }
   ],
   日害: [
     getCheckGodFunc(
@@ -154,7 +207,12 @@ const hourGods: HourGods = {
     ),
     null,
     null,
-    -1
+    -1,
+    {
+      showGB: true,
+      checkBy: 'branch',
+      isDay60HourGod: true
+    }
   ],
   日刑: [
     getCheckGodFunc(
@@ -163,10 +221,15 @@ const hourGods: HourGods = {
     ),
     null,
     null,
-    -1
+    -1,
+    {
+      showGB: true,
+      checkBy: 'branch',
+      isDay60HourGod: true
+    }
   ],
   // 時神隨月將及日干支者
-  貴登天門時: [
+  貴登天門: [
     getCheckGodFunc(
       (lsr: lunisolar.Lunisolar, ymdh = 'day') => {
         const arr = [
@@ -188,7 +251,11 @@ const hourGods: HourGods = {
     ),
     null,
     null,
-    1
+    1,
+    {
+      showGB: true,
+      checkBy: 'branch'
+    }
   ],
   九醜: [
     getCheckGodFunc((lsr: lunisolar.Lunisolar, ymdh = 'day') => {
@@ -202,7 +269,11 @@ const hourGods: HourGods = {
     }, getBranchValue),
     null,
     null,
-    -1
+    -1,
+    {
+      showGB: true,
+      checkBy: 'branch'
+    }
   ],
   旬空: [
     getCheckGodFunc(
@@ -222,7 +293,12 @@ const hourGods: HourGods = {
     ),
     null,
     null,
-    -1
+    -1,
+    {
+      showGB: true,
+      checkBy: 'branch',
+      isDay60HourGod: true
+    }
   ]
 }
 
