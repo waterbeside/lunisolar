@@ -8,6 +8,9 @@ type FetalGodData = {
 
 type YMDH = 'year' | 'month' | 'day' | 'hour'
 
+type YmdhSu = 'Y' | 'M' | 'D' | 'H'
+type YmdhSl = 'y' | 'm' | 'd' | 'h'
+
 type CheckGodFunc = {
   <T = number>(lsr: Lunisolar, fromYmdh?: YMDH): T
   <T = number>(lsr: Lunisolar, fromYmdh: YMDH | undefined, toYmdh: null): T
@@ -50,10 +53,12 @@ type GodDictItemExtraFilterFunc = (
 type GodDictItemExtra = {
   alias?: sting[]
   showGB?: boolean
+  checkBy?: 'branch' | 'stem' | 'sb'
   meetDeStillBad?: boolean
   meetWishStillBad?: true
   meetGodStillBad?: string[]
   actsFilter?: GodDictItemExtraFilterFunc
+  [key: string]: any
 }
 
 type GodDictItem =
@@ -82,20 +87,6 @@ type GodClassDataParam = {
 type GodClassConfig = {
   lang?: string
   locale: { [key: string]: any }
-}
-
-type TheGodsClassData = {
-  gods: {
-    y: God[]
-    m: God[]
-    d: God[]
-    h: God[]
-  }
-  day: God[]
-  hour: God[]
-  goodAct: string[]
-  badAct: string[]
-  [key: string]: any
 }
 
 type ActsSet = {

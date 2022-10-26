@@ -24,15 +24,19 @@ declare module 'lunisolar' {
   }
 
   export class TheGods {
-    private _cache: { [key: string]: any }
-    data: TheGodsClassData
+    private _cache: Map<string, any>
+    config: {
+      locale: { [key: string]: any }
+      lang: string
+      [key: string]: any
+    }
     lsr: luisolar.Lunisolar
     constructor(lsr: lunisolar.Lunisolar)
     get locale(): { [key: string]: any }
     get godConfig(): GodClassConfig
-    getGods(ymdh: 'Y' | 'M' | 'D' | 'H' | string = 'MD'): God[]
-    getGoodGods(ymdh: 'Y' | 'M' | 'D' | 'H' | string = 'MD')
-    getBadGods(ymdh: 'Y' | 'M' | 'D' | 'H' | string = 'MD')
+    getGods(ymdh: YmdhSu | string = 'MD'): God[]
+    getGoodGods(ymdh: YmdhSu | string = 'MD')
+    getBadGods(ymdh: YmdhSu | string = 'MD')
     getDuty12God(): God
     getLife12God(ymdh: YMDH): God
     getBy12God(dh: 'day' | 'hour'): God

@@ -1,19 +1,31 @@
+import type { TheGods } from '../class/theGods'
 import { getBranchValue, getStemValue, getTranslation } from '../../../utils'
+import { God } from '../class/god'
 import { yearGods } from '../gods/yearGods'
 import { monthGods } from '../gods/monthGods'
 import { monthSeasonGods } from '../gods/monthSeasonGods'
 import { dayGods } from '../gods/dayGods'
+import { commonGods } from '../gods/commonGods'
+import { hourGods } from '../gods/hourGods'
+import { YMDH_SINGLE_LOWER_SET } from '../constants'
+import { getLife12God } from '../gods/life12Gods'
 
 // 處理getGods方法的ymdh參數
-export function prettyGetGodsYMDH(ymdh: 'Y' | 'M' | 'D' | 'H' | string) {
+export function prettyGetGodsYMDH(ymdh: YmdhSu | string, defaultNull: true): YmdhSl | null
+export function prettyGetGodsYMDH(ymdh: YmdhSu | string, defaultNull: false): YmdhSl | string
+export function prettyGetGodsYMDH(ymdh: YmdhSu | string, defaultNull: boolean = false) {
   ymdh = ymdh.toLowerCase()
-  const u: { [key: string]: 'y' | 'm' | 'd' | 'h' } = {
+  const u: { [key: string]: YmdhSl } = {
     year: 'y',
     month: 'm',
     d: 'd',
     h: 'h'
   }
-  return u.hasOwnProperty(ymdh) ? u[ymdh] : ymdh
+  return u.hasOwnProperty(ymdh)
+    ? u[ymdh]
+    : YMDH_SINGLE_LOWER_SET.has(ymdh) || !defaultNull
+    ? ymdh
+    : null
 }
 
 // 神煞地支順行
@@ -155,4 +167,91 @@ export const arToString = function (replacer: { [key: string]: string }): string
     res += `${key}${replacer[key]}`
   }
   return res
+}
+
+// 从神煞数据生成神煞类
+export const createGods = (
+  lsr: lunisolar.Lunisolar,
+  godDict: { [key: string]: GodDictItem },
+  fromYmdh: YMDH | undefined,
+  toYmdh: YMDH,
+  godCate: YMDH
+): God[] => {
+  const res: God[] = []
+  for (const key in godDict) {
+    const [checkFunc, good, bad, luckNum, extra] = godDict[key]
+    const luckLevel = luckNum > 0 ? 1 : -1
+    if (checkFunc(lsr, fromYmdh, toYmdh)) {
+      const godData: GodClassDataParam = {
+        key,
+        good: good || [],
+        bad: bad || [],
+        luckLevel,
+        cate: godCate,
+        extra: extra || null
+      }
+      const godConfig: GodClassConfig = {
+        lang: lsr.getConfig('lang') as string,
+        locale: lsr.getLocale()
+      }
+      res.push(new God(godData, godConfig))
+    }
+  }
+  return res
+}
+
+export const getGods = function (
+  theGods: TheGods,
+  ymdh: YmdhSu | YMDH | string,
+  cache?: Map<string, any>
+): God[] {
+  const pYmdh = prettyGetGodsYMDH(ymdh, true)
+  const cacheKey = `theGods:godsData:${ymdh}`
+  if (cache && cache.has(cacheKey)) {
+    return cache.get(cacheKey) as God[]
+  }
+  let gods: God[] = []
+  let setCache = pYmdh !== null
+  if (pYmdh === 'y') {
+    gods = createGods(theGods.lsr, yearGods, 'year', 'day', 'year')
+    gods.push(...createGods(theGods.lsr, commonGods, 'year', 'day', 'year'))
+  } else if (pYmdh === 'm') {
+    gods = createGods(theGods.lsr, monthGods, 'month', 'day', 'month')
+    gods.push(...createGods(theGods.lsr, commonGods, 'month', 'day', 'month'))
+    gods.push(...createGods(theGods.lsr, monthSeasonGods, 'month', 'day', 'month'))
+  } else if (pYmdh === 'd') {
+    gods = createGods(theGods.lsr, dayGods, undefined, 'day', 'day')
+    gods.push(theGods.getBy12God('day'))
+  } else if (pYmdh === 'h') {
+    gods = createGods(theGods.lsr, hourGods, 'day', 'hour', 'hour')
+    gods.push(theGods.getBy12God('hour'))
+  }
+  if (cache && setCache) cache.set(cacheKey, gods)
+  return gods
+}
+
+// 生成长神十二神
+export const createLife12Gods = function (
+  lsr: lunisolar.Lunisolar,
+  ymdh: YMDH,
+  godConfig: GodClassConfig
+): God {
+  const [_, key] = getLife12God(lsr, ymdh)
+  return new God(
+    {
+      key,
+      good: null,
+      bad: null,
+      cate: ymdh
+    },
+    godConfig
+  )
+}
+
+export const checkQueryString = function (
+  queryString: string,
+  checkString: string,
+  locale: { [key: string]: any }
+): boolean {
+  return queryString === checkString || queryString === getTranslation(locale, checkString)
 }

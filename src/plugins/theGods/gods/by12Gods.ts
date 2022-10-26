@@ -95,15 +95,15 @@ function getBy12God(
   lsr: lunisolar.Lunisolar,
   fromYmdh: YMDH,
   toYmdh: YMDH
-): [number, string, string[] | null, string[] | null] {
+): [number, string, string[] | null, string[] | null, number] {
   const fromBv = getBranchValue(lsr, fromYmdh)
   const toBv = getBranchValue(lsr, toYmdh)
   const offsetList = [4, 2, 0, 10, 8, 6]
   const offset = offsetList[fromBv % 6]
   const godIdx = (toBv + offset) % 12
   const godKey = by12GodNames[godIdx]
-  const [good, bad] = by12GodData[godKey]
-  return [godIdx, godKey, good, bad]
+  const [good, bad, luckLevel] = by12GodData[godKey]
+  return [godIdx, godKey, good, bad, luckLevel]
 }
 
-export { by12GodNames, createBy12Gods, getBy12God, By12Gods }
+export { createBy12Gods, getBy12God, By12Gods }
