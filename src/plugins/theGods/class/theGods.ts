@@ -14,33 +14,13 @@ import {
 
 class TheGods {
   private _cache = new Map<string, any>()
-  config: {
-    locale: { [key: string]: any }
-    lang: string
-    [key: string]: any
-  }
   lsr: lunisolar.Lunisolar
   constructor(lsr: lunisolar.Lunisolar) {
     this.lsr = lsr
-    const godConfig: GodClassConfig = {
-      lang: lsr.getConfig('lang') as string,
-      locale: lsr.getLocale()
-    }
-    this.config = {
-      locale: godConfig.locale,
-      lang: godConfig.lang || 'zh'
-    }
   }
 
   get locale() {
-    return this.config.locale
-  }
-
-  get godConfig() {
-    return {
-      lang: this._cache.get('lang'),
-      locale: this.locale
-    }
+    return this.lsr.getLocale()
   }
 
   getGods(ymdh: YmdhSu | string = 'MD'): God[] {
@@ -83,7 +63,7 @@ class TheGods {
     const cacheKey = `theGods:duty12God`
     if (this._cache.has(cacheKey)) return this._cache.get(cacheKey)
     const [_, key, good, bad, extra, luckLevel] = getDuty12God(this.lsr)
-    const god = new God({ key, good, bad, luckLevel, extra }, this.godConfig)
+    const god = new God({ key, good, bad, luckLevel, extra }, { locale: this.locale })
     this._cache.set(cacheKey, god)
     return god
   }
@@ -91,7 +71,7 @@ class TheGods {
   getLife12God(ymdh: YMDH): God {
     const cacheKey = `theGods:live12God:${ymdh}`
     if (this._cache.has(cacheKey)) return this._cache.get(cacheKey)
-    const god = createLife12Gods(this.lsr, ymdh, this.godConfig)
+    const god = createLife12Gods(this.lsr, ymdh, { locale: this.locale })
     this._cache.set(cacheKey, god)
     return god
   }
@@ -101,7 +81,7 @@ class TheGods {
     const cacheKey = `theGods:by12God:${dh}`
     if (this._cache.has(cacheKey)) return this._cache.get(cacheKey)
     const [_, key, good, bad, luckLevel] = getBy12God(this.lsr, fromYmdh, dh)
-    const god = new God({ key, good, bad, luckLevel, cate: dh }, this.godConfig)
+    const god = new God({ key, good, bad, luckLevel, cate: dh }, { locale: this.locale })
     this._cache.set(cacheKey, god)
     return god
   }
