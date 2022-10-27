@@ -103,19 +103,19 @@ const hourGods: HourGods = {
       isDay60HourGod: true
     }
   ],
+  // 时干克日干为五不遇
   五不遇: [
     getCheckGodFunc(
       (lsr: lunisolar.Lunisolar, ymdh = 'day') =>
-        [[6], [5], [4], [3], [2], [1, 11], [0, 10], [9], [8], [7]][getStemValue(lsr, ymdh)],
-      getBranchValue,
-      'includes'
+        [6, 7, 8, 9, 0, 1, 2, 3, 4, 5][getStemValue(lsr, ymdh)],
+      getStemValue
     ),
     null,
     null,
     -1,
     {
       showGB: true,
-      checkBy: 'branch',
+      checkBy: 'stem',
       isDay60HourGod: true
     }
   ],
