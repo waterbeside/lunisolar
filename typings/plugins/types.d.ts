@@ -85,7 +85,6 @@ type GodClassDataParam = {
 }
 
 type GodClassConfig = {
-  lang?: string
   locale: { [key: string]: any }
 }
 

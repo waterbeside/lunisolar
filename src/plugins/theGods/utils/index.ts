@@ -191,7 +191,6 @@ export const createGods = (
         extra: extra || null
       }
       const godConfig: GodClassConfig = {
-        lang: lsr.getConfig('lang') as string,
         locale: lsr.getLocale()
       }
       res.push(new God(godData, godConfig))
