@@ -169,6 +169,32 @@ export const arToString = function (replacer: { [key: string]: string }): string
   return res
 }
 
+export const creatOneGod = (
+  lsr: lunisolar.Lunisolar,
+  godDict: { [key: string]: GodDictItem },
+  godKey: string,
+  godCate: YMDH,
+  fromYmdh?: YMDH | undefined,
+  toYmdh?: YMDH
+): God | null => {
+  if (!godDict.hasOwnProperty(godKey)) return null
+  const [checkFunc, good, bad, luckNum, extra] = godDict[godKey]
+  if (fromYmdh && toYmdh && !checkFunc(lsr, fromYmdh, toYmdh)) return null
+  const luckLevel = luckNum > 0 ? 1 : -1
+  const godData: GodClassDataParam = {
+    key: godKey,
+    good: good || [],
+    bad: bad || [],
+    luckLevel,
+    cate: godCate,
+    extra: extra || null
+  }
+  const godConfig: GodClassConfig = {
+    locale: lsr.getLocale()
+  }
+  return new God(godData, godConfig)
+}
+
 // 从神煞数据生成神煞类
 export const createGods = (
   lsr: lunisolar.Lunisolar,
@@ -179,22 +205,8 @@ export const createGods = (
 ): God[] => {
   const res: God[] = []
   for (const key in godDict) {
-    const [checkFunc, good, bad, luckNum, extra] = godDict[key]
-    const luckLevel = luckNum > 0 ? 1 : -1
-    if (checkFunc(lsr, fromYmdh, toYmdh)) {
-      const godData: GodClassDataParam = {
-        key,
-        good: good || [],
-        bad: bad || [],
-        luckLevel,
-        cate: godCate,
-        extra: extra || null
-      }
-      const godConfig: GodClassConfig = {
-        locale: lsr.getLocale()
-      }
-      res.push(new God(godData, godConfig))
-    }
+    const god = creatOneGod(lsr, godDict, key, godCate, fromYmdh, toYmdh)
+    if (god) res.push(god)
   }
   return res
 }
