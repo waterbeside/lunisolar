@@ -1,5 +1,6 @@
-import { getBy12God } from '../gods/by12Gods'
+import { getBy12God, getBy12GodDataByKey } from '../gods/by12Gods'
 import { getDuty12God } from '../gods/duty12Gods'
+import { hourGods } from '../gods/hourGods'
 import { God } from './god'
 import { cacheAndReturn } from '../../../utils'
 import { GOD_QUERY_STRING as GQS } from '../constants'
@@ -9,8 +10,10 @@ import {
   prettyGetGodsYMDH,
   getGods,
   createLife12Gods,
-  checkQueryString
+  checkQueryString,
+  creatOneGod
 } from '../utils'
+import { getAllDayHourGods, getAllDayHourLucks } from '../utils/allDayHourGods'
 
 class TheGods {
   private _cache = new Map<string, any>()
@@ -66,6 +69,39 @@ class TheGods {
     const god = new God({ key, good, bad, luckLevel, extra }, { locale: this.locale })
     this._cache.set(cacheKey, god)
     return god
+  }
+
+  getAllDayHourGods(): God[][] {
+    const cacheKey = `theGods:allDayHourGods`
+    if (this._cache.has(cacheKey)) return this._cache.get(cacheKey) as God[][]
+    const dayHours = getAllDayHourGods(this.lsr)
+    const res: God[][] = new Array(12)
+    for (let i = 0; i < 12; i++) {
+      const godKeys = dayHours[i] || []
+      const gods: God[] = []
+      for (let idx = 0; idx < godKeys.length; idx++) {
+        const key = godKeys[idx]
+        if (!key) continue
+        if (idx === 0) {
+          // idx为串宫12神
+          const godData = getBy12GodDataByKey(key)
+          if (godData) {
+            const [good, bad, luckLevel] = godData
+            gods.push(new God({ key, good, bad, luckLevel }, { locale: this.locale }))
+            continue
+          }
+          const god = creatOneGod(this.lsr, hourGods, key, 'hour')
+          if (god) gods.push(god)
+        }
+      }
+      res[i] = gods
+    }
+    this._cache.set(cacheKey, res)
+    return res
+  }
+
+  getLuckHours(luckType: 0 | 1 = 0): number[] {
+    return getAllDayHourLucks(this.lsr, luckType)
   }
 
   getLife12God(ymdh: YMDH): God {

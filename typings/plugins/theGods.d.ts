@@ -45,6 +45,8 @@ declare module 'lunisolar' {
     getDuty12God(): God
     getLife12God(ymdh: YMDH): God
     getBy12God(dh: 'day' | 'hour'): God
+    getAllDayHourGods(): God[][]
+    getLuckHours(luckType: 0 | 1 = 0): number[]
     getActs(
       actType?: 0 | 1 | 2 | 3,
       returnKey?: boolean,

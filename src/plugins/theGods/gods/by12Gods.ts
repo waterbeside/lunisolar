@@ -94,7 +94,9 @@ export const getBy12GodIdx = (fromBv: number, toBv: number): [number, string] =>
   return [godIdx, godKey]
 }
 
-export const getBy12GodDataByKey = (key: typeof by12GodNames[number]) => by12GodData[key]
+export const getBy12GodDataByKey = (key: typeof by12GodNames[number] | string) => {
+  return by12GodData.hasOwnProperty(key) ? by12GodData[key as typeof by12GodNames[number]] : null
+}
 
 /**
  * @param lsr The instance of Lunisolar
