@@ -14,7 +14,7 @@ by12Gods (black & yellow 12 gods)
 import { getBranchValue } from '../../../utils'
 import { getCheckGodFunc } from '../utils'
 
-const by12GodNames = [
+export const by12GodNames = [
   '青龍',
   '明堂',
   '天刑',
@@ -60,11 +60,11 @@ const by12GodData: {
   寅申须从子上起，巳亥在午不须论。
   唯有辰戌归辰位，丑未原从戌上寻。
  ```
- * @param offset 
- * @returns 
  */
-function theBy12Gods(offset: number, defaultYmdh: YMDH = 'month'): GodDictItem {
-  const order = [8, 10, 0, 2, 4, 6] // 申戌子寅辰午
+const dragonStart = [8, 10, 0, 2, 4, 6] // 申戌子寅辰午
+
+export function theBy12Gods(offset: number, defaultYmdh: YMDH = 'month'): GodDictItem {
+  const order = dragonStart // 申戌子寅辰午
   const godKey = by12GodNames[offset]
   return [
     getCheckGodFunc(
@@ -78,7 +78,7 @@ function theBy12Gods(offset: number, defaultYmdh: YMDH = 'month'): GodDictItem {
   ]
 }
 
-const createBy12Gods = (defaultYmdh: YMDH = 'month'): By12Gods => {
+export const createBy12Gods = (defaultYmdh: YMDH = 'month'): By12Gods => {
   const by12Gods: By12Gods = {} as By12Gods
   for (const idx in by12GodNames) {
     const item = by12GodNames[idx]
@@ -87,23 +87,29 @@ const createBy12Gods = (defaultYmdh: YMDH = 'month'): By12Gods => {
   return by12Gods
 }
 
+export const getBy12GodIdx = (fromBv: number, toBv: number): [number, string] => {
+  const offset = 12 - dragonStart[fromBv % 6]
+  const godIdx = (toBv + offset) % 12
+  const godKey = by12GodNames[godIdx]
+  return [godIdx, godKey]
+}
+
+export const getBy12GodDataByKey = (key: typeof by12GodNames[number]) => by12GodData[key]
+
 /**
  * @param lsr The instance of Lunisolar
  * @returns [黃黑12神索引, 名稱，宜[], 忌[]]
  */
-function getBy12God(
+export function getBy12God(
   lsr: lunisolar.Lunisolar,
   fromYmdh: YMDH,
   toYmdh: YMDH
 ): [number, string, string[] | null, string[] | null, number] {
   const fromBv = getBranchValue(lsr, fromYmdh)
   const toBv = getBranchValue(lsr, toYmdh)
-  const offsetList = [4, 2, 0, 10, 8, 6]
-  const offset = offsetList[fromBv % 6]
+  const offset = 12 - dragonStart[fromBv % 6]
   const godIdx = (toBv + offset) % 12
   const godKey = by12GodNames[godIdx]
   const [good, bad, luckLevel] = by12GodData[godKey]
   return [godIdx, godKey, good, bad, luckLevel]
 }
-
-export { createBy12Gods, getBy12God, By12Gods }
