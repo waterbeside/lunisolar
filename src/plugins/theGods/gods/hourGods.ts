@@ -1,5 +1,6 @@
 import { getBranchValue, getStemValue, getYmdhSB } from '../../../utils'
 import { getCheckGodFunc, getCommonCheckGodFunc } from '../utils'
+import { NINE_UGLILY_DAY, NINE_UGLILY_TERM_ORDER } from '../constants'
 
 const hourGodNames = [
   '日祿',
@@ -30,7 +31,9 @@ const hourGods: HourGods = {
     null,
     1,
     {
-      showGB: true
+      showGB: true,
+      checkBy: 'branch',
+      isDay60HourGod: true
     }
   ],
   天乙貴人: [
@@ -216,7 +219,8 @@ const hourGods: HourGods = {
   ],
   日刑: [
     getCheckGodFunc(
-      (lsr: lunisolar.Lunisolar, ymdh = 'day') => [10, 0, 2, 4, 6, 8][getBranchValue(lsr, ymdh, 6)],
+      (lsr: lunisolar.Lunisolar, ymdh = 'day') =>
+        [3, 10, 5, 0, 4, 8, 6, 1, 2, 9, 7, 11][getBranchValue(lsr, ymdh)],
       getBranchValue
     ),
     null,
@@ -259,12 +263,10 @@ const hourGods: HourGods = {
   ],
   九醜: [
     getCheckGodFunc((lsr: lunisolar.Lunisolar, ymdh = 'day') => {
-      const days = [24, 51, 48, 18, 51, 15, 27, 21, 45, 57]
-      const idx = days.indexOf(lsr.char8.day.value)
-      if (idx === -1) return null
-      const branchOrder = [2, 1, 0, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+      if (!NINE_UGLILY_DAY.has(lsr.char8.day.value)) return null
+      const branchOrder = NINE_UGLILY_TERM_ORDER
       return branchOrder[
-        lsr.getMonthBuilder(1)[0].branch.value + 12 - (getBranchValue(lsr, ymdh) % 12)
+        (lsr.getMonthBuilder(1)[0].branch.value + 12 - getBranchValue(lsr, ymdh)) % 12
       ]
     }, getBranchValue),
     null,
