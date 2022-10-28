@@ -76,6 +76,15 @@ class TheGods {
     if (this._cache.has(cacheKey)) return this._cache.get(cacheKey) as God[][]
     const dayHours = getAllDayHourGods(this.lsr)
     const res: God[][] = new Array(12)
+    const cate = 'hour'
+    // 貴登天門
+    const gdtmCheckFunc = hourGods.貴登天門[0] // 用于檢查是否貴登天門時
+    const gdtmCdt = gdtmCheckFunc<number[]>(this.lsr, 'day')
+    // 九醜
+    const uglily9CheckFunc = hourGods.九醜[0]
+    const uglily9Cdt = uglily9CheckFunc(this.lsr, 'day')
+
+    // 遍歷十二時辰
     for (let i = 0; i < 12; i++) {
       const godKeys = dayHours[i] || []
       const gods: God[] = []
@@ -87,11 +96,34 @@ class TheGods {
           const godData = getBy12GodDataByKey(key)
           if (godData) {
             const [good, bad, luckLevel] = godData
-            gods.push(new God({ key, good, bad, luckLevel }, { locale: this.locale }))
+            gods.push(new God({ key, good, bad, luckLevel, cate }, { locale: this.locale }))
             continue
           }
-          const god = creatOneGod(this.lsr, hourGods, key, 'hour')
-          if (god) gods.push(god)
+        }
+        const god = creatOneGod(this.lsr, hourGods, key, 'hour')
+        if (god) {
+          gods.push(god)
+          // 如何有天乙贵人，检查是否贵登天门时
+          if (key === '天乙貴人') {
+            if (gdtmCdt.includes(i)) {
+              god.data.alias.push('貴登天門')
+            }
+          }
+        }
+        // 檢查是否九醜
+        if (uglily9Cdt !== null && uglily9Cdt === i) {
+          gods.push(
+            new God(
+              {
+                key: '九醜',
+                good: hourGods.九醜[1],
+                bad: hourGods.九醜[2],
+                luckLevel: hourGods.九醜[3],
+                cate
+              },
+              { locale: this.locale }
+            )
+          )
         }
       }
       res[i] = gods
@@ -117,7 +149,10 @@ class TheGods {
     const cacheKey = `theGods:by12God:${dh}`
     if (this._cache.has(cacheKey)) return this._cache.get(cacheKey)
     const [_, key, good, bad, luckLevel] = getBy12God(this.lsr, fromYmdh, dh)
-    const god = new God({ key, good, bad, luckLevel, cate: dh }, { locale: this.locale })
+    const god = new God(
+      { key, good, bad, luckLevel, cate: dh, extra: { showGB: true } },
+      { locale: this.locale }
+    )
     this._cache.set(cacheKey, god)
     return god
   }
