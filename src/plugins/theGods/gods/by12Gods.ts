@@ -20,13 +20,14 @@ export const by12GodNames = [
   '天刑',
   '朱雀',
   '金匱',
-  '天德',
+  '天德', //index = 5 當為時神時，名寶光
   '白虎',
   '玉堂',
   '天牢',
   '玄武',
   '司命',
-  '勾陳'
+  '勾陳',
+  '寶光'
 ] as const
 
 type By12Gods = { [key in typeof by12GodNames[number]]: GodDictItem }
@@ -50,7 +51,8 @@ const by12GodData: {
   天牢: [null, null, -1],
   玄武: [null, null, -1],
   司命: [null, null, 1],
-  勾陳: [null, null, -1]
+  勾陳: [null, null, -1],
+  寶光: [null, null, 1]
 }
 
 /**
@@ -78,19 +80,27 @@ export function theBy12Gods(offset: number, defaultYmdh: YMDH = 'month'): GodDic
   ]
 }
 
+export const getBy12GodKeyByIdx = (idx: number, toYmdh: YMDH) => {
+  return idx === 5 && toYmdh === 'hour' ? '寶光' : by12GodNames[idx]
+}
+
 export const createBy12Gods = (defaultYmdh: YMDH = 'month'): By12Gods => {
   const by12Gods: By12Gods = {} as By12Gods
-  for (const idx in by12GodNames) {
-    const item = by12GodNames[idx]
+  for (let idx = 0; idx < 12; idx++) {
+    const item = getBy12GodKeyByIdx(idx, defaultYmdh === 'day' ? 'hour' : 'day')
     by12Gods[item] = theBy12Gods(Number(idx), defaultYmdh)
   }
   return by12Gods
 }
 
-export const getBy12GodIdx = (fromBv: number, toBv: number): [number, string] => {
+export const getBy12GodIdx = (
+  fromBv: number,
+  toBv: number,
+  toYmdh: YMDH = 'day'
+): [number, string] => {
   const offset = 12 - dragonStart[fromBv % 6]
   const godIdx = (toBv + offset) % 12
-  const godKey = by12GodNames[godIdx]
+  const godKey = getBy12GodKeyByIdx(godIdx, toYmdh)
   return [godIdx, godKey]
 }
 
@@ -111,7 +121,7 @@ export function getBy12God(
   const toBv = getBranchValue(lsr, toYmdh)
   const offset = 12 - dragonStart[fromBv % 6]
   const godIdx = (toBv + offset) % 12
-  const godKey = by12GodNames[godIdx]
+  const godKey = getBy12GodKeyByIdx(godIdx, toYmdh)
   const [good, bad, luckLevel] = by12GodData[godKey]
   return [godIdx, godKey, good, bad, luckLevel]
 }
