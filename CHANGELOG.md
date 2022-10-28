@@ -1,3 +1,12 @@
+# [1.2.0](https://github.com/waterbeside/lunisolar/compare/v1.1.0...v1.2.0) (2022-10-28)
+
+### Features
+
+* 取得全日各时辰吉凶神煞，各时辰吉凶 ([2e8f798](https://github.com/waterbeside/lunisolar/commit/2e8f7985c76b332c55b46ea311567acff7461272))
+* 神煞类添加别称属性 ([271104d](https://github.com/waterbeside/lunisolar/commit/271104db10bf26395f1a673f4d8f63160e168a93))
+
+
+
 # [1.1.0](https://github.com/waterbeside/lunisolar/compare/v1.0.0...v1.1.0) (2022-10-25)
 
 

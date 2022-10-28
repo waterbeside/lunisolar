@@ -174,7 +174,7 @@ import * as lunisolar from 'lunisolar'
 ```html
 <script src="path/to/lunisolar.js"></script>
 <!-- or src from unpkg -->
-<script src="https://unpkg.com/lunisolar@0.2.0/dist/lunisolar.js"></script>
+<script src="https://unpkg.com/lunisolar@1.2.0/dist/lunisolar.js"></script>
 ```
 
 ## 2 解释 (创建Lunisolar对象)
