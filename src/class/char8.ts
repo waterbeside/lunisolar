@@ -1,7 +1,7 @@
 import { SB } from './stemBranch'
 import { SolarTerm } from './solarTerm'
 import { Lunar } from './lunar'
-import { parseDate, computeSBMonthValueByTerm } from '../utils'
+import { parseDate, computeSBMonthValueByTerm, computeRatStem } from '../utils'
 import { SB0_DATE } from '../constants/calendarData'
 import { _GlobalConfig } from '../config'
 
@@ -162,9 +162,8 @@ export class Char8 {
     const hour = date.getHours()
     const dayStem = sbDay.stem
     // 五鼠遁方法计算子时起始天干
-    const h2StartStemNum = (dayStem.value % 5) * 2
     const branchNum = ((hour + 1) >> 1) % 12
-    const stemNum = (h2StartStemNum + branchNum) % 10
+    const stemNum = computeRatStem(dayStem.value, branchNum)
     return new SB(stemNum, branchNum, config)
   }
 
