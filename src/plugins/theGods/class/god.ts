@@ -4,15 +4,21 @@ class God {
   data: GodClassData
   private locale: { [key: string]: any }
   constructor(data: GodClassDataParam, config: GodClassConfig) {
+    const aliasList = data?.extra?.alias || []
     this.data = {
       key: data.key,
-      good: data.good || [],
-      bad: data.bad || [],
+      good: [...(data.good || [])],
+      bad: [...(data.bad || [])],
       luckLevel: data?.luckLevel || 0,
       cate: data?.cate || null,
-      extra: data?.extra || null
+      extra: data?.extra || null,
+      alias: [...aliasList]
     }
     this.locale = config.locale
+  }
+
+  get alias() {
+    return this.data.alias.map(i => getTranslation(this.locale, `theGods.names.${i}`))
   }
 
   get key() {

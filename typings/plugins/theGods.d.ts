@@ -4,15 +4,7 @@ declare module 'lunisolar' {
   export class God {
     data: GodClassData
     private locale: { [key: string]: any }
-    constructor(
-      data: {
-        key: string
-        good: string[] | null
-        bad: string[] | null
-        extra?: GodDictItemExtra | null
-      },
-      config: GodClassConfig
-    )
+    constructor(data: GodClassDataParam, config: GodClassConfig)
     get key(): string
     get name(): string
     get cate(): YMDH | null

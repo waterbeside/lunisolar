@@ -72,6 +72,7 @@ type GodClassData = {
   bad: string[]
   luckLevel: number
   cate: YMDH | null
+  alias: string[]
   extra: GodDictItemExtra | null
 }
 
