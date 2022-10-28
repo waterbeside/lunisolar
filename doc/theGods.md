@@ -236,7 +236,50 @@ theGods.getBadActs(actType?: 0 | 1 | 2 | 3, returnKey?: boolean, replacer?: {}):
 theGods.getActs(actType, returnKey, replacer).bad
 ```
 
-### query 方法
+### getAllDayHourGods() 方法
+
+取得整日各时辰的神煞
+
+```typescript
+theGods.getAllDayHourGods(): God[][]
+
+// 返回结果为二维数组：
+[
+  [God, God, ...], // 子时
+  [God, God, God, ...], // 丑时
+  [God, God, God, ...], // 寅时
+  [God, God, ...], // 卯时
+  [God, ...], // 辰时
+  [God, ...], // 巳时
+  ...
+  ...
+  [God, ...], //亥时
+]
+```
+
+### getLuckHours() 方法
+
+取得整日各时辰的吉凶
+
+```typescript
+theGods.getLuckHours(luckType: 0 | 1 = 1): number[]
+// 返回数组表示各时辰，数组元素指示吉凶，大于0为吉，小于0为凶
+[1, 1, -1, 1, -1, -1, -1, -1, 1, 1, -1, -1]
+```
+
+参数说明
+
+```typescript
+luckeType: 0 | 1
+/**
+选择吉凶取法
+default: 0
+0: 按黄黑道十二神（即青龙明堂等）决定吉凶
+1：按黄黑道十二神（即青龙明堂等）决定吉凶
+*/
+```
+
+### query() 方法
 
 通过query方法，转入指定的字符串，可取得对应的神煞或宜忌
 
@@ -244,7 +287,8 @@ theGods.getActs(actType, returnKey, replacer).bad
 theGod.query(queryString): God | God[] | string[] | null
 ```
 
-参数
+参数说明
+
 queryString 存入的字符串，对应返回的内容参见下表, 其中zh的中文字条取决于你是否使用zh语言名才能使用该字条。故建议使用key中的字条存入存数。
 
 | key | zh | 说明 | 返回类型 |
@@ -285,6 +329,9 @@ queryString 存入的字符串，对应返回的内容参见下表, 其中zh的�
 | getActs(actType, returnKey, replacer) | 取得当日宜忌 | **actType**: 0 \| 1 \| 2 \| 3 <br> 指返回宜忌的分类<br> **returnKey**: boolean<br> 是否返回宜忌的key，默认为false, 即返回国际化翻译后的宜忌<br> **replacer**: { [key: string]: string } <br> 用于替换宜忌词条的字典对象| {good: string[], bad: string[]} |
 | getGoodActs(actType, returnKey, replacer) | 取得当日所宜 | 参数与 getActs 方法一致 | string[] |
 | getBadActs(actType, returnKey, replacer) | 取得当日所忌 | 参数与 getActs 方法一致 | string[] |
+| getAllDayHourGods() | 取得整日各时辰的神煞 |  | God[][] |
+| getLuckHours(luckType) | 取得整日各时辰的吉凶 | luckeType: 0 | 1 <br> 0: 按黄黑道十二神（即青龙明堂等）决定吉凶<br>
+1：根据时辰的吉神凶神个数决定吉凶 | number[] |
 | query(queryString) | 通过输入查询语句进行通用查询 | query: string | God \| God[] \| string[] \| null |
 
 ## God 类
@@ -297,3 +344,5 @@ queryString 存入的字符串，对应返回的内容参见下表, 其中zh的�
 | name | 取得神煞国际化翻译后的名称， | string |
 | good | 神煞所宜 | | string[] |
 | bad | 神煞所忌 | | string[] |
+| cate | 神煞分类 | | 'year' \| 'month' \| 'day' \| 'hour' \| null |
+| luckLevel | 神煞吉凶, 大于0为吉，小于0为凶 | | number |
