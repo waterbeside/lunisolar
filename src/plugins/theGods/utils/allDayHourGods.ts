@@ -4,7 +4,7 @@ import { computeRatStem } from '../../../utils'
 
 const hourGodsSbDict: (string[][] | null)[] = new Array(60).fill(null)
 const hourGodsSbLuck: number[][] = new Array(60)
-const hourGodsSbLuck01: number[] = new Array(60).fill(0)
+const hourGodsSbLuck_dragon: number[] = new Array(60).fill(0)
 
 /**
  * 生成六十日时辰定局
@@ -22,9 +22,9 @@ const craateTheDayHourGods = function (lsr: lunisolar.Lunisolar) {
     const byIdx = (bsIdx + i) % 12
     const byKey = getBy12GodKeyByIdx(byIdx, 'hour')
     const byData = getBy12GodDataByKey(byKey)
-    const byLuck = byData ? byData[2] : 0
+    const byLuck = byData && byData[2] > 0 ? 1 : 0
     gods.push(byKey) // 先加串宫十二神
-    let luckLevel = byLuck
+    let luckLevel = byData ? byData[2] : 0
     for (const k in hourGods) {
       const item = hourGods[k as keyof HourGods]
       const extra = item[4]
@@ -44,9 +44,11 @@ const craateTheDayHourGods = function (lsr: lunisolar.Lunisolar) {
       }
       if (Array.isArray(ept) && ept.includes(sOrBValue)) checked = true
       else if (typeof ept === 'number' && ept === sOrBValue) checked = true
-      if (checked) gods.push(k)
-      const llv = item[3] > 0 ? 1 : -1
-      luckLevel += llv
+      if (checked) {
+        gods.push(k)
+        const llv = item[3] > 0 ? 1 : item[3] < 0 ? -1 : 0
+        luckLevel += llv
+      }
     }
     dayHours[i] = gods
     luckLevels[i] = luckLevel
@@ -55,7 +57,7 @@ const craateTheDayHourGods = function (lsr: lunisolar.Lunisolar) {
   hourGodsSbDict[daySb.value] = dayHours
 
   hourGodsSbLuck[daySb.value] = luckLevels
-  hourGodsSbLuck01[daySb.value] = luckLevelNum01
+  hourGodsSbLuck_dragon[daySb.value] = luckLevelNum01
   return dayHours
 }
 
@@ -74,19 +76,19 @@ export function getAllDayHourGods(lsr: lunisolar.Lunisolar): string[][] {
 /**
  * 取得当日各时辰吉凶
  * @param lsr Lunisolar实例
- * @param luckType 0默认，按吉凶神个数定吉凶，1，按串宫十二神定吉凶
+ * @param luckType 0默认，按串宫十二神定吉凶，1，按吉凶神个数定吉凶
  * @returns {number[]} 各时辰吉凶
  */
 export const getAllDayHourLucks = function (
   lsr: lunisolar.Lunisolar,
-  luckType: 0 | 1 = 1
+  luckType: 0 | 1 = 0
 ): number[] {
   const daySbValue = lsr.char8.day.value
   let dayHours = hourGodsSbDict[daySbValue]
   if (!dayHours) craateTheDayHourGods(lsr)
-  if (luckType === 1) {
+  if (luckType === 0) {
     const res = []
-    const luckNum = hourGodsSbLuck01[daySbValue]
+    const luckNum = hourGodsSbLuck_dragon[daySbValue]
     for (let i = 0; i < 12; i++) {
       const llv = ((luckNum >> i) & 1) > 0 ? 1 : -1
       res.push(llv)
