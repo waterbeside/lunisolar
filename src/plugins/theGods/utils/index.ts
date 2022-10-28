@@ -179,7 +179,7 @@ export const creatOneGod = (
 ): God | null => {
   if (!godDict.hasOwnProperty(godKey)) return null
   const [checkFunc, good, bad, luckNum, extra] = godDict[godKey]
-  if (fromYmdh && toYmdh && !checkFunc(lsr, fromYmdh, toYmdh)) return null
+  if (toYmdh && !checkFunc(lsr, fromYmdh, toYmdh)) return null
   const luckLevel = luckNum > 0 ? 1 : -1
   const godData: GodClassDataParam = {
     key: godKey,

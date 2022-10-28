@@ -1,5 +1,6 @@
 import { hourGods, HourGods } from '../gods/hourGods'
-import { getBy12GodIdx, by12GodNames, getBy12GodDataByKey } from '../gods/by12Gods'
+import { getBy12GodIdx, getBy12GodKeyByIdx, getBy12GodDataByKey } from '../gods/by12Gods'
+import { computeRatStem } from '../../../utils'
 
 const hourGodsSbDict: (string[][] | null)[] = new Array(60).fill(null)
 const hourGodsSbLuck: number[][] = new Array(60)
@@ -12,31 +13,44 @@ const hourGodsSbLuck01: number[] = new Array(60).fill(0)
 const craateTheDayHourGods = function (lsr: lunisolar.Lunisolar) {
   const daySb = lsr.char8.day
   // 遍历12个时辰
-  const [bsIdx, _] = getBy12GodIdx(daySb.branch.value, 0)
+  const [bsIdx, _] = getBy12GodIdx(daySb.branch.value, 0, 'hour')
   const luckLevels = new Array<number>(12).fill(0)
   let luckLevelNum01 = 0
   const dayHours = new Array<string[]>(12)
   for (let i = 0; i < 12; i++) {
     const gods = new Array<string>()
     const byIdx = (bsIdx + i) % 12
-    const byKey = by12GodNames[byIdx]
+    const byKey = getBy12GodKeyByIdx(byIdx, 'hour')
     const byData = getBy12GodDataByKey(byKey)
+    const byLuck = byData ? byData[2] : 0
     gods.push(byKey) // 先加串宫十二神
-    let luckLevel = byData[2]
+    let luckLevel = byLuck
     for (const k in hourGods) {
       const item = hourGods[k as keyof HourGods]
       const extra = item[4]
       if (!extra || !extra.isDay60HourGod) continue
       const checkFun = item[0]
-      const checked = checkFun(lsr, 'day', 'hour')
-      if (!checked) continue
-      gods.push(k)
+      const ept = checkFun(lsr, 'day') // 时柱的天干或地支的期望验证值
+      if (ept === null) continue
+      let checked = false
+      const checkBy = extra.checkBy // 通过天干还是地支验证
+      let sOrBValue: number | null = null
+      if (checkBy === 'stem') {
+        sOrBValue = computeRatStem(daySb.stem.value, i)
+      } else if (checkBy === 'branch') {
+        sOrBValue = i
+      } else {
+        continue
+      }
+      if (Array.isArray(ept) && ept.includes(sOrBValue)) checked = true
+      else if (typeof ept === 'number' && ept === sOrBValue) checked = true
+      if (checked) gods.push(k)
       const llv = item[3] > 0 ? 1 : -1
       luckLevel += llv
     }
     dayHours[i] = gods
     luckLevels[i] = luckLevel
-    luckLevelNum01 += (byData[2] > 0 ? 1 : 0) << i
+    luckLevelNum01 += (byLuck > 0 ? 1 : 0) << i
   }
   hourGodsSbDict[daySb.value] = dayHours
 
