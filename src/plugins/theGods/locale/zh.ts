@@ -3,7 +3,7 @@ import { GOD_QUERY_STRING as GQS } from '../constants'
 export default {
   name: 'zh',
   theGods: {
-    names: {},
+    gods: {},
     acts: {},
     queryString: {
       [GQS.YG]: '年神',
