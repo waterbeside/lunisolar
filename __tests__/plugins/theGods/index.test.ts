@@ -1,12 +1,14 @@
 import lunisolar from '../../../src/index'
 import theGods from '../../../src/plugins/theGods'
-import { God } from '../../../src/plugins/theGods/class/god'
 import type { TheGods } from '../../../src/plugins/theGods/class/theGods'
+import zhCn from '../../../src/locale/zh-cn'
+import theGodzhCn from '../../../src/plugins/theGods/locale/zh-cn'
 
+lunisolar.locale(zhCn).locale(theGodzhCn)
 lunisolar.extend(theGods)
+lunisolar.config({ lang: 'zh' })
 
 interface Lunisolar extends ILunisolar {
-  // duty12God: God
   theGods: TheGods
 }
 
@@ -96,10 +98,14 @@ describe('plugins/theGods life12God', () => {
 
     it('2022-10-21', () => {
       // 壬寅 庚戌 丁未 庚子
-      const lsr = lunisolar('2022-10-21') as unknown as Lunisolar
+      const lsr = lunisolar('2022-10-21', { lang: 'zh-cn' }) as unknown as Lunisolar
       // 年神
       const tobeYearGods = ['歲德合', '支德', '向煞', '死符', '小耗']
       expect(lsr.theGods.getGods('Y').map(g => g.key)).toEqual(tobeYearGods)
+
+      const tobeYearGods_zhCn = ['岁德合', '支德', '向煞', '死符', '小耗']
+      expect(lsr.theGods.getGods('Y').map(g => g.name)).toEqual(tobeYearGods_zhCn)
+
       // 月神
       const tobeMonthGods = ['天德合', '月刑', '河魁', '玉宇', '天倉', '母倉', '五虛', '八風']
       expect(lsr.theGods.getGods('M').map(g => g.key)).toEqual(tobeMonthGods)
