@@ -62,7 +62,7 @@ export function createGodBase(
 ): GodBase | undefined {
   const godsPoolKey = `${godKey}:${cate || 0}`
   if (godsPool.has(godsPoolKey)) return godsPool.get(godsPoolKey)
-  const godData: GodClassDataParam = {
+  const godData: GodBaseClassDataParam = {
     key: godKey,
     good: [],
     bad: [],
