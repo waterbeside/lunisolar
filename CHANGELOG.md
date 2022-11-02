@@ -1,3 +1,18 @@
+# [1.3.0](https://github.com/waterbeside/lunisolar/compare/v1.2.0...v1.3.0) (2022-11-02)
+
+
+### Bug Fixes
+
+* 修正简体中文没加载成功的问题 ([e722d77](https://github.com/waterbeside/lunisolar/commit/e722d77c5ff04aadf8fe47adbff0709590eaae07))
+* 移除宜忌词条重复出现的字 ([2a0a073](https://github.com/waterbeside/lunisolar/commit/2a0a0735a74d593d52af7fe70b0b32badbaca5b0))
+
+
+### Features
+
+* 添加神煞简体中文语言包 ([365b93d](https://github.com/waterbeside/lunisolar/commit/365b93dd3b6aab512e0c96b9d522708b89869170))
+
+
+
 # [1.2.0](https://github.com/waterbeside/lunisolar/compare/v1.1.0...v1.2.0) (2022-10-28)
 
 ### Features

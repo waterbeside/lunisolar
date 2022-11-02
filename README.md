@@ -174,8 +174,8 @@ import * as lunisolar from 'lunisolar'
 
 ```html
 <script src="path/to/lunisolar.js"></script>
-<!-- or src from unpkg -->
-<script src="https://unpkg.com/lunisolar@1.2.0/dist/lunisolar.js"></script>
+<!-- or src from unpkg ( 请根据需求选择版本号 ↓ )-->
+<script src="https://unpkg.com/lunisolar@1.3.0/dist/lunisolar.js"></script>
 ```
 
 ## 2 解释 (创建Lunisolar对象)
@@ -523,7 +523,7 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 
 胎神每日都会出现在不同的位置，参考《胎神逐日所占游方定局》。
 
-![fetalGod](./doc/images/fetalGod.jpg)
+![fetalGod](./docs/images/fetalGod.jpg)
 
 其中天干地支与胎神位置的规律可用以下口诀记忆：
 
@@ -605,13 +605,13 @@ expect().toBe('大海水')
 
 **建除十二神**，又称**十二值神**。即 “`建、除、满、平、定、执、破、危、成、收、开、闭`”共十二位神，每日轮值，周而复始，观所值以定吉凶。
 
-十二值神已归到神煞类之下，请参考[神煞宜忌](doc/theGods.md)
+十二值神已归到神煞类之下，请参考[神煞宜忌](docs/theGods.md)
 
 ## 10 神煞宜忌
 
 神煞宜忌的所有内容，都基于 **《协纪辨方书》**
 
-因其数据内容较多，故作为一个插件单独介绍，请点击跳转到[【神煞宜忌】](doc/theGods.md)查看介绍和使用说明
+因其数据内容较多，故作为一个插件单独介绍，请点击跳转到[【神煞宜忌】](docs/theGods.md)查看介绍和使用说明
 
 ## 插件 plugins
 
