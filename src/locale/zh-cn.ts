@@ -1,5 +1,5 @@
 const locale = {
-  name: 'zh',
+  name: 'zh-cn',
   leap: '闰',
   lunarYearUnit: '年',
   lunarHourUnit: '时',
