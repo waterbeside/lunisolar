@@ -1,11 +1,20 @@
 import { PluginFunc } from 'lunisolar'
 
 declare module 'lunisolar' {
-  export class God {
-    data: GodClassData
-    private locale: { [key: string]: any }
-    constructor(data: GodClassDataParam, config: GodClassConfig)
+  class GodBase {
+    readonly data: GodBaseClassData
+    constructor(data: GodBaseClassDataParam)
     get key(): string
+    toString(): string
+  }
+
+  export class God {
+    private godBase: GodBase
+    private lang: string
+    constructor(opt: GodClassOpt)
+    get key(): string
+    get data(): GodBaseClassData
+    get alias(): string[]
     get name(): string
     get cate(): YMDH | null
     get luckLevel(): number
@@ -18,7 +27,7 @@ declare module 'lunisolar' {
     private _cache: Map<string, any>
     lsr: luisolar.Lunisolar
     constructor(lsr: lunisolar.Lunisolar)
-    get locale(): { [key: string]: any }
+    get lang(): string
     /**
      * 取得神煞
      * @param ymdh 指定年月日时或其组合

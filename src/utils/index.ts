@@ -158,12 +158,19 @@ export function getTranslation<T = any, U = LocaleData>(locale: U, key: string):
   const keySplit = key.split('.')
   let curr: any = locale
   let res = key
-  while (keySplit.length > 0) {
-    const currKey = keySplit.shift()
-    if (currKey === undefined) return ''
+  const resAsCurr = (curr: any) => {
     if (typeof curr === 'string' || typeof curr === 'number' || typeof curr === 'function') {
       res = curr
-    } else if (Array.isArray(curr)) {
+      return true
+    }
+    return false
+  }
+  while (keySplit.length >= 0) {
+    if (resAsCurr(curr)) break
+    if (keySplit.length === 0) break
+    const currKey = keySplit.shift()
+    if (currKey === undefined) return ''
+    if (Array.isArray(curr)) {
       const idx = Number(currKey)
       if (isNaN(idx) || idx >= curr.length) return ''
       curr = curr[idx]
@@ -212,8 +219,22 @@ export function phaseOfTheMoon(lunar: lunisolar.Lunar, locale: LocaleData): stri
   * @param date 日期
   * @returns {SB} 返回天地支对象
 */
-
 export function computeRatStem(fromStemValue: number, branchValue: number = 0): number {
   const h2StartStemNum = (fromStemValue % 5) * 2
   return (h2StartStemNum + branchValue) % 10
+}
+
+/**
+ * 把两个列表分别作为key为value合并成字典
+ * @param keyList key列表数组
+ * @param valueList value列表数组
+ */
+export function twoList2Dict<T = any>(keyList: string[], valueList: T[]): { [key: string]: T } {
+  const res: { [key: string]: T } = {}
+  for (let i = 0; i < keyList.length; i++) {
+    const key = keyList[i]
+    const value = valueList[i]
+    res[key] = value
+  }
+  return res
 }

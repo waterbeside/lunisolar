@@ -1,29 +1,24 @@
 import { getBy12God, getBy12GodDataByKey } from '../gods/by12Gods'
 import { getDuty12God } from '../gods/duty12Gods'
+import { getLife12God } from '../gods/life12Gods'
 import { hourGods } from '../gods/hourGods'
 import { God } from './god'
 import { cacheAndReturn } from '../../../utils'
 import { GOD_QUERY_STRING as GQS } from '../constants'
 import { orderActs, getTodayActs } from '../utils/extractGodActs'
-import {
-  arToString,
-  prettyGetGodsYMDH,
-  getGods,
-  createLife12Gods,
-  checkQueryString,
-  creatOneGod
-} from '../utils'
+import { arToString, prettyGetGodsYMDH, checkQueryString } from '../utils'
 import { getAllDayHourGods, getAllDayHourLucks } from '../utils/allDayHourGods'
+import { getGods, createGod } from '../gods/index'
 
-class TheGods {
+export class TheGods {
   private _cache = new Map<string, any>()
   lsr: lunisolar.Lunisolar
   constructor(lsr: lunisolar.Lunisolar) {
     this.lsr = lsr
   }
 
-  get locale() {
-    return this.lsr.getLocale()
+  get lang() {
+    return this.lsr.getConfig('lang') as string
   }
 
   getGods(ymdh: YmdhSu | string = 'MD'): God[] {
@@ -62,15 +57,6 @@ class TheGods {
     })
   }
 
-  getDuty12God(): God {
-    const cacheKey = `theGods:duty12God`
-    if (this._cache.has(cacheKey)) return this._cache.get(cacheKey)
-    const [_, key, good, bad, extra, luckLevel] = getDuty12God(this.lsr)
-    const god = new God({ key, good, bad, luckLevel, extra }, { locale: this.locale })
-    this._cache.set(cacheKey, god)
-    return god
-  }
-
   getAllDayHourGods(): God[][] {
     const cacheKey = `theGods:allDayHourGods`
     if (this._cache.has(cacheKey)) return this._cache.get(cacheKey) as God[][]
@@ -95,35 +81,24 @@ class TheGods {
           // idx为串宫12神
           const godData = getBy12GodDataByKey(key)
           if (godData) {
-            const [good, bad, luckLevel] = godData
-            gods.push(new God({ key, good, bad, luckLevel, cate }, { locale: this.locale }))
+            gods.push(createGod(this.lsr, key, cate, 'blackYellow'))
             continue
           }
         }
-        const god = creatOneGod(this.lsr, hourGods, key, 'hour')
+        // 处理其它时神
+        const god = createGod(this.lsr, key, 'hour', 'hour')
         if (god) {
           gods.push(god)
           // 如何有天乙贵人，检查是否贵登天门时
           if (key === '天乙貴人') {
             if (gdtmCdt.includes(i)) {
-              god.data.alias.push('貴登天門')
+              god.supple.set('貴登天門', true)
             }
           }
         }
         // 檢查是否九醜
         if (uglily9Cdt !== null && uglily9Cdt === i) {
-          gods.push(
-            new God(
-              {
-                key: '九醜',
-                good: hourGods.九醜[1],
-                bad: hourGods.九醜[2],
-                luckLevel: hourGods.九醜[3],
-                cate
-              },
-              { locale: this.locale }
-            )
-          )
+          gods.push(createGod(this.lsr, '九醜', 'hour', 'hour'))
         }
       }
       res[i] = gods
@@ -136,10 +111,20 @@ class TheGods {
     return getAllDayHourLucks(this.lsr, luckType)
   }
 
+  getDuty12God(): God {
+    const cacheKey = `theGods:duty12God`
+    if (this._cache.has(cacheKey)) return this._cache.get(cacheKey)
+    const [_, key] = getDuty12God(this.lsr)
+    const god = createGod(this.lsr, key, 'day', 'duty')
+    this._cache.set(cacheKey, god)
+    return god
+  }
+
   getLife12God(ymdh: YMDH): God {
     const cacheKey = `theGods:live12God:${ymdh}`
     if (this._cache.has(cacheKey)) return this._cache.get(cacheKey)
-    const god = createLife12Gods(this.lsr, ymdh, { locale: this.locale })
+    const [_, key] = getLife12God(this.lsr, ymdh)
+    const god = createGod(this.lsr, key, ymdh, 'life')
     this._cache.set(cacheKey, god)
     return god
   }
@@ -148,11 +133,8 @@ class TheGods {
     const fromYmdh = dh === 'day' ? 'month' : 'day'
     const cacheKey = `theGods:by12God:${dh}`
     if (this._cache.has(cacheKey)) return this._cache.get(cacheKey)
-    const [_, key, good, bad, luckLevel] = getBy12God(this.lsr, fromYmdh, dh)
-    const god = new God(
-      { key, good, bad, luckLevel, cate: dh, extra: { showGB: true } },
-      { locale: this.locale }
-    )
+    const [_, key] = getBy12God(this.lsr, fromYmdh, dh)
+    const god = createGod(this.lsr, key, dh, 'blackYellow')
     this._cache.set(cacheKey, god)
     return god
   }
@@ -172,7 +154,7 @@ class TheGods {
         const res = orderActs(
           acts,
           actType,
-          returnKey ? (this.locale as LocaleData) : false,
+          returnKey ? false : this.lsr.getConfig().lang,
           replacer
         )
         return res
@@ -198,8 +180,7 @@ class TheGods {
   }
 
   query(queryString: string): God | God[] | string[] | null {
-    const locale = this.locale
-    const ck = (qs: string) => checkQueryString(queryString, qs, locale)
+    const ck = (qs: string) => checkQueryString(queryString, qs, this.lang)
     if (ck(GQS.YG)) return this.getGods('Y')
     if (ck(GQS.MG)) return this.getGods('M')
     if (ck(GQS.DG)) return this.getGods('D')
@@ -223,5 +204,3 @@ class TheGods {
     return null
   }
 }
-
-export { TheGods }

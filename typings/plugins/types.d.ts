@@ -66,7 +66,7 @@ type GodDictItem =
   | [CheckGodFunc, string[] | null, string[] | null, number, GodDictItemExtra]
   | [CheckGodFunc, string[] | null, string[] | null, number, undefined]
 
-type GodClassData = {
+type GodBaseClassData = {
   key: string
   good: string[]
   bad: string[]
@@ -76,7 +76,7 @@ type GodClassData = {
   extra: GodDictItemExtra | null
 }
 
-type GodClassDataParam = {
+type GodBaseClassDataParam = {
   key: string
   good: string[] | null
   bad: string[] | null
@@ -85,9 +85,17 @@ type GodClassDataParam = {
   extra?: GodDictItemExtra | null
 }
 
-type GodClassConfig = {
-  locale: { [key: string]: any }
-}
+type FromGodsType =
+  | 'common'
+  | 'year'
+  | 'month'
+  | 'day'
+  | 'hour'
+  | 'monthSeason'
+  | 'duty'
+  | 'blackYellow'
+  | 'life'
+type GodClassOpt = { key: string; cate: YMDH; fromDict?: FromDictType; lang?: string }
 
 type ActsSet = {
   good: Set<string>

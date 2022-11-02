@@ -1,57 +1,56 @@
-import { getTranslation } from '../../../utils'
+import type { GodBase } from './godBase'
+import { createGodBase } from '../gods/index'
+import { trans } from '../locale'
 
-class God {
-  data: GodClassData
-  private locale: { [key: string]: any }
-  constructor(data: GodClassDataParam, config: GodClassConfig) {
-    const aliasList = data?.extra?.alias || []
-    this.data = {
-      key: data.key,
-      good: [...(data.good || [])],
-      bad: [...(data.bad || [])],
-      luckLevel: data?.luckLevel || 0,
-      cate: data?.cate || null,
-      extra: data?.extra || null,
-      alias: [...aliasList]
+export class God {
+  private godBase: GodBase
+  private lang: string = 'zh'
+  supple = new Map<string, any>()
+  constructor(opt: GodClassOpt) {
+    // PASS
+    const { key, cate, fromDict, lang } = opt
+    const godBase = createGodBase(key, cate, fromDict)
+    if (!godBase) {
+      throw new Error('no this god')
     }
-    this.locale = config.locale
-  }
-
-  get alias() {
-    return this.data.alias.map(i => getTranslation(this.locale, `theGods.names.${i}`))
+    // if (!godBase) throw new Error('no this god')
+    this.godBase = godBase
+    if (lang) this.lang = lang
   }
 
   get key() {
-    return this.data.key
+    return this.godBase.key
+  }
+
+  get data() {
+    return this.godBase.data
+  }
+
+  get alias() {
+    return this.data.alias.map(i => trans(i, this.lang, 'gods'))
   }
 
   get name() {
-    return getTranslation(this.locale, `theGods.names.${this.data.key}`)
+    return trans(this.godBase.key, this.lang, 'gods')
   }
 
-  get cate(): YMDH | null {
+  get cate() {
     return this.data.cate
   }
 
-  get luckLevel(): number {
-    return this.data.luckLevel
-  }
-
   get good() {
-    return this.data.good.map(item => {
-      return getTranslation(this.locale, `theGods.acts.${item}`)
-    })
+    return this.data.good.map(i => trans(i, this.lang, 'acts'))
   }
 
   get bad() {
-    return this.data.bad.map(item => {
-      return getTranslation(this.locale, `theGods.acts.${item}`)
-    })
+    return this.data.bad.map(i => trans(i, this.lang, 'acts'))
+  }
+
+  get luckLevel() {
+    return this.data.luckLevel
   }
 
   toString() {
     return this.name
   }
 }
-
-export { God }

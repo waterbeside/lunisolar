@@ -5,7 +5,7 @@ import { removeSetByList, filterActsNotInSet } from './index'
 import { MEETING_DES_SET } from '../constants'
 import { getTheSignGodSet, findLevel, filterActByLevel, filterActAfterLevel } from './goodBadLevel'
 import { defaultActs, commonActs, emperorActs, civilActs } from '../actData'
-import { getTranslation } from '../../../utils'
+import { trans } from '../locale'
 
 function filterGodActsByExtra(
   god: God,
@@ -175,10 +175,10 @@ export const actsReplace = function (acts: ActsSet, replacer: { [key: string]: s
 export const orderActs = function (
   acts: ActsSet,
   actType: 0 | 1 | 2 | 3 = 0,
-  locale: LocaleData | false = false,
+  lang: string | false = false,
   replacer?: { [key: string]: string }
 ): ActsDictList {
-  const t = (key: string) => (locale ? getTranslation(locale, `theGods.acts.${key}`) : key)
+  const t = (key: string) => (lang ? trans(key, lang, 'acts') : key)
   if (acts.good.has('諸事不宜')) {
     return {
       good: [t('諸事不宜')],
