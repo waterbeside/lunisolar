@@ -3,7 +3,7 @@ import { getCheckGodFunc } from '../utils'
 import { goDeadBadAct, leave4BadAct, getAct, commonOnlyBad } from '../actData'
 import { MEETING_DES } from '../constants'
 
-const dayGodNames = [
+export const dayGodNames = [
   '天恩',
   '五合',
   '除神',
@@ -28,9 +28,9 @@ const dayGodNames = [
   '氣往亡'
 ] as const
 
-type DayGods = { [key in typeof dayGodNames[number]]: GodDictItem }
+export type DayGods = { [key in typeof dayGodNames[number]]: GodDictItem }
 
-const dayGods: DayGods = {
+export const dayGods: DayGods = {
   天恩: [
     getCheckGodFunc(
       lsr => [0, 1, 2, 3, 4, 15, 16, 17, 18, 19, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54],
@@ -444,5 +444,3 @@ const dayGods: DayGods = {
     }
   ]
 }
-
-export { dayGodNames, dayGods, DayGods }

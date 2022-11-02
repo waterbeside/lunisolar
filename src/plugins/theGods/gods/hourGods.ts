@@ -21,9 +21,9 @@ const hourGodNames = [
   '旬空'
 ] as const
 
-type HourGods = Record<typeof hourGodNames[number], GodDictItem>
+export type HourGods = Record<typeof hourGodNames[number], GodDictItem>
 
-const hourGods: HourGods = {
+export const hourGods: HourGods = {
   // 時神從日干起者
   日祿: [
     getCommonCheckGodFunc([2, 3, 5, 6, 5, 6, 8, 9, 11, 0], getStemValue, 0, 'day', getBranchValue),
@@ -303,5 +303,3 @@ const hourGods: HourGods = {
     }
   ]
 }
-
-export { hourGods, HourGods }

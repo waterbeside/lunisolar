@@ -121,7 +121,7 @@ const monthGodNames = [
   '地火'
 ] as const
 
-type MonthGods = Record<typeof monthGodNames[number], GodDictItem>
+export type MonthGods = Record<typeof monthGodNames[number], GodDictItem>
 
 const monthGodsA: { [key: string]: GodDictItem } = {
   // key : [取得方法, 属于年月日时用四位二进程表示]
@@ -1597,6 +1597,4 @@ const monthGodsB: { [key: string]: GodDictItem } = {
   地火: [...monthGodsA.月厭]
 }
 
-const monthGods: MonthGods = Object.assign({}, monthGodsA, monthGodsB) as MonthGods
-
-export { monthGods, MonthGods }
+export const monthGods: MonthGods = Object.assign({}, monthGodsA, monthGodsB) as MonthGods

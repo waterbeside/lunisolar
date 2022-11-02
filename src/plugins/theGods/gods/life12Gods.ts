@@ -6,7 +6,7 @@
 
 import { getBranchValue, getStemValue } from '../../../utils'
 
-const life12GodNames = [
+export const life12GodNames = [
   '長生',
   '沐浴',
   '冠帶',
@@ -19,13 +19,16 @@ const life12GodNames = [
   '絕',
   '胎',
   '養'
-] as const
+]
 
 /**
  * @param lsr The instance of Lunisolar
  * @returns [長生12神索引, 名稱key]
  */
-function getLife12God(lsr: lunisolar.Lunisolar, ymdh: YMDH = 'day'): [number, string] {
+export const getLife12God = function (
+  lsr: lunisolar.Lunisolar,
+  ymdh: YMDH = 'day'
+): [number, string] {
   const stemValue = getStemValue(lsr, ymdh)
   const branchValue = getBranchValue(lsr, ymdh)
   const offsetList = [1, 6, 10, 9, 10, 9, 7, 0, 4, 3]
@@ -35,4 +38,3 @@ function getLife12God(lsr: lunisolar.Lunisolar, ymdh: YMDH = 'day'): [number, st
   const key = life12GodNames[godIdx]
   return [godIdx, key]
 }
-export { life12GodNames, getLife12God }

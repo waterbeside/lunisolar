@@ -4,7 +4,7 @@
 */
 import { getBranchValue } from '../../../utils'
 
-const duty12GodNames = [
+export const duty12GodNames = [
   '建',
   '除',
   '滿',
@@ -147,7 +147,13 @@ const duty12GodData: {
   ]
 }
 
-function getDuty12GodIndexAndKey(
+export const getDuty12GodDataBykey = (key: string) => {
+  return duty12GodData.hasOwnProperty(key)
+    ? duty12GodData[key as typeof duty12GodNames[number]]
+    : null
+}
+
+export const getDuty12GodIndexAndKey = function (
   lsr: lunisolar.Lunisolar
 ): [number, typeof duty12GodNames[number]] {
   const godIdx = (getBranchValue(lsr, 'day') + 12 - getBranchValue(lsr, 'month')) % 12
@@ -159,7 +165,7 @@ function getDuty12GodIndexAndKey(
  * @param lsr The instance of Lunisolar
  * @returns [建除12神索引, 名稱，宜[], 忌[]]
  */
-function getDuty12God(
+export const getDuty12God = function (
   lsr: lunisolar.Lunisolar
 ): [number, string, string[] | null, string[] | null, GodDictItemExtra | null, number] {
   const [godIdx, key] = getDuty12GodIndexAndKey(lsr)
@@ -169,4 +175,3 @@ function getDuty12God(
   const [goodAct, badAct, extra, luckLevel] = duty12GodData[key]
   return [godIdx, key, goodAct, badAct, Object.assign({}, extraDefault, extra), luckLevel]
 }
-export { duty12GodNames, getDuty12GodIndexAndKey, getDuty12God }

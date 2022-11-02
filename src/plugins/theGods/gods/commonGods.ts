@@ -5,7 +5,7 @@ import { MEETING_DES } from '../constants'
 import { getLife12God } from './life12Gods'
 import { getDuty12GodIndexAndKey } from './duty12Gods'
 
-const commonGods: { [key: string]: GodDictItem } = {
+export const commonGods: { [key: string]: GodDictItem } = {
   劫煞: [
     getCommonCheckGodFunc([5, 2, 11, 8], getBranchValue, 4),
     null,
@@ -66,5 +66,3 @@ const commonGods: { [key: string]: GodDictItem } = {
     }
   ]
 }
-
-export { commonGods }

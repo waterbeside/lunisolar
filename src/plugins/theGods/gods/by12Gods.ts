@@ -104,7 +104,7 @@ export const getBy12GodIdx = (
   return [godIdx, godKey]
 }
 
-export const getBy12GodDataByKey = (key: typeof by12GodNames[number] | string) => {
+export const getBy12GodDataByKey = (key: string) => {
   return by12GodData.hasOwnProperty(key) ? by12GodData[key as typeof by12GodNames[number]] : null
 }
 

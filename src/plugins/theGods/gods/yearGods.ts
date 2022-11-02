@@ -11,7 +11,7 @@ import { getAct } from '../actData'
 const yearGodNames = [
   '歲德',
   '歲德合',
-  '歲禄',
+  '歲祿',
   '陽貴',
   '陰貴',
   '金神',
@@ -55,7 +55,7 @@ const yearGodNames = [
   '小耗'
 ] as const
 
-type YearGods = Record<typeof yearGodNames[number], GodDictItem>
+export type YearGods = Record<typeof yearGodNames[number], GodDictItem>
 
 const yearGodsA: { [key: string]: GodDictItem } = {
   // key : [取得方法, 属于年月日时用四位二进程表示]
@@ -77,7 +77,7 @@ const yearGodsA: { [key: string]: GodDictItem } = {
       showGB: true
     }
   ],
-  歲禄: [
+  歲祿: [
     getCommonCheckGodFunc([2, 3, 5, 6, 5, 6, 8, 9, 11, 0], getStemValue, 0, 'year', getBranchValue),
     null,
     null,
@@ -287,6 +287,4 @@ const yearGodsB: { [key: string]: GodDictItem } = {
   ]
 }
 
-const yearGods: YearGods = Object.assign({}, yearGodsA, yearGodsB) as YearGods
-
-export { yearGods, YearGods }
+export const yearGods: YearGods = Object.assign({}, yearGodsA, yearGodsB) as YearGods
