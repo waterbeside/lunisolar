@@ -131,8 +131,8 @@ export const computeSBMonthValueByTerm = (
   // 求月天干 （2018年12月大雪乃甲子月）
   let monthDiff =
     ((date.getFullYear() - SB0_MONTH[0]) * 12 + date.getMonth() - SB0_MONTH[1] + 1) % 60
-  monthDiff = (monthDiff < 0 ? 60 + monthDiff : monthDiff) + monthOffset
-  return monthDiff % 60
+
+  return (monthDiff + monthOffset + 60) % 60
 }
 
 /**
