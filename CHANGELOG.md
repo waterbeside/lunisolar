@@ -1,3 +1,12 @@
+## [1.3.1](https://github.com/waterbeside/lunisolar/compare/v1.3.0...v1.3.1) (2022-11-07)
+
+
+### Bug Fixes
+
+* 修复“2018.12月取不到在大雪之前的日期（12.01~12.06）的月柱"的问题 [#2](https://github.com/waterbeside/lunisolar/issues/2) ([ccc217d](https://github.com/waterbeside/lunisolar/commit/ccc217dffee86e1d9bf14a132cd7ad55e5c5db6b))
+
+
+
 # [1.3.0](https://github.com/waterbeside/lunisolar/compare/v1.2.0...v1.3.0) (2022-11-02)
 
 
