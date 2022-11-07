@@ -21,4 +21,10 @@ describe('utils', () => {
     expect(U.parseDate('2020-01-01')).toEqual(new Date('2020/01/01 00:00:00'))
     expect(U.parseDate('2020-01-01T12:00:00.000Z')).toEqual(new Date('2020-01-01T12:00:00.000Z'))
   })
+
+  it('computeSBMonthValueByTerm', () => {
+    const date = U.parseDate('2018-12-06')
+    const msbValue = U.computeSBMonthValueByTerm(date, 20, U.parseDate('2018-11-06T16:00:00.000Z'))
+    expect(msbValue).toBe(59)
+  })
 })

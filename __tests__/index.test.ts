@@ -30,6 +30,14 @@ describe('lunisolar().char8', () => {
     )
   })
 
+  it('test 2018-12', () => {
+    expect(lunisolar('2018-12-06').char8.month.toString()).toBe('癸亥')
+    expect(lunisolar('2018-12-05').char8.month.toString()).toBe('癸亥')
+    expect(lunisolar('2018-12-04').char8.month.toString()).toBe('癸亥')
+    expect(lunisolar('2018-12-03').format('cM')).toBe('癸亥')
+    expect(lunisolar('2018-12-02').format('cM')).toBe('癸亥')
+  })
+
   it('test en', () => {
     lunisolar.locale(en)
     lunisolar.config({
