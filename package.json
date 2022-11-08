@@ -30,7 +30,7 @@
     "type": "git",
     "url": "git+https://github.com/waterbeside/lunisolar"
   },
-  "license": "ISC",
+  "license": "GPL-3.0",
   "devDependencies": {
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
