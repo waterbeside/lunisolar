@@ -238,3 +238,27 @@ export function twoList2Dict<T = any>(keyList: string[], valueList: T[]): { [key
   }
   return res
 }
+
+const classTypeDict: { [key in 'stem' | 'branch' | 'trigram8' | 'element5']: [number, string] } = {
+  stem: [10, 'stems'],
+  branch: [12, 'branchs'],
+  trigram8: [8, 'eightTrigram'],
+  element5: [5, 'fiveElements']
+}
+
+// 处理天干、地支、八卦等value
+export const parseCommonCreateClassValue = function (
+  value: number | string,
+  type: 'stem' | 'branch' | 'trigram8' | 'element5',
+  lang: string,
+  gConfig: { [key: string]: any }
+): number {
+  if (typeof value === 'number') {
+    value = value % classTypeDict[type][0]
+  } else if (typeof value === 'string') {
+    const idx: number = gConfig.locales[lang][classTypeDict[type][1]].indexOf(value)
+    if (idx === -1) throw new Error(`Invalid ${type} value`)
+    value = idx
+  }
+  return value
+}
