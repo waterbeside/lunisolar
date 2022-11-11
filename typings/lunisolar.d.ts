@@ -93,6 +93,7 @@ declare namespace lunisolar {
     class 五行
   */
   export class Element5 {
+    static create(value: number | string | Element5, config?: ClassCommonConfig): Element5
     constructor(value: number | string | Element5, config?: ClassCommonConfig)
     toString(): string
     valueOf(): number
@@ -106,7 +107,9 @@ declare namespace lunisolar {
    * class 八卦
    */
   export class Trigram8 {
+    static create(value: number, config?: ClassCommonConfig): Trigram8
     constructor(value: number, config?: ClassCommonConfig)
+    get value(): number
     toString(): string
     valueOf(): number
   }
@@ -116,6 +119,7 @@ declare namespace lunisolar {
    * @param value 天干索引 | 天干名稱 | 天干實例
    */
   export class Stem {
+    static create(value: number | string | Stem, config?: ClassCommonConfig): Stem
     constructor(value: number | string | Stem, config?: ClassCommonConfig)
     toString(): string
     valueOf(): number
@@ -147,6 +151,7 @@ declare namespace lunisolar {
    * @param value 地支索引 | 地支名稱 | 地支實例
    */
   export class Branch {
+    static create(value: number | string | Branch, config?: ClassCommonConfig): Branch
     constructor(value: number | string | Branch, config?: ClassCommonConfig)
     toString(): string
     valueOf(): number
