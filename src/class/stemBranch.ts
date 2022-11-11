@@ -92,10 +92,7 @@ export class Stem {
     const lang = config?.lang || _GlobalConfig.lang
     value = parseCommonCreateClassValue(value, 'stem', lang, _GlobalConfig)
     const instMapKey = `${value}:${lang}`
-    if (Stem.instances.has(instMapKey)) {
-      console.log('run in stem instances')
-      return Stem.instances.get(instMapKey) as Stem
-    }
+    if (Stem.instances.has(instMapKey)) return Stem.instances.get(instMapKey) as Stem
     const inst = new Stem(value, config)
     Stem.instances.set(instMapKey, inst)
     return inst
