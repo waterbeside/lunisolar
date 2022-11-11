@@ -35,30 +35,30 @@ export const getDirection24List = (lang: string = 'zh'): DirectionList => {
     lang
   }
   return [
-    new Branch(0, config), // 0 子
-    new Stem(9, config), // 1 癸
-    new Branch(1, config), // 2 丑
-    new Trigram8(4, config), // 3 艮
-    new Branch(2, config), // 4寅
-    new Stem(0, config), // 5 甲
-    new Branch(3, config), // 6卯
-    new Stem(1, config), // 7乙
-    new Branch(4, config), // 8辰
-    new Trigram8(6, config), // 9巽
-    new Branch(5, config), // 10巳
-    new Stem(2, config), // 11丙
-    new Branch(6, config), // 12午
-    new Stem(3, config), // 13丁
-    new Branch(7, config), // 14未
-    new Trigram8(0, config), // 15坤
-    new Branch(8, config), // 16申
-    new Stem(6, config), // 17庚
-    new Branch(9, config), // 18酉
-    new Stem(7, config), // 19辛
-    new Branch(10, config), // 20戌
-    new Trigram8(7, config), // 21乾
-    new Branch(11, config), // 22亥
-    new Stem(8, config) // 23壬
+    Branch.create(0, config), // 0 子
+    Stem.create(9, config), // 1 癸
+    Branch.create(1, config), // 2 丑
+    Trigram8.create(4, config), // 3 艮
+    Branch.create(2, config), // 4寅
+    Stem.create(0, config), // 5 甲
+    Branch.create(3, config), // 6卯
+    Stem.create(1, config), // 7乙
+    Branch.create(4, config), // 8辰
+    Trigram8.create(6, config), // 9巽
+    Branch.create(5, config), // 10巳
+    Stem.create(2, config), // 11丙
+    Branch.create(6, config), // 12午
+    Stem.create(3, config), // 13丁
+    Branch.create(7, config), // 14未
+    Trigram8.create(0, config), // 15坤
+    Branch.create(8, config), // 16申
+    Stem.create(6, config), // 17庚
+    Branch.create(9, config), // 18酉
+    Stem.create(7, config), // 19辛
+    Branch.create(10, config), // 20戌
+    Trigram8.create(7, config), // 21乾
+    Branch.create(11, config), // 22亥
+    Stem.create(8, config) // 23壬
   ]
 }
 
