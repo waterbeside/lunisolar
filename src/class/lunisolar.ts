@@ -9,6 +9,7 @@ import { Char8 } from './char8'
 import { FIRST_YEAR, LAST_YEAR } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
 import { SB } from './stemBranch'
+import lunisolarFactory from '../index'
 
 export class Lunisolar implements ILunisolar {
   _config: LunisolarConfigData
@@ -20,6 +21,10 @@ export class Lunisolar implements ILunisolar {
   constructor(date?: DateParamType, config?: lunisolar.ConfigType) {
     this._date = parseDate(date)
     this._config = Object.assign({}, _GlobalConfig, config)
+  }
+
+  get lunisolar(): typeof lunisolarFactory {
+    return lunisolarFactory
   }
 
   get lunar(): Lunar {
