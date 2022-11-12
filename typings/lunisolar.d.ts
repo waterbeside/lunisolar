@@ -1,6 +1,6 @@
 declare function lunisolar(
   date?: lunisolar.DateConfigType,
-  configType?: lunisolar.configType
+  configType?: lunisolar.ConfigType
 ): lunisolar.Lunisolar
 
 declare namespace lunisolar {
@@ -110,6 +110,22 @@ declare namespace lunisolar {
     static create(value: number, config?: ClassCommonConfig): Trigram8
     constructor(value: number, config?: ClassCommonConfig)
     get value(): number
+    toString(): string
+    valueOf(): number
+  }
+
+  /**
+   * class 廿四山
+   */
+  export class Direction24 {
+    static create(value: number | Branch | Stem | Trigram8, config?: ClassCommonConfig): Direction24
+    static createFromAngle(angle: number, config: ClassCommonConfig): Direction24
+    constructor(value: number | Branch | Stem | Trigram8, config?: ClassCommonConfig)
+    get value(): number
+    get sign(): Stem | Branch | Trigram8
+    get signName(): string
+    get type(): string
+    get angle(): number
     toString(): string
     valueOf(): number
   }
@@ -353,6 +369,7 @@ declare namespace lunisolar {
     _char8?: Char8
     _cache: Map<string, any>
     constructor(date?: DateParamType, config?: ConfigType)
+    get lunisolar(): typeof lunisolar
     /**
      * get lunar object
      *

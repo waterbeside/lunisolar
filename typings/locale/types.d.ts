@@ -97,6 +97,10 @@ interface LocaleData {
     晦: string
   }
   /**
+   * the directions 四方八隅，按九宮數字順序
+   */
+  directions: string[]
+  /**
    * The format of the date
    */
   formats: {

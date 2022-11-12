@@ -50,6 +50,8 @@ const ja = {
   fiveElements: ['木', '火', '土', '金', '水'],
   // 八卦        0 1 2 3 4 5 6 7
   eightTrigram: '坤震坎兌艮離巽乾'.split(''),
+  // 方向       0    1      2     3     4       5     6     7      8     9
+  directions: ['', '北', '南西', '東', '南東', '中', '北西', '西', '北東', '南'],
   meridiem: null
 }
 

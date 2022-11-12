@@ -78,8 +78,20 @@ const en: ILocale = {
   ],
   // 五行
   fiveElements: ['Wood', 'Fire', 'Earth', 'Metal', 'Water'],
-  // 八卦        0 1 2 3 4 5 6 7
+  // 八卦           0     1     2     3     4         5    6    7
   eightTrigram: 'Earth_Thunder_Water_Lake_Mountain_Fire_Wind_Heaven'.split(''),
+  directions: [
+    '',
+    'North',
+    'Southwest',
+    'East',
+    'Southeast',
+    'Central',
+    'Northwest',
+    'West',
+    'Northeast',
+    'South'
+  ],
   meridiem: undefined
 }
 

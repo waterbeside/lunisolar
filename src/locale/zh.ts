@@ -46,6 +46,8 @@ const locale: LocaleData = {
     弦: '弦',
     晦: '晦'
   },
+  // 方向       0   1       2     3     4       5     6     7      8     9
+  directions: ['', '北', '西南', '東', '東南', '中', '西北', '西', '東北', '南'],
   formats: {
     LT: 'HH:mm',
     LTS: 'HH:mm:ss',
