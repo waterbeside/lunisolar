@@ -9,6 +9,12 @@ import { orderActs, getTodayActs } from '../utils/extractGodActs'
 import { arToString, prettyGetGodsYMDH, checkQueryString } from '../utils'
 import { getAllDayHourGods, getAllDayHourLucks } from '../utils/allDayHourGods'
 import { getGods, createGod } from '../gods/index'
+import {
+  dayGoodGodNames,
+  dayGoodGods,
+  createGod as createDayGoodGod
+} from '../directionGods/dayGoodGods'
+import { trans } from '../locale'
 
 export class TheGods {
   private _cache = new Map<string, any>()
@@ -109,6 +115,40 @@ export class TheGods {
 
   getLuckHours(luckType: 0 | 1 = 0): number[] {
     return getAllDayHourLucks(this.lsr, luckType)
+  }
+
+  getAllLuckDirection(): DayLuckGodsDirectionRes[] {
+    const cacheKey = 'theGods:allLuckDirection'
+    if (this._cache.has(cacheKey)) return this._cache.get(cacheKey)
+    const res: DayLuckGodsDirectionRes[] = dayGoodGodNames.map(item => {
+      return this.getLuckDirection(item)
+    })
+    this._cache.set(cacheKey, res)
+    return res
+  }
+
+  getLuckDirection(godKeyOrName: typeof dayGoodGodNames[number]): DayLuckGodsDirectionRes
+  getLuckDirection(godKeyOrName: string): DayLuckGodsDirectionRes | null {
+    // trans
+    let godKey = dayGoodGodNames.find(item => {
+      if (item === godKeyOrName) return true
+      const tString = trans(item, this.lang, 'gods')
+      if (tString === godKeyOrName) return true
+      return false
+    })
+    if (!godKey) return null
+    const itemCacheKey = `theGods:luckDirection:${godKey}`
+    if (this._cache.has(itemCacheKey)) return this._cache.get(itemCacheKey)
+    const stemValue = this.lsr.char8.day.stem.value
+    const godData = dayGoodGods[godKey]
+    const ruleLen = godData.rule.length
+    const d24Value = godData.rule[stemValue % ruleLen]
+    const itemRes: DayLuckGodsDirectionRes = [
+      this.lsr.lunisolar.Direction24.create(d24Value, { lang: this.lang }),
+      createDayGoodGod(godKey, this.lang)
+    ]
+    this._cache.set(itemCacheKey, itemRes)
+    return itemRes
   }
 
   getDuty12God(): God {
