@@ -23,7 +23,7 @@ const godsDicts = {
   monthSeason: monthSeasonGods
 }
 
-const godsPool = new Map<string, GodBase>()
+export const godsPool = new Map<string, GodBase>()
 
 /**
 验证是否附合神煞
