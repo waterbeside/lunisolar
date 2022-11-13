@@ -95,9 +95,17 @@ type FromGodsType =
   | 'duty'
   | 'blackYellow'
   | 'life'
-type GodClassOpt = { key: string; cate: YMDH; fromDict?: FromDictType; lang?: string }
+type GodClassOpt = {
+  godBase?: GodBase
+  key?: string
+  cate?: YMDH
+  fromDict?: FromDictType
+  lang?: string
+}
 
 type ActsSet = {
   good: Set<string>
   bad: Set<string>
 }
+
+type DayLuckGodsDirectionRes = [Direction24, God]

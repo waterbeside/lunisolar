@@ -7,9 +7,13 @@ export class God {
   private lang: string = 'zh'
   supple = new Map<string, any>()
   constructor(opt: GodClassOpt) {
-    // PASS
     const { key, cate, fromDict, lang } = opt
-    const godBase = createGodBase(key, cate, fromDict)
+    let godBase: GodBase | undefined
+    if (typeof opt.godBase !== 'undefined') {
+      godBase = opt.godBase
+    } else if (typeof key !== 'undefined' && typeof cate !== 'undefined') {
+      godBase = createGodBase(key, cate, fromDict)
+    }
     if (!godBase) {
       throw new Error('no this god')
     }
