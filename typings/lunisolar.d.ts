@@ -9,7 +9,10 @@ declare namespace lunisolar {
   export interface Locale extends ILocale {}
   export const _globalConfig: GlobalConfig
   /**
+   * ## class Lunar
    * 陰歷對象
+   * @param date 日期对象
+   * @param config 设置
    */
   export class Lunar {
     constructor(date: Date, config?: ClassCommonConfig)
@@ -90,8 +93,11 @@ declare namespace lunisolar {
   }
 
   /**
-    class 五行
-  */
+   * ## class Element5
+   * 五行
+   * @param value 五行索引值或五行对象
+   * @param config 设置
+   */
   export class Element5 {
     static create(value: number | string | Element5, config?: ClassCommonConfig): Element5
     constructor(value: number | string | Element5, config?: ClassCommonConfig)
@@ -104,7 +110,10 @@ declare namespace lunisolar {
   }
 
   /**
-   * class 八卦
+   * ## class Trigram8
+   * 八卦
+   * @param value 八卦各爻作为二进制时的总和数
+   * @param config 设置
    */
   export class Trigram8 {
     static create(value: number, config?: ClassCommonConfig): Trigram8
@@ -115,7 +124,10 @@ declare namespace lunisolar {
   }
 
   /**
-   * class 廿四山
+   * ## class Direction24
+   * 廿四山
+   * @param value 24山索引值 | 天干实例 | 地支实例 | 八卦实例
+   * @param config 设置
    */
   export class Direction24 {
     static create(value: number | Branch | Stem | Trigram8, config?: ClassCommonConfig): Direction24
@@ -131,8 +143,10 @@ declare namespace lunisolar {
   }
 
   /**
-   * class 天干
+   * ## class Stem
+   * 天干
    * @param value 天干索引 | 天干名稱 | 天干實例
+   * @param config 设置
    */
   export class Stem {
     static create(value: number | string | Stem, config?: ClassCommonConfig): Stem
@@ -163,8 +177,10 @@ declare namespace lunisolar {
   }
 
   /**
-   * class 地支
-   * @param value 地支索引 | 地支名稱 | 地支實例
+   * ## class Branch
+   * 地支
+   * @param value 地支索引 | 天干名稱 | 天干實例
+   * @param config 设置
    */
   export class Branch {
     static create(value: number | string | Branch, config?: ClassCommonConfig): Branch
@@ -198,9 +214,12 @@ declare namespace lunisolar {
   }
 
   /**
-   * class 天干地支组合(八字單柱)
+   * ## class SB
+   * 天干地支组合(八字單柱)
    *
    * SB為 StemBranch 的簡寫
+   * @param value 60位的天干地支組合的索引值
+   * @param config 设置
    */
   export class SB {
     /**
@@ -233,8 +252,10 @@ declare namespace lunisolar {
   }
 
   /**
-   * class 節氣
+   * ## class SolarTerm
+   * 節氣
    * @param value 節氣索引 | 節氣名稱 | 節氣實例
+   * @param config 设置
    */
   export class SolarTerm {
     constructor(value: number | string | SolarTerm, config?: ClassCommonConfig)
@@ -295,7 +316,8 @@ declare namespace lunisolar {
   }
 
   /**
-   * class 八字
+   * ## class Char8
+   * 八字
    */
   export class Char8 {
     /**
@@ -359,7 +381,9 @@ declare namespace lunisolar {
   }
 
   /**
-   * class Lunisolar
+   * ## class Lunisolar
+   * @param date 日期对象 | 日期字符串
+   * @param config 设置
    */
   export class Lunisolar implements ILunisolar {
     _config: LunisolarConfigData
