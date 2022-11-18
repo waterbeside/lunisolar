@@ -1,5 +1,6 @@
 import lunisolar from '../src'
 import en from '../src/locale/en'
+import ja from '../src/locale/ja'
 
 describe('lunisolar().char8', () => {
   it('更改换岁时机, 冬至换岁，中气换月', () => {
@@ -60,5 +61,116 @@ describe('lunisolar().solarTerm', () => {
     expect(lunisolar('2022-02-22').recentSolarTerm(0)[0].toString()).toBe('立春')
     expect(lunisolar('2022-02-22').recentSolarTerm(1)[0].toString()).toBe('雨水')
     expect(lunisolar('2022-02-22').recentSolarTerm(2)[0].toString()).toBe('雨水')
+  })
+})
+
+describe('lunisolar.fromLunar', () => {
+  lunisolar.locale(ja, true)
+  it('阴历反查', () => {
+    expect(
+      lunisolar
+        .fromLunar({
+          year: 2022,
+          month: 10,
+          day: 25
+        })
+        .format('YYYY-MM-DD')
+    ).toBe('2022-11-18')
+
+    expect(
+      lunisolar
+        .fromLunar({
+          year: 2020,
+          month: 104,
+          day: 24
+        })
+        .format('YYYY-MM-DD')
+    ).toBe('2020-06-15')
+
+    expect(
+      lunisolar
+        .fromLunar({
+          year: '二〇二零',
+          month: '閏四月',
+          day: '廿四'
+        })
+        .format('YYYY-MM-DD')
+    ).toBe('2020-06-15')
+
+    expect(
+      lunisolar
+        .fromLunar({
+          year: 2020,
+          month: 4,
+          day: 24,
+          isLeapMonth: true
+        })
+        .format('YYYY-MM-DD')
+    ).toBe('2020-06-15')
+
+    expect(
+      lunisolar
+        .fromLunar({
+          year: 2020,
+          month: 4,
+          day: 24
+        })
+        .format('YYYY-MM-DD')
+    ).toBe('2020-05-16')
+
+    expect(
+      lunisolar
+        .fromLunar({
+          year: 1991,
+          month: 10,
+          day: 5
+        })
+        .format('YYYY-MM-DD')
+    ).toBe('1991-11-10')
+
+    expect(
+      lunisolar
+        .fromLunar({
+          year: '一九九一',
+          month: '十月',
+          day: '初五'
+        })
+        .format('YYYY-MM-DD')
+    ).toBe('1991-11-10')
+
+    expect(
+      lunisolar
+        .fromLunar({
+          year: 2022,
+          month: 12,
+          day: 30
+        })
+        .format('YYYY-MM-DD')
+    ).toBe('2023-01-21')
+
+    expect(
+      lunisolar
+        .fromLunar({
+          year: 2023,
+          month: 1,
+          day: 1
+        })
+        .format('YYYY-MM-DD')
+    ).toBe('2023-01-22')
+
+    expect(
+      lunisolar
+        .fromLunar(
+          {
+            year: '二〇二〇',
+            month: '睦月',
+            day: '一日'
+          },
+          {
+            lang: 'ja'
+          }
+        )
+        .format('YYYY-MM-DD')
+    ).toBe('2020-01-25')
   })
 })
