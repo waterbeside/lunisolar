@@ -5,6 +5,7 @@
 具体包含以下功能：
 
 - ✅公历日期转阴历日期
+- ✅阴历转公历
 - ✅八字查询
 - ✅节气日期查询
 - ✅每日胎神
@@ -34,6 +35,7 @@
   - [2 解释 (创建Lunisolar对象)](#2-解释-创建lunisolar对象)
     - [2.1 解释 (Parse)](#21-解释-parse)
     - [2.2 克隆 Lunisolar 实例对象](#22-克隆-lunisolar-实例对象)
+    - [2.3 阴历反查](#23-阴历反查)
   - [3 Lunisolar类](#3-lunisolar类)
     - [格式化数据 format](#格式化数据-format)
     - [时间差 diff](#时间差-diff)
@@ -103,6 +105,13 @@ d.char8.year.branch.hiddenStems // [甲, 丙, 戊]  （地支藏干的天干对�
 
 // 节气
 lunisolar('2022-07-23').solarTerm?.toString() // 大暑 （返回当天的节气，如果不是节气则solarTerm().solarTerm返回null）
+
+// 阴历反查 （阴历转公历）
+lunisolar.fromLunar({
+  year: 2022,
+  month: 10,
+  day: 25
+}).fromat('YYYY-MM-DD') // 2022-11-18
 
 ```
 
@@ -224,18 +233,18 @@ import * as lunisolar from 'lunisolar'
 ```html
 <script src="path/to/lunisolar.js"></script>
 <!-- or src from unpkg ( 请根据需求选择版本号 ↓ )-->
-<script src="https://unpkg.com/lunisolar@1.3.1/dist/lunisolar.js"></script>
+<script src="https://unpkg.com/lunisolar@1.4.0/dist/lunisolar.js"></script>
 ```
 
 ## 2 解释 (创建Lunisolar对象)
 
 ### 2.1 解释 (Parse)
 
-通过lunisolar函数创建一个Lunisolar对象：
+通过lunisolar函数创建一个Lunisolar实例对象：
 
-`lunisolar(param: String | Number | Date | Lunisolar): Lunisolar`
+`lunisolar(param: String | Number | Date | Lunisolar, config?: ConfigType): Lunisolar`
 
-```javascript
+```typescript
 // 传入字符串
 lunisolar('2022-07-18 14:40')
 lunisolar('2022/07/18')
@@ -247,6 +256,13 @@ lunisolar(1658289207143)
 lunisolar(new Date(2022, 6, 20))
 // 传入Lunisolar对象时，将克隆一个Lunisolar对象
 lunisolar(lunisolar())
+
+//
+const config = {
+  lang: 'en' // 更改用语言，需先加载对应语言包，详见文档 【国际化】的说明
+}
+lunisolar('2022-07-18 14:40', config)
+
 ```
 
 ### 2.2 克隆 Lunisolar 实例对象
@@ -254,6 +270,99 @@ lunisolar(lunisolar())
 ```javascript
 const lsr1 = lunisolar('2022-07-18 14:40')
 const lsr2 = lsr1.clone()
+```
+
+### 2.3 阴历反查
+
+通过阴历数据创建一个Lunisolar实例对象，此法可用来阴历转公历:
+
+`lunisolar.fromLunar(lunarData: LunarData, config: ConfigType): Lunisolar`
+
+参数说明
+
+**lunarData**: LunarData
+
+```typescript
+type LunarData = {
+  year?: number | string 
+  // 该年正月初一所在公历年的年份，可以是字符串，默认值为当前日期的年份
+
+  month: number | string 
+  // 阴历月份，可以是字符串，必填, 当月份数大于100时，表明时闰月，如闰4月，可输入104
+  
+  day: number | string 
+  // 阴历日，可以是字符串，必填
+
+  hour?: number | string 
+  // 时辰索引值或时辰名，默认为0, 即子时。设置时辰后，返回的小时为该时辰的中间时间，如寅时，会返回4点正的时间。
+
+  isLeapMonth?: boolean 
+  // 指明月份是否闰月，默认为false, 当month设为大于100的数时，会无视此设置
+
+}
+```
+
+示例1
+
+```typescript
+const lunarData = {
+  year: 2022,
+  month: 10,
+  day: 25
+}
+const lsr = lunisolar.fromLunar(lunarData) // 成功创建一个个Lunisolar实例对象
+
+console.log(lsr.format('YYYY-MM-DD')) // 2022-11-18
+```
+
+示例2
+
+你也可以使用汉字进行阴历反查
+
+```typescript
+// lunisolar默认使用繁体中文语言包，此语言包默认自动加载，可直接使用繁体中文
+// 使用其它语言包参考示例3
+const lunarData = {
+    year: '二〇二〇',
+    month: '閏四月', 
+    day: '廿四'
+  }
+const lsr = lunisolar.fromLunar(lunarData) // 成功创建一个个Lunisolar实例对象
+console.log(lsr.format('YYYY-MM-DD')) // 2020-06-15
+```
+
+示例3
+
+使用简体中文进行阴历反查
+
+```typescript
+import lunisolar from 'lunisolar'
+import zhCn from 'lunisolar/locale/zh-cn'
+import ja from 'lunisolar/locale/ja'
+lunisolar.locale(ja) // 加载日文语言包
+lunisolar.locale(zhCn) // 加载简体中文语言包，最后加载者，会全局默认使用该语言包
+
+const lunarData = {
+    year: '二〇二〇',
+    month: '闰四月',  // 此时，如果还是使用繁体的“閏”字会报错。
+    day: '廿四'
+  }
+const lsr = lunisolar.fromLunar(lunarData) // 成功创建一个个Lunisolar实例对象
+
+console.log(lsr.format('YYYY-MM-DD')) // 2020-06-15
+
+// lunisolar.locale(zhCn) 加载简体中文语言名后，会全局使用zh-cn语言包
+// 如果个别实例想使用其它语言包可通config进行临时更改，如使用日文，
+const lsr2 = lunisolar.fromLunar({
+    year: '二〇二〇',
+    month: '睦月', 
+    day: '一日'
+  }, {
+  lang: 'ja' // 指正要使用的语言包名
+})
+
+console.log(lsr.format('YYYY-MM-DD')) // 2020-01-25
+
 ```
 
 ## 3 Lunisolar类
@@ -722,10 +831,16 @@ lunisolar.locale(en)
 // 此时，lunisolar将全属使用en作为默认语言
 lunisolar('2017-12-01').char8.month.toString() // Xin-Hai
 
+// 如果locale方法第二参数设为true，加载语言包时不会变更默认使用的语言包
+lunisolar.locale(en, true)
+
+
+// --------------------------------------
 // 如果不想使用en作为全局默认语言，可通以下方法更改全局配置
 lunisolar.config({
   lang: 'zh' // 设换默认语言为繁体中文
 })
+
 
 lunisolar('2017-12-01').char8.month.toString() // 辛亥
 
@@ -737,13 +852,20 @@ lunisolar('2017-12-01', { lang: 'en' }).char8.month.toString() // Xin-Hai
 lunisolar内置的语言包有：
 
 ```typescript
-// zh 繁体中文 (默认自动加载，请勿重复加载)
+// 繁体中文 (默认自动加载，请勿重复加载)
+// 语言包名：zh 
 import zh from 'lunisolar/locale/zh' 
-// zh-cn 简体中文
+
+// 简体中文
+// 语言包名：zh-cn 
 import zhCn from 'lunisolar/locale/zh-cn' 
-// en 英文
+
+// 英文
+// 语言包名：en 
 import en from 'lunisolar/locale/en' 
-// ja 日文
+
+// 日文
+// 语言包名：ja 
 import ja from 'lunisolar/locale/ja'
 ```
 
