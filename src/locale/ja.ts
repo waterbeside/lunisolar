@@ -1,11 +1,3 @@
-const lunarMonths = (() => {
-  const res = []
-  for (let i = 1; i < 13; i++) {
-    res.push(`${i}月`)
-  }
-  return res
-})()
-
 const ja = {
   name: 'ja',
   leap: '閏',
@@ -21,16 +13,20 @@ const ja = {
     }
     return res
   })(),
-  lunarMonths,
-  lunarMonthsAlias: [...lunarMonths],
-  lunarDays: (() => {
-    const res = []
-    for (let i = 1; i < 31; i++) {
-      res.push(`${i}日`)
-    }
-    return res
-  })(),
-  numerals: '0123456789'.split(''),
+  lunarMonths: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
+  lunarMonthsAlias: '睦月_如月_弥生_卯月_皐月_水無月_文月_葉月_長月_神無月_霜月_師走'.split('_'),
+  lunarDays:
+    '一_二_三_四_五_六_七_八_九_十_十一_十二_十三_十四_十五_十六_十七_十八_十九_二十_廿一_廿二_廿三_廿四_廿五_廿六_廿七_廿八_廿九_三十'
+      .split('_')
+      .map(i => i + '日'),
+  // lunarDays: (() => {
+  //   const res = []
+  //   for (let i = 1; i < 31; i++) {
+  //     res.push(`${i}日`)
+  //   }
+  //   return res
+  // })(),
+  numerals: '〇一二三四五六七八九十'.split(''),
   constellationName:
     '牡羊座_牡牛座_双子座_蟹座_獅子座_乙女座_天秤座_射手座_蠍座_山羊座_水瓶座_魚座'.split('_'),
   // 二十四节气
