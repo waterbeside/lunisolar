@@ -1,3 +1,15 @@
+# [1.4.0](https://github.com/waterbeside/lunisolar/compare/v1.3.1...v1.4.0) (2022-11-18)
+
+
+### Features
+
+* 八卦、天干、地支、五行 等类添加create方法以代替new构造函数 ([379bd99](https://github.com/waterbeside/lunisolar/commit/379bd9920b4795c6f969765e2b11ed5b8e451573))
+* 吉神方 ([d16224b](https://github.com/waterbeside/lunisolar/commit/d16224bfe384a3c724833beb48d57422097dbdc8))
+* 添加二十四山类 ([8883861](https://github.com/waterbeside/lunisolar/commit/888386127534b215c12d86b9dbd7aaf8cdd247d2))
+* 阴历反查 ([4ad839a](https://github.com/waterbeside/lunisolar/commit/4ad839a1236a499309131a7330b2a5cb2fc93e19))
+
+
+
 ## [1.3.1](https://github.com/waterbeside/lunisolar/compare/v1.3.0...v1.3.1) (2022-11-07)
 
 
