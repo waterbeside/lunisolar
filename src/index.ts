@@ -7,10 +7,11 @@ import { Element5 } from './class/element5'
 import { Trigram8 } from './class/trigram8'
 import { Direction24 } from './class/direction24'
 import { _GlobalConfig } from './config'
+import { parseFromLunar } from './utils'
 import zh from './locale/zh'
 
 export default function lunisolar(
-  date: DateConfigType | Lunisolar,
+  date?: DateConfigType | Lunisolar,
   config?: ConfigType
 ): Lunisolar {
   if (date instanceof Lunisolar) {
@@ -29,6 +30,11 @@ lunisolar.Element5 = Element5
 lunisolar.Lunisolar = Lunisolar
 lunisolar.Trigram8 = Trigram8
 lunisolar.Direction24 = Direction24
+
+lunisolar.fromLunar = function (param: ParseFromLunarParam, config?: ConfigType): Lunisolar {
+  const date = parseFromLunar(param, config?.lang)
+  return new Lunisolar(date, config)
+}
 
 /**
  * 更新全局配置

@@ -1,5 +1,12 @@
 import { REGEX_PARSE, UNITS } from '../constants'
 import { SB0_MONTH } from '../constants/calendarData'
+import { _GlobalConfig } from '../config'
+import {
+  FIRST_YEAR,
+  LAST_YEAR,
+  LUNAR_MONTH_DATAS,
+  LUNAR_NEW_YEAR_DATE
+} from '../constants/lunarData'
 
 /**
  * 处理日期单位
@@ -22,13 +29,11 @@ export const prettyUnit = (unit?: Unit): UnitFullNameLower | '' => {
 export const parseDate = (date?: DateParamType): Date => {
   if (typeof date === 'undefined') return new Date()
   if (date === null) return new Date(NaN) // null is invalid
-  if (
-    typeof date === 'object' &&
-    !(date instanceof Date) &&
-    typeof date._date !== 'undefined' &&
-    date._date instanceof Date
-  )
-    return date._date
+  if (typeof date === 'object' && !(date instanceof Date) && typeof date.toDate !== 'undefined') {
+    const dToDate = date.toDate()
+    if (dToDate instanceof Date) return dToDate
+  }
+
   if (date instanceof Date) return date
   if (typeof date === 'string' && !/Z$/i.test(date)) {
     const d = date.match(REGEX_PARSE) as any
@@ -39,6 +44,112 @@ export const parseDate = (date?: DateParamType): Date => {
     }
   }
   return new Date(date as string | number)
+}
+
+/**
+ * 取得春节在该年哪天
+ * @param year 年份
+ * @returns Date对象
+ */
+export const getLunarNewYearDay = function (year: number): Date {
+  const lnyd = LUNAR_NEW_YEAR_DATE[year - FIRST_YEAR]
+  return parseDate(`${year}/${Math.floor(lnyd / 100)}/${lnyd % 100}`)
+}
+
+/**
+ * 取出当年闰月
+ * @param year 年份
+ * @returns [闰月月份，是否大月]
+ */
+export const getYearLeapMonth = function (year: number): [number, boolean] {
+  const monthData = LUNAR_MONTH_DATAS[year - FIRST_YEAR]
+  // 取出闰月
+  const leapMonth = monthData >> 13
+  const leapMonthIsBig = (monthData >> 12) & 1
+  return [leapMonth, leapMonthIsBig === 1]
+}
+
+export const prettyLunarData = function (lunarData: ParseFromLunarParam, lang?: string) {
+  const locale = _GlobalConfig.locales[lang ?? _GlobalConfig.lang]
+  if (typeof lunarData.year === 'string') {
+    let yearString = ''
+    for (let i = 0; i < lunarData.year.length; i++) {
+      let n = -1
+      if (lunarData.year[i] === '零' || lunarData.year[i] === '〇') n = 0
+      else {
+        n = locale.numerals.indexOf(lunarData.year[i])
+      }
+      yearString += n >= 0 ? n : ''
+    }
+    if (lunarData.year === '二〇二〇') {
+      console.log(yearString)
+    }
+
+    lunarData.year = Number(yearString)
+  }
+  if (typeof lunarData.month === 'string') {
+    let month = lunarData.month
+    if (month[0] === locale.leap) {
+      // 闰月处理
+      lunarData.isLeapMonth = true
+      month = lunarData.month.slice(1)
+    }
+    let newMonth = locale.lunarMonths.indexOf(month)
+    if (newMonth === -1) {
+      newMonth = locale.lunarMonthsAlias.indexOf(month)
+    }
+    lunarData.month = lunarData.isLeapMonth ? newMonth + 100 + 1 : newMonth + 1
+  }
+  if (typeof lunarData.day === 'string') {
+    lunarData.day = locale.lunarDays.indexOf(lunarData.day) + 1
+  }
+  if (typeof lunarData.hour === 'string') {
+    lunarData.hour = locale.branchs.indexOf(lunarData.hour)
+  }
+}
+
+/**
+ * 从阴历解释数据
+ * @param lunarData 阴历数据
+ * @returns Date对象
+ */
+export const parseFromLunar = function (lunarData: ParseFromLunarParam, lang?: string) {
+  prettyLunarData(lunarData, lang)
+  const date = new Date()
+  const year = lunarData.year ? Number(lunarData.year) : date.getFullYear()
+  let month = Number(lunarData.month)
+  const day = Number(lunarData.day)
+  const hour = lunarData.hour ? Number(lunarData.hour) : 0
+  let isLeapMonth = lunarData.isLeapMonth ?? false
+  if (month > 100) {
+    month -= 100
+    isLeapMonth = true
+  }
+  // 計算年份
+  if (year < FIRST_YEAR || year > LAST_YEAR) {
+    throw new Error('Invalid lunar year: out of range')
+  }
+  if (month < 1) {
+    throw new Error('Invalid lunar month')
+  }
+  const nyd = getLunarNewYearDay(year)
+  const [leapMonth, leapMonthIsBig] = getYearLeapMonth(year)
+  if (isLeapMonth && leapMonth !== month) {
+    throw new Error('Invalid lunar leap month: no this leap month')
+  }
+  const monthData = LUNAR_MONTH_DATAS[year - FIRST_YEAR]
+  const monthIsBig = isLeapMonth ? leapMonthIsBig : (monthData >> (month - 1)) & 1
+  let daySum = 0
+  for (let i = 0; i < month; i++) {
+    const isBig = (monthData >> i) & 1
+    daySum += isBig ? 30 : 29
+    if (i === month - 1 && !isLeapMonth) break
+    if (i === leapMonth - 1) {
+      daySum += leapMonthIsBig ? 30 : 29
+    }
+  }
+  daySum -= (monthIsBig ? 30 : 29) - day + 1
+  return new Date(nyd.valueOf() + daySum * 24 * 60 * 60 * 1000 + hour * 2 * 60 * 60 * 1000)
 }
 
 /**

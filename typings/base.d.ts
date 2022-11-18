@@ -102,3 +102,11 @@ type StemOrBranchValueFunc = (
   ymdh: 'year' | 'month' | 'day' | 'hour',
   div?: number
 ) => number
+
+type ParseFromLunarParam = {
+  year?: number | string
+  month: number | string
+  day: number | string
+  hour?: number | string
+  isLeapMonth?: boolean
+}

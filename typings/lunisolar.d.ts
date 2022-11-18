@@ -15,6 +15,7 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Lunar {
+    static fromLunar(lunarData: ParseFromLunarParam, config?: ClassCommonConfig): Lunar
     constructor(date: Date, config?: ClassCommonConfig)
     /**
      * Return string like '二〇二一年冬月廿九子時'
@@ -68,6 +69,11 @@ declare namespace lunisolar {
      * 月相
      */
     get phaseOfTheMoon(): string
+
+    /**
+     * 取得Date对象
+     */
+    toDate(): Date
     /**
      * 取得該年陰歷正月初一的所在公歷年(中文)
      */
@@ -530,6 +536,15 @@ declare namespace lunisolar {
     lsClass: typeof lunisolar.Lunisolar,
     lsFactory: typeof lunisolar
   ) => Promise<void> | void
+
+  /**
+   * Get the Lunisolar instance by lunar data
+   *
+   * 通过阴历数据创建lunisolar实例（阴历反查）
+   * @param lunarData 阴历数据 {year, month, day, hour, isLeapMonth}
+   * @param config 创建Lunisolar实例时对应的设置
+   */
+  export function fromLunar(lunarData: ParseFromLunarParam, config?: configType): Lunisolar
 
   /**
    * Setting global Configuration

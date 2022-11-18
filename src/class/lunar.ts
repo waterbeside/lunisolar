@@ -1,25 +1,13 @@
-import { parseDate, phaseOfTheMoon } from '../utils'
-
 import {
-  FIRST_YEAR,
-  LAST_YEAR,
-  LUNAR_MONTH_DATAS,
-  LUNAR_NEW_YEAR_DATE
-} from '../constants/lunarData'
+  parseDate,
+  phaseOfTheMoon,
+  getLunarNewYearDay,
+  getYearLeapMonth,
+  parseFromLunar
+} from '../utils'
+
+import { FIRST_YEAR, LAST_YEAR, LUNAR_MONTH_DATAS } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
-
-function getLunarNewYearDay(year: number): Date {
-  const lnyd = LUNAR_NEW_YEAR_DATE[year - FIRST_YEAR]
-  return parseDate(`${year}/${Math.floor(lnyd / 100)}/${lnyd % 100}`)
-}
-
-function getYearLeapMonth(year: number): [number, boolean] {
-  const monthData = LUNAR_MONTH_DATAS[year - FIRST_YEAR]
-  // 取出闰月
-  const leapMonth = monthData >> 13
-  const leapMonthIsBig = (monthData >> 12) & 1
-  return [leapMonth, leapMonthIsBig === 1]
-}
 
 /**
  * @param year 春節所在的公歷年
@@ -77,6 +65,11 @@ export class Lunar {
   leapMonthIsBig: boolean
   private _config = {
     lang: _GlobalConfig.lang
+  }
+
+  static fromLunar(param: ParseFromLunarParam, config?: ClassCommonConfig): Lunar {
+    const date = parseFromLunar(param, config?.lang)
+    return new Lunar(date, config)
   }
 
   constructor(dateObj: DateParamType, config?: ClassCommonConfig) {
@@ -151,6 +144,7 @@ export class Lunar {
   get hour(): number {
     return this._h
   }
+
   /**
    * 当年正月初一的日期
    */
@@ -171,6 +165,10 @@ export class Lunar {
    */
   get phaseOfTheMoon(): string {
     return phaseOfTheMoon(this, _GlobalConfig.locales[this._config.lang])
+  }
+
+  toDate(): Date {
+    return new Date(this._date.valueOf())
   }
 
   getYearName(): string {
