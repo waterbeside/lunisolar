@@ -1,6 +1,6 @@
 {
   "name": "lunisolar",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "一个Typescript农历库，支持各类黄历数据查询，如八字四柱、阴历、神煞宜忌、时辰吉凶、建除十二神、胎神占方、五行纳音等，数据基于《协纪辨方书》、“香港天文台-公历与农历日期对照表“，专业可靠。支持自定义插件。",
   "main": "dist/lunisolar.js",
   "module": "dist/lunisolar.esm.js",
