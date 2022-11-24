@@ -160,6 +160,16 @@ describe('lunisolar.fromLunar', () => {
 
     expect(
       lunisolar
+        .fromLunar({
+          year: 2022,
+          month: 10,
+          day: 30
+        })
+        .format('YYYY-MM-DD')
+    ).toBe('2022-11-23')
+
+    expect(
+      lunisolar
         .fromLunar(
           {
             year: '二〇二〇',
