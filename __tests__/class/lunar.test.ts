@@ -49,4 +49,23 @@ describe('test lunar class', () => {
     expect(ldoy.getMonth()).toBe(0)
     expect(ldoy.getDate()).toBe(21)
   })
+
+  it('2017-08-21', () => {
+    for (let i = 1; i <= 31; i++) {
+      const lr = new Lunar(`2017/08/${i}`)
+      // console.log(lr.toString())
+      expect(lr.day).toBe((i + 9) % 30 || 30)
+    }
+  })
+
+  it('2022/11/23', () => {
+    let lastLr
+    for (let i = 1; i <= 23; i++) {
+      const lr = new Lunar(`2022/11/${i}`)
+      // console.log(`2022/11/${i}`, lr.toString())
+      expect(lr.day).toBe(i + 7)
+      lastLr = lr
+    }
+    expect(lastLr?.isBigMonth).toBe(true)
+  })
 })
