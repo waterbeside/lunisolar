@@ -1,3 +1,12 @@
+## [1.4.1](https://github.com/waterbeside/lunisolar/compare/v1.4.0...v1.4.1) (2022-11-24)
+
+
+### Bug Fixes
+
+* 修复“取不到阴历三十日”的问题 [#3](https://github.com/waterbeside/lunisolar/issues/3) ([b9b0945](https://github.com/waterbeside/lunisolar/commit/b9b09454d11e4a3b7422b038afe505c2108ff5e7))
+
+
+
 # [1.4.0](https://github.com/waterbeside/lunisolar/compare/v1.3.1...v1.4.0) (2022-11-18)
 
 
