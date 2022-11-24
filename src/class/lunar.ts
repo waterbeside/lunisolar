@@ -37,6 +37,10 @@ function getLunarMonthDate(
         break
       }
     }
+    if (dateDiff === 0) {
+      dateDiff = 30
+      break
+    }
     month++
   }
   return [isLeap ? 100 + month : month, dateDiff]
