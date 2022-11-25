@@ -164,4 +164,17 @@ describe('plugins/theGods life12God', () => {
       expect(lsr.theGods.getLuckHours()).toEqual([-1, -1, 1, 1, -1, 1, -1, -1, 1, -1, 1, 1])
     })
   })
+
+  describe('plugin/theGods 吉神方', () => {
+    const lsr = lunisolar('2022-11-25') as unknown as Lunisolar
+    // const allDirections = lsr.theGods.getAllLuckDirection()
+    // for (let i = 0; i < allDirections.length; i++) {
+    //   const [d24, god] = allDirections[i]
+    //   console.log('吉神方', d24.direction, god.name)
+    // }
+    // console.log('財神', lsr.theGods.getLuckDirection('財神')[0].angle)
+    // console.log('財神', lsr.theGods.getLuckDirection('財神')[0].sign.toString())
+    expect(lsr.theGods.getLuckDirection('財神')[0].direction).toEqual('南')
+    expect(lsr.theGods.getLuckDirection('陽貴')[0].direction).toEqual('東')
+  })
 })
