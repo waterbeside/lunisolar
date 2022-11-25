@@ -1,5 +1,30 @@
 # TheGods 神煞宜忌
 
+- [TheGods 神煞宜忌](#thegods-神煞宜忌)
+  - [1 简介](#1-简介)
+  - [2 快速上手](#2-快速上手)
+  - [3 建除十二神](#3-建除十二神)
+  - [4 长生十二神](#4-长生十二神)
+  - [5 串宫十二神 (黄道黑道十二神)](#5-串宫十二神-黄道黑道十二神)
+  - [6 其它神煞（年神，月神，日神，时神）](#6-其它神煞年神月神日神时神)
+    - [6.1 getGods方法](#61-getgods方法)
+    - [6.2 getGoodGods方法](#62-getgoodgods方法)
+    - [6.3 getGoodGods方法](#63-getgoodgods方法)
+  - [7 宜忌](#7-宜忌)
+    - [7.1 getActs() 方法](#71-getacts-方法)
+    - [7.2 getGoodActs() 方法](#72-getgoodacts-方法)
+    - [7.3 getBadActs() 方法](#73-getbadacts-方法)
+  - [8 时辰吉凶](#8-时辰吉凶)
+    - [8.1 getAllDayHourGods() 方法](#81-getalldayhourgods-方法)
+    - [8.2 getLuckHours() 方法](#82-getluckhours-方法)
+  - [9 吉神方](#9-吉神方)
+    - [9.1 getAllLuckDirection() 方法](#91-getallluckdirection-方法)
+    - [9.2 getLuckDirection(godKeyOrName) 方法](#92-getluckdirectiongodkeyorname-方法)
+  - [其它方法](#其它方法)
+    - [**query() 方法**](#query-方法)
+  - [TheGods 类](#thegods-类)
+  - [God 类](#god-类)
+
 ## 1 简介
 
 `TheGods`作为`lunisolar`的一个插件，其内容基于中国古代典籍 **《协纪纪辨方书》** 。
@@ -9,6 +34,8 @@
 宜忌的推导，需要先查出当日的所有神煞（卷九），每个神煞都有各自的宜忌（卷十），然后通过宜忌等第表、铺注条例（卷十）对宜忌进行整理，最后跟据（卷十一）用事表格进行排序和筛选。
 
 正因为神煞和宜忌的数据复杂烦琐，为了方便维护和以免影响lunisolar的打包体积，故TheGods作为一个lunisolar的插件开发。
+
+---
 
 ## 2 快速上手
 
@@ -44,8 +71,20 @@ lsr.theGods.query('good act 3') // 取得当日所忌（民用三十七事）
 lsr.theGods.query('good act') // 取得当日所宜（卷十一的所有词条）
 lsr.theGods.query('bad act') // 取得当日所忌（卷十一的所有词条）
 
-// 更详细用法请继续往下阅读
+// 取得当日所有时辰吉凶
+lunisolar('2022-10-21').theGods.getLuckHours() // [-1, -1, 1, 1, -1, 1, -1, -1, 1, -1, 1, 1] 大于0为吉，少于0为凶
+
+// 取得当日吉神所在方位
+const [d24, god] = lunisolar('2022-11-25').theGods.getLuckDirection('財神')
+d24.direction // 南
+d24.sign.toString() // 午
+d24.angle // 180
+
+
+// 更多和详细用法请继续往下阅读
 ```
+
+---
 
 ## 3 建除十二神
 
@@ -58,6 +97,8 @@ lsr.theGods.query('bad act') // 取得当日所忌（卷十一的所有词条）
 ```typescript
 theGods.getDuty12God()
 ```
+
+---
 
 ## 4 长生十二神
 
@@ -92,6 +133,8 @@ ymdh: 'year' | 'month' | 'day' | 'hour'
 
 指定year，或返回八字年柱的长生十二神，同理 'month'、'day'、'hour'其它各柱亦如是。
 
+---
+
 ## 5 串宫十二神 (黄道黑道十二神)
 
 青龙、明堂、天刑、朱雀、金匮、天德、白虎、玉堂、天牢、玄武、司命、勾陈
@@ -118,6 +161,8 @@ theGods.getBy12God(dh: 'day' | 'hour'): God
 ```typescript
 dh: 'day' | 'hour'
 ```
+
+---
 
 ## 6 其它神煞（年神，月神，日神，时神）
 
@@ -147,6 +192,8 @@ lunisolar().theGods.getGods('YMD') // 同时取得年、月、日神
 lunisolar().theGods.getGods('MD') // 同时取得月、日神
 ```
 
+---
+
 ### 6.2 getGoodGods方法
 
 取得指定指定年、月、日、时的吉神
@@ -158,6 +205,8 @@ theGods.getGoodGods(ymdh: 'Y' | 'M' | 'D' | 'H' | string): God[]
 参数:
 
 参数与`getGods`方法一致, 默认值为 "MD"
+
+---
 
 ### 6.3 getGoodGods方法
 
@@ -171,13 +220,15 @@ theGods.getBadGods(ymdh: 'Y' | 'M' | 'D' | 'H' | string): God[]
 
 参数与`getGods`方法一致, 默认值为 "MD"
 
+---
+
 ## 7 宜忌
 
 本库中的所有**宜忌词条**，除特别说明的外，皆出于《协纪纪辨方书 * 卷十一》。
 
 按《协纪纪辨方书 * 卷十一》宜忌分为 通書六十事、御用六十七事、 民用三十七事。
 
-### getActs() 方法
+### 7.1 getActs() 方法
 
 ```typescript
 theGods.getActs(actType?: 0 | 1 | 2 | 3, returnKey?: boolean, replacer?: {}): {good: string[], bad: string[]}
@@ -190,7 +241,7 @@ actType: 0 | 1 | 2 | 3
 /**
  宜忌类型
  defalut: 0
- 0：不按通书、御用、民事里的词条进行筛选
+ 0：所有词条，不会按通书、御用、民事里的词条进行筛选
  1：按`通书六十事`的词条进行筛选，不在此60个词条内者，不会出现
  2：按`御用六十七事`的词条进行筛选
  3: 按`民用三十七事`的词条进行筛选
@@ -212,7 +263,9 @@ replacer?:  { [key: string]: string }
 */
 ```
 
-### getGoodActs() 方法
+---
+
+### 7.2 getGoodActs() 方法
 
 取得本日所宜
 
@@ -224,7 +277,9 @@ theGods.getGoodActs(actType?: 0 | 1 | 2 | 3, returnKey?: boolean, replacer?: {})
 theGods.getActs(actType, returnKey, replacer).good
 ```
 
-### getBadActs() 方法
+---
+
+### 7.3 getBadActs() 方法
 
 取得本日所忌
 
@@ -236,7 +291,11 @@ theGods.getBadActs(actType?: 0 | 1 | 2 | 3, returnKey?: boolean, replacer?: {}):
 theGods.getActs(actType, returnKey, replacer).bad
 ```
 
-### getAllDayHourGods() 方法
+---
+
+## 8 时辰吉凶
+
+### 8.1 getAllDayHourGods() 方法
 
 取得整日各时辰的神煞
 
@@ -257,7 +316,9 @@ theGods.getAllDayHourGods(): God[][]
 ]
 ```
 
-### getLuckHours() 方法
+---
+
+### 8.2 getLuckHours() 方法
 
 取得整日各时辰的吉凶
 
@@ -279,9 +340,66 @@ default: 0
 */
 ```
 
-### query() 方法
+---
 
-通过query方法，转入指定的字符串，可取得对应的神煞或宜忌
+## 9 吉神方
+
+### 9.1 getAllLuckDirection() 方法
+
+```typescript
+// 示例：
+const lsr = lunisolar('2022-11-25')
+const allDirections = lsr.theGods.getAllLuckDirection()
+for (let i = 0; i < allDirections.length; i++) {
+  const [d24, god] = allDirections[i]
+  console.log(d24.direction, god.name)
+}
+// 南 喜神
+// 東南 福神
+// 南 財神
+// 東 陽貴
+// 東南 陰貴
+```
+
+取得当日所有神煞吉方
+
+将会返回元素为`[二十四山对象, 神煞对象]`元组的列表
+
+二十四山对象说明参考[本连接](./%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%B1%B1.md)
+
+---
+
+### 9.2 getLuckDirection(godKeyOrName) 方法
+
+取得指定吉神所在方位
+
+将会返回`[二十四山对象, 神煞对象]`元组
+
+```typescript
+// 示例：
+const lsr = lunisolar('2022-11-25')
+const [d24, god] = lsr.theGods.getLuckDirection('財神')
+console.log(d24.direction) // 南
+```
+
+参数说明
+
+```typescript
+godKeyOrName:string
+/**
+吉方神煞名称，一般为 '喜神' | '福神' | '財神' | '陽貴' | '陰貴'
+可以是国际化翻译后的名称
+不在此范围内者，将返回null
+*/
+```
+
+---
+
+## 其它方法
+
+### **query() 方法**
+
+通过query方法，传入指定的字符串，可取得对应的神煞或宜忌
 
 ```typescript
 theGod.query(queryString): God | God[] | string[] | null
@@ -314,6 +432,8 @@ queryString 存入的字符串，对应返回的内容参见下表, 其中zh的�
 | bad act 2 | 忌2 | 取得本日御用所忌 | string[] |
 | bad act 3 | 忌3 | 取得本日民用所忌 | string[] |
 
+---
+
 ## TheGods 类
 
 当lunisolar加载theGods插件后，可通过`lunisolar().theGods`属性取得TheGos实列
@@ -330,9 +450,12 @@ queryString 存入的字符串，对应返回的内容参见下表, 其中zh的�
 | getGoodActs(actType, returnKey, replacer) | 取得当日所宜 | 参数与 getActs 方法一致 | string[] |
 | getBadActs(actType, returnKey, replacer) | 取得当日所忌 | 参数与 getActs 方法一致 | string[] |
 | getAllDayHourGods() | 取得整日各时辰的神煞 |  | God[][] |
-| getLuckHours(luckType) | 取得整日各时辰的吉凶 | luckeType: 0 | 1 <br> 0: 按黄黑道十二神（即青龙明堂等）决定吉凶<br>
-1：根据时辰的吉神凶神个数决定吉凶 | number[] |
+| getLuckHours(luckType) | 取得整日各时辰的吉凶 | luckeType: 0 \| 1 <br> 0: 按黄黑道十二神（即青龙明堂等）决定吉凶<br> 1：根据时辰的吉神凶神个数决定吉凶 | number[] |
+|getAllLuckDirection() | 取得当日所有神煞吉方,将会返回元素为 **[[二十四山对象](./%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%B1%B1.md), 神煞对象]**元组的列表 || **[Direction24, God][]** |
+|getLuckDirection(godKeyOrName) | 取得指定吉神所在方位,将会返回 **[[二十四山对象](./%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%B1%B1.md), 神煞对象]**元组 | godKeyOrName: string<br>吉方神煞名称，一般为 '喜神' \| '福神' \| '財神' \| '陽貴' \| '陰貴' | **[Direction24, God]** |
 | query(queryString) | 通过输入查询语句进行通用查询 | query: string | God \| God[] \| string[] \| null |
+
+---
 
 ## God 类
 
@@ -341,7 +464,7 @@ queryString 存入的字符串，对应返回的内容参见下表, 其中zh的�
 | 属性或方法  | 描述 | 参数  | 返回类型 |
 | --- | ---  | --- | --- |
 | key | 取得神煞key，一般為其繁体中文名称 | | string |
-| name | 取得神煞国际化翻译后的名称， | string |
+| name | 取得神煞国际化翻译后的名称， | |string |
 | good | 神煞所宜 | | string[] |
 | bad | 神煞所忌 | | string[] |
 | cate | 神煞分类 | | 'year' \| 'month' \| 'day' \| 'hour' \| null |
