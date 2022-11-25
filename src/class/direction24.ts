@@ -66,8 +66,8 @@ export class Direction24 {
     return this._sign.toString()
   }
 
-  get type(): string {
-    return this._sign.constructor.name
+  get type(): 'Branch' | 'Stem' | 'Trigram8' {
+    return this._sign.constructor.name as 'Branch' | 'Stem' | 'Trigram8'
   }
 
   get angle(): number {
