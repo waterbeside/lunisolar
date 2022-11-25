@@ -1,5 +1,5 @@
 import type { GodBase } from './godBase'
-import { createGodBase } from '../gods/index'
+import { createGodBase } from '../utils/gods'
 import { trans } from '../locale'
 
 export class God {

@@ -1,6 +1,6 @@
 import { getAct } from '../actData'
 import { getStemValue } from '../../../utils'
-import { godsPool } from '../gods/index'
+import { godsPool } from '../utils/godsPool'
 import { GodBase } from '../class/godBase'
 import { God } from '../class/god'
 

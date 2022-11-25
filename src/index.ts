@@ -8,6 +8,7 @@ import { Trigram8 } from './class/trigram8'
 import { Direction24 } from './class/direction24'
 import { _GlobalConfig } from './config'
 import { parseFromLunar } from './utils'
+import { dep } from './utils/dep'
 import zh from './locale/zh'
 
 export default function lunisolar(
@@ -87,6 +88,8 @@ lunisolar.getLocale = (lang: string): LocaleData => {
 lunisolar.createLocale = (localeData: ILocale): ILocale => localeData
 
 lunisolar._globalConfig = _GlobalConfig
+
+dep.lunisolar = lunisolar
 
 Object.defineProperty(lunisolar, '_globalConfig', {
   writable: false

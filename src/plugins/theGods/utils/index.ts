@@ -1,8 +1,4 @@
 import { getBranchValue, getStemValue } from '../../../utils'
-import { yearGods } from '../gods/yearGods'
-import { monthGods } from '../gods/monthGods'
-import { monthSeasonGods } from '../gods/monthSeasonGods'
-import { dayGods } from '../gods/dayGods'
 import { YMDH_SINGLE_LOWER_SET } from '../constants'
 import { trans } from '../locale'
 
@@ -109,35 +105,6 @@ export function getCommonCheckGodFunc(
 
 export function actKT(acts: string[], isReturnKey: boolean, lang: string) {
   return acts.map(i => (isReturnKey ? i : trans(i, lang, 'acts')))
-}
-
-/**
- * 通過神煞key取得宜忌
- * @param godKeys 神煞key列表
- * @returns 宜忌
- */
-export function getActsByYmdGodKeys(godKeys: string[]): ActsSet {
-  const good = new Set<string>()
-  const bad = new Set<string>()
-  for (const k of godKeys) {
-    for (const godDict of [monthGods, monthSeasonGods, dayGods, yearGods]) {
-      if (godDict.hasOwnProperty(k)) {
-        const [_, gAct, bAct] = godDict[k]
-        if (gAct) {
-          gAct.forEach(g => {
-            good.add(g)
-          })
-        }
-        if (bAct) {
-          bAct.forEach(g => {
-            bad.add(g)
-          })
-        }
-        break
-      }
-    }
-  }
-  return { good, bad }
 }
 
 export const removeSetByList = function (setData: Set<string>, removes: string[]) {

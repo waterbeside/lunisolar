@@ -7,6 +7,11 @@ import { getTheSignGodSet, findLevel, filterActByLevel, filterActAfterLevel } fr
 import { defaultActs, commonActs, emperorActs, civilActs } from '../actData'
 import { trans } from '../locale'
 
+import { yearGods } from '../gods/yearGods'
+import { monthGods } from '../gods/monthGods'
+import { monthSeasonGods } from '../gods/monthSeasonGods'
+import { dayGods } from '../gods/dayGods'
+
 function filterGodActsByExtra(
   god: God,
   theGods: TheGods,
@@ -233,4 +238,33 @@ export const orderActs = function (
     good: good.length === 0 ? [t('諸事不宜')] : good,
     bad
   }
+}
+
+/**
+ * 通過神煞key取得宜忌
+ * @param godKeys 神煞key列表
+ * @returns 宜忌
+ */
+export function getActsByYmdGodKeys(godKeys: string[]): ActsSet {
+  const good = new Set<string>()
+  const bad = new Set<string>()
+  for (const k of godKeys) {
+    for (const godDict of [monthGods, monthSeasonGods, dayGods, yearGods]) {
+      if (godDict.hasOwnProperty(k)) {
+        const [_, gAct, bAct] = godDict[k]
+        if (gAct) {
+          gAct.forEach(g => {
+            good.add(g)
+          })
+        }
+        if (bAct) {
+          bAct.forEach(g => {
+            bad.add(g)
+          })
+        }
+        break
+      }
+    }
+  }
+  return { good, bad }
 }
