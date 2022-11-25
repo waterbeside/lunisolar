@@ -117,18 +117,18 @@ export class TheGods {
     return getAllDayHourLucks(this.lsr, luckType)
   }
 
-  getAllLuckDirection(): DayLuckGodsDirectionRes[] {
+  getAllLuckDirection(): DayLuckDirectionGodRes[] {
     const cacheKey = 'theGods:allLuckDirection'
     if (this._cache.has(cacheKey)) return this._cache.get(cacheKey)
-    const res: DayLuckGodsDirectionRes[] = dayGoodGodNames.map(item => {
+    const res: DayLuckDirectionGodRes[] = dayGoodGodNames.map(item => {
       return this.getLuckDirection(item)
     })
     this._cache.set(cacheKey, res)
     return res
   }
 
-  getLuckDirection(godKeyOrName: typeof dayGoodGodNames[number]): DayLuckGodsDirectionRes
-  getLuckDirection(godKeyOrName: string): DayLuckGodsDirectionRes | null {
+  getLuckDirection(godKeyOrName: DayLuckDirectionGodNames): DayLuckDirectionGodRes
+  getLuckDirection(godKeyOrName: string): DayLuckDirectionGodRes | null {
     // trans
     let godKey = dayGoodGodNames.find(item => {
       if (item === godKeyOrName) return true
@@ -143,7 +143,7 @@ export class TheGods {
     const godData = dayGoodGods[godKey]
     const ruleLen = godData.rule.length
     const d24Value = godData.rule[stemValue % ruleLen]
-    const itemRes: DayLuckGodsDirectionRes = [
+    const itemRes: DayLuckDirectionGodRes = [
       this.lsr.lunisolar.Direction24.create(d24Value, { lang: this.lang }),
       createDayGoodGod(godKey, this.lang)
     ]

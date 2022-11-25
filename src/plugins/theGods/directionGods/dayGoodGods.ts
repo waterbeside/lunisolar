@@ -6,7 +6,6 @@ import { God } from '../class/god'
 
 export const dayGoodGodNames = ['喜神', '福神', '財神', '陽貴', '陰貴'] as const
 
-type DayGoodGodNames = typeof dayGoodGodNames[number]
 type GodDataItem = {
   rule: number[]
   ruleValueType: string
@@ -16,7 +15,7 @@ type GodDataItem = {
   extra?: GodDictItemExtra
 }
 
-export const dayGoodGods: Record<DayGoodGodNames, GodDataItem> = {
+export const dayGoodGods: Record<DayLuckDirectionGodNames, GodDataItem> = {
   /**
    ## 1、喜神方
    ```
