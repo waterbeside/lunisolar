@@ -108,4 +108,6 @@ type ActsSet = {
   bad: Set<string>
 }
 
-type DayLuckGodsDirectionRes = [Direction24, God]
+type DayLuckDirectionGodRes = [lunisolar.Direction24, God]
+
+type DayLuckDirectionGodNames = '喜神' | '福神' | '財神' | '陽貴' | '陰貴'
