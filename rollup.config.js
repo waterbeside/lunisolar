@@ -3,7 +3,7 @@ import path from 'path'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import ts from 'rollup-plugin-typescript2'
-import { terser } from 'rollup-plugin-terser'
+import terser from '@rollup/plugin-terser'
 import copy from 'rollup-plugin-copy'
 import clear from 'rollup-plugin-clear'
 import pkg from './package.json'
@@ -12,7 +12,7 @@ const extensions = ['.js', '.jsx', '.ts', '.tsx']
 
 // plugins
 const tsPlugin = ts({ extensions })
-const terserPlugin = terser({ format: { comments: false } })
+const terserPlugin = terser()
 
 // fileName： pkg.module,
 const configFactory = config => {
