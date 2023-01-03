@@ -32,6 +32,42 @@ export class Element5 {
     return this._value
   }
 
+  /**
+   * 相生
+   * Inter-promoting (相生 xiāngshēng): the effect in the generating (生 shēng) cycle
+   */
+  generating(): Element5 {
+    const nextValue = (this._value + 1) % 5
+    return Element5.create(nextValue, this._config)
+  }
+
+  /**
+   * 相克
+   * Inter-regulating (相克 xiāngkè): the effect in the overcoming (克 kè) cycle
+   */
+  overcoming(): Element5 {
+    const nextValue = (this._value + 2) % 5
+    return Element5.create(nextValue, this._config)
+  }
+
+  /**
+   * 相洩
+   *  Weakening (相洩/相泄 xiāngxiè): the effect in a deficient or reverse generating (生 shēng) cycle
+   */
+  weakening(): Element5 {
+    const nextValue = (this._value + 4) % 5
+    return Element5.create(nextValue, this._config)
+  }
+
+  /**
+   * 相侮
+   * Counteracting (相侮 xiāngwǔ or 相耗 xiānghào??): the effect in a deficient or reverse overcoming (克 kè) cycle
+   */
+  counteracting(): Element5 {
+    const nextValue = (this._value + 3) % 5
+    return Element5.create(nextValue, this._config)
+  }
+
   toString(): string {
     return this._value === -1
       ? 'Invalid five-element value'
