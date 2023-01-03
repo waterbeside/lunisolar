@@ -110,9 +110,31 @@ declare namespace lunisolar {
     toString(): string
     valueOf(): number
     /**
-    the Element5.value is the index of ['木', '火', '土', '金', '水']
-    */
+     * the Element5.value is the index of ['木', '火', '土', '金', '水']
+     */
     get value(): number
+    /**
+     * 相生
+     * Inter-promoting (相生 xiāngshēng): the effect in the generating (生 shēng) cycle
+     */
+    generating(): Element5
+    /**
+     * 相克
+     * Inter-regulating (相克 xiāngkè): the effect in the overcoming (克 kè) cycle
+     */
+    overcoming(): Element5
+
+    /**
+     * 相洩
+     *  Weakening (相洩/相泄 xiāngxiè): the effect in a deficient or reverse generating (生 shēng) cycle
+     */
+    weakening(): Element5
+
+    /**
+     * 相侮
+     * Counteracting (相侮 xiāngwǔ or 相耗 xiānghào??): the effect in a deficient or reverse overcoming (克 kè) cycle
+     */
+    counteracting(): Element5
   }
 
   /**
@@ -349,17 +371,11 @@ declare namespace lunisolar {
   /**
    * ## class Char8
    * 八字
+   * @param dateOrSbList 日期 或者 八字四柱的天干地支組合
+   * @param Char8Config { lang: 语言名, changeAgeTerm: 用于換歲的節氣 }
    */
   export class Char8 {
-    /**
-     * @param dateOrSbList 八字四柱的天干地支組合
-     */
-    constructor(dateOrSbList: [SB, SB, SB, SB], config?: Char8Config)
-    /**
-     * @param dateOrSbList 日期
-     * @param changeAgeTerm 用于換歲的節氣
-     */
-    constructor(dateOrSbList: Date, config?: Char8Config)
+    constructor(dateOrSbList: Date | [SB, SB, SB, SB], config?: Char8Config)
     get value(): number
     toString(): string
     valueOf(): number
@@ -388,9 +404,9 @@ declare namespace lunisolar {
      */
     get me(): Stem
     /**
-      計算年柱
-      @param yearOrDate 年份或日期對象
-      @param changeAgeTerm 用于換歲的節氣
+     * 計算年柱
+     * @param yearOrDate 年份或日期對象
+     * @param Char8Config { lang: 语言名, changeAgeTerm: 用于換歲的節氣 }
      */
     static computeSBYear(yearOrDate: Date | number, config?: Char8Config): SB
     /**
