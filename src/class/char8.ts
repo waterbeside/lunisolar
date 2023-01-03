@@ -12,9 +12,8 @@ export class Char8 {
     changeAgeTerm: _GlobalConfig.changeAgeTerm,
     lang: _GlobalConfig.lang
   }
-  constructor(dateOrSbList: [SB, SB, SB, SB], config?: ClassCommonConfig)
-  constructor(dateOrSbList: Date, config?: ClassCommonConfig)
-  constructor(dateOrSbList: Date | [SB, SB, SB, SB], config?: ClassCommonConfig) {
+
+  constructor(dateOrSbList: Date | [SB, SB, SB, SB], config?: Char8Config) {
     if (config) {
       this._config = Object.assign({}, this._config, config)
     }
