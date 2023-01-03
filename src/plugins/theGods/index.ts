@@ -6,7 +6,7 @@ export interface LunisolarEx extends lunisolar.Lunisolar {
   theGods: TheGods
 }
 
-const dayGods: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
+const theGods: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
   lsFactory.locale(zh, true)
   setTheGodsLocales(lsFactory._globalConfig.locales)
   const lsProto = lsClass.prototype as unknown as LunisolarEx
@@ -20,4 +20,4 @@ const dayGods: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
     }
   })
 }
-export default dayGods
+export default theGods
