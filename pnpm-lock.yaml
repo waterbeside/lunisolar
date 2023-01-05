@@ -2,6 +2,8 @@ lockfileVersion: 5.4
 
 specifiers:
   '@babel/core': ^7.17.10
+  '@babel/plugin-proposal-decorators': ^7.20.7
+  '@babel/plugin-syntax-decorators': ^7.19.0
   '@babel/preset-env': ^7.17.10
   '@babel/preset-typescript': ^7.16.7
   '@jest/types': ^29.3.1
@@ -31,6 +33,8 @@ specifiers:
 
 devDependencies:
   '@babel/core': 7.20.7
+  '@babel/plugin-proposal-decorators': 7.20.7_@babel+core@7.20.7
+  '@babel/plugin-syntax-decorators': 7.19.0_@babel+core@7.20.7
   '@babel/preset-env': 7.20.2_@babel+core@7.20.7
   '@babel/preset-typescript': 7.18.6_@babel+core@7.20.7
   '@jest/types': 29.3.1
@@ -424,6 +428,22 @@ packages:
       - supports-color
     dev: true
 
+  /@babel/plugin-proposal-decorators/7.20.7_@babel+core@7.20.7:
+    resolution: {integrity: sha512-JB45hbUweYpwAGjkiM7uCyXMENH2lG+9r3G2E+ttc2PRXAoEkpfd/KW5jDg4j8RS6tLtTG1jZi9LbHZVSfs1/A==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.20.7
+      '@babel/helper-create-class-features-plugin': 7.20.7_@babel+core@7.20.7
+      '@babel/helper-plugin-utils': 7.20.2
+      '@babel/helper-replace-supers': 7.20.7
+      '@babel/helper-split-export-declaration': 7.18.6
+      '@babel/plugin-syntax-decorators': 7.19.0_@babel+core@7.20.7
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /@babel/plugin-proposal-dynamic-import/7.18.6_@babel+core@7.20.7:
     resolution: {integrity: sha512-1auuwmK+Rz13SJj36R+jqFPMJWyKEDd7lLSdOj4oJK0UTgGueSAtkrCvz9ewmgyU/P941Rv2fQwZJN8s6QruXw==}
     engines: {node: '>=6.9.0'}
@@ -595,6 +615,16 @@ packages:
 
   /@babel/plugin-syntax-class-static-block/7.14.5_@babel+core@7.20.7:
     resolution: {integrity: sha512-b+YyPmr6ldyNnM6sqYeMWE+bgJcJpO6yS4QD7ymxgH34GBPNDM/THBh8iunyvKIZztiwLH4CJZ0RxTk9emgpjw==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.20.7
+      '@babel/helper-plugin-utils': 7.20.2
+    dev: true
+
+  /@babel/plugin-syntax-decorators/7.19.0_@babel+core@7.20.7:
+    resolution: {integrity: sha512-xaBZUEDntt4faL1yN8oIFlhfXeQAWJW7CLKYsHTUqriCUbj8xOra8bfxxKGi/UwExPFBuPdH4XfHc9rGQhrVkQ==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
