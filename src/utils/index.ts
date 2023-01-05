@@ -373,3 +373,20 @@ export const parseCommonCreateClassValue = function (
   }
   return value
 }
+
+/**
+ * 计算地支的三合五行
+ * @param branchValue 地支value值
+ */
+export const computeTriadE5Value = function (branchValue: number) {
+  const e5v = [4, 0, 1, 3]
+  const idx = branchValue % 4
+  return e5v[idx]
+}
+
+export const computeGroup6E5Value = function (branchValue: number) {
+  const e5v = [2, 0, 1, 3, 4, 2]
+  branchValue = branchValue === 0 ? 12 : branchValue
+  if (branchValue < 7) return e5v[branchValue - 1]
+  return e5v[12 - branchValue]
+}
