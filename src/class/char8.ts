@@ -8,7 +8,7 @@ import { _GlobalConfig } from '../config'
 export class Char8 {
   private _value: number = -1
   private _list: [SB, SB, SB, SB]
-  private _config = {
+  private _config: Required<Char8Config> = {
     changeAgeTerm: _GlobalConfig.changeAgeTerm,
     lang: _GlobalConfig.lang
   }
@@ -30,6 +30,10 @@ export class Char8 {
     } else {
       throw new Error('Invalid Char8')
     }
+  }
+
+  getConfig() {
+    return Object.assign({}, this._config)
   }
 
   get value() {
