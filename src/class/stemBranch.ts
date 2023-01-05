@@ -1,12 +1,20 @@
 import { HIDDEN_STEMS } from '../constants/calendarData'
 import { Element5 } from './element5'
 import { _GlobalConfig } from '../config'
-import { getTrigramValueByStem, computeSBValue, parseCommonCreateClassValue } from '../utils'
+import {
+  getTrigramValueByStem,
+  computeSBValue,
+  parseCommonCreateClassValue,
+  computeTriadE5Value,
+  computeGroup6E5Value
+} from '../utils'
 import { Trigram8 } from './trigram8'
+import { cache, cacheClass } from '../utils/decorators'
 
 /**
  * 地支
  */
+@cacheClass
 export class Branch {
   private _value: number = -1
   private _e5?: Element5
@@ -64,6 +72,58 @@ export class Branch {
       Branch.create((this._value + 4) % 12, this._config),
       Branch.create((this._value + 8) % 12, this._config)
     ]
+  }
+
+  /**
+   * 三合五行
+   */
+  get triadE5(): Element5 {
+    return Element5.create(computeTriadE5Value(this._value), this._config)
+  }
+
+  /**
+   * 六合
+   */
+  get group6(): Branch {
+    return Branch.create((13 - this._value) % 12, this._config)
+  }
+
+  get group6E5(): Element5 {
+    return Element5.create(computeGroup6E5Value(this._value), this._config)
+  }
+
+  // 相刑
+  @cache('branch:punishing')
+  get punishing(): Branch {
+    const b = [3, 10, 5, 0, 4, 8, 6, 1, 2, 9, 7, 11]
+    return Branch.create(b[this.value], this._config)
+  }
+
+  // 被刑
+  @cache('branch:punishBy')
+  get punishBy(): Branch {
+    const b = [3, 7, 8, 0, 4, 2, 6, 10, 5, 9, 1, 11]
+    return Branch.create(b[this.value], this._config)
+  }
+
+  // 相冲
+  @cache('branch:conflict')
+  get conflict(): Branch {
+    return Branch.create((this.value + 6) % 12, this._config)
+  }
+
+  // 相破
+  @cache('branch:destroying')
+  get destroying(): Branch {
+    const b = [9, 4, 11, 6, 1, 8, 3, 10, 5, 0, 7, 2]
+    return Branch.create(b[this.value], this._config)
+  }
+
+  // 相害
+  @cache('branch:harming')
+  get harming(): Branch {
+    const value = this.value > 7 ? 19 - this.value : 7 - this.value
+    return Branch.create(value, this._config)
   }
 
   toString(): string {

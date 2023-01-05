@@ -264,6 +264,46 @@ declare namespace lunisolar {
      * 三合
      */
     get triad(): [Branch, Branch]
+
+    /**
+     * 三合五行属性
+     */
+    get triadE5(): Element5
+
+    /**
+     * 六合
+     */
+    get group6(): Branch
+
+    /**
+     * 六合五行属性
+     */
+    get group6E5(): Element5
+
+    /**
+     * 相刑
+     */
+    get punishing(): Branch
+
+    /**
+     * 被刑
+     */
+    get punishBy(): Branch
+
+    /**
+     * 相冲
+     */
+    get conflict(): Branch
+
+    /**
+     * 相破
+     */
+    get destroying(): Branch
+
+    /**
+     * 相害
+     */
+    get harming(): Branch
   }
 
   /**
@@ -379,6 +419,7 @@ declare namespace lunisolar {
     get value(): number
     toString(): string
     valueOf(): number
+    getConfig(): Required<Char8Config>
     /**
      * @returns 八字四柱的天干地支組合列表
      */
