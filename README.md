@@ -617,6 +617,14 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | e5 | 五行属性对象 | | [Element5](#56-element5五行类) |
 | hiddenStems | 取得地支所藏的天干对象列表，长度最多3个，分别为 `[本气, 中 气, 余气]` | | Stem[] |
 | triad | 三合地支, 返回当前地支的另外两个与之三合的地支 | | [Branch, Branch] |
+| triadE5 | 三合的五行属性 | | Element5 |
+| group6 | 六合地支 | | Branch |
+| group6E5 | 六合五行属性 | | Element5 |
+| punishing | 相刑地支 | | Branch |
+| punishBy | 被什么地支所刑 | | Branch |
+| conflict | 相冲的地支 | | Branch |
+| destroying | 相破的地支 | | Branch |
+| harming | 相害的地支 | | Branch |
 | valueOf()      | 返回地支索引值 | | number |
 | toString()     | 返回地支字符串| | string |
 
