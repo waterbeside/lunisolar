@@ -323,11 +323,14 @@ export function phaseOfTheMoon(lunar: lunisolar.Lunar, locale: LocaleData): stri
 
 /**
   * 五鼠遁计算天干
+  ```
   ---- 五鼠遁 ---
   甲己还加甲，乙庚丙作初。
   丙辛从戊起，丁壬庚子居。
   戊癸起壬子，周而复始求。
-  * @param date 日期
+  ```
+  * @param fromStemValue 起始天干 (计算时柱天干则此处应为日柱天干)
+  * @param branchValue 目标地支 （计算时柱天干，时处应为时柱地支）
   * @returns {SB} 返回天地支对象
 */
 export function computeRatStem(fromStemValue: number, branchValue: number = 0): number {
