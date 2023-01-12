@@ -45,7 +45,7 @@
     "@types/node": "^17.0.24",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.46.0",
-    "babel-jest": "^28.0.3",
+    "babel-jest": "^29.3.1",
     "conventional-changelog-cli": "^2.2.2",
     "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.5.0",
