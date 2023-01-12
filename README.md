@@ -1,5 +1,8 @@
 # lunisolar
 
+![minzip](https://img.shields.io/bundlephobia/minzip/lunisolar)
+![language](https://img.shields.io/github/languages/top/waterbeside/lunisolar)
+
 **lunisolar** 是一个使用`Typescript`编写的专业农历库, 可取得各类农历数据，参考中国中代书籍，数据来源有依有据。支持多语言（可自定义语言包），支持自定义插件。
 
 具体包含以下功能：
@@ -738,9 +741,8 @@ fetalGodData 包含以下属性
 
 查询胎神要先导入 takeSound 插件，
 
-之后可使用lunisolar().fetalGod 取得胎神描述，
-
-也可以使用lunisolar().fetalGodData 取得胎神数据。
+- `lunisolar().takeSound` 属性返回纳音描述字符串
+- `lunisolar().takeSoundE5` 属性返回**纳音五行**的Element5实例
 
 示例：
 
@@ -756,6 +758,7 @@ lunisolar.extend(takeSound)
  */
 const lsr = lunisolar('2022-07-08')
 lsr.char8.year.takeSound // 金箔金 （取得年干支的纳音）
+lsr.char8.year.takeSoundE5.toString() // 金 （取得年干支的纳音五行）
 // ...
 lsr.char8.day.takeSound // 大海水 （取得日干支的纳音）
 lsr.takeSound // 大海水 （取得日干支的纳音 等同于）
