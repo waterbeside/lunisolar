@@ -10,12 +10,12 @@ import { FIRST_YEAR, LAST_YEAR } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
 import { SB } from './stemBranch'
 import lunisolarFac from '../index'
-import { cacheClass, cache } from '../utils/decorators'
+import { cache } from '../utils/decorators'
 
-@cacheClass
-export class Lunisolar implements ILunisolar {
+export class Lunisolar {
   readonly _config: LunisolarConfigData
   readonly _date: Date
+  readonly cache = new Map<string, any>()
   constructor(date?: DateParamType, config?: lunisolar.ConfigType) {
     this._date = parseDate(date)
     this._config = Object.assign({}, _GlobalConfig, config)
