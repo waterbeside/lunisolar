@@ -12,10 +12,12 @@ const theGods: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
   const lsProto = lsClass.prototype as unknown as LunisolarEx
   Object.defineProperty(lsProto, 'theGods', {
     get(): TheGods {
-      const cacheData = this.cache('theGods')
-      if (cacheData instanceof TheGods) return cacheData
+      if (this.cache.has('theGods')) {
+        const cacheData = this.cache.get('theGods')
+        if (cacheData instanceof TheGods) return cacheData
+      }
       const theGods = new TheGods(this)
-      this.cache('theGods', theGods)
+      this.cache.set('theGods', theGods)
       return theGods
     }
   })
