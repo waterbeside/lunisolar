@@ -5,7 +5,7 @@ import zh from './locale/zh'
 interface SB extends lunisolar.SB {
   _takeSoundValue: string
   takeSound: string
-  takeSoundE5: lunisolar.Lunisolar
+  takeSoundE5: lunisolar.Element5
 }
 
 interface LocaleDataEx extends LocaleData {

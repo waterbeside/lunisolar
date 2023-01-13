@@ -3,60 +3,61 @@ import theGods from '../../../src/plugins/theGods'
 import type { TheGods } from '../../../src/plugins/theGods/class/theGods'
 import zhCn from '../../../src/locale/zh-cn'
 import theGodzhCn from '../../../src/plugins/theGods/locale/zh-cn'
+import type { Lunisolar } from '../../../src/class/lunisolar'
 
 lunisolar.locale(zhCn).locale(theGodzhCn)
 lunisolar.extend(theGods)
 lunisolar.config({ lang: 'zh' })
 
-interface Lunisolar extends ILunisolar {
+interface LunisolarEx extends Lunisolar {
   theGods: TheGods
 }
 
 describe('plugins/theGods duty12God', () => {
   it('2022-08-16', () => {
-    const lsr = lunisolar('2022-08-16') as unknown as Lunisolar
+    const lsr = lunisolar('2022-08-16') as unknown as LunisolarEx
     expect(lsr.theGods.getDuty12God().toString()).toBe('執')
   })
   it('2022-08-25', () => {
-    const lsr = lunisolar('2022-08-25') as unknown as Lunisolar
+    const lsr = lunisolar('2022-08-25') as unknown as LunisolarEx
     expect(lsr.theGods.getDuty12God().name).toBe('滿')
   })
 })
 
 describe('plugins/theGods life12God', () => {
   it('2022-09-28', () => {
-    const lsr = lunisolar('2022-09-28') as unknown as Lunisolar
+    const lsr = lunisolar('2022-09-28') as unknown as LunisolarEx
     expect(lsr.theGods.getLife12God('day').name).toBe('絕')
   })
   it('2022-09-29', () => {
-    const lsr = lunisolar('2022-09-29') as unknown as Lunisolar
+    const lsr = lunisolar('2022-09-29') as unknown as LunisolarEx
     expect(lsr.theGods.getLife12God('day').name).toBe('絕')
   })
   it('2022-09-30', () => {
-    const lsr = lunisolar('2022-09-30') as unknown as Lunisolar
+    const lsr = lunisolar('2022-09-30') as unknown as LunisolarEx
     expect(lsr.theGods.getLife12God('day').name).toBe('墓')
   })
   it('2022-10-01', () => {
-    const lsr = lunisolar('2022-10-01') as unknown as Lunisolar
+    const lsr = lunisolar('2022-10-01') as unknown as LunisolarEx
     expect(lsr.theGods.getLife12God('day').name).toBe('胎')
   })
   it('2022-10-2', () => {
-    const lsr = lunisolar('2022-10-2') as unknown as Lunisolar
+    const lsr = lunisolar('2022-10-2') as unknown as LunisolarEx
     expect(lsr.theGods.getLife12God('day').name).toBe('胎')
   })
   it('2022-10-3', () => {
-    const lsr = lunisolar('2022-10-3') as unknown as Lunisolar
+    const lsr = lunisolar('2022-10-3') as unknown as LunisolarEx
     expect(lsr.theGods.getLife12God('day').name).toBe('墓')
   })
   it('2022-10-4', () => {
-    const lsr = lunisolar('2022-10-4') as unknown as Lunisolar
+    const lsr = lunisolar('2022-10-4') as unknown as LunisolarEx
     expect(lsr.theGods.getLife12God('day').name).toBe('絕')
   })
 
   describe('plugins/theGods 神煞', () => {
     it('2022-10-19', () => {
       // 壬寅年 庚戌月 乙巳日
-      const lsr = lunisolar('2022-10-19') as unknown as Lunisolar
+      const lsr = lunisolar('2022-10-19') as unknown as LunisolarEx
       // 年神
       const tobeYearGods = ['陰貴', '太陰', '六害', '歲刑', '天官符']
       expect(lsr.theGods.getGods('Y').map(g => g.key)).toEqual(tobeYearGods)
@@ -76,7 +77,7 @@ describe('plugins/theGods life12God', () => {
 
     it('2018-7-9', () => {
       // 戊戌年 已未月 壬寅日
-      const lsr = lunisolar('2018-7-9') as unknown as Lunisolar
+      const lsr = lunisolar('2018-7-9') as unknown as LunisolarEx
       // 年神
       const tobeYearGods = ['官符', '神后', '伏兵', '坐煞', '畜官']
       expect(lsr.theGods.getGods('Y').map(g => g.key)).toEqual(tobeYearGods)
@@ -98,7 +99,7 @@ describe('plugins/theGods life12God', () => {
 
     it('2022-10-21', () => {
       // 壬寅 庚戌 丁未 庚子
-      const lsr = lunisolar('2022-10-21', { lang: 'zh-cn' }) as unknown as Lunisolar
+      const lsr = lunisolar('2022-10-21', { lang: 'zh-cn' }) as unknown as LunisolarEx
       // 年神
       const tobeYearGods = ['歲德合', '支德', '向煞', '死符', '小耗']
       expect(lsr.theGods.getGods('Y').map(g => g.key)).toEqual(tobeYearGods)
@@ -166,7 +167,7 @@ describe('plugins/theGods life12God', () => {
   })
 
   describe('plugin/theGods 吉神方', () => {
-    const lsr = lunisolar('2022-11-25') as unknown as Lunisolar
+    const lsr = lunisolar('2022-11-25') as unknown as LunisolarEx
     // const allDirections = lsr.theGods.getAllLuckDirection()
     // for (let i = 0; i < allDirections.length; i++) {
     //   const [d24, god] = allDirections[i]

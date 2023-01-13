@@ -501,9 +501,10 @@ declare namespace lunisolar {
    * @param date 日期对象 | 日期字符串
    * @param config 设置
    */
-  export class Lunisolar implements ILunisolar {
+  export class Lunisolar {
     readonly _config: LunisolarConfigData
     readonly _date: Date
+    readonly cache: Map<string, any>
 
     constructor(date?: DateParamType, config?: ConfigType)
     get lunisolar(): typeof lunisolar
