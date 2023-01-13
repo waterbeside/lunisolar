@@ -6,7 +6,7 @@ declare module 'lunisolar' {
   }
   interface SB {
     takeSound: string
-    takeSoundE5: string
+    takeSoundE5: lunisolar.Element5
   }
 }
 

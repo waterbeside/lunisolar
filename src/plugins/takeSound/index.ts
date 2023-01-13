@@ -5,7 +5,7 @@ import zh from './locale/zh'
 interface SB extends lunisolar.SB {
   _takeSoundValue: string
   takeSound: string
-  takeSoundE5: string
+  takeSoundE5: lunisolar.Lunisolar
 }
 
 interface LocaleDataEx extends LocaleData {
@@ -33,12 +33,13 @@ const takeSoundPlugin: lunisolar.PluginFunc = async (options, lsClass, lsFactory
   })
   // takeSoundE5
   Object.defineProperty(sbProto, 'takeSoundE5', {
-    get(): string {
-      const locale = lsFactory.getLocale(this._config.lang)
+    get(): lunisolar.Element5 {
       if (this._takeSoundValue === undefined) {
         this._takeSoundValue = ((this as lunisolar.SB).value >> 1) % 30
       }
-      return locale.fiveElements[TAKE_SOUND_ELEMENT5[this._takeSoundValue]]
+      return new lsFactory.Element5(TAKE_SOUND_ELEMENT5[this._takeSoundValue], {
+        lang: this._config.lang
+      })
     }
   })
   // 加到Lunisolar对象中
