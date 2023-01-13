@@ -16,10 +16,8 @@ import { cache, cacheClass } from '../utils/decorators'
  */
 @cacheClass
 export class Branch {
-  private _value: number = -1
-  private _e5?: Element5
-  private _hiddenStems: Stem[] = []
-  private _config = {
+  readonly _value: number = -1
+  readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
   }
 
@@ -47,22 +45,20 @@ export class Branch {
     return this._value
   }
 
+  @cache('branch:hiddenStems')
   get hiddenStems(): Stem[] {
-    if (this._hiddenStems.length) return this._hiddenStems
     const hiddenStemsValue = HIDDEN_STEMS[this._value]
-    this._hiddenStems = hiddenStemsValue.map(v => new Stem(v))
-    return this._hiddenStems
+    return hiddenStemsValue.map(v => new Stem(v))
   }
 
+  @cache('branch:e5')
   get e5(): Element5 {
-    if (this._e5) return this._e5
     const i = Math.floor((this._value + 10) / 3) % 4
     if ((this._value + 10) % 3 === 2) {
-      this._e5 = Element5.create(2, this._config)
+      return Element5.create(2, this._config)
     } else {
-      this._e5 = Element5.create(i < 2 ? i : i + 1, this._config)
+      return Element5.create(i < 2 ? i : i + 1, this._config)
     }
-    return this._e5
   }
   /**
    * 三合
@@ -138,11 +134,10 @@ export class Branch {
 /**
  * 天干
  */
+@cacheClass
 export class Stem {
-  private _value: number = -1
-  private _branchs: Branch[] = []
-  private _e5?: Element5
-  private _config = {
+  readonly _value: number = -1
+  readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
   }
 
@@ -170,19 +165,17 @@ export class Stem {
     return this._value
   }
 
+  @cache('stem:branchs')
   get branchs(): Branch[] {
-    if (this._branchs.length) return this._branchs
     const branchs = _GlobalConfig.locales[this._config.lang].branchs.filter(
       (_: string, index: number) => index % 2 === this._value % 2
     )
-    this._branchs = branchs.map((branch: string) => Branch.create(branch, this._config))
-    return this._branchs
+    return branchs.map((branch: string) => Branch.create(branch, this._config))
   }
 
+  @cache('stem:e5')
   get e5(): Element5 {
-    if (this._e5) return this._e5
-    this._e5 = Element5.create(Math.floor(this._value / 2), this._config)
-    return this._e5
+    return Element5.create(Math.floor(this._value / 2), this._config)
   }
 
   get trigram8(): Trigram8 {
@@ -202,10 +195,10 @@ export class Stem {
  * 天干地支组合
  */
 export class SB {
-  private _stem: Stem
-  private _branch: Branch
-  private _value: number = -1
-  private _config = {
+  readonly _stem: Stem
+  readonly _branch: Branch
+  readonly _value: number = -1
+  readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
   }
 

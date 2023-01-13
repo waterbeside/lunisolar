@@ -3,8 +3,8 @@ import { _GlobalConfig } from '../config'
 import { parseDate } from '../utils'
 
 export class SolarTerm {
-  private _value: number = -1
-  private _config = {
+  readonly _value: number = -1
+  readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
   }
   constructor(value: number | string | SolarTerm, config?: ClassCommonConfig) {

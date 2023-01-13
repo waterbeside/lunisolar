@@ -60,14 +60,14 @@ function getDateDiff(date1: Date, date2: Date): number {
  * class Lunar
  */
 export class Lunar {
-  _date: Date
-  _y: number
-  _m: number
-  _d: number
-  _h: number
-  leapMonth: number
-  leapMonthIsBig: boolean
-  private _config = {
+  readonly _date: Date
+  readonly _y: number
+  readonly _m: number
+  readonly _d: number
+  readonly _h: number
+  readonly leapMonth: number
+  readonly leapMonthIsBig: boolean
+  readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
   }
 

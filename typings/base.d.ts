@@ -62,12 +62,8 @@ interface TermFindNodeConfig<T extends boolean = false> extends Partial<TermFind
 }
 
 interface ILunisolar {
-  _config: LunisolarConfigData
-  _date: Date
-  _solarTerm?: Term | null
-  _lunar?: Lunar
-  _char8?: Char8
-  _cache: Map<string, any>
+  readonly _config: LunisolarConfigData
+  readonly _date: Date
   get lunar(): Lunar
   get char8(): Char8
   get solarTerm(): Term | null
@@ -83,8 +79,6 @@ interface ILunisolar {
   getConfig(key?: keyof LunisolarConfigData): any
   toDate(): Date
   clone(): Lunisolar
-  cache<T = any>(key: string): T | undefined
-  cache<T = any>(key: string, value: T): void
   unix(): number
   valueOf(): number
   utcOffset(): number

@@ -15,6 +15,14 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Lunar {
+    readonly _date: Date
+    readonly _y: number
+    readonly _m: number
+    readonly _d: number
+    readonly _h: number
+    readonly leapMonth: number
+    readonly leapMonthIsBig: boolean
+    readonly _config: Required<ClassCommonConfig>
     static fromLunar(lunarData: ParseFromLunarParam, config?: ClassCommonConfig): Lunar
     constructor(date: Date, config?: ClassCommonConfig)
     /**
@@ -105,6 +113,8 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Element5 {
+    readonly _value: number
+    readonly _config: Required<ClassCommonConfig>
     static create(value: number | string | Element5, config?: ClassCommonConfig): Element5
     constructor(value: number | string | Element5, config?: ClassCommonConfig)
     toString(): string
@@ -144,6 +154,8 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Trigram8 {
+    readonly _value: number = -1
+    readonly _config: Required<ClassCommonConfig>
     static create(value: number, config?: ClassCommonConfig): Trigram8
     constructor(value: number, config?: ClassCommonConfig)
     get value(): number
@@ -158,6 +170,9 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Direction24 {
+    readonly _value: number
+    readonly _sign: Stem | Branch | Trigram8
+    readonly _config: Required<ClassCommonConfig>
     static create(value: number | Branch | Stem | Trigram8, config?: ClassCommonConfig): Direction24
     static createFromAngle(angle: number, config: ClassCommonConfig): Direction24
     constructor(value: number | Branch | Stem | Trigram8, config?: ClassCommonConfig)
@@ -202,6 +217,8 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Stem {
+    readonly _value: number = -1
+    readonly _config: Required<ClassCommonConfig>
     static create(value: number | string | Stem, config?: ClassCommonConfig): Stem
     constructor(value: number | string | Stem, config?: ClassCommonConfig)
     toString(): string
@@ -236,6 +253,8 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Branch {
+    readonly _value: number = -1
+    readonly _config: Required<ClassCommonConfig>
     static create(value: number | string | Branch, config?: ClassCommonConfig): Branch
     constructor(value: number | string | Branch, config?: ClassCommonConfig)
     toString(): string
@@ -315,6 +334,10 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class SB {
+    readonly _stem: Stem
+    readonly _branch: Branch
+    readonly _value: number = -1
+    readonly _config: Required<ClassCommonConfig>
     /**
      * @param value 60位的天干地支組合的索引值
      */
@@ -351,6 +374,8 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class SolarTerm {
+    readonly _value: number = -1
+    readonly _config: Required<ClassCommonConfig>
     constructor(value: number | string | SolarTerm, config?: ClassCommonConfig)
     toString(): string
     valueOf(): number
@@ -415,6 +440,9 @@ declare namespace lunisolar {
    * @param Char8Config { lang: 语言名, changeAgeTerm: 用于換歲的節氣 }
    */
   export class Char8 {
+    readonly _value: number = -1
+    readonly _list: [SB, SB, SB, SB]
+    readonly _config: Required<Char8Config>
     constructor(dateOrSbList: Date | [SB, SB, SB, SB], config?: Char8Config)
     get value(): number
     toString(): string
@@ -474,12 +502,9 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Lunisolar implements ILunisolar {
-    _config: LunisolarConfigData
-    _date: Date
-    _solarTerm?: SolarTerm | null
-    _lunar?: Lunar
-    _char8?: Char8
-    _cache: Map<string, any>
+    readonly _config: LunisolarConfigData
+    readonly _date: Date
+
     constructor(date?: DateParamType, config?: ConfigType)
     get lunisolar(): typeof lunisolar
     /**
@@ -550,18 +575,6 @@ declare namespace lunisolar {
      */
     clone(): Lunisolar
 
-    /**
-     * 取得缓存
-     * @param key 缓存key
-     */
-    cache<T = any>(key: string): T | undefined
-    /**
-     * 设置缓存
-     *
-     * @param key 缓存key
-     * @param value 要设置的内容
-     */
-    cache<T = any>(key: string, value: T): void
     /**
      * Returns a timestamp in seconds
      */

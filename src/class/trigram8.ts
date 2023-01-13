@@ -2,8 +2,8 @@ import { _GlobalConfig } from '../config'
 import { parseCommonCreateClassValue } from '../utils'
 
 export class Trigram8 {
-  private _value: number = -1
-  private _config = {
+  readonly _value: number = -1
+  readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
   }
 

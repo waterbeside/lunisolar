@@ -10,14 +10,12 @@ import { FIRST_YEAR, LAST_YEAR } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
 import { SB } from './stemBranch'
 import lunisolarFac from '../index'
+import { cacheClass, cache } from '../utils/decorators'
 
+@cacheClass
 export class Lunisolar implements ILunisolar {
-  _config: LunisolarConfigData
-  _date: Date
-  _solarTerm?: SolarTerm | null
-  _lunar?: Lunar
-  _char8?: Char8
-  _cache = new Map<string, any>()
+  readonly _config: LunisolarConfigData
+  readonly _date: Date
   constructor(date?: DateParamType, config?: lunisolar.ConfigType) {
     this._date = parseDate(date)
     this._config = Object.assign({}, _GlobalConfig, config)
@@ -27,26 +25,24 @@ export class Lunisolar implements ILunisolar {
     return lunisolarFac
   }
 
+  @cache('lunisolar:lunar')
   get lunar(): Lunar {
-    if (this._lunar) return this._lunar
-    this._lunar = new Lunar(this._date, { lang: this._config.lang })
-    return this._lunar
+    return new Lunar(this._date, { lang: this._config.lang })
   }
 
   // 八字
+  @cache('lunisolar:char8')
   get char8(): Char8 {
-    if (this._char8) return this._char8
     const config = {
       lang: this._config.lang,
       changeAgeTerm: this._config.changeAgeTerm
     }
-    this._char8 = new Char8(this._date, config)
-    return this._char8
+    return new Char8(this._date, config)
   }
 
   // 节气
+  @cache('lunisolar:solarTerm')
   get solarTerm(): SolarTerm | null {
-    if (this._solarTerm !== undefined) return this._solarTerm
     const year = this._date.getFullYear()
     if (year < FIRST_YEAR || year > LAST_YEAR) {
       throw new Error(`${year} is not a lunar year`)
@@ -66,17 +62,13 @@ export class Lunisolar implements ILunisolar {
    * 取得当前日期之前的最近的节气点
    * @param nodeFlag 取的节气点，0: 取节， 1: 取气, 2: 节或气都取
    */
+  @cache('lunisolar:recentSolarTerm', true)
   recentSolarTerm(nodeFlag: 0 | 1 | 2): [SolarTerm, Date] {
-    const cacheKey = `recent_solar_term:${nodeFlag}`
-    const cache = this.cache<[SolarTerm, Date]>(cacheKey)
-    if (cache) return cache
-    const res = SolarTerm.findNode<false>(this._date, {
+    return SolarTerm.findNode<false>(this._date, {
       lang: this._config.lang,
       nodeFlag,
       returnValue: false
     })
-    this.cache(cacheKey, cache)
-    return res
   }
 
   /**
@@ -85,18 +77,14 @@ export class Lunisolar implements ILunisolar {
    * @param flag 為0時取月建，為1時取月將
    *
    */
+  @cache('lunisolar:getMonthBuilder', true)
   getMonthBuilder(flag: 0 | 1 = 0): [SB, lunisolar.SolarTerm, Date] {
-    const cacheKey = `month_builder:${flag}`
-    const cache = this.cache(cacheKey)
-    if (cache) return cache
     const sbConfig = {
       lang: this.getConfig('lang')
     }
     const [term, termDate] = this.recentSolarTerm(flag)
     const sbValue = computeSBMonthValueByTerm(this.toDate(), term.value, termDate)
-
     const sb = new SB(sbValue, undefined, sbConfig)
-    this.cache(cacheKey, [sb, term, termDate])
     return [sb, term, termDate]
   }
 
@@ -141,15 +129,6 @@ export class Lunisolar implements ILunisolar {
 
   clone() {
     return new Lunisolar(this._date, this._config)
-  }
-
-  cache<T = any>(key: string): T | undefined
-  cache<T = any>(key: string, value: T): void
-  cache<T = any>(key: string, value?: T): T | undefined | void {
-    if (typeof value === 'undefined') {
-      return this._cache.has(key) ? this._cache.get(key) : undefined
-    }
-    this._cache.set(key, value)
   }
 
   unix() {
