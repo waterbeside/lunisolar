@@ -10,7 +10,7 @@ specifiers:
   '@rollup/plugin-commonjs': ^22.0.2
   '@rollup/plugin-node-resolve': ^13.2.1
   '@rollup/plugin-terser': ^0.2.1
-  '@types/jest': ^27.4.1
+  '@types/jest': ^27.5.2
   '@types/node': ^17.0.24
   '@typescript-eslint/eslint-plugin': ^5.19.0
   '@typescript-eslint/parser': ^5.46.0
@@ -26,7 +26,7 @@ specifiers:
   rollup-plugin-copy: ^3.4.0
   rollup-plugin-dts: ^4.2.1
   rollup-plugin-typescript2: ^0.31.2
-  ts-jest: ^29.0.3
+  ts-jest: ^29.0.4
   ts-node: ^10.9.1
   tslib: ^2.4.0
   typescript: ^4.6.3
