@@ -2,6 +2,9 @@ interface C8GodDict {
   [key: string]: C8godItem
 }
 
+export type GodRule = (number | number[] | null | string)[]
+export type GodRuleFun = (...args: any[]) => GodRule
+
 export interface GodRuleItem {
   startBy: 'branch' | 'stem' | 'takeSoundE5' | 'season' | 'sb' | null
   startPillar: string[]
@@ -10,7 +13,7 @@ export interface GodRuleItem {
   findBy: 'branch' | 'stem' | 's,b' | 'sb'
   sbFormatter?: (sV: number, bV: number) => [number, number]
   ruleParams?: any[]
-  rule: any
+  rule: GodRule | GodRuleFun
 }
 
 interface C8godItem {
@@ -197,14 +200,15 @@ export const godDict: C8GodDict = {
     ]
   },
   // 年月干见月年支，日时干见时日支
-  天廚: {
+  天廚貴人: {
     luckLevel: 1,
     rules: [
       {
         startBy: 'stem',
-        startPillar: ['year:month', 'month:year', 'day:hour', 'hour:day'],
+        // startPillar: ['year:month', 'month:year', 'day:hour', 'hour:day'],
+        startPillar: ['year', 'day'],
         findBy: 'branch',
-        rule: [5, 6, 5, 6, 8, 911, 0, 2, 3]
+        rule: [5, 6, 5, 6, 8, 9, 11, 0, 2, 3]
       }
     ]
   },
@@ -299,9 +303,9 @@ export const godDict: C8GodDict = {
         startBy: 'branch',
         startPillar: ['year'],
         findBy: 'branch',
-        ruleParams: ['year.stem', 'sex'],
-        rule: (yaarStem: number, sex: number) => {
-          if ((yaarStem + sex) % 2 === 1) {
+        ruleParams: ['year.stem', 'sexValue'],
+        rule: (yaarStem: lunisolar.Stem, sex: number) => {
+          if ((yaarStem.value + sex) % 2 === 1) {
             // 阳男阴女
             return [3, 4, 5, 6, 7, 8, 9, 10, 11, 0, 1, 2]
           } else {
@@ -338,9 +342,9 @@ export const godDict: C8GodDict = {
         startBy: 'branch',
         startPillar: ['year'],
         findBy: 'branch',
-        ruleParams: ['year.stem', 'sex'],
-        rule: (yaarStem: number, sex: number) => {
-          if ((yaarStem + sex) % 2 === 1) {
+        ruleParams: ['year.stem', 'sexValue'],
+        rule: (yaarStem: lunisolar.Stem, sex: number) => {
+          if ((yaarStem.value + sex) % 2 === 1) {
             // 阳男阴女
             return [7, 8, 9, 10, 11, 0, 1, 2, 3, 4, 5, 6]
           } else {
@@ -351,13 +355,13 @@ export const godDict: C8GodDict = {
       }
     ]
   },
-  // 年月支见支
+  // 年支见支
   孤辰: {
     luckLevel: -1,
     rules: [
       {
         startBy: 'branch',
-        startPillar: ['year', 'month'],
+        startPillar: ['year'],
         findBy: 'branch',
         rule: [2, 2, 5, 5, 5, 8, 8, 8, 11, 11, 11, 2]
       }
@@ -368,7 +372,7 @@ export const godDict: C8GodDict = {
     rules: [
       {
         startBy: 'branch',
-        startPillar: ['year', 'month'],
+        startPillar: ['year'],
         findBy: 'branch',
         rule: [10, 10, 1, 1, 1, 4, 4, 4, 7, 7, 7, 10]
       }
@@ -715,14 +719,25 @@ export const godDict: C8GodDict = {
     ]
   },
   // 納音起
+  // 學堂: {
+  //   luckLevel: 1,
+  //   rules: [
+  //     {
+  //       startBy: 'takeSoundE5',
+  //       startPillar: ['day'],
+  //       findBy: 'sb',
+  //       rule: [35, 44, 2, 17, 20]
+  //     }
+  //   ]
+  // },
   學堂: {
     luckLevel: 1,
     rules: [
       {
-        startBy: 'takeSoundE5',
-        startPillar: ['day'],
-        findBy: 'sb',
-        rule: [35, 44, 2, 17, 20]
+        startBy: 'stem',
+        startPillar: ['year', 'day'],
+        findBy: 'branch',
+        rule: [11, 11, 2, 2, 8, 8, 5, 8, 8]
       }
     ]
   },
@@ -764,5 +779,5 @@ export const godDict: C8GodDict = {
     ]
   }
 }
-
-export const godKeysSet = new Set(Object.keys(godDict))
+export const godKeys = Object.keys(godDict)
+export const godKeysSet = new Set(godKeys)

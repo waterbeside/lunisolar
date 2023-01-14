@@ -11,7 +11,7 @@ export const TEN_GOD_LIST = [
   '梟神'
 ] as const
 
-export type TenGodKeys = typeof TEN_GOD_LIST[number]
+export type TenGodKeys = (typeof TEN_GOD_LIST)[number]
 
 export const TEN_GOD_RELATIONS = {
   // 我生者

@@ -1,11 +1,12 @@
-import type { TenGodKeys } from '../constants'
+import { TenGodKeys, TEN_GOD_LIST } from '../constants'
+import { GodBase } from './godBase'
 import { trans } from '../utils'
 
-export class TenGod {
-  private godKey: TenGodKeys
-  private _config = {
+export class TenGod extends GodBase<TenGodKeys> {
+  protected _config = {
     lang: 'zh'
   }
+  static godkeysSet = new Set(TEN_GOD_LIST)
   static instances = new Map<string, TenGod>()
   static create(godKey: TenGodKeys, config?: ClassCommonConfig) {
     const lang = config?.lang || 'zh'
@@ -17,21 +18,11 @@ export class TenGod {
   }
 
   constructor(godKey: TenGodKeys, config?: ClassCommonConfig) {
-    this.godKey = godKey
-    if (config) {
-      this._config = Object.assign({}, this._config, config)
-    }
-  }
-
-  get key() {
-    return this.godKey
+    if (!TenGod.godkeysSet.has(godKey)) throw new Error(`錯誤的十神key:${godKey}`)
+    super(godKey, config)
   }
 
   get name() {
     return trans(`tenGod.${this.key}`, this._config.lang)
-  }
-
-  toString() {
-    return this.name
   }
 }

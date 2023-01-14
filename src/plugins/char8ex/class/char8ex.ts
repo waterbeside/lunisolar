@@ -5,28 +5,44 @@ import { SB } from '../../../class/stemBranch'
 import { Pillar } from './pillar'
 import { cacheClass, cache } from '../../../utils/decorators'
 import { computeRatStem } from '../../../utils'
+import { trans } from '../utils'
+import { SBX } from '../types'
+import { C8God } from './c8God'
+import { createAllC8Gods } from '../utils/c8Gods'
 
 @cacheClass
 export class Char8Ex {
-  private readonly _pillars: [Pillar, Pillar, Pillar, Pillar]
-  private readonly _me: Stem
-  private lsr: Lunisolar
+  readonly _pillars: [Pillar, Pillar, Pillar, Pillar]
+  readonly _lang: string = 'zh'
+  readonly me: Stem
   readonly char8: Char8
+  readonly lsr: Lunisolar
+  readonly sexValue: 0 | 1 | null
+  readonly gods: {
+    [x in YMDH]: C8God[]
+  } = { year: [], month: [], day: [], hour: [] }
 
-  constructor(lsr: Lunisolar) {
+  constructor(lsr: Lunisolar, sexValue: 0 | 1 | null) {
+    this.sexValue = sexValue
     this.lsr = lsr
-    this._me = lsr.char8.me
+    this.me = lsr.char8.me
     this.char8 = lsr.char8
-    const ymdh = ['year', 'month', 'day', 'hour']
+    this._lang = lsr.getConfig().lang
+    const ymdhList = ['year', 'month', 'day', 'hour']
     this._pillars = lsr.char8.list.map(
       (item, index) =>
         new Pillar({
-          sb: item,
-          me: this._me,
-          cate: ymdh[index] as YMDH,
+          sb: item as SBX,
+          me: this.me,
+          cate: ymdhList[index] as YMDH,
           lang: lsr.char8.getConfig().lang
         })
     ) as [Pillar, Pillar, Pillar, Pillar]
+    this.gods = createAllC8Gods(this)
+    for (let i = 0; i < 4; i++) {
+      const ymdh: YMDH = ymdhList[i] as YMDH
+      this._pillars[i]._pushGods(this.gods[ymdh])
+    }
   }
 
   get list(): [Pillar, Pillar, Pillar, Pillar] {
@@ -49,8 +65,8 @@ export class Char8Ex {
     return this._pillars[3]
   }
 
-  get me(): Stem {
-    return this._me
+  get sex() {
+    return trans(`sex.${this.sexValue}`, this._lang)
   }
 
   /**
@@ -80,7 +96,8 @@ export class Char8Ex {
    */
   @cache('char8ex:ownSign')
   ownSign(): SB {
-    const month = this.lsr.lunar.month
+    // const month = this.lsr.lunar.month
+    const month = ((this.month.branch.value + 10) % 12) + 1
     const c8hour = this.hour.branch.value
     const monthSign = (13 - month) % 12
     const b = (12 + 3 - c8hour + monthSign) % 12
@@ -100,12 +117,17 @@ export class Char8Ex {
    */
   @cache('char8ex:bodySign')
   bodySign(): SB {
-    const month = this.lsr.lunar.month
+    // const month = this.lsr.lunar.month
+    const month = ((this.month.branch.value + 10) % 12) + 1
     const c8hour = this.hour.branch.value
     const monthSign = (month - 1) % 12
     const b = (12 + c8hour - 9 + monthSign) % 12
     // 查身宫天干
     const s = (10 + this.month.stem.value + b - this.month.branch.value) % 10
     return new SB(s, b, { lang: this.char8.getConfig().lang })
+  }
+
+  toString() {
+    return `${this.sex}:\n${this.year} ${this.month} ${this.day} ${this.hour}`
   }
 }

@@ -1,4 +1,5 @@
 import type { Stem } from '../../../class/stemBranch'
+
 import { TenGod } from '../class/tenGod'
 
 import { getTranslation } from '../../../utils'
@@ -8,14 +9,14 @@ export const char8exGlobal: { locales: { [key: string]: any } } = {
   locales: {}
 }
 
-export const setTheGodsLocales = function (locales: { [key: string]: any }) {
+export const setLocales = function (locales: { [key: string]: any }) {
   char8exGlobal.locales = locales
 }
 
 export const trans = function (key: string, lang: string = 'zh') {
   const locale = char8exGlobal.locales[lang]
   if (!locale) return key
-  const tKey = `theGods.${key}`
+  const tKey = `char8ex.${key}`
   return getTranslation(locale, tKey)
 }
 
