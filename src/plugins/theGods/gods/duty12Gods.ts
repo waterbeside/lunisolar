@@ -20,7 +20,7 @@ export const duty12GodNames = [
 ] as const
 
 const duty12GodData: {
-  [key in typeof duty12GodNames[number]]: [
+  [key in (typeof duty12GodNames)[number]]: [
     string[] | null,
     string[] | null,
     GodDictItemExtra | null,
@@ -149,13 +149,13 @@ const duty12GodData: {
 
 export const getDuty12GodDataBykey = (key: string) => {
   return duty12GodData.hasOwnProperty(key)
-    ? duty12GodData[key as typeof duty12GodNames[number]]
+    ? duty12GodData[key as (typeof duty12GodNames)[number]]
     : null
 }
 
 export const getDuty12GodIndexAndKey = function (
   lsr: lunisolar.Lunisolar
-): [number, typeof duty12GodNames[number]] {
+): [number, (typeof duty12GodNames)[number]] {
   const godIdx = (getBranchValue(lsr, 'day') + 12 - getBranchValue(lsr, 'month')) % 12
   const key = duty12GodNames[godIdx]
   return [godIdx, key]
