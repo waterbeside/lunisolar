@@ -2,7 +2,18 @@ name: Build
 
 on:
   push:
-    branches: [dev]
+    branches: [main]
+    paths-ignore:
+    - "**.md"
+    - "**.spec.js"
+    - ".idea"
+    - ".vscode"
+    - ".gitignore"
+    - ".github/**"
+    - "!.github/workflows/build.yml"
+    - "__test__/**"
+    - "docs/**"
+
 
 jobs:
   build:
