@@ -37,9 +37,20 @@ describe('plugins/char8ex', () => {
   it('2023-01-22 15:19', () => {
     const lsr = lunisolar('2023-01-22 15:19') as unknown as LunisolarEx
     const c8ex = lsr.char8ex(1)
-    console.log(c8ex.gods)
     expect(c8ex.gods.day.map(item => item.key)).toEqual(
       expect.arrayContaining(['魁罡貴人', '華蓋', '天德', '日德'])
     )
+  })
+
+  it('2023-01-15 12:26', () => {
+    const lsr = lunisolar('2023-01-15 12:26') as unknown as LunisolarEx
+    const c8ex = lsr.char8ex(1)
+    console.log(c8ex.toString())
+    expect(c8ex.year.stemTenGod.name).toBe('劫財')
+    expect(c8ex.month.stemTenGod.name).toBe('比肩')
+    expect(c8ex.day.stemTenGod.name).toBe('日主')
+    console.log('this.me', c8ex.hour._me)
+
+    expect(c8ex.hour.stemTenGod.name).toBe('正官')
   })
 })
