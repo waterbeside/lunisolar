@@ -25,6 +25,27 @@ describe('SB', () => {
       ).toBe(testData[i])
     }
   })
+
+  it('旬空', () => {
+    const resList = [
+      [10, 11],
+      [8, 9],
+      [6, 7],
+      [4, 5],
+      [2, 3],
+      [0, 1]
+    ]
+    for (let i = 0; i < 60; i++) {
+      let res
+      res = resList[Math.floor(i / 10)]
+      expect(
+        (() => {
+          const sb = new SB(i)
+          return sb.missing.map(i => i.value)
+        })()
+      ).toEqual(res)
+    }
+  })
 })
 
 describe('branch triad', () => {
