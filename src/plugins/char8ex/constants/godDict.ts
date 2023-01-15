@@ -478,7 +478,7 @@ export const godDict: C8GodDict = {
   },
   // 年日支见支
   華蓋: {
-    luckLevel: -1,
+    luckLevel: 0,
     rules: [
       {
         startBy: 'branch',
@@ -490,7 +490,7 @@ export const godDict: C8GodDict = {
     ]
   },
   將星: {
-    luckLevel: -1,
+    luckLevel: 1,
     rules: [
       {
         startBy: 'branch',
@@ -583,6 +583,17 @@ export const godDict: C8GodDict = {
         startPillar: ['null:day'],
         findBy: 'sb',
         rule: [33, 23, 29, 39]
+      }
+    ]
+  },
+  魁罡貴人: {
+    luckLevel: 1,
+    rules: [
+      {
+        startBy: null,
+        startPillar: ['null:day'],
+        findBy: 'sb',
+        rule: [16, 28, 34, 46]
       }
     ]
   },
