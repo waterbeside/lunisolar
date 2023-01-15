@@ -240,6 +240,11 @@ export class SB {
     return this._value
   }
 
+  get missing(): [Branch, Branch] {
+    const bV = (5 - Math.floor(this.value / 10)) * 2
+    return [Branch.create(bV, this._config), Branch.create(bV + 1, this._config)]
+  }
+
   toString(): string {
     const locale = _GlobalConfig.locales[this._config.lang]
     return `${this._stem}${locale?.stemBranchSeparator ?? ''}${this._branch}`

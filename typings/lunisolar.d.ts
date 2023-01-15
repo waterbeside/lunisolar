@@ -354,17 +354,21 @@ declare namespace lunisolar {
     toString(): string
     valueOf(): number
     /**
-     * @returns 60位的天干地支組合的索引值 0 ~ 59
+     * 60位的天干地支組合的索引值 0 ~ 59
      */
     get value(): number
     /**
-     * @returns 天干實例
+     * 天干實例
      */
     get stem(): Stem
     /**
-     * @returns 地支實例
+     * 地支實例
      */
     get branch(): Branch
+    /**
+     * 旬空
+     */
+    get missing(): [Branch, Branch]
   }
 
   /**
