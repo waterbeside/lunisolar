@@ -1,20 +1,16 @@
 import { trans } from '../utils'
 
 export class GodBase<T = string> {
-  protected godKey: string
-  protected _config = {
+  readonly key: string
+  readonly _config = {
     lang: 'zh'
   }
 
   constructor(godKey: string, config?: ClassCommonConfig) {
-    this.godKey = godKey
+    this.key = godKey
     if (config) {
       this._config = Object.assign({}, this._config, config)
     }
-  }
-
-  get key() {
-    return this.godKey
   }
 
   get name(): T {
