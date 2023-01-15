@@ -8,7 +8,7 @@ export class TenGod extends GodBase<TenGodKeys> {
   }
   static godkeysSet = new Set(TEN_GOD_LIST)
   static instances = new Map<string, TenGod>()
-  static create(godKey: TenGodKeys, config?: ClassCommonConfig) {
+  static create(godKey: TenGodKeys | '日主', config?: ClassCommonConfig) {
     const lang = config?.lang || 'zh'
     const instMapKey = `${godKey}:${lang}`
     if (TenGod.instances.has(instMapKey)) return TenGod.instances.get(instMapKey) as TenGod
@@ -17,8 +17,9 @@ export class TenGod extends GodBase<TenGodKeys> {
     return inst
   }
 
-  constructor(godKey: TenGodKeys, config?: ClassCommonConfig) {
-    if (!TenGod.godkeysSet.has(godKey)) throw new Error(`錯誤的十神key:${godKey}`)
+  constructor(godKey: TenGodKeys | '日主', config?: ClassCommonConfig) {
+    if (godKey !== '日主' && !TenGod.godkeysSet.has(godKey))
+      throw new Error(`錯誤的十神key:${godKey}`)
     super(godKey, config)
   }
 
