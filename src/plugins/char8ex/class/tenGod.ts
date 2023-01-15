@@ -3,7 +3,7 @@ import { GodBase } from './godBase'
 import { trans } from '../utils'
 
 export class TenGod extends GodBase<TenGodKeys> {
-  protected _config = {
+  readonly _config = {
     lang: 'zh'
   }
   static godkeysSet = new Set(TEN_GOD_LIST)
