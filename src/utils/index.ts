@@ -81,10 +81,6 @@ export const prettyLunarData = function (lunarData: ParseFromLunarParam, lang?: 
       }
       yearString += n >= 0 ? n : ''
     }
-    if (lunarData.year === '二〇二〇') {
-      console.log(yearString)
-    }
-
     lunarData.year = Number(yearString)
   }
   if (typeof lunarData.month === 'string') {
