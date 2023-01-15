@@ -216,7 +216,7 @@ declare namespace lunisolar {
    * @param value 天干索引 | 天干名稱 | 天干實例
    * @param config 设置
    */
-  export class Stem {
+  export class Stem extends CacheClass {
     readonly _value: number = -1
     readonly _config: Required<ClassCommonConfig>
     static create(value: number | string | Stem, config?: ClassCommonConfig): Stem
@@ -252,7 +252,7 @@ declare namespace lunisolar {
    * @param value 地支索引 | 天干名稱 | 天干實例
    * @param config 设置
    */
-  export class Branch {
+  export class Branch extends CacheClass {
     readonly _value: number = -1
     readonly _config: Required<ClassCommonConfig>
     static create(value: number | string | Branch, config?: ClassCommonConfig): Branch
@@ -505,10 +505,9 @@ declare namespace lunisolar {
    * @param date 日期对象 | 日期字符串
    * @param config 设置
    */
-  export class Lunisolar {
+  export class Lunisolar extends CacheClass {
     readonly _config: LunisolarConfigData
     readonly _date: Date
-    readonly cache: Map<string, any>
 
     constructor(date?: DateParamType, config?: ConfigType)
     get lunisolar(): typeof lunisolar

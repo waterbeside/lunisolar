@@ -1,17 +1,17 @@
+import { CacheClass } from './../../../class/CacheClass'
+import { cache } from '../../../utils/decorators'
 import type { Stem } from '../../../class/stemBranch'
 import type { Char8 } from '../../../class/char8'
 import type { Lunisolar } from '../../../class/lunisolar'
 import { SB } from '../../../class/stemBranch'
 import { Pillar } from './pillar'
-import { cacheClass, cache } from '../../../utils/decorators'
 import { computeRatStem } from '../../../utils'
 import { trans } from '../utils'
 import { SBX } from '../types'
 import { C8God } from './c8God'
 import { createAllC8Gods } from '../utils/c8Gods'
 
-@cacheClass
-export class Char8Ex {
+export class Char8Ex extends CacheClass {
   readonly _pillars: [Pillar, Pillar, Pillar, Pillar]
   readonly _lang: string = 'zh'
   readonly me: Stem
@@ -23,6 +23,7 @@ export class Char8Ex {
   } = { year: [], month: [], day: [], hour: [] }
 
   constructor(lsr: Lunisolar, sexValue: 0 | 1 | null) {
+    super()
     this.sexValue = sexValue
     this.lsr = lsr
     this.me = lsr.char8.me
@@ -32,7 +33,7 @@ export class Char8Ex {
     this._pillars = lsr.char8.list.map(
       (item, index) =>
         new Pillar({
-          sb: item as SBX,
+          sb: item as unknown as SBX,
           me: this.me,
           cate: ymdhList[index] as YMDH,
           lang: lsr.char8.getConfig().lang

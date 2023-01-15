@@ -1,14 +1,3 @@
-export function cacheClass<T extends { new (...args: any[]): {} }>(target: T) {
-  const targetPrototype = target.prototype
-  if (targetPrototype.cache === void 0) {
-    Object.defineProperty(targetPrototype, 'cache', {
-      value: new Map<string, any>(),
-      configurable: false,
-      writable: false
-    })
-  }
-}
-
 export function cache(cacheKey: string, isArgsAffectKey: boolean = false): MethodDecorator {
   return function (target, propertyKey, descriptor) {
     const original =

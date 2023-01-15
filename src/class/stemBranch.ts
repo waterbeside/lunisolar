@@ -9,13 +9,13 @@ import {
   computeGroup6E5Value
 } from '../utils'
 import { Trigram8 } from './trigram8'
-import { cache, cacheClass } from '../utils/decorators'
+import { cache } from '../utils/decorators'
+import { CacheClass } from './CacheClass'
 
 /**
  * 地支
  */
-@cacheClass
-export class Branch {
+export class Branch extends CacheClass {
   readonly _value: number = -1
   readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
@@ -34,6 +34,7 @@ export class Branch {
   }
 
   constructor(value: number | string | Branch, config?: ClassCommonConfig) {
+    super()
     if (value instanceof Branch) return value
     if (config) {
       this._config = Object.assign({}, this._config, config)
@@ -134,8 +135,7 @@ export class Branch {
 /**
  * 天干
  */
-@cacheClass
-export class Stem {
+export class Stem extends CacheClass {
   readonly _value: number = -1
   readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
@@ -154,6 +154,7 @@ export class Stem {
   }
 
   constructor(value: number | string | Stem, config?: ClassCommonConfig) {
+    super()
     if (value instanceof Stem) return value
     if (config) {
       this._config = Object.assign({}, this._config, config)

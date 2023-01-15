@@ -1,10 +1,12 @@
 import type { Stem, Branch } from '../../../class/stemBranch'
-import type { TenGod } from './tenGod'
 import type { Element5 } from '../../../class/element5'
+import { TenGod } from './tenGod'
 import { C8God } from './c8God'
 import { computeTenGodByStem } from '../utils'
 
 import { SBX } from '../types'
+import { cache } from '../../../utils/decorators'
+import { CacheClass } from './../../../class/CacheClass'
 
 interface PillarDataParam {
   sb: SBX
@@ -13,13 +15,14 @@ interface PillarDataParam {
   lang?: string
 }
 
-export class Pillar {
+export class Pillar extends CacheClass {
   readonly _sb: SBX
   readonly _me: Stem
   readonly _cate: YMDH
   readonly _lang: string = 'zh'
   readonly gods: C8God[] = []
   constructor(data: PillarDataParam) {
+    super()
     this._sb = data.sb
     this._cate = data.cate
     this._me = data.me
@@ -52,11 +55,13 @@ export class Pillar {
     return this._sb.takeSoundE5
   }
 
+  @cache('pillar:stemTenGod')
   get stemTenGod() {
-    if (this._cate === 'day') return null
+    if (this._cate === 'day') return TenGod.create('日主', { lang: this._lang })
     return computeTenGodByStem(this._me, this.stem, this._lang)
   }
 
+  @cache('pillar:branchTenGod')
   get branchTenGod(): TenGod[] {
     return this.branch.hiddenStems.map(item => {
       return computeTenGodByStem(this._me, item, this._lang)

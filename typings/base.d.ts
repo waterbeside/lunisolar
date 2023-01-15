@@ -80,3 +80,7 @@ type MethodDecorator = <T>(
   propertyKey: string | symbol,
   descriptor: TypedPropertyDescriptor<T>
 ) => TypedPropertyDescriptor<T> | void
+
+class CacheClass {
+  readonly cache: Map<string, unknown>
+}

@@ -11,12 +11,13 @@ import { _GlobalConfig } from '../config'
 import { SB } from './stemBranch'
 import lunisolarFac from '../index'
 import { cache } from '../utils/decorators'
+import { CacheClass } from './CacheClass'
 
-export class Lunisolar {
+export class Lunisolar extends CacheClass {
   readonly _config: LunisolarConfigData
   readonly _date: Date
-  readonly cache = new Map<string, any>()
   constructor(date?: DateParamType, config?: lunisolar.ConfigType) {
+    super()
     this._date = parseDate(date)
     this._config = Object.assign({}, _GlobalConfig, config)
   }
