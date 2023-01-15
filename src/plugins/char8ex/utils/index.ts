@@ -28,7 +28,7 @@ export const computeTenGodByStem = function (
   targetStem: Stem,
   lang: string = 'zh'
 ): TenGod {
-  const isNotSame = me.value % 2 === me.value % 2 ? 0 : 1
+  const isNotSame = me.value % 2 === targetStem.value % 2 ? 0 : 1
   // const meE5V = me.e5.value
   const targetE5V = targetStem.e5.value
   let trgKey: keyof typeof TGR
@@ -42,6 +42,7 @@ export const computeTenGodByStem = function (
     // 我克者
     trgKey = 'overcoming'
   } else if (me.e5.counteracting().value === targetE5V) {
+    // 克我者
     trgKey = 'counteracting'
   } else {
     // 同我者
