@@ -46,6 +46,10 @@ export class Branch extends CacheClass {
     return this._value
   }
 
+  get name(): string {
+    return _GlobalConfig.locales[this._config.lang].branchs[this._value]
+  }
+
   @cache('branch:hiddenStems')
   get hiddenStems(): Stem[] {
     const hiddenStemsValue = HIDDEN_STEMS[this._value]
@@ -124,7 +128,7 @@ export class Branch extends CacheClass {
   }
 
   toString(): string {
-    return _GlobalConfig.locales[this._config.lang].branchs[this._value]
+    return this.name
   }
 
   valueOf(): number {
@@ -166,6 +170,10 @@ export class Stem extends CacheClass {
     return this._value
   }
 
+  get name(): string {
+    return _GlobalConfig.locales[this._config.lang].stems[this._value]
+  }
+
   @cache('stem:branchs')
   get branchs(): Branch[] {
     const branchs = _GlobalConfig.locales[this._config.lang].branchs.filter(
@@ -184,7 +192,7 @@ export class Stem extends CacheClass {
   }
 
   toString(): string {
-    return _GlobalConfig.locales[this._config.lang].stems[this._value]
+    return this.name
   }
 
   valueOf(): number {
@@ -246,9 +254,13 @@ export class SB {
     return [Branch.create(bV, this._config), Branch.create(bV + 1, this._config)]
   }
 
-  toString(): string {
+  get name(): string {
     const locale = _GlobalConfig.locales[this._config.lang]
     return `${this._stem}${locale?.stemBranchSeparator ?? ''}${this._branch}`
+  }
+
+  toString(): string {
+    return this.name
   }
 
   valueOf(): number {

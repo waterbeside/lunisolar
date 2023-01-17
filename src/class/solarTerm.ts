@@ -25,6 +25,10 @@ export class SolarTerm {
     return this._value
   }
 
+  get name() {
+    return String(_GlobalConfig.locales[this._config.lang].solarTerm[this.value])
+  }
+
   static getNames(lang?: string): string[] {
     lang = lang || _GlobalConfig.lang
     return [..._GlobalConfig.locales[lang].solarTerm]
@@ -146,6 +150,6 @@ export class SolarTerm {
   }
 
   toString() {
-    return String(_GlobalConfig.locales[this._config.lang].solarTerm[this.value])
+    return this.name
   }
 }

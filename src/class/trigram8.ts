@@ -29,8 +29,12 @@ export class Trigram8 {
     return this._value
   }
 
-  toString() {
+  get name(): string {
     return _GlobalConfig.locales[this._config.lang].eightTrigram[this._value]
+  }
+
+  toString() {
+    return this.name
   }
 
   valueOf() {
