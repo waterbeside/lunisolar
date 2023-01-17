@@ -62,7 +62,7 @@ export class Direction24 {
     return this._sign
   }
 
-  get signName() {
+  get name() {
     return this._sign.toString()
   }
 
