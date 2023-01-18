@@ -50,3 +50,21 @@ export const computeTenGodByStem = function (
   }
   return TenGod.create(TGR[trgKey][isNotSame], { lang })
 }
+
+/**
+ * 月份数转地支序号
+ * @param month 月份数
+ * @returns 地支序号（从0开始）
+ */
+export const month2BranchValue = (month: number): number => {
+  return (month + 1) % 12
+}
+
+/**
+ * 地支序号转月份数
+ * @param branchValue 地支序号
+ * @returns 月份数(1~12)
+ */
+export const branchValue2month = (branchValue: number): number => {
+  return (12 + branchValue - 1) % 12
+}
