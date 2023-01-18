@@ -60,11 +60,11 @@ function getDateDiff(date1: Date, date2: Date): number {
  * class Lunar
  */
 export class Lunar {
-  readonly _date: Date
-  readonly _y: number
-  readonly _m: number
-  readonly _d: number
-  readonly _h: number
+  protected _date: Date
+  readonly year: number
+  readonly month: number
+  readonly day: number
+  readonly hour: number
   readonly leapMonth: number
   readonly leapMonthIsBig: boolean
   readonly _config: Required<ClassCommonConfig> = {
@@ -103,27 +103,27 @@ export class Lunar {
       year = year - 1
       dateDiff = getDateDiff(getLunarNewYearDay(year), date)
     }
-    this._y = year
+    this.year = year
     // 取得當年的闰月
     const [leapMonth, leapMonthIsBig] = getYearLeapMonth(year)
     this.leapMonth = leapMonth
     this.leapMonthIsBig = leapMonthIsBig
     // 計算年和月
-    ;[this._m, this._d] = getLunarMonthDate(year, dateDiff, [leapMonth, leapMonthIsBig])
+    ;[this.month, this.day] = getLunarMonthDate(year, dateDiff, [leapMonth, leapMonthIsBig])
     // 計算時辰 0 ~ 11
-    this._h = (hours + 1) % 24 >> 1
+    this.hour = (hours + 1) % 24 >> 1
   }
 
   get isLeapMonth(): boolean {
-    return this._m > 100
+    return this.month > 100
   }
 
   get isBigMonth(): boolean {
-    const monthData = LUNAR_MONTH_DATAS[this._y - FIRST_YEAR]
+    const monthData = LUNAR_MONTH_DATAS[this.year - FIRST_YEAR]
     if (this.isLeapMonth) {
       return ((monthData >> 12) & 1) === 1
     } else {
-      return ((monthData >> (this._m - 1)) & 1) === 1
+      return ((monthData >> (this.month - 1)) & 1) === 1
     }
   }
 
@@ -133,27 +133,11 @@ export class Lunar {
     return false
   }
 
-  get year(): number {
-    return this._y
-  }
-
-  get month(): number {
-    return this._m
-  }
-
-  get day(): number {
-    return this._d
-  }
-
-  get hour(): number {
-    return this._h
-  }
-
   /**
    * 当年正月初一的日期
    */
   get lunarNewYearDay(): Date {
-    return getLunarNewYearDay(this._y)
+    return getLunarNewYearDay(this.year)
   }
 
   /**
@@ -177,7 +161,7 @@ export class Lunar {
 
   getYearName(): string {
     let res = ''
-    let year = this._y
+    let year = this.year
     const numerals = _GlobalConfig.locales[this._config.lang].numerals
     while (year) {
       const s = numerals[year % 10]
@@ -190,16 +174,16 @@ export class Lunar {
   getMonthName(): string {
     const LunarMonthNames = _GlobalConfig.locales[this._config.lang].lunarMonths
     const leapStr = _GlobalConfig.locales[this._config.lang].leap
-    return (this.isLeapMonth ? leapStr : '') + LunarMonthNames[(this._m % 100) - 1]
+    return (this.isLeapMonth ? leapStr : '') + LunarMonthNames[(this.month % 100) - 1]
   }
 
   getDayName(): string {
     const lunarDayNames = _GlobalConfig.locales[this._config.lang].lunarDays
-    return lunarDayNames[this._d - 1]
+    return lunarDayNames[this.day - 1]
   }
 
   getHourName(): string {
-    return _GlobalConfig.locales[this._config.lang].branchs[this._h]
+    return _GlobalConfig.locales[this._config.lang].branchs[this.hour]
   }
 
   toString(): string {
