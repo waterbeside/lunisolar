@@ -56,7 +56,7 @@ export class Pillar extends CacheClass {
   }
 
   @cache('pillar:stemTenGod')
-  get stemTenGod() {
+  get stemTenGod(): TenGod {
     if (this._cate === 'day') return TenGod.create('日主', { lang: this._lang })
     return computeTenGodByStem(this._me, this.stem, this._lang)
   }
@@ -66,6 +66,10 @@ export class Pillar extends CacheClass {
     return this.branch.hiddenStems.map(item => {
       return computeTenGodByStem(this._me, item, this._lang)
     })
+  }
+
+  get missing(): [Branch, Branch] {
+    return this._sb.missing
   }
 
   valueOf() {
