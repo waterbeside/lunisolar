@@ -516,7 +516,17 @@ declare namespace lunisolar {
     readonly _config: LunisolarConfigData
 
     constructor(date?: DateParamType, config?: ConfigType)
+
     get lunisolar(): typeof lunisolar
+    get year(): number
+    get month(): number
+    get day(): number
+    get weekDay(): number
+    get hour(): number
+    get minute(): number
+    get second(): number
+    get millis(): number
+
     /**
      * get lunar object
      *

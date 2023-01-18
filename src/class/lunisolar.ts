@@ -15,7 +15,7 @@ import { CacheClass } from './CacheClass'
 
 export class Lunisolar extends CacheClass {
   readonly _config: LunisolarConfigData
-  readonly _date: Date
+  protected _date: Date
   constructor(date?: DateParamType, config?: lunisolar.ConfigType) {
     super()
     this._date = parseDate(date)
@@ -24,6 +24,38 @@ export class Lunisolar extends CacheClass {
 
   get lunisolar(): typeof lunisolar {
     return lunisolarFac
+  }
+
+  get year(): number {
+    return this._date.getFullYear()
+  }
+
+  get month(): number {
+    return this._date.getMonth() + 1
+  }
+
+  get day(): number {
+    return this._date.getDate()
+  }
+
+  get weekDay(): number {
+    return this._date.getDay()
+  }
+
+  get hour(): number {
+    return this._date.getHours()
+  }
+
+  get minute(): number {
+    return this._date.getMinutes()
+  }
+
+  get second(): number {
+    return this._date.getSeconds()
+  }
+
+  get millis(): number {
+    return this._date.getMilliseconds()
   }
 
   @cache('lunisolar:lunar')
