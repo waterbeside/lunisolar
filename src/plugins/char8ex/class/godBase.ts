@@ -1,8 +1,8 @@
 import { trans } from '../utils'
 
-export class GodBase<T = string> {
+export class GodBase {
   readonly key: string
-  readonly _config = {
+  readonly _config: Required<ClassCommonConfig> = {
     lang: 'zh'
   }
 
@@ -13,8 +13,8 @@ export class GodBase<T = string> {
     }
   }
 
-  get name(): T {
-    return trans(`gods.${this.key}`, this._config.lang) as T
+  get name(): string {
+    return trans(`gods.${this.key}`, this._config.lang)
   }
 
   toString() {
