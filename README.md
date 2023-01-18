@@ -393,26 +393,6 @@ Lunisolar具有以下属性和方法
 | valueOf()  | 返回Date对象的valueOf(), 即时间戳 | | number |
 | toString() | 返回当前 Date对象的toUTCString() + 阴历的格式化后的日期时间: 例“Wed, 24 Aug 2022 14:50:51 GMT (二〇二二年七月廿七亥時)” | | string |
 
-  get weekDay(): number {
-    return this._date.getDay()
-  }
-
-  get hour(): number {
-    return this._date.getHours()
-  }
-
-  get minute(): number {
-    return this._date.getMinutes()
-  }
-
-  get second(): number {
-    return this._date.getSeconds()
-  }
-
-  get millis(): number {
-    return this._date.getMilliseconds()
-  }
-
 ### 格式化数据 format
 
 lunisolar(date).format(formatStr)格式化数据
