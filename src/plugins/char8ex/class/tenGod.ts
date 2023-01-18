@@ -2,10 +2,7 @@ import { TenGodKeys, TEN_GOD_LIST } from '../constants'
 import { GodBase } from './godBase'
 import { trans } from '../utils'
 
-export class TenGod extends GodBase<TenGodKeys> {
-  readonly _config = {
-    lang: 'zh'
-  }
+export class TenGod extends GodBase {
   static godkeysSet = new Set(TEN_GOD_LIST)
   static instances = new Map<string, TenGod>()
   static create(godKey: TenGodKeys | '日主', config?: ClassCommonConfig) {

@@ -3,14 +3,11 @@ import { trans } from '../utils'
 import { godKeysSet } from '../constants/godDict'
 import { getGodLuckLevel } from '../utils/c8Gods'
 
-export class C8God extends GodBase<string> {
+export class C8God extends GodBase {
   readonly luckLevel: number = 0
-  readonly _config = {
-    lang: 'zh'
-  }
   static godkeysSet = godKeysSet
   static instances = new Map<string, C8God>()
-  static create(godKey: string, config?: ClassCommonConfig) {
+  static create(godKey: string, config?: ClassCommonConfig): C8God {
     const lang = config?.lang || 'zh'
     const instMapKey = `${godKey}:${lang}`
     if (C8God.instances.has(instMapKey)) return C8God.instances.get(instMapKey) as C8God
