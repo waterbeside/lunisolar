@@ -47,6 +47,10 @@ export class Pillar extends CacheClass {
     return this._sb.value
   }
 
+  get name(): string {
+    return this._sb.name
+  }
+
   get takeSound(): string {
     return this._sb.takeSound
   }
