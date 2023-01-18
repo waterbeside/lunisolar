@@ -2,14 +2,10 @@ import zh from './locale/zh'
 import { TheGods } from './class/theGods'
 import { setTheGodsLocales } from './locale'
 
-export interface LunisolarEx extends lunisolar.Lunisolar {
-  theGods: TheGods
-}
-
 const theGods: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
   lsFactory.locale(zh, true)
   setTheGodsLocales(lsFactory._globalConfig.locales)
-  const lsProto = lsClass.prototype as unknown as LunisolarEx
+  const lsProto = lsClass.prototype
   Object.defineProperty(lsProto, 'theGods', {
     get(): TheGods {
       if (this.cache.has('theGods')) {
