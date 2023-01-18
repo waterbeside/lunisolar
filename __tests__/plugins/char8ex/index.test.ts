@@ -45,7 +45,6 @@ describe('plugins/char8ex', () => {
   it('2023-01-15 12:26', () => {
     const lsr = lunisolar('2023-01-15 12:26') as unknown as LunisolarEx
     const c8ex = lsr.char8ex(1)
-    console.log(c8ex.toString())
     expect(c8ex.embryo().name).toBe('甲辰')
     expect(c8ex.ownSign().name).toBe('庚戌')
     expect(c8ex.bodySign().name).toBe('戊申')
