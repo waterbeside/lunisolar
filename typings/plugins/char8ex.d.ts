@@ -62,6 +62,10 @@ export class Pillar extends CacheClass {
    */
   get value(): number
   /**
+   * 返回天干地支组合名
+   */
+  get name(): number
+  /**
    * 纳音
    */
   get takeSound(): string
