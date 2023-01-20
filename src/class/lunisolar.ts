@@ -38,7 +38,7 @@ export class Lunisolar extends CacheClass {
     return this._date.getDate()
   }
 
-  get weekDay(): number {
+  get dayOfWeek(): number {
     return this._date.getDay()
   }
 

@@ -521,7 +521,7 @@ declare namespace lunisolar {
     get year(): number
     get month(): number
     get day(): number
-    get weekDay(): number
+    get dayOfWeek(): number
     get hour(): number
     get minute(): number
     get second(): number
@@ -646,11 +646,15 @@ declare namespace lunisolar {
    * @param lsClass Lunisolar Class
    * @param lsInstance lunisolar
    */
-  export type PluginFunc<T = any> = (
-    option: T,
-    lsClass: typeof lunisolar.Lunisolar,
-    lsFactory: typeof lunisolar
-  ) => Promise<void> | void
+  export type PluginFunc<T = unknown> = {
+    (
+      option: T,
+      lsClass: typeof lunisolar.Lunisolar,
+      lsFactory: typeof lunisolar
+    ): Promise<void> | void
+    $once?: any
+    [x: string]: any
+  }
 
   /**
    * Get the Lunisolar instance by lunar data
@@ -676,7 +680,7 @@ declare namespace lunisolar {
    * @param pluginFunc 插件（以函数型式存在）
    * @param option 插件配置
    */
-  export function extend<T = any>(plugin: PluginFunc<T>, options?: T): typeof lunisolar
+  export function extend<T = unknown>(plugin: PluginFunc<T>, options?: T): typeof lunisolar
 
   /**
    * Loading language packs
