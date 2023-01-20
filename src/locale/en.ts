@@ -1,4 +1,4 @@
-const en: ILocale = {
+const en: LsrLocale = {
   name: 'en',
   leap: 'leap',
   lunarYearUnit: '',

@@ -1,6 +1,6 @@
 import { GOD_QUERY_STRING as GQS } from '../constants'
 
-export default {
+const locale: LsrLocale = {
   name: 'zh',
   theGods: {
     gods: {},
@@ -29,3 +29,5 @@ export default {
     }
   }
 }
+
+export default locale

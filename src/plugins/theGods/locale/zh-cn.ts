@@ -21,7 +21,7 @@ const createActsLocaleDict = () => {
   return twoList2Dict(defaultActs, translations)
 }
 
-export default {
+const locale: LsrLocale = {
   name: 'zh-cn',
   theGods: {
     gods: {
@@ -300,3 +300,5 @@ export default {
     }
   }
 }
+
+export default locale

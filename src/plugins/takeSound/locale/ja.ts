@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-const locale = {
+const locale: LsrLocale = {
   name: 'ja',
   takeSound: [
     '海の中のゴールド', 'ストーブの火', '大きな木', '道端の土',

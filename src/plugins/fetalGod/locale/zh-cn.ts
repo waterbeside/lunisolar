@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-const locale = {
+const locale: LsrLocale = {
   name: 'zh-cn',
   stemFetalGodPlace: ['门', '碓磨', '厨灶', '仓库', '房床'],
   branchFetalGodPlace: ['碓', '厕', '炉', '门', '鸡栖', '床'],
