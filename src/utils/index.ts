@@ -389,3 +389,6 @@ export const computeGroup6E5Value = function (branchValue: number) {
   if (branchValue < 7) return e5v[branchValue - 1]
   return e5v[12 - branchValue]
 }
+
+export const defineLocale = (localeData: { name: string; [x: string]: any }): LsrLocale =>
+  localeData

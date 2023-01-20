@@ -7,7 +7,7 @@ import { Element5 } from './class/element5'
 import { Trigram8 } from './class/trigram8'
 import { Direction24 } from './class/direction24'
 import { _GlobalConfig } from './config'
-import { parseFromLunar } from './utils'
+import { parseFromLunar, defineLocale } from './utils'
 import zh from './locale/zh'
 
 export default function lunisolar(
@@ -60,7 +60,7 @@ lunisolar.extend = <T = unknown>(plugin: PluginFunc<T>, options?: T): typeof lun
  * 加载语言包
  */
 lunisolar.locale = (
-  localeData: ILocale | ILocale[],
+  localeData: LsrLocale | LsrLocale[],
   unChangeLang: boolean = false
 ): typeof lunisolar => {
   if (Array.isArray(localeData)) {
@@ -70,13 +70,21 @@ lunisolar.locale = (
     return lunisolar
   }
   if (!localeData || !localeData.name) return lunisolar
-  if (!unChangeLang) _GlobalConfig.lang = localeData.name
   _GlobalConfig.locales[localeData.name] = Object.assign(
     {},
     _GlobalConfig.locales[localeData.name],
     zh,
     localeData
   )
+  if (unChangeLang && _GlobalConfig.lang !== 'zh') {
+    _GlobalConfig.lang = localeData.name
+    _GlobalConfig.locales[_GlobalConfig.lang] = Object.assign(
+      {},
+      _GlobalConfig.locales['zh'],
+      _GlobalConfig.locales[_GlobalConfig.lang]
+    )
+  }
+
   return lunisolar
 }
 
@@ -84,7 +92,7 @@ lunisolar.getLocale = (lang: string): LocaleData => {
   return _GlobalConfig.locales[lang]
 }
 
-lunisolar.createLocale = (localeData: ILocale): ILocale => localeData
+lunisolar.defineLocale = defineLocale
 
 lunisolar._globalConfig = _GlobalConfig
 

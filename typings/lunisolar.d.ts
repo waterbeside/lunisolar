@@ -6,7 +6,7 @@ declare function lunisolar(
 declare namespace lunisolar {
   export type DateConfigType = string | number | Date | null | undefined
   export interface ConfigType extends Partial<Omit<GlobalConfig, 'locales'>> {}
-  export interface Locale extends ILocale {}
+  export interface Locale extends LsrLocale {}
   export const _globalConfig: GlobalConfig
   /**
    * ## class Lunar
@@ -688,7 +688,10 @@ declare namespace lunisolar {
    * 加载语言包
    * @param localeData 语言包, 可以存入单个或多个，多个则以数组形式传入，最后一个语言包会覆盖前面的。
    */
-  export function locale(localeData: ILocale | ILocale[], unChangeLang?: boolean): typeof lunisolar
+  export function locale(
+    localeData: LsrLocale | LsrLocale[],
+    unChangeLang?: boolean
+  ): typeof lunisolar
 
   /**
    * 取得语言包
@@ -696,4 +699,6 @@ declare namespace lunisolar {
    * @param lang 语言名称，如en, zh等
    */
   export function getLocale(lang: string): LocaleData
+
+  export function defineLocale(localeData: { name: string; [x: string]: any }): LsrLocale
 }
