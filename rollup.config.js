@@ -81,7 +81,7 @@ const configDir = dir => {
       input:
         dir === 'locale' ? path.join(dirPath, dirName) : path.join(dirPath, dirName, 'index.ts'),
       filePath: path.join(__dirname, dir),
-      fileName: formatName(dirName)
+      fileName: dirName.replace(/\.(js|ts)$/, '')
     })
     configs.push(config)
   }
@@ -96,9 +96,9 @@ const configPluginLocaleDir = () => {
     const localeNames = fs.readdirSync(localePath)
     for (const localeName of localeNames) {
       const filePath = path.join(__dirname, 'plugins', dirName, 'locale')
-      const fileName = formatName(localeName)
+      const fileName = localeName.replace(/\.(js|ts)$/, '')
       const config = configFactory({
-        name: dirName + '_' + fileName,
+        name: dirName + '_' + formatName(localeName),
         input: path.join(localePath, localeName),
         filePath,
         fileName
