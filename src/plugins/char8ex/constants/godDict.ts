@@ -97,7 +97,7 @@ export const godDict: C8GodDict = {
       }
     ]
   },
-  禄神: {
+  綠神: {
     luckLevel: 1,
     rules: [
       {
