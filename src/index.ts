@@ -48,10 +48,10 @@ lunisolar.config = (config: ConfigType): typeof lunisolar => {
 /**
  * 插件加载
  */
-lunisolar.extend = <T = any>(plugin: PluginFunc, options?: T): typeof lunisolar => {
-  if (!(plugin as any).$once) {
-    plugin(options, Lunisolar, lunisolar)
-    ;(plugin as any).$once = true
+lunisolar.extend = <T = unknown>(plugin: PluginFunc<T>, options?: T): typeof lunisolar => {
+  if (!plugin.$once) {
+    plugin(options as T, Lunisolar, lunisolar)
+    plugin.$once = true
   }
   return lunisolar
 }

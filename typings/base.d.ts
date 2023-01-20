@@ -28,7 +28,7 @@ type Unit = GreUnit | LunarUnit | Char8Unit
 type DateConfigType = lunisolar.DateConfigType
 type DateParamType = DateConfigType | lunisolar.Lunisolar
 
-type PluginFunc = lunisolar.PluginFunc
+type PluginFunc<T> = lunisolar.PluginFunc<T>
 
 interface GlobalConfig {
   changeAgeTerm: number | null
