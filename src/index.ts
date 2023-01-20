@@ -76,8 +76,8 @@ lunisolar.locale = (
     zh,
     localeData
   )
+  if (!unChangeLang) _GlobalConfig.lang = localeData.name
   if (unChangeLang && _GlobalConfig.lang !== 'zh') {
-    _GlobalConfig.lang = localeData.name
     _GlobalConfig.locales[_GlobalConfig.lang] = Object.assign(
       {},
       _GlobalConfig.locales['zh'],
