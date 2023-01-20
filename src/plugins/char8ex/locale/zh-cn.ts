@@ -1,4 +1,5 @@
-export default {
+import { defineLocale } from '../../../utils'
+export default defineLocale({
   name: 'zh-cn',
   char8ex: {
     sex: ['坤造', '乾造'],
@@ -72,4 +73,4 @@ export default {
       截路空亡: '截路空亡'
     }
   }
-}
+})
