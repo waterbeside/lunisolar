@@ -2,8 +2,8 @@ import { _GlobalConfig } from '../config'
 import { parseCommonCreateClassValue } from '../utils'
 
 export class Element5 {
-  private _value: number = -1
-  private _config = {
+  readonly _value: number = -1
+  readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
   }
 
@@ -32,6 +32,11 @@ export class Element5 {
     return this._value
   }
 
+  get name(): string {
+    return this._value === -1
+      ? ''
+      : _GlobalConfig.locales[this._config.lang].fiveElements[this._value]
+  }
   /**
    * 相生
    * Inter-promoting (相生 xiāngshēng): the effect in the generating (生 shēng) cycle
@@ -69,9 +74,7 @@ export class Element5 {
   }
 
   toString(): string {
-    return this._value === -1
-      ? 'Invalid five-element value'
-      : _GlobalConfig.locales[this._config.lang].fiveElements[this._value]
+    return this._value === -1 ? 'Invalid five-element value' : this.name
   }
 
   valueOf(): number {

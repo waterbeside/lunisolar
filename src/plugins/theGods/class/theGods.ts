@@ -14,7 +14,7 @@ import {
   dayGoodGods,
   createGod as createDayGoodGod
 } from '../directionGods/dayGoodGods'
-import { trans } from '../locale'
+import { trans } from '../utils'
 
 export class TheGods {
   private _cache = new Map<string, any>()

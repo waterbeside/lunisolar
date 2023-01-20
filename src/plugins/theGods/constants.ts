@@ -157,7 +157,7 @@ export const GOD_LEVEL_DICT: {
 export const YMDH_SINGLE_LOWER = ['y', 'm', 'd', 'h']
 export const YMDH_SINGLE_LOWER_SET = new Set(YMDH_SINGLE_LOWER)
 
-export type LevelGodKey = typeof LEVEL_GOD_KEYS[number]
+export type LevelGodKey = (typeof LEVEL_GOD_KEYS)[number]
 
 export type ProcessData = {
   gods: Set<string>

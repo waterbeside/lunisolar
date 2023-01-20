@@ -3,16 +3,17 @@ import { padZoneStr } from '../utils'
 import { _GlobalConfig } from '../config'
 
 export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
-  if (lsr._date.toString() === INVALID_DATE_STRING) return INVALID_DATE_STRING
+  const date = lsr.toDate()
+  if (date.toString() === INVALID_DATE_STRING) return INVALID_DATE_STRING
   let str = formatStr || FORMAT_DEFAULT
   // const zoneStr = Utils.z(lsr)
-  const y = lsr._date.getFullYear()
-  const M = lsr._date.getMonth() + 1
-  const D = lsr._date.getDate()
-  const w = lsr._date.getDay()
-  const H = lsr._date.getHours()
-  const m = lsr._date.getMinutes()
-  const s = lsr._date.getSeconds()
+  const y = date.getFullYear()
+  const M = date.getMonth() + 1
+  const D = date.getDate()
+  const w = date.getDay()
+  const H = date.getHours()
+  const m = date.getMinutes()
+  const s = date.getSeconds()
   const zoneStr = padZoneStr(lsr)
   const lunar = lsr.lunar
   const char8 = lsr.char8
@@ -54,7 +55,7 @@ export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
     mm: String(m).padStart(2, '0'),
     s: String(s),
     ss: String(s).padStart(2, '0'),
-    SSS: String(lsr._date.getMilliseconds()).padStart(3, '0'),
+    SSS: String(date.getMilliseconds()).padStart(3, '0'),
     Z: zoneStr, // 'ZZ' logic below
     // 生肖
     cZ: locale.chineseZodiac[char8.year.branch.value],

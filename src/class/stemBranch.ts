@@ -1,17 +1,23 @@
 import { HIDDEN_STEMS } from '../constants/calendarData'
 import { Element5 } from './element5'
 import { _GlobalConfig } from '../config'
-import { getTrigramValueByStem, computeSBValue, parseCommonCreateClassValue } from '../utils'
+import {
+  getTrigramValueByStem,
+  computeSBValue,
+  parseCommonCreateClassValue,
+  computeTriadE5Value,
+  computeGroup6E5Value
+} from '../utils'
 import { Trigram8 } from './trigram8'
+import { cache } from '../utils/decorators'
+import { CacheClass } from './CacheClass'
 
 /**
  * 地支
  */
-export class Branch {
-  private _value: number = -1
-  private _e5?: Element5
-  private _hiddenStems: Stem[] = []
-  private _config = {
+export class Branch extends CacheClass {
+  readonly _value: number = -1
+  readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
   }
 
@@ -28,6 +34,7 @@ export class Branch {
   }
 
   constructor(value: number | string | Branch, config?: ClassCommonConfig) {
+    super()
     if (value instanceof Branch) return value
     if (config) {
       this._config = Object.assign({}, this._config, config)
@@ -39,22 +46,24 @@ export class Branch {
     return this._value
   }
 
-  get hiddenStems(): Stem[] {
-    if (this._hiddenStems.length) return this._hiddenStems
-    const hiddenStemsValue = HIDDEN_STEMS[this._value]
-    this._hiddenStems = hiddenStemsValue.map(v => new Stem(v))
-    return this._hiddenStems
+  get name(): string {
+    return _GlobalConfig.locales[this._config.lang].branchs[this._value]
   }
 
+  @cache('branch:hiddenStems')
+  get hiddenStems(): Stem[] {
+    const hiddenStemsValue = HIDDEN_STEMS[this._value]
+    return hiddenStemsValue.map(v => new Stem(v))
+  }
+
+  @cache('branch:e5')
   get e5(): Element5 {
-    if (this._e5) return this._e5
     const i = Math.floor((this._value + 10) / 3) % 4
     if ((this._value + 10) % 3 === 2) {
-      this._e5 = Element5.create(2, this._config)
+      return Element5.create(2, this._config)
     } else {
-      this._e5 = Element5.create(i < 2 ? i : i + 1, this._config)
+      return Element5.create(i < 2 ? i : i + 1, this._config)
     }
-    return this._e5
   }
   /**
    * 三合
@@ -66,8 +75,60 @@ export class Branch {
     ]
   }
 
+  /**
+   * 三合五行
+   */
+  get triadE5(): Element5 {
+    return Element5.create(computeTriadE5Value(this._value), this._config)
+  }
+
+  /**
+   * 六合
+   */
+  get group6(): Branch {
+    return Branch.create((13 - this._value) % 12, this._config)
+  }
+
+  get group6E5(): Element5 {
+    return Element5.create(computeGroup6E5Value(this._value), this._config)
+  }
+
+  // 相刑
+  @cache('branch:punishing')
+  get punishing(): Branch {
+    const b = [3, 10, 5, 0, 4, 8, 6, 1, 2, 9, 7, 11]
+    return Branch.create(b[this.value], this._config)
+  }
+
+  // 被刑
+  @cache('branch:punishBy')
+  get punishBy(): Branch {
+    const b = [3, 7, 8, 0, 4, 2, 6, 10, 5, 9, 1, 11]
+    return Branch.create(b[this.value], this._config)
+  }
+
+  // 相冲
+  @cache('branch:conflict')
+  get conflict(): Branch {
+    return Branch.create((this.value + 6) % 12, this._config)
+  }
+
+  // 相破
+  @cache('branch:destroying')
+  get destroying(): Branch {
+    const b = [9, 4, 11, 6, 1, 8, 3, 10, 5, 0, 7, 2]
+    return Branch.create(b[this.value], this._config)
+  }
+
+  // 相害
+  @cache('branch:harming')
+  get harming(): Branch {
+    const value = this.value > 7 ? 19 - this.value : 7 - this.value
+    return Branch.create(value, this._config)
+  }
+
   toString(): string {
-    return _GlobalConfig.locales[this._config.lang].branchs[this._value]
+    return this.name
   }
 
   valueOf(): number {
@@ -78,11 +139,9 @@ export class Branch {
 /**
  * 天干
  */
-export class Stem {
-  private _value: number = -1
-  private _branchs: Branch[] = []
-  private _e5?: Element5
-  private _config = {
+export class Stem extends CacheClass {
+  readonly _value: number = -1
+  readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
   }
 
@@ -99,6 +158,7 @@ export class Stem {
   }
 
   constructor(value: number | string | Stem, config?: ClassCommonConfig) {
+    super()
     if (value instanceof Stem) return value
     if (config) {
       this._config = Object.assign({}, this._config, config)
@@ -110,19 +170,21 @@ export class Stem {
     return this._value
   }
 
+  get name(): string {
+    return _GlobalConfig.locales[this._config.lang].stems[this._value]
+  }
+
+  @cache('stem:branchs')
   get branchs(): Branch[] {
-    if (this._branchs.length) return this._branchs
     const branchs = _GlobalConfig.locales[this._config.lang].branchs.filter(
       (_: string, index: number) => index % 2 === this._value % 2
     )
-    this._branchs = branchs.map((branch: string) => Branch.create(branch, this._config))
-    return this._branchs
+    return branchs.map((branch: string) => Branch.create(branch, this._config))
   }
 
+  @cache('stem:e5')
   get e5(): Element5 {
-    if (this._e5) return this._e5
-    this._e5 = Element5.create(Math.floor(this._value / 2), this._config)
-    return this._e5
+    return Element5.create(Math.floor(this._value / 2), this._config)
   }
 
   get trigram8(): Trigram8 {
@@ -130,7 +192,7 @@ export class Stem {
   }
 
   toString(): string {
-    return _GlobalConfig.locales[this._config.lang].stems[this._value]
+    return this.name
   }
 
   valueOf(): number {
@@ -142,10 +204,10 @@ export class Stem {
  * 天干地支组合
  */
 export class SB {
-  private _stem: Stem
-  private _branch: Branch
-  private _value: number = -1
-  private _config = {
+  readonly _stem: Stem
+  readonly _branch: Branch
+  readonly _value: number = -1
+  readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
   }
 
@@ -187,9 +249,18 @@ export class SB {
     return this._value
   }
 
-  toString(): string {
+  get missing(): [Branch, Branch] {
+    const bV = (5 - Math.floor(this.value / 10)) * 2
+    return [Branch.create(bV, this._config), Branch.create(bV + 1, this._config)]
+  }
+
+  get name(): string {
     const locale = _GlobalConfig.locales[this._config.lang]
     return `${this._stem}${locale?.stemBranchSeparator ?? ''}${this._branch}`
+  }
+
+  toString(): string {
+    return this.name
   }
 
   valueOf(): number {

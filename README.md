@@ -7,31 +7,33 @@
 
 具体包含以下功能：
 
-- ✅公历日期转阴历日期
-- ✅阴历转公历
+- ✅公历-阴历互转
+- ✅阴历查询
 - ✅八字查询
 - ✅节气日期查询
-- ✅每日胎神
-- ✅五行纳音
-- ✅建除十二神
-- ✅神煞宜忌 <内容基于：协纪辨方书>
-- ✅时辰凶吉
-- ~~八字神煞~~ (planning)
-- ~~紫微斗数~~ (planning)
+- ✅胎神占方 (插件)
+- ✅五行纳音 (插件)
+- ✅神煞系统 (插件) <基于：协纪辨方书>
+  - ✅建除十二神
+  - ✅神煞宜忌
+  - ✅时辰凶吉
+- ✅八字增强 (插件)
+  - ✅八字十神
+  - ✅四柱神煞
+- ⏳~~紫微斗数~~ (planning)
 - ...更多功能开发中
   
 -----
-
 - [lunisolar](#lunisolar)
   - [快速上手](#快速上手)
   - [前言](#前言)
-    - [* 为何制作此库](#-为何制作此库)
-    - [* 阴历和阳历](#-阴历和阳历)
-    - [* 年和岁](#-年和岁)
-    - [* 节和气](#-节和气)
-    - [* 生肖和换岁](#-生肖和换岁)
-    - [* 换日](#-换日)
-    - [* 其它](#-其它)
+    - [\* 为何制作此库](#-为何制作此库)
+    - [\* 阴历和阳历](#-阴历和阳历)
+    - [\* 年和岁](#-年和岁)
+    - [\* 节和气](#-节和气)
+    - [\* 生肖和换岁](#-生肖和换岁)
+    - [\* 换日](#-换日)
+    - [\* 其它](#-其它)
   - [1 安装](#1-安装)
     - [1.1 Nodejs](#11-nodejs)
     - [1.2 浏览器直接通过script引入](#12-浏览器直接通过script引入)
@@ -53,6 +55,7 @@
     - [5.5 Branch地支类](#55-branch地支类)
     - [5.6 Element5五行类](#56-element5五行类)
     - [5.7 Trigram8 八卦类](#57-trigram8-八卦类)
+    - [5.8 八字增强插件](#58-八字增强插件)
   - [6 节气](#6-节气)
   - [7 胎神](#7-胎神)
     - [7.1 用法](#71-用法)
@@ -61,8 +64,9 @@
   - [10 神煞宜忌](#10-神煞宜忌)
   - [插件 plugins](#插件-plugins)
   - [国际化](#国际化)
-    - [* 加载插件语言包](#-加载插件语言包)
-    - [* 对语言包进行自定义](#-对语言包进行自定义)
+    - [\* 加载插件语言包](#-加载插件语言包)
+    - [\* 对语言包进行自定义](#-对语言包进行自定义)
+
 
 ## 快速上手
 
@@ -90,7 +94,7 @@ d.lunar.month // 6 （如果是闰六月会返回106）
 d.lunar.getMonthName() // 六月
 d.lunar.day // 20
 d.lunar.getDayName() // 二十
-d.lunar.hour // 7 （返回从0天时算的时辰下标）
+d.lunar.hour // 7 （返回从0开始算的时辰下标）
 d.lunar.getHourName() // 未
 d.lunar.isLeapMonth // false (是否闰月)
 
@@ -161,14 +165,6 @@ $$1回归年 = 365.2421990741日 = 365天5小時48分46秒$$
 |    | 孟冬 | 亥月 | 立冬 | 小雪 |
 | 冬 | 仲冬 | 子月 | 大雪 | 冬至 |
 |    | 季冬 | 丑月 | 小寒 | 大寒 |
-
-关于节气推算，尝试用“**节气积日公式**”计算:
-
-$$F = 365.242 *y + 6.2 + 15.22* x - 1.9 *math.sin(0.262* x)$$
-
-F为与1900年1月0日的日期差，y为与1900年的年差，x为每年的节气序号
-
-但计算出的个别结果与香港天文台【[公历与农历日期对照表](https://www.hko.gov.hk/tc/gts/time/conversion1_text.htm#)】有所差异，所以节气也是通过查表法计算来计算。
 
 实际上，节气是某一个时刻，而这个时刻并不是固定在某天的某个时辰。但由于数据源只精确到日，所以本库的交节（更换八字月柱），也是以日为准。
 
@@ -385,7 +381,15 @@ Lunisolar具有以下属性和方法
 | clone()    | 克隆当前Lunisolar对象 | | Lunisolar |
 | unix()     | 返回以秒为单位的时间戳 | | number |
 | format(formatStr: string) | 按指定格式格式化时间 | **formatStr**: string 时间将以这字符串格式进行格式化，例 'YYYY-MM-DD HH:mm:ss' | string |
-| diff(date, unit, float) | 时间差计算 | **date**: number \| string \| Date \| Lunisolar <br> 与当前实例的时间进行比较的时间<br> **unit**: string <br>单位，如 year, lunarYear, month, lunarMonth 等<br> **float**: boolean <br>是否返回浮点数 | number
+| diff(date, unit, float) | 时间差计算 | **date**: number \| string \| Date \| Lunisolar <br> 与当前实例的时间进行比较的时间<br> **unit**: string <br>单位，如 year, lunarYear, month, lunarMonth 等<br> **float**: boolean <br>是否返回浮点数 | number |
+| year     | 年份 | | number |
+| month    | 月份 1 ~ 12 | | number |
+| day      | 日期 1 ~ 31 | | number |
+| dayOfWeek  | 周几，0 ~ 6， 0代表周日 | | number |
+| hour      | 小时 0 ~ 23 | | number |
+| minute    | 分 0 ~ 59 | | number |
+| second    | 秒 0 ~ 59 | | number |
+| millis    | 毫秒 0 ~ 999 | | number |
 | valueOf()  | 返回Date对象的valueOf(), 即时间戳 | | number |
 | toString() | 返回当前 Date对象的toUTCString() + 阴历的格式化后的日期时间: 例“Wed, 24 Aug 2022 14:50:51 GMT (二〇二二年七月廿七亥時)” | | string |
 
@@ -593,10 +597,12 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | 属性或方法  | 描述 | 参数  | 返回类型 |
 | --- | ---  | --- | --- |
 | value | 取得60干支顺序索引值  | | number |
+| name | 天干地支组合名，如‘甲子’  | | string |
 | stem | 天干对象 | | [Stem](#54-stem天干类) |
 | branch | 地支对象 | | [Branch](#55-branch地支类)  |
 | valueOf()      | 返回60干支顺序索引值 | | number |
 | toString()     | 返回格式化后天干地支字符串如 “壬寅” | | string |
+| missing | 取得旬空的地支 | | [Branch, Branch] |
 | takeSound | 五行纳音，需加载`advanced`插件, 参考 [#8 纳音](#8-纳音) | | string |
 
 ### 5.4 Stem天干类
@@ -604,6 +610,7 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | 属性或方法  | 描述 | 参数  | 返回类型 |
 | --- | ---  | --- | --- |
 | value | 天干索引值，范围[0, 9]  | | number |
+| name | 天干名  | | string |
 | e5 | 五行属性对象 | | [Element5](#56-element5五行类) |
 | trigram8 | 纳甲配卦 | | [Trigram8](#57-trigram8-八卦类)
 | valueOf()      | 返回天干索引值 | | number |
@@ -614,9 +621,18 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | 属性或方法  | 描述 | 参数  | 返回类型 |
 | --- | ---  | --- | --- |
 | value | 地支索引值，范围[0, 11]  | | number |
+| name | 地支名  | | string |
 | e5 | 五行属性对象 | | [Element5](#56-element5五行类) |
 | hiddenStems | 取得地支所藏的天干对象列表，长度最多3个，分别为 `[本气, 中 气, 余气]` | | Stem[] |
 | triad | 三合地支, 返回当前地支的另外两个与之三合的地支 | | [Branch, Branch] |
+| triadE5 | 三合的五行属性 | | Element5 |
+| group6 | 六合地支 | | Branch |
+| group6E5 | 六合五行属性 | | Element5 |
+| punishing | 相刑地支 | | Branch |
+| punishBy | 被什么地支所刑 | | Branch |
+| conflict | 相冲的地支 | | Branch |
+| destroying | 相破的地支 | | Branch |
+| harming | 相害的地支 | | Branch |
 | valueOf()      | 返回地支索引值 | | number |
 | toString()     | 返回地支字符串| | string |
 
@@ -625,6 +641,7 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | 属性或方法  | 描述 | 参数  | 返回类型 |
 | --- | ---  | --- | --- |
 | value | 五行属性索引值，其顺序为`['木', '火', '土', '金', '水']`  | | number |
+| name | 五行名  | | string |
 | generating() | 取得**相生**（我生者）的五行，如实例为`木`，则返回实例为`火`的Element5对象 | |Element5 |
 | overcoming() | 取得**相克**（我克者）的五行，如实例为`木`，则返回实例为`土`的Element5对象 | |Element5 |
 | weakening() | 取得**相泄**（生我者）的五行，如实例为`木`，则返回实例为`水`的Element5对象 | |Element5 |
@@ -651,8 +668,14 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 
 | 属性或方法  | 描述 | 参数  | 返回类型 |
 | --- | ---  | --- | --- |
+| value      | 八卦数值 | | number |
+| name     | 八卦名 | | string |
 | valueOf()      | 返回八卦数值 | | number |
 | toString()     | 返回八卦字符串| | string |
+
+### 5.8 八字增强插件
+
+如果你需要用到**八字十神**，**四柱神煞**等功能，需加载八字增强插件 **char8ex**, 具体请点击[**【本连接】**](./docs/char8ex.md)查看插件文档
 
 ## 6 节气
 
@@ -673,6 +696,7 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | 属性或方法  | 描述 | 参数  | 返回类型 |
 | --- | ---  | --- | --- |
 | value | 取得节气索引值  | | number |
+| name | 取得节气名称  | | string |
 | valueOf()      | 返回节气索引值 | | number |
 | toString()     | 返回节气字符串| | string |
 | **静态方法**   static method| | |  |
@@ -761,9 +785,8 @@ lsr.char8.year.takeSound // 金箔金 （取得年干支的纳音）
 lsr.char8.year.takeSoundE5.toString() // 金 （取得年干支的纳音五行）
 // ...
 lsr.char8.day.takeSound // 大海水 （取得日干支的纳音）
-lsr.takeSound // 大海水 （取得日干支的纳音 等同于）
+lsr.takeSound // 大海水 （取得日干支的纳音 等同于 lsr.char8.day.takeSound）
 
-expect().toBe('大海水')
 ```
 
 ## 9 建除十二神
@@ -898,14 +921,15 @@ lunisolar.locale(en).locale(takeSoundEn)
 
 ```typescript
 import lunisolar from 'lunisolar'
-import type { Locale } from 'lunisolar'
+const { defineLocale } = lunisolar
+
 // 自定义语言包
-const myZh: Locale = {
+const myZh = defineLocale({
   name: 'zh' // 此项必需设置，指定要自义的语言, 可设为任意字符串，如果设为已导入的语言名，后续设置的项将会覆盖原有项
   numerals: '零一二三四五六七八九十'.split(''),
   stems: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
   branchs: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']
-}
+})
 
 // 载入语言包
 lunisolar.locale(myZh)

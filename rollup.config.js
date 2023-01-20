@@ -7,20 +7,26 @@ import terser from '@rollup/plugin-terser'
 import copy from 'rollup-plugin-copy'
 import clear from 'rollup-plugin-clear'
 import pkg from './package.json'
+import dts from 'rollup-plugin-dts'
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx']
+const formatName = n => n.replace(/\.(js|ts)$/, '').replace('-', '_')
 
 // plugins
 const tsPlugin = ts({ extensions })
 const terserPlugin = terser()
+const dtsPlugin = dts()
 
 // fileName： pkg.module,
 const configFactory = config => {
-  const { input, fileName, filePath, name, isClear, createEs, copyFile } = config
+  const { input, fileName, filePath, name, isClear, createEs, copyFile, pluginsPush } = config
   // load rollup plugins
   const plugins = [resolve(), commonjs(), tsPlugin, terserPlugin]
   if (isClear) plugins.unshift(clear({ targets: ['dist', 'plugins', 'locale'] }))
   if (copyFile) plugins.push(copy(copyFile))
+  if (pluginsPush) {
+    plugins.push(...pluginsPush)
+  }
   // output
   const output = [
     {
@@ -71,11 +77,11 @@ const configDir = dir => {
   const dirNames = fs.readdirSync(dirPath)
   for (const dirName of dirNames) {
     const config = configFactory({
-      name: dirName,
+      name: dir === 'locale' ? `lsr_${formatName(dirName)}` : dirName,
       input:
         dir === 'locale' ? path.join(dirPath, dirName) : path.join(dirPath, dirName, 'index.ts'),
       filePath: path.join(__dirname, dir),
-      fileName: /\.(js|ts)$/.test(dirName) ? dirName.slice(0, -3) : dirName
+      fileName: dirName.replace(/\.(js|ts)$/, '')
     })
     configs.push(config)
   }
@@ -89,13 +95,23 @@ const configPluginLocaleDir = () => {
     const localePath = path.join(dirPath, dirName, 'locale')
     const localeNames = fs.readdirSync(localePath)
     for (const localeName of localeNames) {
+      const filePath = path.join(__dirname, 'plugins', dirName, 'locale')
+      const fileName = localeName.replace(/\.(js|ts)$/, '')
       const config = configFactory({
-        name: localeName,
+        name: dirName + '_' + formatName(localeName),
         input: path.join(localePath, localeName),
-        filePath: path.join(__dirname, 'plugins', dirName, 'locale'),
-        fileName: /\.(js|ts)$/.test(localeName) ? localeName.slice(0, -3) : localeName
+        filePath,
+        fileName
       })
       configs.push(config)
+      configs.push({
+        input: path.join(localePath, localeName),
+        output: {
+          file: path.join(filePath, `${fileName}.d.ts`),
+          format: 'es'
+        },
+        plugins: [dtsPlugin]
+      })
     }
   }
 }

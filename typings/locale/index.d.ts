@@ -2,7 +2,7 @@
 
 declare module 'lunisolar/locale/*' {
   namespace locale {
-    interface Locale extends ILocale {}
+    interface Locale extends LsrLocale {}
   }
 
   const locale: locale.Locale

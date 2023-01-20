@@ -1,6 +1,6 @@
 import type { GodBase } from './godBase'
 import { createGodBase } from '../utils/gods'
-import { trans } from '../locale'
+import { trans } from '../utils'
 
 export class God {
   private godBase: GodBase

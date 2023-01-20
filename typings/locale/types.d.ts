@@ -119,8 +119,9 @@ interface LocaleData {
    * The meridiem (午夜)
    */
   meridiem: null | ((hour: number, minute: number, isLowercase?: boolean) => string)
+  [x: string]: any
 }
 
-declare interface ILocale extends Partial<LocaleData> {
+declare interface LsrLocale extends Partial<LocaleData> {
   name: string
 }

@@ -21,9 +21,9 @@ function parseValue(value: number | Branch | Stem | Trigram8): number {
 }
 
 export class Direction24 {
-  private _value: number
-  private _sign: Stem | Branch | Trigram8
-  _config = {
+  readonly _value: number
+  readonly _sign: Stem | Branch | Trigram8
+  readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
   }
 
@@ -62,7 +62,7 @@ export class Direction24 {
     return this._sign
   }
 
-  get signName() {
+  get name() {
     return this._sign.toString()
   }
 

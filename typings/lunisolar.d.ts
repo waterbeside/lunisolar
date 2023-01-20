@@ -6,7 +6,7 @@ declare function lunisolar(
 declare namespace lunisolar {
   export type DateConfigType = string | number | Date | null | undefined
   export interface ConfigType extends Partial<Omit<GlobalConfig, 'locales'>> {}
-  export interface Locale extends ILocale {}
+  export interface Locale extends LsrLocale {}
   export const _globalConfig: GlobalConfig
   /**
    * ## class Lunar
@@ -15,6 +15,31 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Lunar {
+    /**
+     * 取得該年陰歷正月初一的所在公歷年
+     */
+    readonly year: number
+    /**
+     * 取得陰歷月
+     */
+    readonly month: number
+    /**
+     * 取得陰歷日
+     */
+    readonly day: number
+    /**
+     * 取得陰歷時辰下標 0 ~ 11
+     */
+    readonly hour: number
+    /**
+     * 當年的閏月，如果為0則為沒有閏月
+     */
+    readonly leapMonth: number
+    /**
+     * 當年的閏月是否大朋
+     */
+    readonly leapMonthIsBig: boolean
+    readonly _config: Required<ClassCommonConfig>
     static fromLunar(lunarData: ParseFromLunarParam, config?: ClassCommonConfig): Lunar
     constructor(date: Date, config?: ClassCommonConfig)
     /**
@@ -25,26 +50,6 @@ declare namespace lunisolar {
      * Return the Date.valueOf()
      */
     valueOf(): number
-    /**
-     * 當年的閏月，如果為0則為沒有閏月
-     */
-    leapMonth: number
-    /**
-     * 當年的閏月是否大朋
-     */
-    leapMonthIsBig: boolean
-    /**
-     * 取得該年陰歷正月初一的所在公歷年
-     */
-    get year(): number
-    /**
-     * 取得陰歷月
-     */
-    get month(): number
-    /**
-     * 取得陰歷日
-     */
-    get day(): number
     /**
      * 是否為閏月
      */
@@ -57,10 +62,6 @@ declare namespace lunisolar {
      * 是否本月的最后一天（晦日）
      */
     get isLastDayOfMonth(): boolean
-    /**
-     * 取得陰歷時辰下標 0 ~ 11
-     */
-    get hour(): number
     /**
       取得當年陰歷年正月初一的对应的公历日期
      */
@@ -105,6 +106,8 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Element5 {
+    readonly _value: number
+    readonly _config: Required<ClassCommonConfig>
     static create(value: number | string | Element5, config?: ClassCommonConfig): Element5
     constructor(value: number | string | Element5, config?: ClassCommonConfig)
     toString(): string
@@ -113,6 +116,10 @@ declare namespace lunisolar {
      * the Element5.value is the index of ['木', '火', '土', '金', '水']
      */
     get value(): number
+    /**
+     * 取得五行名称
+     */
+    get name(): string
     /**
      * 相生
      * Inter-promoting (相生 xiāngshēng): the effect in the generating (生 shēng) cycle
@@ -144,9 +151,12 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Trigram8 {
+    readonly _value: number = -1
+    readonly _config: Required<ClassCommonConfig>
     static create(value: number, config?: ClassCommonConfig): Trigram8
     constructor(value: number, config?: ClassCommonConfig)
     get value(): number
+    get name(): string
     toString(): string
     valueOf(): number
   }
@@ -158,6 +168,9 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Direction24 {
+    readonly _value: number
+    readonly _sign: Stem | Branch | Trigram8
+    readonly _config: Required<ClassCommonConfig>
     static create(value: number | Branch | Stem | Trigram8, config?: ClassCommonConfig): Direction24
     static createFromAngle(angle: number, config: ClassCommonConfig): Direction24
     constructor(value: number | Branch | Stem | Trigram8, config?: ClassCommonConfig)
@@ -169,7 +182,7 @@ declare namespace lunisolar {
     /**
      * 当前所在的二十四山的位置的对象的名称
      */
-    get signName(): string
+    get name(): string
     /**
      *  当前所在的二十四山的位置的对象的原型类名
      */
@@ -201,7 +214,9 @@ declare namespace lunisolar {
    * @param value 天干索引 | 天干名稱 | 天干實例
    * @param config 设置
    */
-  export class Stem {
+  export class Stem extends CacheClass {
+    readonly _value: number = -1
+    readonly _config: Required<ClassCommonConfig>
     static create(value: number | string | Stem, config?: ClassCommonConfig): Stem
     constructor(value: number | string | Stem, config?: ClassCommonConfig)
     toString(): string
@@ -214,7 +229,7 @@ declare namespace lunisolar {
      * ```
      */
     get value(): number
-
+    get name(): string
     /**
      * 可与天干组合的地支
      */
@@ -235,11 +250,14 @@ declare namespace lunisolar {
    * @param value 地支索引 | 天干名稱 | 天干實例
    * @param config 设置
    */
-  export class Branch {
+  export class Branch extends CacheClass {
+    readonly _value: number = -1
+    readonly _config: Required<ClassCommonConfig>
     static create(value: number | string | Branch, config?: ClassCommonConfig): Branch
     constructor(value: number | string | Branch, config?: ClassCommonConfig)
     toString(): string
     valueOf(): number
+    get name(): string
     /**
      * 地支索引 0 ~ 11
      * ```
@@ -264,6 +282,46 @@ declare namespace lunisolar {
      * 三合
      */
     get triad(): [Branch, Branch]
+
+    /**
+     * 三合五行属性
+     */
+    get triadE5(): Element5
+
+    /**
+     * 六合
+     */
+    get group6(): Branch
+
+    /**
+     * 六合五行属性
+     */
+    get group6E5(): Element5
+
+    /**
+     * 相刑
+     */
+    get punishing(): Branch
+
+    /**
+     * 被刑
+     */
+    get punishBy(): Branch
+
+    /**
+     * 相冲
+     */
+    get conflict(): Branch
+
+    /**
+     * 相破
+     */
+    get destroying(): Branch
+
+    /**
+     * 相害
+     */
+    get harming(): Branch
   }
 
   /**
@@ -275,6 +333,10 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class SB {
+    readonly _stem: Stem
+    readonly _branch: Branch
+    readonly _value: number = -1
+    readonly _config: Required<ClassCommonConfig>
     /**
      * @param value 60位的天干地支組合的索引值
      */
@@ -291,17 +353,25 @@ declare namespace lunisolar {
     toString(): string
     valueOf(): number
     /**
-     * @returns 60位的天干地支組合的索引值 0 ~ 59
+     * 天干地支名，如‘甲子’
+     */
+    get name(): string
+    /**
+     * 60位的天干地支組合的索引值 0 ~ 59
      */
     get value(): number
     /**
-     * @returns 天干實例
+     * 天干實例
      */
     get stem(): Stem
     /**
-     * @returns 地支實例
+     * 地支實例
      */
     get branch(): Branch
+    /**
+     * 旬空
+     */
+    get missing(): [Branch, Branch]
   }
 
   /**
@@ -311,6 +381,8 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class SolarTerm {
+    readonly _value: number = -1
+    readonly _config: Required<ClassCommonConfig>
     constructor(value: number | string | SolarTerm, config?: ClassCommonConfig)
     toString(): string
     valueOf(): number
@@ -318,6 +390,10 @@ declare namespace lunisolar {
      * @returns 節氣索引 0 ~ 23
      */
     get value(): number
+    /**
+     * @returns 取得节气名称
+     */
+    get name(): string
     /**
      * @returns 節氣名稱列表
      */
@@ -375,10 +451,14 @@ declare namespace lunisolar {
    * @param Char8Config { lang: 语言名, changeAgeTerm: 用于換歲的節氣 }
    */
   export class Char8 {
+    readonly _value: number = -1
+    readonly _list: [SB, SB, SB, SB]
+    readonly _config: Required<Char8Config>
     constructor(dateOrSbList: Date | [SB, SB, SB, SB], config?: Char8Config)
     get value(): number
     toString(): string
     valueOf(): number
+    getConfig(): Required<Char8Config>
     /**
      * @returns 八字四柱的天干地支組合列表
      */
@@ -432,15 +512,21 @@ declare namespace lunisolar {
    * @param date 日期对象 | 日期字符串
    * @param config 设置
    */
-  export class Lunisolar implements ILunisolar {
-    _config: LunisolarConfigData
-    _date: Date
-    _solarTerm?: SolarTerm | null
-    _lunar?: Lunar
-    _char8?: Char8
-    _cache: Map<string, any>
+  export class Lunisolar extends CacheClass {
+    readonly _config: LunisolarConfigData
+
     constructor(date?: DateParamType, config?: ConfigType)
+
     get lunisolar(): typeof lunisolar
+    get year(): number
+    get month(): number
+    get day(): number
+    get dayOfWeek(): number
+    get hour(): number
+    get minute(): number
+    get second(): number
+    get millis(): number
+
     /**
      * get lunar object
      *
@@ -510,18 +596,6 @@ declare namespace lunisolar {
     clone(): Lunisolar
 
     /**
-     * 取得缓存
-     * @param key 缓存key
-     */
-    cache<T = any>(key: string): T | undefined
-    /**
-     * 设置缓存
-     *
-     * @param key 缓存key
-     * @param value 要设置的内容
-     */
-    cache<T = any>(key: string, value: T): void
-    /**
      * Returns a timestamp in seconds
      */
     unix(): number
@@ -572,11 +646,15 @@ declare namespace lunisolar {
    * @param lsClass Lunisolar Class
    * @param lsInstance lunisolar
    */
-  export type PluginFunc<T = any> = (
-    option: T,
-    lsClass: typeof lunisolar.Lunisolar,
-    lsFactory: typeof lunisolar
-  ) => Promise<void> | void
+  export type PluginFunc<T = unknown> = {
+    (
+      option: T,
+      lsClass: typeof lunisolar.Lunisolar,
+      lsFactory: typeof lunisolar
+    ): Promise<void> | void
+    $once?: any
+    [x: string]: any
+  }
 
   /**
    * Get the Lunisolar instance by lunar data
@@ -602,7 +680,7 @@ declare namespace lunisolar {
    * @param pluginFunc 插件（以函数型式存在）
    * @param option 插件配置
    */
-  export function extend<T = any>(plugin: PluginFunc<T>, options?: T): typeof lunisolar
+  export function extend<T = unknown>(plugin: PluginFunc<T>, options?: T): typeof lunisolar
 
   /**
    * Loading language packs
@@ -610,7 +688,10 @@ declare namespace lunisolar {
    * 加载语言包
    * @param localeData 语言包, 可以存入单个或多个，多个则以数组形式传入，最后一个语言包会覆盖前面的。
    */
-  export function locale(localeData: ILocale | ILocale[], unChangeLang?: boolean): typeof lunisolar
+  export function locale(
+    localeData: LsrLocale | LsrLocale[],
+    unChangeLang?: boolean
+  ): typeof lunisolar
 
   /**
    * 取得语言包
@@ -618,4 +699,6 @@ declare namespace lunisolar {
    * @param lang 语言名称，如en, zh等
    */
   export function getLocale(lang: string): LocaleData
+
+  export function defineLocale(localeData: { name: string; [x: string]: any }): LsrLocale
 }

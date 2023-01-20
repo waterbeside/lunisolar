@@ -28,7 +28,7 @@ type Unit = GreUnit | LunarUnit | Char8Unit
 type DateConfigType = lunisolar.DateConfigType
 type DateParamType = DateConfigType | lunisolar.Lunisolar
 
-type PluginFunc = lunisolar.PluginFunc
+type PluginFunc<T> = lunisolar.PluginFunc<T>
 
 interface GlobalConfig {
   changeAgeTerm: number | null
@@ -61,42 +61,6 @@ interface TermFindNodeConfig<T extends boolean = false> extends Partial<TermFind
   returnValue: T
 }
 
-interface ILunisolar {
-  _config: LunisolarConfigData
-  _date: Date
-  _solarTerm?: Term | null
-  _lunar?: Lunar
-  _char8?: Char8
-  _cache: Map<string, any>
-  get lunar(): Lunar
-  get char8(): Char8
-  get solarTerm(): Term | null
-  recentSolarTerm(nodeFlag: 0 | 1 | 2): [SolarTerm, Date]
-  getSeasonIndex(): number
-  getSeason(isShortName?: boolean): string
-  getMonthBuilder(flag?: 0 | 1): [SB, lunisolar.SolarTerm, Date]
-  getLocale(lang?: string): LocaleData
-  L(key: keyof LocaleData): LocaleData[typeof key]
-  L<T = any>(key: string): T | string
-  getConfig(): LunisolarConfigData
-  getConfig(key: keyof LunisolarConfigData): LunisolarConfigData[typeof key]
-  getConfig(key?: keyof LunisolarConfigData): any
-  toDate(): Date
-  clone(): Lunisolar
-  cache<T = any>(key: string): T | undefined
-  cache<T = any>(key: string, value: T): void
-  unix(): number
-  valueOf(): number
-  utcOffset(): number
-  toISOString(): string
-  toString(): string
-  diff(date: DateParamType, unit?: Unit, float?: boolean): number
-  add(value: DateParamType, unit?: Unit): Lunisolar
-  format(formatStr: string): string
-  [props: string]: any
-  // add(value: number, unit?: Unit, config?: any): Lunisolar
-}
-
 type StemOrBranchValueFunc = (
   lsr: lunisolar.Lunisolar,
   ymdh: 'year' | 'month' | 'day' | 'hour',
@@ -109,4 +73,14 @@ type ParseFromLunarParam = {
   day: number | string
   hour?: number | string
   isLeapMonth?: boolean
+}
+
+type MethodDecorator = <T>(
+  target: Object,
+  propertyKey: string | symbol,
+  descriptor: TypedPropertyDescriptor<T>
+) => TypedPropertyDescriptor<T> | void
+
+class CacheClass {
+  readonly cache: Map<string, unknown>
 }

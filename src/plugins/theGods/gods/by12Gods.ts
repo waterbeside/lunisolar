@@ -30,7 +30,7 @@ export const by12GodNames = [
   '寶光'
 ] as const
 
-type By12Gods = { [key in typeof by12GodNames[number]]: GodDictItem }
+type By12Gods = { [key in (typeof by12GodNames)[number]]: GodDictItem }
 
 /**
  ```
@@ -38,7 +38,7 @@ type By12Gods = { [key in typeof by12GodNames[number]]: GodDictItem }
  ```
  */
 const by12GodData: {
-  [key in typeof by12GodNames[number]]: [string[] | null, string[] | null, number]
+  [key in (typeof by12GodNames)[number]]: [string[] | null, string[] | null, number]
 } = {
   青龍: [null, null, 1],
   明堂: [null, null, 1],
@@ -105,7 +105,7 @@ export const getBy12GodIdx = (
 }
 
 export const getBy12GodDataByKey = (key: string) => {
-  return by12GodData.hasOwnProperty(key) ? by12GodData[key as typeof by12GodNames[number]] : null
+  return by12GodData.hasOwnProperty(key) ? by12GodData[key as (typeof by12GodNames)[number]] : null
 }
 
 /**

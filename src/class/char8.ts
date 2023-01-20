@@ -6,9 +6,9 @@ import { SB0_DATE } from '../constants/calendarData'
 import { _GlobalConfig } from '../config'
 
 export class Char8 {
-  private _value: number = -1
-  private _list: [SB, SB, SB, SB]
-  private _config = {
+  readonly _value: number = -1
+  readonly _list: [SB, SB, SB, SB]
+  readonly _config: Required<Char8Config> = {
     changeAgeTerm: _GlobalConfig.changeAgeTerm,
     lang: _GlobalConfig.lang
   }
@@ -30,6 +30,10 @@ export class Char8 {
     } else {
       throw new Error('Invalid Char8')
     }
+  }
+
+  getConfig() {
+    return Object.assign({}, this._config)
   }
 
   get value() {

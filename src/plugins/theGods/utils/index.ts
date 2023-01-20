@@ -1,6 +1,5 @@
-import { getBranchValue, getStemValue } from '../../../utils'
+import { getBranchValue, getStemValue, getTranslation } from '../../../utils'
 import { YMDH_SINGLE_LOWER_SET } from '../constants'
-import { trans } from '../locale'
 
 // 處理getGods方法的ymdh參數
 export function prettyGetGodsYMDH(ymdh: YmdhSu | string, defaultNull: true): YmdhSl | null
@@ -138,4 +137,23 @@ export const checkQueryString = function (
   lang: string
 ): boolean {
   return queryString === checkString || queryString === trans(checkString, lang, 'queryString')
+}
+
+export const theGodsGlobal: { locales: { [key: string]: any } } = {
+  locales: {}
+}
+
+export const setTheGodsLocales = function (locales: { [key: string]: any }) {
+  theGodsGlobal.locales = locales
+}
+
+export const trans = function (
+  key: string,
+  lang: string = 'zh',
+  type?: 'acts' | 'gods' | 'queryString'
+) {
+  const locale = theGodsGlobal.locales[lang]
+  if (!locale) return key
+  const tKey = type ? `theGods.${type}.${key}` : key
+  return getTranslation(locale, tKey)
 }

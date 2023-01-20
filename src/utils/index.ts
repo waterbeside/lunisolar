@@ -81,10 +81,6 @@ export const prettyLunarData = function (lunarData: ParseFromLunarParam, lang?: 
       }
       yearString += n >= 0 ? n : ''
     }
-    if (lunarData.year === '二〇二〇') {
-      console.log(yearString)
-    }
-
     lunarData.year = Number(yearString)
   }
   if (typeof lunarData.month === 'string') {
@@ -323,11 +319,14 @@ export function phaseOfTheMoon(lunar: lunisolar.Lunar, locale: LocaleData): stri
 
 /**
   * 五鼠遁计算天干
+  ```
   ---- 五鼠遁 ---
   甲己还加甲，乙庚丙作初。
   丙辛从戊起，丁壬庚子居。
   戊癸起壬子，周而复始求。
-  * @param date 日期
+  ```
+  * @param fromStemValue 起始天干 (计算时柱天干则此处应为日柱天干)
+  * @param branchValue 目标地支 （计算时柱天干，时处应为时柱地支）
   * @returns {SB} 返回天地支对象
 */
 export function computeRatStem(fromStemValue: number, branchValue: number = 0): number {
@@ -373,3 +372,23 @@ export const parseCommonCreateClassValue = function (
   }
   return value
 }
+
+/**
+ * 计算地支的三合五行
+ * @param branchValue 地支value值
+ */
+export const computeTriadE5Value = function (branchValue: number) {
+  const e5v = [4, 0, 1, 3]
+  const idx = branchValue % 4
+  return e5v[idx]
+}
+
+export const computeGroup6E5Value = function (branchValue: number) {
+  const e5v = [2, 0, 1, 3, 4, 2]
+  branchValue = branchValue === 0 ? 12 : branchValue
+  if (branchValue < 7) return e5v[branchValue - 1]
+  return e5v[12 - branchValue]
+}
+
+export const defineLocale = (localeData: { name: string; [x: string]: any }): LsrLocale =>
+  localeData

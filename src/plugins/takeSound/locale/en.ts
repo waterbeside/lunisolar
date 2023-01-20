@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-const locale = {
+const locale: LsrLocale = {
   name: 'en',
   takeSound: [
     'Gold in the sea', 'Fire in the furnace', 'Big forest trees', 'Roadside soil',
