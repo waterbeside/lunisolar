@@ -1,3 +1,18 @@
+## 2.0.0 (2023-01-20)
+
+* feat: 八字功能增強(神煞、十神等) ([026bd65](https://github.com/waterbeside/lunisolar/commit/026bd65))
+* feat: 补充插件的简体中文翻译 ([a622dca](https://github.com/waterbeside/lunisolar/commit/a622dca))
+* feat: 补充旬空 ([ec33ae4](https://github.com/waterbeside/lunisolar/commit/ec33ae4))
+* feat: 地支六合、相刑、相害、相破等方法 ([bb580f4](https://github.com/waterbeside/lunisolar/commit/bb580f4))
+* feat: 计算地支三合的五行 ([9c85d14](https://github.com/waterbeside/lunisolar/commit/9c85d14))
+* feat: 五行、天干、地支等类添加name 属性 ([e754979](https://github.com/waterbeside/lunisolar/commit/e754979))
+* feat: defineLocale ([6bdb9c1](https://github.com/waterbeside/lunisolar/commit/6bdb9c1))
+* feat: Element5类添加“取得五行关系”相关方法 ([df896ed](https://github.com/waterbeside/lunisolar/commit/df896ed))
+* feat: Lunisolar类补充year, month, day, hour 等属性 ([2747027](https://github.com/waterbeside/lunisolar/commit/2747027))
+* feat(char8ex): 胎元，命宫，身宫查询 ([c9b426b](https://github.com/waterbeside/lunisolar/commit/c9b426b))
+* feat(class SB): 添加`missing` 属性取得旬空地支 ([e407d13](https://github.com/waterbeside/lunisolar/commit/e407d13))
+
+
 ## [1.4.1](https://github.com/waterbeside/lunisolar/compare/v1.4.0...v1.4.1) (2022-11-24)
 
 
