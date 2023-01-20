@@ -385,7 +385,7 @@ Lunisolar具有以下属性和方法
 | year     | 年份 | | number |
 | month    | 月份 1 ~ 12 | | number |
 | day      | 日期 1 ~ 31 | | number |
-| weekDay  | 周几，0 ~ 6， 0代表周日 | | number |
+| dayOfWeek  | 周几，0 ~ 6， 0代表周日 | | number |
 | hour      | 小时 0 ~ 23 | | number |
 | minute    | 分 0 ~ 59 | | number |
 | second    | 秒 0 ~ 59 | | number |
