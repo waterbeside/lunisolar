@@ -2,6 +2,7 @@
 
 ![minzip](https://img.shields.io/bundlephobia/minzip/lunisolar)
 ![language](https://img.shields.io/github/languages/top/waterbeside/lunisolar)
+![bulid](https://img.shields.io/github/actions/workflow/status/waterbeside/lunisolar/build.yml)
 
 **lunisolar** 是一个使用`Typescript`编写的专业农历库, 可取得各类农历数据，参考中国中代书籍，数据来源有依有据。支持多语言（可自定义语言包），支持自定义插件。
 
