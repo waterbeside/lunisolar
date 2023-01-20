@@ -5,7 +5,7 @@ import { removeSetByList, filterActsNotInSet } from './index'
 import { MEETING_DES_SET } from '../constants'
 import { getTheSignGodSet, findLevel, filterActByLevel, filterActAfterLevel } from './goodBadLevel'
 import { defaultActs, commonActs, emperorActs, civilActs } from '../actData'
-import { trans } from '../locale'
+import { trans } from '../utils'
 
 import { yearGods } from '../gods/yearGods'
 import { monthGods } from '../gods/monthGods'

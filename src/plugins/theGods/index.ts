@@ -1,6 +1,6 @@
 import zh from './locale/zh'
 import { TheGods } from './class/theGods'
-import { setTheGodsLocales } from './locale'
+import { setTheGodsLocales } from './utils'
 
 const theGods: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
   lsFactory.locale(zh, true)
