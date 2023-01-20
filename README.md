@@ -921,14 +921,15 @@ lunisolar.locale(en).locale(takeSoundEn)
 
 ```typescript
 import lunisolar from 'lunisolar'
-import type { Locale } from 'lunisolar'
+const { defineLocale } = lunisolar
+
 // 自定义语言包
-const myZh: Locale = {
+const myZh = defineLocale({
   name: 'zh' // 此项必需设置，指定要自义的语言, 可设为任意字符串，如果设为已导入的语言名，后续设置的项将会覆盖原有项
   numerals: '零一二三四五六七八九十'.split(''),
   stems: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
   branchs: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']
-}
+})
 
 // 载入语言包
 lunisolar.locale(myZh)
