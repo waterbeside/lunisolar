@@ -564,7 +564,7 @@ console.log(lsr.format('lY年 lM(lL)lD lH時')) // 二〇二二年 六月(大)�
 ```javascript
 const lsr = lunisolar('2022-07-18 14:40')
 console.log(lsr.char8.toString()) // '壬寅 丁未 壬申 丁未'
-console.log(lsr.char8.year.toString()) // 壬寅
+console.log(lsr.char8.year.name) // 壬寅
 console.log(lsr.char8.year.stem.toString()) // 壬
 console.log(lsr.char8.year.branch.toString()) // 寅
 console.log(lsr.char8.month.toString()) // 丁未
@@ -605,6 +605,8 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | toString()     | 返回格式化后天干地支字符串如 “壬寅” | | string |
 | missing | 取得旬空的地支 | | [Branch, Branch] |
 | takeSound | 五行纳音，需加载`advanced`插件, 参考 [#8 纳音](#8-纳音) | | string |
+| **静态方法**   static method| | |  |
+| getNames()     | 取得六十干支符串列表 | | string[] |
 
 ### 5.4 Stem天干类
 
@@ -616,6 +618,8 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | trigram8 | 纳甲配卦 | | [Trigram8](#57-trigram8-八卦类)
 | valueOf()      | 返回天干索引值 | | number |
 | toString()     | 返回天干字符串| | string |
+| **静态方法**   static method| | |  |
+| getNames()     | 返回所有天干字符串列表| | string[] |
 
 ### 5.5 Branch地支类
 
@@ -636,6 +640,8 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | harming | 相害的地支 | | Branch |
 | valueOf()      | 返回地支索引值 | | number |
 | toString()     | 返回地支字符串| | string |
+| **静态方法**   static method| | |  |
+| getNames()     | 返回所有地支字符串列表| | string[] |
 
 ### 5.6 Element5五行类
 
@@ -649,6 +655,8 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | counteracting() | 取得**相侮**（克我者）的五行，如实例为`木`，则返回实例为`金`的Element5对象 | |Element5 |
 | valueOf()      | 返回五行属性索引值 | | number |
 | toString()     | 返回五行属性字符串| | string |
+| **静态方法**   static method| | |  |
+| getNames()     | 返回天干字符串列表| | string[] |
 
 ### 5.7 Trigram8 八卦类
 
@@ -673,6 +681,8 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | name     | 八卦名 | | string |
 | valueOf()      | 返回八卦数值 | | number |
 | toString()     | 返回八卦字符串| | string |
+| **静态方法**   static method| | |  |
+| getNames()     | 返回八卦字符串列表| | string[] |
 
 ### 5.8 八字增强插件
 
