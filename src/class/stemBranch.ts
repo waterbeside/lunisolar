@@ -16,11 +16,15 @@ import { CacheClass } from './CacheClass'
  * 地支
  */
 export class Branch extends CacheClass {
-  readonly _value: number = -1
+  readonly value: number = -1
   readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
   }
 
+  static getNames(lang?: string): string[] {
+    lang = lang || _GlobalConfig.lang
+    return [..._GlobalConfig.locales[lang].branchs]
+  }
   static instances = new Map<string, Branch>()
   static create(value: number | string | Branch, config?: ClassCommonConfig): Branch {
     if (value instanceof Branch) return value
@@ -39,27 +43,23 @@ export class Branch extends CacheClass {
     if (config) {
       this._config = Object.assign({}, this._config, config)
     }
-    this._value = parseCommonCreateClassValue(value, 'branch', this._config.lang, _GlobalConfig)
-  }
-
-  get value(): number {
-    return this._value
+    this.value = parseCommonCreateClassValue(value, 'branch', this._config.lang, _GlobalConfig)
   }
 
   get name(): string {
-    return _GlobalConfig.locales[this._config.lang].branchs[this._value]
+    return _GlobalConfig.locales[this._config.lang].branchs[this.value]
   }
 
   @cache('branch:hiddenStems')
   get hiddenStems(): Stem[] {
-    const hiddenStemsValue = HIDDEN_STEMS[this._value]
+    const hiddenStemsValue = HIDDEN_STEMS[this.value]
     return hiddenStemsValue.map(v => new Stem(v))
   }
 
   @cache('branch:e5')
   get e5(): Element5 {
-    const i = Math.floor((this._value + 10) / 3) % 4
-    if ((this._value + 10) % 3 === 2) {
+    const i = Math.floor((this.value + 10) / 3) % 4
+    if ((this.value + 10) % 3 === 2) {
       return Element5.create(2, this._config)
     } else {
       return Element5.create(i < 2 ? i : i + 1, this._config)
@@ -70,8 +70,8 @@ export class Branch extends CacheClass {
    */
   get triad(): [Branch, Branch] {
     return [
-      Branch.create((this._value + 4) % 12, this._config),
-      Branch.create((this._value + 8) % 12, this._config)
+      Branch.create((this.value + 4) % 12, this._config),
+      Branch.create((this.value + 8) % 12, this._config)
     ]
   }
 
@@ -79,18 +79,18 @@ export class Branch extends CacheClass {
    * 三合五行
    */
   get triadE5(): Element5 {
-    return Element5.create(computeTriadE5Value(this._value), this._config)
+    return Element5.create(computeTriadE5Value(this.value), this._config)
   }
 
   /**
    * 六合
    */
   get group6(): Branch {
-    return Branch.create((13 - this._value) % 12, this._config)
+    return Branch.create((13 - this.value) % 12, this._config)
   }
 
   get group6E5(): Element5 {
-    return Element5.create(computeGroup6E5Value(this._value), this._config)
+    return Element5.create(computeGroup6E5Value(this.value), this._config)
   }
 
   // 相刑
@@ -132,7 +132,7 @@ export class Branch extends CacheClass {
   }
 
   valueOf(): number {
-    return this._value
+    return this.value
   }
 }
 
@@ -140,9 +140,14 @@ export class Branch extends CacheClass {
  * 天干
  */
 export class Stem extends CacheClass {
-  readonly _value: number = -1
+  readonly value: number = -1
   readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
+  }
+
+  static getNames(lang?: string): string[] {
+    lang = lang || _GlobalConfig.lang
+    return [..._GlobalConfig.locales[lang].stems]
   }
 
   static instances = new Map<string, Stem>()
@@ -163,32 +168,28 @@ export class Stem extends CacheClass {
     if (config) {
       this._config = Object.assign({}, this._config, config)
     }
-    this._value = parseCommonCreateClassValue(value, 'stem', this._config.lang, _GlobalConfig)
-  }
-
-  get value(): number {
-    return this._value
+    this.value = parseCommonCreateClassValue(value, 'stem', this._config.lang, _GlobalConfig)
   }
 
   get name(): string {
-    return _GlobalConfig.locales[this._config.lang].stems[this._value]
+    return _GlobalConfig.locales[this._config.lang].stems[this.value]
   }
 
   @cache('stem:branchs')
   get branchs(): Branch[] {
     const branchs = _GlobalConfig.locales[this._config.lang].branchs.filter(
-      (_: string, index: number) => index % 2 === this._value % 2
+      (_: string, index: number) => index % 2 === this.value % 2
     )
     return branchs.map((branch: string) => Branch.create(branch, this._config))
   }
 
   @cache('stem:e5')
   get e5(): Element5 {
-    return Element5.create(Math.floor(this._value / 2), this._config)
+    return Element5.create(Math.floor(this.value / 2), this._config)
   }
 
   get trigram8(): Trigram8 {
-    return Trigram8.create(getTrigramValueByStem(this._value), this._config)
+    return Trigram8.create(getTrigramValueByStem(this.value), this._config)
   }
 
   toString(): string {
@@ -196,7 +197,7 @@ export class Stem extends CacheClass {
   }
 
   valueOf(): number {
-    return this._value
+    return this.value
   }
 }
 
@@ -206,9 +207,22 @@ export class Stem extends CacheClass {
 export class SB {
   readonly _stem: Stem
   readonly _branch: Branch
-  readonly _value: number = -1
+  readonly value: number = -1
   readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
+  }
+
+  static getNames(lang?: string): string[] {
+    lang = lang || _GlobalConfig.lang
+    const locale = _GlobalConfig.locales[lang]
+    const res: string[] = new Array(60).fill('')
+    return res.map((item, index) => {
+      const stemValue = index % 10
+      const branchValue = index % 12
+      return (
+        locale.stems[stemValue] + (locale?.stemBranchSeparator ?? '') + locale.branchs[branchValue]
+      )
+    })
   }
 
   constructor(
@@ -225,11 +239,11 @@ export class SB {
       const stemValue = this._stem.valueOf(),
         branchValue = this._branch.valueOf()
       // 如果一个为奇数一个为偶数，则不能组合
-      this._value = computeSBValue(stemValue, branchValue)
+      this.value = computeSBValue(stemValue, branchValue)
     } else if (typeof stemOrValue === 'number') {
-      this._value = stemOrValue % 60
-      const stemValue = this._value % 10
-      const branchValue = this._value % 12
+      this.value = stemOrValue % 60
+      const stemValue = this.value % 10
+      const branchValue = this.value % 12
       this._stem = Stem.create(stemValue, this._config)
       this._branch = Branch.create(branchValue, this._config)
     } else {
@@ -243,10 +257,6 @@ export class SB {
 
   get branch(): Branch {
     return this._branch
-  }
-
-  get value(): number {
-    return this._value
   }
 
   get missing(): [Branch, Branch] {
@@ -264,6 +274,6 @@ export class SB {
   }
 
   valueOf(): number {
-    return this._value
+    return this.value
   }
 }

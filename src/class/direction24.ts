@@ -21,7 +21,7 @@ function parseValue(value: number | Branch | Stem | Trigram8): number {
 }
 
 export class Direction24 {
-  readonly _value: number
+  readonly value: number
   readonly _sign: Stem | Branch | Trigram8
   readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
@@ -44,18 +44,19 @@ export class Direction24 {
     return Direction24.create(value, config)
   }
 
+  static getNames(lang?: string): string[] {
+    lang = lang || _GlobalConfig.lang
+    return getDirection24List(lang).map(item => item.name)
+  }
+
   constructor(value: number | Branch | Stem | Trigram8, config?: ClassCommonConfig) {
     const idx = parseValue(value)
-    this._value = idx
+    this.value = idx
     const lang = config?.lang || _GlobalConfig.lang
     const direction24List = getDirection24List(lang)
     if (idx === -1) this._sign = Stem.create(4, config)
     else if (idx === -1) this._sign = Stem.create(5, config)
     else this._sign = direction24List[idx % 24]
-  }
-
-  get value(): number {
-    return this._value
   }
 
   get sign() {
@@ -71,7 +72,7 @@ export class Direction24 {
   }
 
   get angle(): number {
-    return this._value > 0 ? this._value * 15 : NaN
+    return this.value > 0 ? this.value * 15 : NaN
   }
 
   get direction(): string {
@@ -79,8 +80,8 @@ export class Direction24 {
   }
 
   get directionIndex(): number {
-    if (this._value < 0) return 5
-    return d24Directions[this._value]
+    if (this.value < 0) return 5
+    return d24Directions[this.value]
   }
 
   toString() {
@@ -88,7 +89,7 @@ export class Direction24 {
   }
 
   valueOf() {
-    return this._value
+    return this.value
   }
 }
 
