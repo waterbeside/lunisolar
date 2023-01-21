@@ -17,7 +17,7 @@ export class Char8Ex extends CacheClass {
   readonly me: Stem
   readonly char8: Char8
   readonly lsr: Lunisolar
-  readonly sexValue: 0 | 1 | null
+  readonly sexValue: 0 | 1
   readonly year: Pillar
   readonly month: Pillar
   readonly day: Pillar
@@ -26,7 +26,7 @@ export class Char8Ex extends CacheClass {
     [x in YMDH]: C8God[]
   } = { year: [], month: [], day: [], hour: [] }
 
-  constructor(lsr: Lunisolar, sexValue: 0 | 1 | null) {
+  constructor(lsr: Lunisolar, sexValue: 0 | 1) {
     super()
     this.sexValue = sexValue
     this.lsr = lsr
