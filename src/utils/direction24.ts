@@ -1,6 +1,8 @@
 import { Trigram8 } from '../class/trigram8'
 import { Stem, Branch } from '../class/stemBranch'
 
+const direction24Cache = new Map<string, any>()
+
 type DirectionList = [
   Branch, // 子
   Stem, // 癸
@@ -31,10 +33,12 @@ type DirectionList = [
 type StemsAndBranchs = { stem: Stem[]; branch: Branch[] }
 
 export const getDirection24List = (lang: string = 'zh'): DirectionList => {
+  const cacheKey = `direction24List:${lang}`
+  if (direction24Cache.has(cacheKey)) return direction24Cache.get(cacheKey)
   const config = {
     lang
   }
-  return [
+  const res: DirectionList = [
     Branch.create(0, config), // 0 子
     Stem.create(9, config), // 1 癸
     Branch.create(1, config), // 2 丑
@@ -60,6 +64,8 @@ export const getDirection24List = (lang: string = 'zh'): DirectionList => {
     Branch.create(11, config), // 22亥
     Stem.create(8, config) // 23壬
   ]
+  direction24Cache.set(cacheKey, res)
+  return res
 }
 
 // 取得月厌位所在的24山的索引值
