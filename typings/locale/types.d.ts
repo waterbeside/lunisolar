@@ -84,7 +84,7 @@ interface LocaleData {
    *
    * There are 8 items in the array，
    *
-   * like (坎 艮 震 巽 离 坤 兑 乾)
+   * like (坤 震 坎 兌 艮 離 巽 乾)
    */
   eightTrigram: string[]
   /**

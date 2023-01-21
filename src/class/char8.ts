@@ -6,7 +6,7 @@ import { SB0_DATE } from '../constants/calendarData'
 import { _GlobalConfig } from '../config'
 
 export class Char8 {
-  readonly _value: number = -1
+  readonly value: number = -1
   readonly _list: [SB, SB, SB, SB]
   readonly _config: Required<Char8Config> = {
     changeAgeTerm: _GlobalConfig.changeAgeTerm,
@@ -26,7 +26,7 @@ export class Char8 {
     }
     if (Array.isArray(dateOrSbList)) {
       this._list = dateOrSbList
-      this._value = this._computeValue(dateOrSbList)
+      this.value = this._computeValue(dateOrSbList)
     } else {
       throw new Error('Invalid Char8')
     }
@@ -34,10 +34,6 @@ export class Char8 {
 
   getConfig() {
     return Object.assign({}, this._config)
-  }
-
-  get value() {
-    return this._value
   }
 
   get list() {
@@ -175,6 +171,6 @@ export class Char8 {
   }
 
   valueOf() {
-    return this._value
+    return this.value
   }
 }

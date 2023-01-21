@@ -3,7 +3,7 @@ import { _GlobalConfig } from '../config'
 import { parseDate } from '../utils'
 
 export class SolarTerm {
-  readonly _value: number = -1
+  readonly value: number = -1
   readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
   }
@@ -13,16 +13,12 @@ export class SolarTerm {
     }
     if (value instanceof SolarTerm) return value
     if (typeof value === 'number') {
-      this._value = value % 24
+      this.value = value % 24
     } else if (typeof value === 'string') {
       const termIndex = _GlobalConfig.locales[this._config.lang].solarTerm.indexOf(value)
       if (termIndex === -1) throw new Error('Invalid term value')
-      this._value = termIndex
+      this.value = termIndex
     }
-  }
-
-  get value() {
-    return this._value
   }
 
   get name() {

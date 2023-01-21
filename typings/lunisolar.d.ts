@@ -106,16 +106,16 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Element5 {
-    readonly _value: number
+    /**
+     * the Element5.value is the index of ['木', '火', '土', '金', '水']
+     */
+    readonly value: number
     readonly _config: Required<ClassCommonConfig>
+    static getNames: (lang?: string) => string[]
     static create(value: number | string | Element5, config?: ClassCommonConfig): Element5
     constructor(value: number | string | Element5, config?: ClassCommonConfig)
     toString(): string
     valueOf(): number
-    /**
-     * the Element5.value is the index of ['木', '火', '土', '金', '水']
-     */
-    get value(): number
     /**
      * 取得五行名称
      */
@@ -151,11 +151,16 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Trigram8 {
-    readonly _value: number = -1
+    readonly value: number
     readonly _config: Required<ClassCommonConfig>
+    /**
+     * 顺序为 坤震坎兌艮離巽乾
+     * @param lang 语言包名，不设置时为使用当前语言包
+     * @returns string[]
+     */
+    static getNames: (lang?: string) => string[]
     static create(value: number, config?: ClassCommonConfig): Trigram8
     constructor(value: number, config?: ClassCommonConfig)
-    get value(): number
     get name(): string
     toString(): string
     valueOf(): number
@@ -168,13 +173,13 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Direction24 {
-    readonly _value: number
+    readonly value: number
     readonly _sign: Stem | Branch | Trigram8
     readonly _config: Required<ClassCommonConfig>
+    static getNames: (lang?: string) => string[]
     static create(value: number | Branch | Stem | Trigram8, config?: ClassCommonConfig): Direction24
     static createFromAngle(angle: number, config: ClassCommonConfig): Direction24
     constructor(value: number | Branch | Stem | Trigram8, config?: ClassCommonConfig)
-    get value(): number
     /**
      * 当前所在的二十四山位置的对象，可以是天干、地支、八卦对象
      */
@@ -215,8 +220,9 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Stem extends CacheClass {
-    readonly _value: number = -1
+    readonly value: number
     readonly _config: Required<ClassCommonConfig>
+    static getNames: (lang?: string) => string[]
     static create(value: number | string | Stem, config?: ClassCommonConfig): Stem
     constructor(value: number | string | Stem, config?: ClassCommonConfig)
     toString(): string
@@ -228,7 +234,6 @@ declare namespace lunisolar {
      *  ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸']
      * ```
      */
-    get value(): number
     get name(): string
     /**
      * 可与天干组合的地支
@@ -251,13 +256,6 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Branch extends CacheClass {
-    readonly _value: number = -1
-    readonly _config: Required<ClassCommonConfig>
-    static create(value: number | string | Branch, config?: ClassCommonConfig): Branch
-    constructor(value: number | string | Branch, config?: ClassCommonConfig)
-    toString(): string
-    valueOf(): number
-    get name(): string
     /**
      * 地支索引 0 ~ 11
      * ```
@@ -265,7 +263,14 @@ declare namespace lunisolar {
      *  ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥']
      * ```
      */
-    get value(): number
+    readonly value: number
+    readonly _config: Required<ClassCommonConfig>
+    static getNames: (lang?: string) => string[]
+    static create(value: number | string | Branch, config?: ClassCommonConfig): Branch
+    constructor(value: number | string | Branch, config?: ClassCommonConfig)
+    toString(): string
+    valueOf(): number
+    get name(): string
     /**
      * 地支藏干
      * ```
@@ -335,8 +340,12 @@ declare namespace lunisolar {
   export class SB {
     readonly _stem: Stem
     readonly _branch: Branch
-    readonly _value: number = -1
+    /**
+     * 60位的天干地支組合的索引值 0 ~ 59
+     */
+    readonly value: number
     readonly _config: Required<ClassCommonConfig>
+    static getNames: (lang?: string) => string[]
     /**
      * @param value 60位的天干地支組合的索引值
      */
@@ -356,10 +365,7 @@ declare namespace lunisolar {
      * 天干地支名，如‘甲子’
      */
     get name(): string
-    /**
-     * 60位的天干地支組合的索引值 0 ~ 59
-     */
-    get value(): number
+
     /**
      * 天干實例
      */
@@ -381,15 +387,14 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class SolarTerm {
-    readonly _value: number = -1
+    /**
+     * @returns 節氣索引 0 ~ 23
+     */
+    readonly value: number
     readonly _config: Required<ClassCommonConfig>
     constructor(value: number | string | SolarTerm, config?: ClassCommonConfig)
     toString(): string
     valueOf(): number
-    /**
-     * @returns 節氣索引 0 ~ 23
-     */
-    get value(): number
     /**
      * @returns 取得节气名称
      */
@@ -451,11 +456,10 @@ declare namespace lunisolar {
    * @param Char8Config { lang: 语言名, changeAgeTerm: 用于換歲的節氣 }
    */
   export class Char8 {
-    readonly _value: number = -1
+    readonly value: number
     readonly _list: [SB, SB, SB, SB]
     readonly _config: Required<Char8Config>
     constructor(dateOrSbList: Date | [SB, SB, SB, SB], config?: Char8Config)
-    get value(): number
     toString(): string
     valueOf(): number
     getConfig(): Required<Char8Config>
