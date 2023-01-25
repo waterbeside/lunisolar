@@ -1,6 +1,6 @@
 <!-- markdownlint-disable -->
-<p align="center">
-  <img width="120" src="./docs/image/../images/logo.png" style="text-align: center;margin-bottom:0;" >
+<p align="center" style="margin-bottom:0;">
+  <img width="120" src="./docs/image/../images/logo.png" style="text-align: center;" >
 </p>
 <h1 align="center">Lunisolar</h1>
 
