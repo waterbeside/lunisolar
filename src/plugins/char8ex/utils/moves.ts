@@ -12,7 +12,6 @@ export const computeBigMoves = (c8ex: Char8Ex, length = 8) => {
   }
   const isRev = (c8ex.year.stem.value + sex) % 2 !== 1 // 阳男阴女顺排 阴男阳女逆排
   // 计算交运时间
-  
 
   // 计算大运天干地支
   for (let i = 0; i < length; i++) {
@@ -21,6 +20,4 @@ export const computeBigMoves = (c8ex: Char8Ex, length = 8) => {
     const pillar = new Pillar({ sb: sb as SBX, cate: 'BigMoves', me: c8ex.me, lang: c8ex._lang })
     movesList[i] = pillar
   }
-
-
 }
