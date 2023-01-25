@@ -1,7 +1,7 @@
 <!-- markdownlint-disable -->
-<p align="center" style="margin-bottom:0;">
+<div align="center">
   <img width="120" src="./docs/image/../images/logo.png" style="text-align: center;" >
-</p>
+</div>
 <h1 align="center">Lunisolar</h1>
 
 ![minzip](https://img.shields.io/bundlephobia/minzip/lunisolar)
