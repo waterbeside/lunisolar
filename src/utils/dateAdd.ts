@@ -1,11 +1,11 @@
 import { UNITS } from '../constants'
 import { parseDate, prettyUnit } from './index'
 
-export function dateAdd(date: DateParamType, value: number, unit?: Unit): Date {
+export function dateAdd(date: DateParamType, value: number, unit?: DateAddUnit): Date {
   date = parseDate(date)
   const year = date.getFullYear()
   const month = date.getMonth() + 1
-  unit = (unit ? prettyUnit(unit) : 'millisecond') as UnitFullNameLower
+  unit = (unit ? prettyUnit(unit) : 'millisecond') as DateAddUnitFullName
   let diff = value
   if (unit === UNITS.d || unit === UNITS.ld) {
     diff = value * 24 * 60 * 60 * 1000

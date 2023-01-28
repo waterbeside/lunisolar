@@ -205,7 +205,7 @@ export class Lunisolar extends CacheClass {
     return dateDiff(this._date, date, unit as GreUnit, float)
   }
 
-  add(value: number, unit?: Unit): Lunisolar {
+  add(value: number, unit?: DateAddUnit): Lunisolar {
     const date = this.toDate()
     const newDate = dateAdd(date, value, unit)
     return new Lunisolar(newDate, this.getConfig())

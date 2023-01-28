@@ -5,6 +5,9 @@ declare function lunisolar(
 
 declare namespace lunisolar {
   export type DateConfigType = string | number | Date | null | undefined
+  export interface FromLunarData extends ParseFromLunarParam {
+    [k: string]: any
+  }
   export interface ConfigType extends Partial<Omit<GlobalConfig, 'locales'>> {}
   export interface Locale extends LsrLocale {}
   export const _globalConfig: GlobalConfig
@@ -338,8 +341,14 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class SB {
-    readonly _stem: Stem
-    readonly _branch: Branch
+    /**
+     * 天干實例
+     */
+    readonly stem: Stem
+    /**
+     * 地支實例
+     */
+    readonly branch: Branch
     /**
      * 60位的天干地支組合的索引值 0 ~ 59
      */
@@ -365,15 +374,6 @@ declare namespace lunisolar {
      * 天干地支名，如‘甲子’
      */
     get name(): string
-
-    /**
-     * 天干實例
-     */
-    get stem(): Stem
-    /**
-     * 地支實例
-     */
-    get branch(): Branch
     /**
      * 旬空
      */
@@ -635,7 +635,7 @@ declare namespace lunisolar {
      * @param value 加减的数值，负数即为减
      * @param unit 单位
      */
-    add(value: number, unit?: Unit): Lunisolar
+    add(value: number, unit?: GreUnit): Lunisolar
     /**
      * 格式化日期
      *

@@ -28,6 +28,9 @@ type Unit = GreUnit | LunarUnit | Char8Unit
 type DateConfigType = lunisolar.DateConfigType
 type DateParamType = DateConfigType | lunisolar.Lunisolar
 
+type DateAddUnitFullName = 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'month' | 'year'
+type DateAddUnit = 'ms' | 's' | 'm' | 'h' | 'd' | 'M' | 'y' | DateAddUnitFullName
+
 type PluginFunc<T> = lunisolar.PluginFunc<T>
 
 interface GlobalConfig {
