@@ -1,7 +1,7 @@
 {
   "name": "lunisolar",
-  "version": "2.1.0",
-  "description": "Typescript农历库，支持公历阴历互转，支持各类黄历数据查询，如八字四柱、阴历、神煞宜忌、时辰吉凶、建除十二神、胎神占方、五行纳音等，。支持自定义插件。",
+  "version": "2.1.2",
+  "description": "专业农历库，支持公历阴历互转，支持各类黄历数据查询，如八字四柱、阴历、神煞宜忌、时辰吉凶、建除十二神、胎神占方、五行纳音等。支持自定义插件。",
   "main": "dist/lunisolar.js",
   "module": "dist/lunisolar.esm.js",
   "browser": "dist/lunisolar.js",
@@ -26,6 +26,7 @@
     "宜忌"
   ],
   "author": "Natron Kan",
+  "homepage": "http://waterbeside.github.io/lunisolar-docs/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/waterbeside/lunisolar"
