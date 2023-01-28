@@ -205,8 +205,8 @@ export class Stem extends CacheClass {
  * 天干地支组合
  */
 export class SB {
-  readonly _stem: Stem
-  readonly _branch: Branch
+  readonly stem: Stem
+  readonly branch: Branch
   readonly value: number = -1
   readonly _config: Required<ClassCommonConfig> = {
     lang: _GlobalConfig.lang
@@ -234,29 +234,21 @@ export class SB {
       this._config = Object.assign({}, this._config, config)
     }
     if (typeof branch === 'number' || typeof branch === 'string' || branch instanceof Branch) {
-      this._stem = Stem.create(stemOrValue, this._config)
-      this._branch = Branch.create(branch, this._config)
-      const stemValue = this._stem.valueOf(),
-        branchValue = this._branch.valueOf()
+      this.stem = Stem.create(stemOrValue, this._config)
+      this.branch = Branch.create(branch, this._config)
+      const stemValue = this.stem.valueOf(),
+        branchValue = this.branch.valueOf()
       // 如果一个为奇数一个为偶数，则不能组合
       this.value = computeSBValue(stemValue, branchValue)
     } else if (typeof stemOrValue === 'number') {
       this.value = stemOrValue % 60
       const stemValue = this.value % 10
       const branchValue = this.value % 12
-      this._stem = Stem.create(stemValue, this._config)
-      this._branch = Branch.create(branchValue, this._config)
+      this.stem = Stem.create(stemValue, this._config)
+      this.branch = Branch.create(branchValue, this._config)
     } else {
       throw new Error('Invalid SB value')
     }
-  }
-
-  get stem(): Stem {
-    return this._stem
-  }
-
-  get branch(): Branch {
-    return this._branch
   }
 
   get missing(): [Branch, Branch] {
@@ -266,7 +258,7 @@ export class SB {
 
   get name(): string {
     const locale = _GlobalConfig.locales[this._config.lang]
-    return `${this._stem}${locale?.stemBranchSeparator ?? ''}${this._branch}`
+    return `${this.stem}${locale?.stemBranchSeparator ?? ''}${this.branch}`
   }
 
   toString(): string {
