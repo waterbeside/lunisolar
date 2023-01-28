@@ -8,6 +8,11 @@
 ![language](https://img.shields.io/github/languages/top/waterbeside/lunisolar)
 ![bulid](https://img.shields.io/github/actions/workflow/status/waterbeside/lunisolar/build.yml)
 
+---
+【[线上文档请点这里](http://waterbeside.github.io/lunisolar-docs/)】
+
+---
+
 **lunisolar** 是一个使用`Typescript`编写的专业农历库, 可取得各类农历数据，参考中国中代书籍，数据来源有依有据。支持多语言（可自定义语言包），支持自定义插件。
 
 具体包含以下功能：
@@ -379,7 +384,7 @@ Lunisolar具有以下属性和方法
 | --- | ---  | --- | --- |
 | lunar      | 阴历数据对象 | | [Lunar](#42-lunar类) |
 | char8      | 八字对象 | | [Char8](#52-char8类) |
-| term       | 返回当前日期的节气对象，如果不是节气，返回null | | [Term](#6-节气) \| null |
+| solarTerm       | 返回当前日期的节气对象，如果不是节气，返回null | | [Term](#6-节气) \| null |
 | getSeason()  | 取得当前季节 | | string |
 | getSeasonIndex()  | 以春夏秋冬为顺序取得当前季节索引 | | number |
 | toDate()   | 返回Date对象 | | Date |
@@ -487,7 +492,7 @@ diff 方法包含两个参数：`date` 和 `unit`
 | lunarDay | lD | 阴历日 |
 | lunarHour | lH | 时辰 |
 | day | d | 天 |
-| month | M | 月份(0-11) |
+| month | M | 月份 |
 | year | y | 年 |
 | hour | h | 小时 |
 | minute | m | 分钟 |
@@ -608,7 +613,7 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 | valueOf()      | 返回60干支顺序索引值 | | number |
 | toString()     | 返回格式化后天干地支字符串如 “壬寅” | | string |
 | missing | 取得旬空的地支 | | [Branch, Branch] |
-| takeSound | 五行纳音，需加载`advanced`插件, 参考 [#8 纳音](#8-纳音) | | string |
+| takeSound | 五行纳音，需加载`takeSound`插件, 参考 [#8 纳音](#8-纳音) | | string |
 | **静态方法**   static method| | |  |
 | getNames()     | 取得六十干支符串列表 | | string[] |
 
