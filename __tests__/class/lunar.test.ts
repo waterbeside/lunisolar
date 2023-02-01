@@ -68,4 +68,50 @@ describe('test lunar class', () => {
     }
     expect(lastLr?.isBigMonth).toBe(true)
   })
+
+  it('2023-03-20', () => {
+    const lnr = new Lunar(`2023-03-20`)
+    expect(lnr.getMonthName()).toBe('二月')
+    expect(lnr.getDayName()).toBe('廿九')
+  })
+
+  it('2023-03-21', () => {
+    const lnr = new Lunar(`2023-03-21`)
+    expect(lnr.getMonthName()).toBe('二月')
+    expect(lnr.getDayName()).toBe('三十')
+  })
+
+  it('2023-03-22', () => {
+    const lnr = new Lunar(`2023-03-22`)
+    expect(lnr.getMonthName()).toBe('閏二月')
+    expect(lnr.getDayName()).toBe('初一')
+  })
+
+  it('1990-01-27', () => {
+    const lnr = new Lunar(`1990-01-27`)
+    expect(lnr.getMonthName()).toBe('正月')
+    expect(lnr.getDayName()).toBe('初一')
+  })
+
+  it('1990-04-15', () => {
+    const lnr = new Lunar(`1990-04-15`)
+    expect(lnr.getMonthName() + lnr.getDayName()).toBe('三月二十')
+  })
+
+  it('1990-04-16', () => {
+    const lnr = new Lunar(`1990-04-16`)
+    expect(lnr.getMonthName() + lnr.getDayName()).toBe('三月廿一')
+  })
+
+  it('1990-06-22', () => {
+    const lnr = new Lunar(`1990-06-22`)
+    expect(lnr.getMonthName()).toBe('五月')
+    expect(lnr.getDayName()).toBe('三十')
+  })
+
+  it('1990-06-23', () => {
+    const lnr = new Lunar(`1990-06-23`)
+    expect(lnr.getMonthName()).toBe('閏五月')
+    expect(lnr.getDayName()).toBe('初一')
+  })
 })
