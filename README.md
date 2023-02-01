@@ -392,6 +392,7 @@ Lunisolar具有以下属性和方法
 | unix()     | 返回以秒为单位的时间戳 | | number |
 | format(formatStr: string) | 按指定格式格式化时间 | **formatStr**: string 时间将以这字符串格式进行格式化，例 'YYYY-MM-DD HH:mm:ss' | string |
 | diff(date, unit, float) | 时间差计算 | **date**: number \| string \| Date \| Lunisolar <br> 与当前实例的时间进行比较的时间<br> **unit**: string <br>单位，如 year, lunarYear, month, lunarMonth 等<br> **float**: boolean <br>是否返回浮点数 | number |
+| add(value, unit)  | 时间加减 | **value**: number 时间加减的值，负数为减 <br/> **unit**: string 加减单位 | number |
 | year     | 年份 | | number |
 | month    | 月份 1 ~ 12 | | number |
 | day      | 日期 1 ~ 31 | | number |
@@ -524,6 +525,57 @@ a.diff(b) // -86400000 a比b大的话将返回负数
 > 阴历的时间差计算，如 2018/02/10 （二〇一七年十二月廿五）和 2018/02/16（二〇一八年正月初一）这两个日期，实际只相差五天，但因为两个所在的阴历年不同，所以`date1.diff(date1,'lY')` 计出的结果是1年，如果采用小数`date1.diff(date1,'lY', true)`，会算得 0.016 年。
 >
 > 而公历的diff会与`dayjs.diff`的计算方式一致，两个时间天数不足一年, 其取整数是不会按一年算的。如果你想农历也按此方式取整，可以先取浮点数再取整`parseInt(date1.diff(date1,'lY', true))`
+
+
+### 时间加减
+
+```typescript
+/**
+ * @param { number } value 要加减的值，当为负数时即为减
+ * @param { DateAddUnit } unit 单位，默认值为 millisecond，即毫秒
+ * @return { Lunisolar } 返回一个新的Lunisolar实例
+ */
+lunisolar().add(value: number, unit?: DateAddUnit): Lunisolar
+
+```
+
+```typescript
+lunisolar().add(1, 'd') // 加一天
+lunisolar().add(-2, 'M') // 减两个月
+lunisolar().add(-2, 'm') // 减两分钟
+```
+
+单位说明
+
+```typescript
+
+type DateAddUnit = 
+  | 'millisecond'
+  | 'second' 
+  | 'minute' 
+  | 'hour' 
+  | 'day' 
+  | 'month' 
+  | 'year' 
+  | 'ms' 
+  | 's' 
+  | 'm' 
+  | 'h' 
+  | 'd'
+  | 'M' 
+  | 'y'
+```
+
+| 单位 | 缩写 | 描述 |
+| ----| --- | --- |
+| day | d | 天 |
+| month | M | 月份 |
+| year | y | 年 |
+| hour | h | 小时 |
+| minute | m | 分钟 |
+| second | s | 秒 |
+| millisecond | ms | 毫秒 |
+
 
 ## 4. 阴历数据
 
@@ -961,3 +1013,10 @@ lunisolar('2022/07/18 14:40').format('cY') // 返回内容变成'iC' 原本为 '
 > 具体设置项可参考项目中的语言包， `/src/locale/zh.ts`
 >
 > 自定义语言包时，并非所有项都是必填的，未配置的项会默认使用zh语言包所设置的数据。
+
+## 支持
+
+如果你喜欢本项目，给个Star是对作者最大的支持。
+
+如果你在使用中发现本程序有任何问题，或者对本程序的运算结果有什么任何异议，欢迎发布Issue。
+
