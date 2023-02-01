@@ -1,3 +1,8 @@
+## <small>2.1.3 (2023-02-01)</small>
+
+* fix: 解决个别阴历转换不正确的问题 ([ff93ae7](https://github.com/waterbeside/lunisolar/commit/ff93ae7))
+
+
 ## 2.0.0 (2023-01-20)
 
 * feat: 八字功能增強(神煞、十神等) ([026bd65](https://github.com/waterbeside/lunisolar/commit/026bd65))
