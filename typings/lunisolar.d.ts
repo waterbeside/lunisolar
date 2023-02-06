@@ -1,3 +1,5 @@
+/// <reference path="./locale/index.d.ts" />
+
 declare function lunisolar(
   date?: lunisolar.DateConfigType,
   configType?: lunisolar.ConfigType
@@ -115,6 +117,7 @@ declare namespace lunisolar {
     readonly value: number
     readonly _config: Required<ClassCommonConfig>
     static getNames: (lang?: string) => string[]
+    static instances: Map<string, Element5>
     static create(value: number | string | Element5, config?: ClassCommonConfig): Element5
     constructor(value: number | string | Element5, config?: ClassCommonConfig)
     toString(): string
@@ -162,6 +165,7 @@ declare namespace lunisolar {
      * @returns string[]
      */
     static getNames: (lang?: string) => string[]
+    static instances: Map<string, Trigram8>
     static create(value: number, config?: ClassCommonConfig): Trigram8
     constructor(value: number, config?: ClassCommonConfig)
     get name(): string
@@ -180,6 +184,7 @@ declare namespace lunisolar {
     readonly _sign: Stem | Branch | Trigram8
     readonly _config: Required<ClassCommonConfig>
     static getNames: (lang?: string) => string[]
+    static instances: Map<string, Direction24>
     static create(value: number | Branch | Stem | Trigram8, config?: ClassCommonConfig): Direction24
     static createFromAngle(angle: number, config: ClassCommonConfig): Direction24
     constructor(value: number | Branch | Stem | Trigram8, config?: ClassCommonConfig)
@@ -226,6 +231,7 @@ declare namespace lunisolar {
     readonly value: number
     readonly _config: Required<ClassCommonConfig>
     static getNames: (lang?: string) => string[]
+    static instances: Map<string, Stem>
     static create(value: number | string | Stem, config?: ClassCommonConfig): Stem
     constructor(value: number | string | Stem, config?: ClassCommonConfig)
     toString(): string
@@ -269,6 +275,7 @@ declare namespace lunisolar {
     readonly value: number
     readonly _config: Required<ClassCommonConfig>
     static getNames: (lang?: string) => string[]
+    static instances: Map<string, Branch>
     static create(value: number | string | Branch, config?: ClassCommonConfig): Branch
     constructor(value: number | string | Branch, config?: ClassCommonConfig)
     toString(): string
@@ -355,6 +362,8 @@ declare namespace lunisolar {
     readonly value: number
     readonly _config: Required<ClassCommonConfig>
     static getNames: (lang?: string) => string[]
+    static instances: Map<string, SB>
+    static create(value: number | SB, config?: ClassCommonConfig): SB
     /**
      * @param value 60位的天干地支組合的索引值
      */
