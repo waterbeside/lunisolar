@@ -139,7 +139,7 @@ const monthGodsA: { [key: string]: GodDictItem } = {
       fromYmdh: YMDH = 'month',
       toYmdh?: YMDH
     ): [number, boolean] | boolean => {
-      const idxMonth = lsr.char8[fromYmdh].branch.value
+      const idxMonth = getBranchValue(lsr, fromYmdh)
       const arr = [5, 6, 3, 8, 8, 7, 11, 0, 9, 2, 2, 1]
       const val = arr[idxMonth]
       const isStem = idxMonth % 3 ? false : true // 子午卯酉月和地支比較
@@ -156,7 +156,7 @@ const monthGodsA: { [key: string]: GodDictItem } = {
       fromYmdh: YMDH = 'month',
       toYmdh?: YMDH
     ): [number, boolean] | boolean => {
-      const idxMonth = lsr.char8[fromYmdh].branch.value
+      const idxMonth = getBranchValue(lsr, fromYmdh)
       const arr = [8, 1, 8, 5, 3, 2, 2, 5, 4, 11, 7, 6]
       const val = arr[idxMonth]
       const isStem = idxMonth % 3 ? false : true // 子午卯酉月和地支比較
@@ -178,17 +178,12 @@ const monthGodsA: { [key: string]: GodDictItem } = {
       ```
       // 参考华龄出版社《辨方书》p101, p212表格似乎有误（把甲印成了申）
     */
-    ((
-      lsr: lunisolar.Lunisolar,
-      fromYmdh: YMDH = 'month',
-      toYmdh?: YMDH
-    ): [number, boolean] | boolean => {
-      const idxMonth = lsr.char8.month.branch.value
-      const arr = [5, 6, 2, 0]
+    ((lsr: lunisolar.Lunisolar, fromYmdh: YMDH = 'month', toYmdh?: YMDH): number | boolean => {
+      const idxMonth = getBranchValue(lsr, 'month')
+      const arr = [8, 6, 2, 0]
       const val = arr[idxMonth % 4]
-      const isStem = (idxMonth + 3) % 4 ? false : true
-      if (!toYmdh) return [val, isStem]
-      return isStem ? val === getStemValue(lsr, toYmdh) : val === getBranchValue(lsr, toYmdh)
+      if (!toYmdh) return val
+      return val === getStemValue(lsr, toYmdh)
     }) as CheckGodFunc,
     deGoodAct,
     ['畋獵', '取魚'],
@@ -198,17 +193,12 @@ const monthGodsA: { [key: string]: GodDictItem } = {
     }
   ],
   月德合: [
-    ((
-      lsr: lunisolar.Lunisolar,
-      fromYmdh: YMDH = 'month',
-      toYmdh?: YMDH
-    ): [number, boolean] | boolean => {
-      const idxMonth = lsr.char8[fromYmdh].branch.value
+    ((lsr: lunisolar.Lunisolar, fromYmdh: YMDH = 'month', toYmdh?: YMDH): number | boolean => {
+      const idxMonth = getBranchValue(lsr, 'month')
       const arr = [3, 1, 7, 5]
       const val = arr[idxMonth]
-      const isStem = (idxMonth + 3) % 4 ? false : true
-      if (!toYmdh) return [val, isStem]
-      return isStem ? val === getStemValue(lsr, toYmdh) : val === getBranchValue(lsr, toYmdh)
+      if (!toYmdh) return val
+      return val === getStemValue(lsr, toYmdh)
     }) as CheckGodFunc,
     deGoodAct,
     ['畋獵', '取魚'],
