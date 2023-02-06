@@ -59,10 +59,6 @@ const configs = [
     copyFile: {
       targets: [
         {
-          src: 'typings/locale/**/*',
-          dest: 'locale'
-        },
-        {
           src: 'typings/plugins/**/*',
           dest: 'plugins'
         }
