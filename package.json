@@ -26,7 +26,7 @@
     "宜忌"
   ],
   "author": "Natron Kan",
-  "homepage": "http://waterbeside.github.io/lunisolar-docs/",
+  "homepage": "https://lunisolar.js.org",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/waterbeside/lunisolar"
