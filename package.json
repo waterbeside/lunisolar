@@ -11,7 +11,7 @@
     "test": "jest",
     "build": "rollup -c",
     "lint": "eslint --fix --ext .js,.ts src",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p angular -n './changelog-config.js' -i CHANGELOG.md -s "
   },
   "keywords": [
     "lunar",
