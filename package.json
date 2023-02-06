@@ -31,7 +31,6 @@
     "type": "git",
     "url": "git+https://github.com/waterbeside/lunisolar"
   },
-  "homepage": "https://lunisolar.js.org",
   "license": "GPL-3.0",
   "devDependencies": {
     "@babel/core": "^7.17.10",
