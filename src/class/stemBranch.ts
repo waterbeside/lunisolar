@@ -225,6 +225,17 @@ export class SB {
     })
   }
 
+  static instances = new Map<string, SB>()
+  static create(value: number | SB, config?: ClassCommonConfig): SB {
+    if (value instanceof SB) return value
+    const lang = config?.lang || _GlobalConfig.lang
+    const instMapKey = `${value}:${lang}`
+    if (SB.instances.has(instMapKey)) return SB.instances.get(instMapKey) as SB
+    const inst = new SB(value, undefined, config)
+    SB.instances.set(instMapKey, inst)
+    return inst
+  }
+
   constructor(
     stemOrValue: number | string | Stem,
     branch?: number | string | Branch,
