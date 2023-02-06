@@ -28,7 +28,7 @@ export const dayGodNames = [
   '氣往亡'
 ] as const
 
-export type DayGods = { [key in typeof dayGodNames[number]]: GodDictItem }
+export type DayGods = { [key in (typeof dayGodNames)[number]]: GodDictItem }
 
 export const dayGods: DayGods = {
   天恩: [

@@ -55,7 +55,7 @@ const yearGodNames = [
   '小耗'
 ] as const
 
-export type YearGods = Record<typeof yearGodNames[number], GodDictItem>
+export type YearGods = Record<(typeof yearGodNames)[number], GodDictItem>
 
 const yearGodsA: { [key: string]: GodDictItem } = {
   // key : [取得方法, 属于年月日时用四位二进程表示]

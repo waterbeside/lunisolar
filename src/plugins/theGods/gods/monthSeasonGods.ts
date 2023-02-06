@@ -22,7 +22,7 @@ const monthSeasonGodNames = [
   '八風'
 ]
 
-export type MonthSeasonGods = { [key in typeof monthSeasonGodNames[number]]: GodDictItem }
+export type MonthSeasonGods = { [key in (typeof monthSeasonGodNames)[number]]: GodDictItem }
 
 export const monthSeasonGods: MonthSeasonGods = {
   // 月神随四季者

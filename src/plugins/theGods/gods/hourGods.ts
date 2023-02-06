@@ -21,7 +21,7 @@ const hourGodNames = [
   '旬空'
 ] as const
 
-export type HourGods = Record<typeof hourGodNames[number], GodDictItem>
+export type HourGods = Record<(typeof hourGodNames)[number], GodDictItem>
 
 export const hourGods: HourGods = {
   // 時神從日干起者
