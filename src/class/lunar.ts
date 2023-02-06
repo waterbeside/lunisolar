@@ -27,8 +27,10 @@ function getLunarMonthDate(
   let isLeap = false
   while (dateDiff > 29) {
     const isBig = (monthData >> (month - 1)) & 1
-    dateDiff = dateDiff - (isBig ? 30 : 29)
-    if (month === leapMonth) {
+    const mLength = isBig ? 30 : 29
+    dateDiff = dateDiff - mLength
+    if (month === leapMonth && dateDiff > 0) {
+      // 当还有剩余有dateDiff时，并且是闰月出现的月份，检查是否在闰月
       const leapMonthDateLong = leapMonthIsBig ? 30 : 29
       if (dateDiff > leapMonthDateLong) {
         dateDiff = dateDiff - leapMonthDateLong
@@ -37,13 +39,14 @@ function getLunarMonthDate(
         break
       }
     }
-    if (dateDiff === 0) {
-      dateDiff = 30
-      break
-    }
     month++
   }
-  return [isLeap ? 100 + month : month, dateDiff]
+  if (isLeap) month += 100
+  if (dateDiff === 0) {
+    dateDiff = 30
+    month--
+  }
+  return [month, dateDiff]
 }
 
 /**
@@ -53,7 +56,7 @@ function getLunarMonthDate(
  * @returns 天數
  */
 function getDateDiff(date1: Date, date2: Date): number {
-  return Math.floor((date2.valueOf() - date1.valueOf()) / 86400000)
+  return Math.round((date2.valueOf() - date1.valueOf()) / 86400000)
 }
 
 /**
@@ -80,11 +83,12 @@ export class Lunar {
     if (config) {
       this._config = Object.assign({}, this._config, config)
     }
-    const date = parseDate(dateObj)
-    this._date = date
-    let year = date.getFullYear()
-    let month = date.getMonth()
-    let hours = date.getHours()
+    const _date = parseDate(dateObj)
+    this._date = _date
+    let year = _date.getFullYear()
+    let month = _date.getMonth()
+    let hours = _date.getHours()
+    const date = parseDate(`${year}/${month + 1}/${_date.getDate()}`)
     // 計算年份
     if (
       year < FIRST_YEAR ||
