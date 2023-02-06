@@ -1,3 +1,12 @@
+## [2.1.5](https://github.com/waterbeside/lunisolar/compare/v2.1.4...v2.1.5) (2023-02-06)
+
+
+### 🐛 Bug Fixes
+
+* **theGods:** 修正“月德和月德合立成有误”的问题 ([35c48e2](https://github.com/waterbeside/lunisolar/commit/35c48e22d659e5ea87c53d1aa43408e8131e1261))
+
+
+
 
 ## [2.1.4](https://github.com/waterbeside/lunisolar/compare/v2.1.3...v2.1.4) (2023-02-06)
 
