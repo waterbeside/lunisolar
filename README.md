@@ -9,7 +9,7 @@
 ![bulid](https://img.shields.io/github/actions/workflow/status/waterbeside/lunisolar/build.yml)
 
 ---
-【[线上文档请点这里](http://waterbeside.github.io/lunisolar-docs/)】
+【[线上文档请点这里](https://lunisolar.js.org)】
 
 ---
 
