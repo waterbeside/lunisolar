@@ -1,5 +1,3 @@
-/// <reference path="./locale/index.d.ts" />
-
 declare function lunisolar(
   date?: lunisolar.DateConfigType,
   configType?: lunisolar.ConfigType
