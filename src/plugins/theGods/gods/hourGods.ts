@@ -262,6 +262,7 @@ export const hourGods: HourGods = {
     }
   ],
   九醜: [
+    // 待查
     getCheckGodFunc((lsr: lunisolar.Lunisolar, ymdh = 'day') => {
       if (!NINE_UGLILY_DAY.has(lsr.char8.day.value)) return null
       const branchOrder = NINE_UGLILY_TERM_ORDER
