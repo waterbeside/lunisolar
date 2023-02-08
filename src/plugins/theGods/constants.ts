@@ -173,5 +173,5 @@ export type ProcessData = {
 }
 
 // 九醜日的天干地支
-export const NINE_UGLILY_DAY = new Set([24, 51, 48, 18, 51, 15, 27, 21, 45, 57])
+export const NINE_UGLILY_DAY = new Set([24, 54, 48, 18, 51, 15, 27, 21, 45, 57])
 export const NINE_UGLILY_TERM_ORDER = [2, 1, 0, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1] // 十一月月將（冬至）開始
