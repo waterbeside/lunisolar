@@ -155,13 +155,14 @@ const monthGodsA: { [key: string]: GodDictItem } = {
       lsr: lunisolar.Lunisolar,
       fromYmdh: YMDH = 'month',
       toYmdh?: YMDH
-    ): [number, boolean] | boolean => {
+    ): number | null | boolean => {
       const idxMonth = getBranchValue(lsr, fromYmdh)
-      const arr = [8, 1, 8, 5, 3, 2, 2, 5, 4, 11, 7, 6]
+      // 四仲之月天德居四维，故无合也
+      const arr = [null, 1, 8, null, 3, 2, null, 5, 4, null, 7, 6]
       const val = arr[idxMonth]
-      const isStem = idxMonth % 3 ? false : true // 子午卯酉月和地支比較
-      if (!toYmdh) return [val, isStem]
-      return isStem ? val === getStemValue(lsr, toYmdh) : val === getBranchValue(lsr, toYmdh)
+      if (!toYmdh) return val
+      if (val === null) return false
+      return val === getStemValue(lsr, toYmdh)
     }) as CheckGodFunc,
     deGoodAct,
     ['畋獵', '取魚'],
