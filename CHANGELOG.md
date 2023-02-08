@@ -1,3 +1,15 @@
+## [2.1.6](https://github.com/waterbeside/lunisolar/compare/v2.1.5...v2.1.6) (2023-02-08)
+
+
+### 🐛 Bug Fixes
+
+* **theGods:** 天德合不应在天德的四维位立成 ([013b241](https://github.com/waterbeside/lunisolar/commit/013b24198664d2f906f7c460c1c3eb779adb9cdd))
+* **theGods:** 修正‘九醜取不到戊午日'的问题 ([d500497](https://github.com/waterbeside/lunisolar/commit/d5004972ecbca2c4d480bb575692226ac9ba1040))
+* **theGods:** 修复‘九醜‘取不到戊午日’的問題 ([d7c0f13](https://github.com/waterbeside/lunisolar/commit/d7c0f13e7c91064e0626bd92c14f63ecf36c69a7))
+* **theGods:** 修正‘贵登天门时谷雨后取错’的问题 ([bd17501](https://github.com/waterbeside/lunisolar/commit/bd175016d50b7346bfeffd00fcc6617dcda78b6c))
+
+
+
 ## [2.1.5](https://github.com/waterbeside/lunisolar/compare/v2.1.4...v2.1.5) (2023-02-06)
 
 
