@@ -1,9 +1,15 @@
 import lunisolar from '../../../src/index'
 import theGods from '../../../src/plugins/theGods'
-import type { TheGods } from '../../../src/plugins/theGods/class/theGods'
+import { TheGods } from '../../../src/plugins/theGods/class/theGods'
 import zhCn from '../../../src/locale/zh-cn'
 import theGodzhCn from '../../../src/plugins/theGods/locale/zh-cn'
 import type { Lunisolar } from '../../../src/class/lunisolar'
+import {
+  commonActsStr,
+  emperorActsStr,
+  civilActsStr,
+  defaultActsStr
+} from '../../../src/plugins/theGods/actData'
 
 lunisolar.locale(zhCn).locale(theGodzhCn)
 lunisolar.extend(theGods)
@@ -133,12 +139,7 @@ describe('plugins/theGods life12God', () => {
 
       expect(lsr.theGods.getGoodGods('H').map(g => g.key)).toEqual([])
 
-      // expect(lsr.theGods.getGods('H').map(g => `${g.key} ${g.luckLevel}`)).toEqual(['日害', '天刑'])
       expect(lsr.theGods.getBadGods('H').map(g => g.key)).toEqual(['日害', '天刑'])
-
-      const acts = lsr.theGods.getActs(0)
-      console.log(acts)
-
       const hgs = lsr.theGods.getAllDayHourGods()
       const hoursGods = [
         ['天刑', '日害'], // -2
@@ -169,5 +170,14 @@ describe('plugins/theGods life12God', () => {
     const lsr = lunisolar('2022-11-25') as unknown as LunisolarEx
     expect(lsr.theGods.getLuckDirection('財神')[0].direction).toEqual('南')
     expect(lsr.theGods.getLuckDirection('陽貴')[0].direction).toEqual('東')
+  })
+
+  describe('theGods static', () => {
+    it('test getAllActs', () => {
+      expect(TheGods.getAllActs(0).join(' ')).toBe(defaultActsStr)
+      expect(TheGods.getAllActs(1).join(' ')).toBe(commonActsStr)
+      expect(TheGods.getAllActs(2).join(' ')).toBe(emperorActsStr)
+      expect(TheGods.getAllActs(3).join(' ')).toBe(civilActsStr)
+    })
   })
 })
