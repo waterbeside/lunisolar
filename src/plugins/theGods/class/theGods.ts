@@ -15,8 +15,24 @@ import {
   createGod as createDayGoodGod
 } from '../directionGods/dayGoodGods'
 import { trans } from '../utils'
+import { commonActs, emperorActs, civilActs, defaultActs } from '../actData'
 
 export class TheGods {
+  // 取得所有宜忌词条
+  static getAllActs(actType: 0 | 1 | 2 | 3 = 0, lang = 'zh'): string[] {
+    const t = (key: string) => (lang ? trans(key, lang, 'acts') : key)
+    if (actType === 1) {
+      // 通书六十事
+      return commonActs.map(i => t(i))
+    } else if (actType === 2) {
+      // 御用六十七事
+      return emperorActs.map(i => t(i))
+    } else if (actType === 3) {
+      // 民用三十七事
+      return civilActs.map(i => t(i))
+    }
+    return defaultActs.map(i => t(i))
+  }
   private _cache = new Map<string, any>()
   lsr: lunisolar.Lunisolar
   constructor(lsr: lunisolar.Lunisolar) {

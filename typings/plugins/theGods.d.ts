@@ -23,6 +23,18 @@ export class God {
 }
 
 export class TheGods {
+  /**
+   * 取得当日宜忌
+   * @param actType 筛选方式
+  ```text
+    0：未筛选前的词条，不会按通书、御用、民事里的词条进行筛选
+    1：按`通书六十事`的词条进行筛选，不在此60个词条内者，不会出现
+    2：按`御用六十七事`的词条进行筛选
+    3: 按`民用三十七事`的词条进行筛选
+  ```
+   * @param lang 语言包名称，默认'zh'
+   */
+  static getAllActs(actType: 0 | 1 | 2 | 3 = 0, lang?: string): string[]
   private _cache: Map<string, any>
   lsr: luisolar.Lunisolar
   constructor(lsr: lunisolar.Lunisolar)
@@ -85,7 +97,7 @@ export class TheGods {
    * 取得当日宜忌
    * @param actType 筛选方式
   ```text
-    0：所有词条，不会按通书、御用、民事里的词条进行筛选
+    0：未筛选前的词条，不会按通书、御用、民事里的词条进行筛选
     1：按`通书六十事`的词条进行筛选，不在此60个词条内者，不会出现
     2：按`御用六十七事`的词条进行筛选
     3: 按`民用三十七事`的词条进行筛选
