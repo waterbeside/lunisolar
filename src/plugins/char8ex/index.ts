@@ -26,6 +26,9 @@ const char8ex: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
   })
 }
 
-export { Char8Ex, Pillar, C8God, TenGod, char8ex }
+char8ex.Char8Ex = Char8Ex
+char8ex.Pillar = Pillar
+char8ex.C8God = C8God
+char8ex.TenGod = TenGod
 
 export default char8ex

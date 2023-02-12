@@ -20,5 +20,6 @@ const theGods: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
   })
 }
 
-export { TheGods, God, theGods }
+theGods.TheGods = TheGods
+theGods.God = God
 export default theGods
