@@ -1,18 +1,5 @@
 import { PluginFunc, Branch, Stem } from 'lunisolar'
 
-declare module 'lunisolar' {
-  interface SB {
-    /**
-     * 纳音
-     */
-    takeSound: string
-    /**
-     * 纳音五行
-     */
-    takeSoundE5: lunisolar.Element5
-  }
-}
-
 class GodBase {
   readonly key: string
   readonly _config: Required<ClassCommonConfig>
@@ -160,6 +147,16 @@ export class Char8Ex extends CacheClass {
 }
 
 declare module 'lunisolar' {
+  interface SB {
+    /**
+     * 纳音
+     */
+    takeSound: string
+    /**
+     * 纳音五行
+     */
+    takeSoundE5: lunisolar.Element5
+  }
   interface Lunisolar {
     takeSound: string
     /**
