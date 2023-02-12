@@ -1,3 +1,13 @@
+## [2.1.7](https://github.com/waterbeside/lunisolar/compare/v2.1.6...v2.1.7) (2023-02-12)
+
+
+### ✨ Features
+
+* **char8ex:** export Char8Ex, Pillar, C8God, TenGod class ([da97d5e](https://github.com/waterbeside/lunisolar/commit/da97d5ebef087b2af1390f5e34395346f24ad680))
+* **theGods:** export TheGods, God class ([70a7ff6](https://github.com/waterbeside/lunisolar/commit/70a7ff63e80b34d3614e393aa69af648f2a29bfd))
+* **theGods:** TheGods.getAllActs静态方法取得所有宜忌用事 ([5c0d7de](https://github.com/waterbeside/lunisolar/commit/5c0d7debffa879c839c250ade11e5a858fb49ada))
+
+
 ## [2.1.6](https://github.com/waterbeside/lunisolar/compare/v2.1.5...v2.1.6) (2023-02-08)
 
 
