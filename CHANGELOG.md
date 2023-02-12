@@ -1,3 +1,23 @@
+## [2.1.8](https://github.com/waterbeside/lunisolar/compare/v2.1.5...v2.1.8) (2023-02-12)
+
+
+### ✨ Features
+
+* **char8ex:** export Char8Ex, Pillar, C8God, TenGod class ([da97d5e](https://github.com/waterbeside/lunisolar/commit/da97d5ebef087b2af1390f5e34395346f24ad680))
+* **theGods:** export TheGods, God class ([70a7ff6](https://github.com/waterbeside/lunisolar/commit/70a7ff63e80b34d3614e393aa69af648f2a29bfd))
+* **theGods:** TheGods.getAllActs静态方法取得所有宜忌用事 ([5c0d7de](https://github.com/waterbeside/lunisolar/commit/5c0d7debffa879c839c250ade11e5a858fb49ada))
+
+
+### 🐛 Bug Fixes
+
+* 天德合不应在天德的四维位立成 ([013b241](https://github.com/waterbeside/lunisolar/commit/013b24198664d2f906f7c460c1c3eb779adb9cdd))
+* 修正‘九醜取不到戊午日'的问题 ([d500497](https://github.com/waterbeside/lunisolar/commit/d5004972ecbca2c4d480bb575692226ac9ba1040))
+* **theGods:** 修复‘九醜‘取不到戊午日’的問題 ([d7c0f13](https://github.com/waterbeside/lunisolar/commit/d7c0f13e7c91064e0626bd92c14f63ecf36c69a7))
+* **theGods:** 修正‘贵登天门时谷雨后取错’的问题 ([bd17501](https://github.com/waterbeside/lunisolar/commit/bd175016d50b7346bfeffd00fcc6617dcda78b6c))
+* **theGods:** 修正因空格问题造成的用事列表中缺失词条问题 ([c15bf70](https://github.com/waterbeside/lunisolar/commit/c15bf70dae7535f6a2fcf0cb22c67d1badf3e7d9))
+
+
+
 ## [2.1.7](https://github.com/waterbeside/lunisolar/compare/v2.1.6...v2.1.7) (2023-02-12)
 
 
