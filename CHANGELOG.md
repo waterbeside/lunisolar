@@ -1,4 +1,4 @@
-## [2.1.8](https://github.com/waterbeside/lunisolar/compare/v2.1.5...v2.1.8) (2023-02-12)
+## [2.1.9](https://github.com/waterbeside/lunisolar/compare/v2.1.5...v2.1.9) (2023-02-12)
 
 
 ### ✨ Features
@@ -15,7 +15,6 @@
 * **theGods:** 修复‘九醜‘取不到戊午日’的問題 ([d7c0f13](https://github.com/waterbeside/lunisolar/commit/d7c0f13e7c91064e0626bd92c14f63ecf36c69a7))
 * **theGods:** 修正‘贵登天门时谷雨后取错’的问题 ([bd17501](https://github.com/waterbeside/lunisolar/commit/bd175016d50b7346bfeffd00fcc6617dcda78b6c))
 * **theGods:** 修正因空格问题造成的用事列表中缺失词条问题 ([c15bf70](https://github.com/waterbeside/lunisolar/commit/c15bf70dae7535f6a2fcf0cb22c67d1badf3e7d9))
-
 
 
 ## [2.1.7](https://github.com/waterbeside/lunisolar/compare/v2.1.6...v2.1.7) (2023-02-12)
