@@ -2,6 +2,9 @@ import takeSound from '../takeSound'
 import { setLocales } from './utils'
 import zh from './locale/zh'
 import { Char8Ex } from './class/char8ex'
+import { Pillar } from './class/pillar'
+import { C8God } from './class/c8God'
+import { TenGod } from './class/tenGod'
 
 const char8ex: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
   lsFactory.locale(zh, true)
@@ -22,4 +25,7 @@ const char8ex: lunisolar.PluginFunc = async (options, lsClass, lsFactory) => {
     }
   })
 }
+
+export { Char8Ex, Pillar, C8God, TenGod, char8ex }
+
 export default char8ex
