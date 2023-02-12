@@ -9,6 +9,10 @@ import clear from 'rollup-plugin-clear'
 import pkg from './package.json'
 import dts from 'rollup-plugin-dts'
 
+function upCaseFirst(str) {
+  return str[0].toUpperCase() + str.slice(1)
+}
+
 const extensions = ['.js', '.jsx', '.ts', '.tsx']
 const formatName = n => n.replace(/\.(js|ts)$/, '').replace('-', '_')
 
@@ -71,9 +75,11 @@ const configs = [
 const configDir = dir => {
   const dirPath = path.join(__dirname, 'src', dir)
   const dirNames = fs.readdirSync(dirPath)
+  const namePrefix = dir === 'plugins' ? 'lunisolarPlugin' : null
   for (const dirName of dirNames) {
+    const fixDirName = namePrefix ? namePrefix + upCaseFirst(dirName) : dirName
     const config = configFactory({
-      name: dir === 'locale' ? `lsr_${formatName(dirName)}` : dirName,
+      name: dir === 'locale' ? `lunisolarLocale${upCaseFirst(dirName)}` : fixDirName,
       input:
         dir === 'locale' ? path.join(dirPath, dirName) : path.join(dirPath, dirName, 'index.ts'),
       filePath: path.join(__dirname, dir),
