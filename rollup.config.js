@@ -9,12 +9,16 @@ import clear from 'rollup-plugin-clear'
 import pkg from './package.json'
 import dts from 'rollup-plugin-dts'
 
-function upCaseFirst(str) {
-  return str[0].toUpperCase() + str.slice(1)
-}
-
 const extensions = ['.js', '.jsx', '.ts', '.tsx']
-const formatName = n => n.replace(/\.(js|ts)$/, '').replace('-', '_')
+const upCaseFirst = str => (str[0] ? str[0].toUpperCase() + str.slice(1) : '')
+const formatName = n => {
+  return n
+    .trim()
+    .replace(/\.(js|ts)$/, '')
+    .split('-')
+    .map((v, i) => (i === 0 ? v.trim() : upCaseFirst(v.trim())))
+    .join('')
+}
 
 // plugins
 const tsPlugin = ts({ extensions })
@@ -79,7 +83,10 @@ const configDir = dir => {
   for (const dirName of dirNames) {
     const fixDirName = namePrefix ? namePrefix + upCaseFirst(dirName) : dirName
     const config = configFactory({
-      name: dir === 'locale' ? `lunisolarLocale${upCaseFirst(dirName)}` : fixDirName,
+      name:
+        dir === 'locale'
+          ? `lunisolarLocale${upCaseFirst(formatName(dirName))}`
+          : formatName(fixDirName),
       input:
         dir === 'locale' ? path.join(dirPath, dirName) : path.join(dirPath, dirName, 'index.ts'),
       filePath: path.join(__dirname, dir),
