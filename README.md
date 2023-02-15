@@ -5,7 +5,7 @@
 <h1 align="center">Lunisolar</h1>
 
 ![minzip](https://img.shields.io/bundlephobia/minzip/lunisolar)
-![language](https://img.shields.io/github/languages/top/waterbeside/lunisolar)
+![version](https://img.shields.io/npm/v/lunisolar)
 ![bulid](https://img.shields.io/github/actions/workflow/status/waterbeside/lunisolar/build.yml)
 
 ---
