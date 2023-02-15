@@ -10,7 +10,7 @@
   "scripts": {
     "test": "jest",
     "build": "rollup -c",
-    "lint": "eslint --fix --ext .js,.ts src",
+    "lint": "eslint --fix --ext .js,.ts src/ typings/ __tests__/",
     "changelog": "conventional-changelog -p angular -n './changelog-config.js' -i CHANGELOG.md -s "
   },
   "keywords": [
