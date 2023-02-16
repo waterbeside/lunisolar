@@ -852,7 +852,7 @@ import lunisolar from 'lunisolar'
 lunisolar.extend(takeSound)
 
 /**
-  加载advance插件后，
+  加载takeSound插件后，
   SB对象（天干地支对象）会添加一个takeSound属性，
  */
 const lsr = lunisolar('2022-07-08')
