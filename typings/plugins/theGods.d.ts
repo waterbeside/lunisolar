@@ -17,8 +17,8 @@ export class God {
   get name(): string
   get cate(): YMDH | null
   get luckLevel(): number
-  get good(): string
-  get bad(): string
+  get good(): string[]
+  get bad(): string[]
   toString(): string
 }
 
