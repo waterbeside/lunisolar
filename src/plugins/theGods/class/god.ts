@@ -9,6 +9,7 @@ export class God {
   constructor(opt: GodClassOpt) {
     const { key, cate, fromDict, lang } = opt
     let godBase: GodBase | undefined
+
     if (typeof opt.godBase !== 'undefined') {
       godBase = opt.godBase
     } else if (typeof key !== 'undefined' && typeof cate !== 'undefined') {
@@ -30,11 +31,11 @@ export class God {
     return this.godBase.data
   }
 
-  get alias() {
+  get alias(): string[] {
     return this.data.alias.map(i => trans(i, this.lang, 'gods'))
   }
 
-  get name() {
+  get name(): string {
     return trans(this.godBase.key, this.lang, 'gods')
   }
 
@@ -42,11 +43,11 @@ export class God {
     return this.data.cate
   }
 
-  get good() {
+  get good(): string[] {
     return this.data.good.map(i => trans(i, this.lang, 'acts'))
   }
 
-  get bad() {
+  get bad(): string[] {
     return this.data.bad.map(i => trans(i, this.lang, 'acts'))
   }
 
