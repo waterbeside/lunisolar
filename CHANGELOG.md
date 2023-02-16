@@ -1,3 +1,12 @@
+## [2.1.11](https://github.com/waterbeside/lunisolar/compare/v2.1.10...v2.1.11) (2023-02-16)
+
+
+### 🐛 Bug Fixes
+
+* **theGods:** 修正God类的good和bad属性声明返回错误的类型 ([f868ae1](https://github.com/waterbeside/lunisolar/commit/f868ae1128a5ec9f84086031020aab17e0120a41))
+
+
+
 ## [2.1.10](https://github.com/waterbeside/lunisolar/compare/v2.1.5...v2.1.10) (2023-02-12)
 
 
