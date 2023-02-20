@@ -378,7 +378,7 @@ declare namespace lunisolar {
     toString(): string
     valueOf(): number
     /**
-     * 天干地支名，如‘甲子’
+     * 天干地支名，如'甲子'
      */
     get name(): string
     /**
@@ -569,7 +569,7 @@ declare namespace lunisolar {
     getSeasonIndex(): number
 
     /**
-     * 取得當前日期所在的月建或月將地支，
+     * 取得當前日期所在的月建或月將对应的月建地支，
       月建：子月從0開始，月將：子月月將日到丑月月將日為0，類推
      * @param flag 為0時取月建，為1時取月將, default 0
     */
