@@ -68,7 +68,7 @@ describe('plugins/theGods life12God', () => {
       const tobeYearGods = ['陰貴', '太陰', '六害', '歲刑', '天官符']
       expect(lsr.theGods.getGods('Y').map(g => g.key)).toEqual(tobeYearGods)
       // 月神
-      const tobeMonthGods = ['遊禍', '陰德', '續世', '血忌']
+      const tobeMonthGods = ['遊禍', '陰德', '續世', '天賊', '血忌']
       expect(lsr.theGods.getGods('M').map(g => g.key)).toEqual(tobeMonthGods)
       // 日神
       const tobeDayGods = ['寶日', '無祿', '明堂']
@@ -96,11 +96,6 @@ describe('plugins/theGods life12God', () => {
 
       const gods = lsr.theGods.getGods('MD')
       expect(gods.map(g => g.key)).toEqual([...tobeMonthGods, ...tobeDayGods])
-      // console.log(gods)
-      // console.log(gods.map(g => g.key))
-
-      // const acts = lsr.theGods.getActs(0)
-      // console.log(acts)
     })
 
     it('2022-10-21', () => {
@@ -114,18 +109,13 @@ describe('plugins/theGods life12God', () => {
       expect(lsr.theGods.getGods('Y').map(g => g.name)).toEqual(tobeYearGods_zhCn)
 
       // 月神
-      const tobeMonthGods = ['月刑', '河魁', '玉宇', '天倉', '母倉', '五虛', '八風']
+      const tobeMonthGods = ['月刑', '河魁', '玉宇', '六儀', '厭對', '招搖', '母倉', '五虛', '八風']
       expect(lsr.theGods.getGods('M').map(g => g.key)).toEqual(tobeMonthGods)
       // 日神
       const tobeDayGods = ['寶日', '八專', '朱雀']
       expect(lsr.theGods.getGods('D').map(g => g.key)).toEqual(tobeDayGods)
 
-      expect(lsr.theGods.getGoodGods('MD').map(g => g.key)).toEqual([
-        '玉宇',
-        '天倉',
-        '母倉',
-        '寶日'
-      ])
+      expect(lsr.theGods.getGoodGods('MD').map(g => g.key)).toEqual(['玉宇', '母倉', '寶日'])
       expect(lsr.theGods.getBadGods('MD').map(g => g.key)).toEqual([
         '月刑',
         '河魁',
