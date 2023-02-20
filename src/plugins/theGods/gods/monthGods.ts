@@ -963,7 +963,7 @@ const monthGodsA: { [key: string]: GodDictItem } = {
   ], // 午子丑未寅申卯酉辰戌巳亥
   // 月神隨月將逆行者
   月厭: [
-    monthGeneralDescGodFunc(0),
+    monthGeneralDescGodFunc(-1),
     null,
     monthHateBadAct,
     -4,
@@ -989,7 +989,7 @@ const monthGodsA: { [key: string]: GodDictItem } = {
     }
   ],
   六合: [
-    monthGeneralDescGodFunc(1),
+    monthGeneralDescGodFunc(0),
     getAct(['宴會 結婚姻 嫁娶 進人口', 18, '立券 交易 納財 納畜 安葬'], false),
     // '宴會 結婚姻 嫁娶 進人口 經絡 醞釀 立券 交易 納財 納畜 安葬'.split(' '),
     null,
@@ -1009,7 +1009,7 @@ const monthGodsA: { [key: string]: GodDictItem } = {
     }
   ],
   天賊: [
-    monthGeneralDescGodFunc(3),
+    monthGeneralDescGodFunc(2),
     null,
     getAct([9, '修倉庫', '納財', '出貨財'], false),
     -4,
@@ -1018,10 +1018,10 @@ const monthGodsA: { [key: string]: GodDictItem } = {
       meetDeStillBad: true
     }
   ],
-  天倉: [monthGeneralDescGodFunc(4), ['進人口', '納財', '納畜'], null, 4, { showGB: true }],
-  六儀: [monthGeneralDescGodFunc(5), ['臨政親民'], null, 4],
+  天倉: [monthGeneralDescGodFunc(3), ['進人口', '納財', '納畜'], null, 4, { showGB: true }],
+  六儀: [monthGeneralDescGodFunc(4), ['臨政親民'], null, 4],
   月害: [
-    monthGeneralDescGodFunc(6),
+    monthGeneralDescGodFunc(5),
     null,
     getAct([1, '上冊進表章 頒詔', 8, 10, '012b', 18, '020a', '修置產室 牧養', '025a'], false),
     // ('
@@ -1057,7 +1057,7 @@ const monthGodsA: { [key: string]: GodDictItem } = {
   //
   天願: [
     getCheckGodFunc(
-      lsr => [49, 0, 11, 10, 21, 32, 43, 54, 5, 16, 27, 38][lsr.getMonthBuilder(1)[0].branch.value],
+      lsr => [49, 0, 11, 10, 21, 32, 43, 54, 5, 16, 27, 38][lsr.getMonthBuilder(0)[0].branch.value],
       (lsr, ymdh = 'day') => lsr.char8[ymdh].value
     ),
     heavenWishGoodAct,
@@ -1070,7 +1070,7 @@ const monthGodsA: { [key: string]: GodDictItem } = {
   兵吉: [
     getCheckGodFunc<number[], number>(
       lsr => {
-        const startBranch = lsr.getMonthBuilder(1)[0].branch.value
+        const startBranch = lsr.getMonthBuilder(0)[0].branch.value
         const arr = []
         for (let i = 2; i < 6; i++) {
           arr.push((i + startBranch) % 12)

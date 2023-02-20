@@ -46,9 +46,12 @@ export function stemAscGodFunc(offset: number): CheckGodFunc {
 
 // 月神随月将地支逆行
 export function monthGeneralDescGodFunc(offset: number): CheckGodFunc {
+  // 子月月将顺序为从丑开始逆行。-> 丑	子	亥	戌	酉	申	未	午	巳	辰	卯	寅
   return getCheckGodFunc(
     lsr =>
-      ([0, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1][lsr.getMonthBuilder(1)[0].branch.value] + offset) %
+      ([1, 0, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2][lsr.getMonthBuilder(0)[0].branch.value] +
+        offset +
+        12) %
       12,
     getBranchValue
   )
