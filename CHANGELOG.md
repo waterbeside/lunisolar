@@ -1,3 +1,13 @@
+# [2.2.0](https://github.com/waterbeside/lunisolar/compare/v2.1.12...v2.2.0) (2023-03-14)
+
+
+### ✨ Features
+
+
+* utc时间及偏移值的支持 ([432c018](https://github.com/waterbeside/lunisolar/commit/432c018cb919bbd57a689c6aec20f1b03ed8bbbf))
+
+
+
 ## [2.1.12](https://github.com/waterbeside/lunisolar/compare/v2.1.11...v2.1.12) (2023-02-20)
 
 
