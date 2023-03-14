@@ -2,6 +2,12 @@ import * as U from '../../src/utils'
 import * as C from '../../src/constants'
 import { Lunisolar } from '../../src/class/lunisolar'
 
+function formatDate(date: Date) {
+  return `${date.getFullYear()}-${
+    date.getMonth() + 1
+  }-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
+}
+
 describe('utils', () => {
   it('test prettyUnit', () => {
     for (const unit in C.UNITS) {
@@ -20,6 +26,11 @@ describe('utils', () => {
     )
     expect(U.parseDate('2020-01-01')).toEqual(new Date('2020/01/01 00:00:00'))
     expect(U.parseDate('2020-01-01T12:00:00.000Z')).toEqual(new Date('2020-01-01T12:00:00.000Z'))
+  })
+
+  it('test parseDate utc', () => {
+    const date = U.parseDate('2023-03-14 15:57', true)
+    expect(formatDate(date)).toEqual('2023-3-14 23:57')
   })
 
   it('computeSBMonthValueByTerm', () => {
