@@ -14,10 +14,11 @@ export default function lunisolar(
   date?: DateConfigType | Lunisolar,
   config?: ConfigType
 ): Lunisolar {
-  if (date instanceof Lunisolar) {
-    date = date.toDate()
-  }
   return new Lunisolar(date, config)
+}
+
+lunisolar.utc = function (date?: DateConfigType | Lunisolar, config?: ConfigType): Lunisolar {
+  return new Lunisolar(date, Object.assign({}, config, { isUTC: true }))
 }
 
 lunisolar.Lunar = Lunar
@@ -31,7 +32,10 @@ lunisolar.Lunisolar = Lunisolar
 lunisolar.Trigram8 = Trigram8
 lunisolar.Direction24 = Direction24
 
-lunisolar.fromLunar = function (param: ParseFromLunarParam, config?: ConfigType): Lunisolar {
+lunisolar.fromLunar = function (
+  param: ParseFromLunarParam,
+  config?: SettingGlobalConfig
+): Lunisolar {
   const date = parseFromLunar(param, config?.lang)
   return new Lunisolar(date, config)
 }
@@ -39,7 +43,7 @@ lunisolar.fromLunar = function (param: ParseFromLunarParam, config?: ConfigType)
 /**
  * 更新全局配置
  */
-lunisolar.config = (config: ConfigType): typeof lunisolar => {
+lunisolar.config = (config: SettingGlobalConfig): typeof lunisolar => {
   if (!config) return lunisolar
   Object.assign(_GlobalConfig, config)
   return lunisolar

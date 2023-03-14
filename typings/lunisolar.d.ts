@@ -8,7 +8,9 @@ declare namespace lunisolar {
   export interface FromLunarData extends ParseFromLunarParam {
     [k: string]: any
   }
-  export interface ConfigType extends Partial<Omit<GlobalConfig, 'locales'>> {}
+  export interface ConfigType extends Partial<Omit<GlobalConfig, 'locales'>> {
+    extra?: any
+  }
   export interface Locale extends LsrLocale {}
   export const _globalConfig: GlobalConfig
   /**
@@ -545,17 +547,17 @@ declare namespace lunisolar {
      */
     get lunar(): Lunar
     /**
-     * Get the current solar term object
-     *
-     * 取得當前節氣對象
-     */
-    get solarTerm(): SolarTerm | null
-    /**
      * Get the current char8 object
      *
      * 取得八字對象
      */
     get char8(): Char8
+    /**
+     * Get the current solar term object
+     *
+     * 取得當前節氣對象
+     */
+    get solarTerm(): SolarTerm | null
     /**
      * Get the most recent solar term on the current date
      *
@@ -564,24 +566,21 @@ declare namespace lunisolar {
      */
     recentSolarTerm(nodeFlag: 0 | 1 | 2): [SolarTerm, Date]
     /**
-     * 取得季节索引
-     */
-    getSeasonIndex(): number
-
-    /**
      * 取得當前日期所在的月建或月將对应的月建地支，
       月建：子月從0開始，月將：子月月將日到丑月月將日為0，類推
      * @param flag 為0時取月建，為1時取月將, default 0
     */
     getMonthBuilder(flag?: 0 | 1): [SB, lunisolar.SolarTerm, Date]
     /**
+     * 取得季节索引
+     */
+    getSeasonIndex(): number
+
+    /**
      * 取得季节
      */
     getSeason(isShortName?: boolean): string
 
-    getConfig(): LunisolarConfigData
-    getConfig(key: keyof LunisolarConfigData): LunisolarConfigData[typeof key]
-    getConfig(key?: keyof LunisolarConfigData): any
     /**
      * 取得當前語言包
      * @param lang 語言包名稱，不填時為當前設定語言包
@@ -593,6 +592,10 @@ declare namespace lunisolar {
      */
     L(key: keyof LocaleData): LocaleData[typeof key]
     L<T = any>(key: string): T | string
+
+    getConfig(): LunisolarConfigData
+    getConfig(key: keyof LunisolarConfigData): LunisolarConfigData[typeof key]
+    getConfig(key?: keyof LunisolarConfigData): any
     /**
      * Returns a Date object for the current time
      *
@@ -615,15 +618,36 @@ declare namespace lunisolar {
      */
     valueOf(): number
     /**
-     * utc offset
+     * Convert to the local time
+     */
+    local(): Lunisolar
+    /**
+     * Convert to the UTC time
+     */
+    utc(): Lunisolar
+    /**
+     * Check if UTC time
+     */
+    isUTC(): boolean
+
+    /**
+     * get utcOffset
      */
     utcOffset(): number
+    /**
+     * set utcOffset and return a new Lunisolar instance
+     */
+    utcOffset(utcOffset: number): Lunisolar
     /**
      * Returns the toISOString of the Date object
      */
     toISOString(): string
     /**
      * Returns the toUTCString of the Date object
+     */
+    toUTCString(): string
+    /**
+     * Returns the toUTCString of the Date object and lunar info
      */
     toString(): string
     /**

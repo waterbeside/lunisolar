@@ -1,7 +1,7 @@
 import { SB } from './stemBranch'
 import { SolarTerm } from './solarTerm'
 import { Lunar } from './lunar'
-import { parseDate, computeSBMonthValueByTerm, computeRatStem } from '../utils'
+import { parseDate, computeSBMonthValueByTerm, computeRatStem, getDateData } from '../utils'
 import { SB0_DATE } from '../constants/calendarData'
 import { _GlobalConfig } from '../config'
 
@@ -10,7 +10,9 @@ export class Char8 {
   readonly _list: [SB, SB, SB, SB]
   readonly _config: Required<Char8Config> = {
     changeAgeTerm: _GlobalConfig.changeAgeTerm,
-    lang: _GlobalConfig.lang
+    isUTC: false,
+    lang: _GlobalConfig.lang,
+    offset: 0
   }
 
   constructor(dateOrSbList: Date | [SB, SB, SB, SB], config?: Char8Config) {
@@ -78,24 +80,27 @@ export class Char8 {
       config && config.changeAgeTerm !== undefined
         ? config.changeAgeTerm
         : _GlobalConfig.changeAgeTerm
-    let year = typeof date !== 'number' ? date.getFullYear() : date
+    const isUTC = config && config.isUTC
+    let year = typeof date !== 'number' ? getDateData(date, 'FullYear', isUTC) : date
     if (changeAgeTerm !== null && changeAgeTerm !== undefined && typeof date !== 'number') {
       // 如果 changeAgeTerm 设有值， 则按照该节气换岁
       changeAgeTerm = changeAgeTerm % 24
       let isPreYear = changeAgeTerm < 0
       changeAgeTerm = changeAgeTerm >= 0 ? changeAgeTerm : 24 + changeAgeTerm
       // 查出当前节气日期
-      let yearStart = date.getFullYear()
+      let yearStart = getDateData(date, 'FullYear', isUTC)
       if (isPreYear) yearStart--
       const yearEnd = yearStart + 1
       // 该年的岁的范围
       const startTermDate = SolarTerm.findDate(yearStart, changeAgeTerm)
       const endTermDate = SolarTerm.findDate(yearEnd, changeAgeTerm)
       const startDate = parseDate(
-        `${startTermDate[0]}-${startTermDate[1]}-${startTermDate[2] - 1} 23:00:00`
+        `${startTermDate[0]}-${startTermDate[1]}-${startTermDate[2] - 1} 15:00:00`,
+        true
       )
       const endDate = parseDate(
-        `${endTermDate[0]}-${endTermDate[1]}-${endTermDate[2] - 1} 23:00:00`
+        `${endTermDate[0]}-${endTermDate[1]}-${endTermDate[2] - 1} 15:00:00`,
+        true
       )
       // 检查是否在该岁的范围内
       if (date.valueOf() < startDate.valueOf()) year--
@@ -117,18 +122,21 @@ export class Char8 {
    */
   static computeSBMonth(date: Date, config?: Char8Config) {
     const lang = config && config.lang !== undefined ? config.lang : _GlobalConfig.lang
-    const changeAgeTerm =
+    let changeAgeTerm =
       config && config.changeAgeTerm !== undefined
         ? config.changeAgeTerm
         : _GlobalConfig.changeAgeTerm
+    changeAgeTerm = changeAgeTerm || 0
+    const isUTC = config?.isUTC ?? false
     const findNodeConfig = {
+      isUTC,
       lang,
       returnValue: true,
       nodeFlag: (changeAgeTerm + 24) % 2 // 根据changeAgeTerm的奇偶来判定是节换月还是中气换月
     }
     // 知道该日是哪个节气之后便可知道该日是哪个地支月
     const [termValue, termDate] = SolarTerm.findNode(date, findNodeConfig) as [number, Date]
-    const sbValue = computeSBMonthValueByTerm(date, termValue, termDate)
+    const sbValue = computeSBMonthValueByTerm(date, termValue, termDate, isUTC)
     const sbConfig = {
       lang
     }
@@ -141,8 +149,11 @@ export class Char8 {
    * @returns {SB} 返回天地支对象
    */
   static computeSBDay(date: Date, config?: Char8Config) {
-    const sb0 = parseDate(`${SB0_DATE[0]}-${SB0_DATE[1]}-${SB0_DATE[2] - 1} 23:00:00`)
-    let daydiff = Math.floor((date.valueOf() - sb0.valueOf()) / (1000 * 60 * 60 * 24)) % 60
+    const isUTC = config?.isUTC || false
+    const offset = config?.offset || 0
+    const dateValue = isUTC ? date.valueOf() - offset * 60 * 1000 : date.valueOf()
+    const sb0 = parseDate(`${SB0_DATE[0]}-${SB0_DATE[1]}-${SB0_DATE[2] - 1} 15:00:00`, true)
+    let daydiff = Math.floor((dateValue - sb0.valueOf()) / (1000 * 60 * 60 * 24)) % 60
     if (daydiff < 0) daydiff += 60
     return new SB(daydiff, undefined, config)
   }
@@ -157,8 +168,9 @@ export class Char8 {
    * @returns {SB} 返回天地支对象
    */
   static computeSBHour(date: Date, sbDay?: SB, config?: Char8Config) {
-    if (!sbDay) sbDay = Char8.computeSBDay(date)
-    const hour = date.getHours()
+    const isUTC = config?.isUTC || false
+    if (!sbDay) sbDay = Char8.computeSBDay(date, config)
+    const hour = getDateData(date, 'Hours', isUTC)
     const dayStem = sbDay.stem
     // 五鼠遁方法计算子时起始天干
     const branchNum = ((hour + 1) >> 1) % 12

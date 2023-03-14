@@ -3,17 +3,16 @@ import { padZoneStr } from '../utils'
 import { _GlobalConfig } from '../config'
 
 export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
-  const date = lsr.toDate()
-  if (date.toString() === INVALID_DATE_STRING) return INVALID_DATE_STRING
+  if (lsr.toUTCString() === INVALID_DATE_STRING) return INVALID_DATE_STRING
   let str = formatStr || FORMAT_DEFAULT
   // const zoneStr = Utils.z(lsr)
-  const y = date.getFullYear()
-  const M = date.getMonth() + 1
-  const D = date.getDate()
-  const w = date.getDay()
-  const H = date.getHours()
-  const m = date.getMinutes()
-  const s = date.getSeconds()
+  const y = lsr.year
+  const M = lsr.month
+  const D = lsr.day
+  const w = lsr.dayOfWeek
+  const H = lsr.hour
+  const m = lsr.minute
+  const s = lsr.second
   const zoneStr = padZoneStr(lsr)
   const lunar = lsr.lunar
   const char8 = lsr.char8
@@ -55,7 +54,7 @@ export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
     mm: String(m).padStart(2, '0'),
     s: String(s),
     ss: String(s).padStart(2, '0'),
-    SSS: String(date.getMilliseconds()).padStart(3, '0'),
+    SSS: String(lsr.millis).padStart(3, '0'),
     Z: zoneStr, // 'ZZ' logic below
     // 生肖
     cZ: locale.chineseZodiac[char8.year.branch.value],

@@ -34,26 +34,34 @@ type DateAddUnit = 'ms' | 's' | 'm' | 'h' | 'd' | 'M' | 'y' | DateAddUnitFullNam
 type PluginFunc<T> = lunisolar.PluginFunc<T>
 
 interface GlobalConfig {
-  changeAgeTerm: number | null
-  locales: { [key: string]: LocaleData }
-  lang: string
+  isUTC: boolean // 是否使用UTC时间，为true时，lunisolar生成的所有时间都是UTC时间，需要用local转为本地时
+  offset: number // 时间偏移，以分钟为单位
+  changeAgeTerm: number | null // 换岁节气, 默认为立春，如果为null刚为正月初一换岁
+  locales: { [key: string]: LocaleData } // 用于記錄語言的具體數據
+  lang: string // 默認語言
   // [props: string]: any
 }
+type SettingGlobalConfig = Partial<Omit<GlobalConfig, 'locales'>>
 
 type ConfigType = lunisolar.ConfigType
-type LunisolarConfigData = Omit<GlobalConfig, 'locales'>
+type LunisolarConfigData = Required<Omit<ConfigType, 'locales'>>
 
-interface ClassCommonConfig extends pick<ConfigType, 'lang'> {
+interface ClassCommonConfig extends Pick<ConfigType, 'lang'> {
   [props: string]: any
 }
 
-interface Char8Config extends pick<ConfigType, 'lang' | 'changeAgeTerm'> {
+interface LunarConfig extends Pick<ConfigType, 'lang' | 'isUTC'> {
+  [props: string]: any
+}
+
+interface Char8Config extends Pick<ConfigType, 'lang' | 'changeAgeTerm' | 'isUTC'> {
   [props: string]: any
 }
 
 interface TermFindNodeConfigBase {
   nodeFlag: number
   lang: string
+  isUTC: boolean
 }
 
 interface TermFindNodeConfig0 extends TermFindNodeConfigBase {

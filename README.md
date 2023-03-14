@@ -189,9 +189,9 @@ $$1回归年 = 365.2421990741日 = 365天5小時48分46秒$$
 
 > `lunisolar`默认使用**立春**换岁, 当然你也可以自定义换岁的节气。
 
-**生肖**：生肖与十二地支是对应的，所以实际上生肖也是按节气更换，民间传统上是以立春换岁，所以生肖也是按立春更换。
+**生肖**：生肖与十二地支是对应的，所以实际上生肖也是按节气更换，而不少传统述数系统都是以立春换岁，所以生肖应当也是按立春更换。
 
-另外，跟据 中国大陆国家标准：编号**GB/T 33661-2017 《农历的编算和颁行》**规定,
+但是，跟据 中国大陆国家标准：编号**GB/T 33661-2017 《农历的编算和颁行》**规定,
 
 > “干支纪年的循环参考时间：对应于北京时间公历1984年2月2日0时起到1985年2月19日24时截止的农历年为甲子年。”
 
@@ -245,7 +245,7 @@ import * as lunisolar from 'lunisolar'
 ```html
 <script src="path/to/lunisolar.js"></script>
 <!-- or src from unpkg ( 请根据需求选择版本号 ↓ )-->
-<script src="https://unpkg.com/lunisolar@1.4.1/dist/lunisolar.js"></script>
+<script src="https://unpkg.com/lunisolar@2.1.12/dist/lunisolar.js"></script>
 ```
 
 ## 2 解释 (创建Lunisolar对象)
@@ -385,9 +385,9 @@ Lunisolar具有以下属性和方法
 
 | 属性或方法  | 描述 | 参数  | 返回类型 |
 | --- | ---  | --- | --- |
-| lunar      | 阴历数据对象 | | [Lunar](#42-lunar类) |
-| char8      | 八字对象 | | [Char8](#52-char8类) |
-| solarTerm       | 返回当前日期的节气对象，如果不是节气，返回null | | [Term](#6-节气) \| null |
+| lunar      | 阴历数据对象 | | [Lunar](./lunar.md) |
+| char8      | 八字对象 | | [Char8](./char8.md) |
+| solarTerm       | 返回当前日期的节气对象，如果不是节气，返回null | | [SolarTerm](./solarTerm.md) \| null |
 | getSeason()  | 取得当前季节 | | string |
 | getSeasonIndex()  | 以春夏秋冬为顺序取得当前季节索引 | | number |
 | toDate()   | 返回Date对象 | | Date |
@@ -404,7 +404,13 @@ Lunisolar具有以下属性和方法
 | minute    | 分 0 ~ 59 | | number |
 | second    | 秒 0 ~ 59 | | number |
 | millis    | 毫秒 0 ~ 999 | | number |
+| utc()      | 转为utc模式 | | Lunisolar |
+| isUTC()      | 检查是否为UTC模式的实例 | | boolean |
+| utcOffset(offset) | 取得，或设置utc偏移值 | **offset**: number \| undefined <br/> · 当为undefined时，为取得utc偏移值, 返回单位为分钟的number值 <br /> · 当为number类型时，为设置utc偏移值，并把时间转为utc时间，返回一个新的Lunisolar实例。如果设置的offset范围在[-16, 16], 则单位为小时，其它情况为分钟 | Lunisolar \| number |
+| local()      | 转为本地时间 | | Lunisolar |
 | valueOf()  | 返回Date对象的valueOf(), 即时间戳 | | number |
+| toISOString()  | 返回Date对象的toISOString() | | string |
+| toUTCString()  | 返回Date对象的toUTCString() | | string |
 | toString() | 返回当前 Date对象的toUTCString() + 阴历的格式化后的日期时间: 例“Wed, 24 Aug 2022 14:50:51 GMT (二〇二二年七月廿七亥時)” | | string |
 
 ### 格式化数据 format
@@ -750,7 +756,7 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 
 ### 5.8 八字增强插件
 
-如果你需要用到**八字十神**，**四柱神煞**等功能，需加载八字增强插件 **char8ex**, 具体请点击[**【本连接】**](./docs/char8ex.md)查看插件文档
+如果你需要用到**八字十神**，**四柱神煞**等功能，需加载八字增强插件 **char8ex**, 具体请点击[**【本连接】**](https://lunisolar.js.org/guide/plugins/char8ex.html)查看插件文档
 
 ## 6 节气
 
@@ -805,16 +811,22 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 
 ### 7.1 用法
 
+胎神占方插件请参考文档：[【胎神占方】](https://lunisolar.js.org/guide/plugins/fetalGod.html)
+
 查询胎神要先导入 fetalGod 插件，
 
 之后可使用lunisolar().fetalGod 取得胎神描述，
 
 也可以使用lunisolar().fetalGodData 取得胎神数据。
 
+```sh
+npm install @lunisolar/plubin-fetalgod
+```
+
 示例：
 
 ```typescript
-import fetalGod from 'lunisolar/plugins/fetalGod'
+import { fetalGod } from '@lunisolar/plubin-fetalgod'
 import lunisolar from 'lunisolar'
 
 lunisolar.extend(fetalGod)
@@ -838,7 +850,11 @@ fetalGodData 包含以下属性
 
 ## 8 纳音
 
-查询胎神要先导入 takeSound 插件，
+查询胎神要先导入 takeSound 插件，文档请参考 
+
+```sh
+npm install @lunisolar/plubin-takesound
+```
 
 - `lunisolar().takeSound` 属性返回纳音描述字符串
 - `lunisolar().takeSoundE5` 属性返回**纳音五行**的Element5实例
@@ -846,7 +862,7 @@ fetalGodData 包含以下属性
 示例：
 
 ```typescript
-import takeSound from 'lunisolar/plugins/takeSound'
+import { takeSound } from '@lunisolar/plubin-takesound'
 import lunisolar from 'lunisolar'
 
 lunisolar.extend(takeSound)
@@ -868,13 +884,13 @@ lsr.takeSound // 大海水 （取得日干支的纳音 等同于 lsr.char8.day.t
 
 **建除十二神**，又称**十二值神**。即 “`建、除、满、平、定、执、破、危、成、收、开、闭`”共十二位神，每日轮值，周而复始，观所值以定吉凶。
 
-十二值神已归到神煞类之下，请参考[神煞宜忌](docs/theGods.md)
+十二值神已归到神煞类之下，请参考[神煞宜忌](https://lunisolar.js.org/guide/plugins/theGods.html)
 
 ## 10 神煞宜忌
 
-神煞宜忌的所有内容，都基于 **《协纪辨方书》**
+神煞宜忌的所有内容，主要基于 **《协纪辨方书》**
 
-因其数据内容较多，故作为一个插件单独介绍，请点击跳转到[【神煞宜忌】](docs/theGods.md)查看介绍和使用说明
+因其数据内容较多，故作为一个插件单独介绍，请点击跳转到[【神煞宜忌】](https://lunisolar.js.org/guide/plugins/theGods.html)查看介绍和使用说明
 
 ## 插件 plugins
 
@@ -885,7 +901,7 @@ lunisolar支持自定义插件以扩展功能
 ```typescript
 import { PluginFunc, Lunisolar } from 'lunisolar'
 
-// 为新添的属性加上类型声明 ()
+// 为新添的属性加上类型声明 
 declare module 'lunisolar' {
   interface Lunisolar {
     showExample: string
@@ -893,13 +909,9 @@ declare module 'lunisolar' {
   }
 }
 
-interface LunisolarEx extends Lunisolar {
-  showExample: string
-  exampleMethod(): void
-}
 
 const pluginName: PluginFunc = async (options, lsClass, lsFactory) => {
-  const lsProto = lsClass.prototype as unknown as LunisolarEx
+  const lsProto = lsClass.prototype
   // 添加属性
   lsProto.showExample = 'hello'
 

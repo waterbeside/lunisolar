@@ -1,11 +1,12 @@
 import { FIRST_YEAR, TERM_MINIMUM_DATES, TERM_SAME_HEX, TERM_LIST } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
-import { parseDate } from '../utils'
+import { parseDate, getDateData } from '../utils'
 
 export class SolarTerm {
   readonly value: number = -1
   readonly _config: Required<ClassCommonConfig> = {
-    lang: _GlobalConfig.lang
+    lang: _GlobalConfig.lang,
+    isUTC: false
   }
   constructor(value: number | string | SolarTerm, config?: ClassCommonConfig) {
     if (config) {
@@ -96,7 +97,8 @@ export class SolarTerm {
     const configDefault: TermFindNodeConfig0 = {
       lang: _GlobalConfig.lang,
       returnValue: false,
-      nodeFlag: 0
+      nodeFlag: 0,
+      isUTC: false
     }
     const cfg = config ? Object.assign({}, configDefault, config) : configDefault
     const { returnValue, nodeFlag } = cfg
@@ -104,10 +106,10 @@ export class SolarTerm {
     const newSolarTermConfig = {
       lang: cfg.lang || _GlobalConfig.lang
     }
-    let year = date.getFullYear()
-    let month = date.getMonth()
-    const d = date.getDate()
-    const h = date.getHours()
+    let year = getDateData(date, 'FullYear', cfg.isUTC)
+    let month = getDateData(date, 'Month', cfg.isUTC)
+    const d = getDateData(date, 'Date', cfg.isUTC)
+    const h = getDateData(date, 'Hours', cfg.isUTC)
     let termValue = (month * 2 + 24) % 24 // 取得该月的节的value值
 
     let [termDay1, termDay2] = SolarTerm.getMonthTerms(year, month + 1)
