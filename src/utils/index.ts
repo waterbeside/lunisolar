@@ -24,9 +24,10 @@ export const prettyUnit = (unit?: Unit): UnitFullNameLower | '' => {
 /**
  * 转为日期对象
  * @param date 日期字符串或日期对象
+ * @param isUTC 是否UTC时间
  * @returns 返回日期对像
  */
-export const parseDate = (date?: DateParamType): Date => {
+export const parseDate = (date?: DateParamType, isUTC: boolean = false): Date => {
   if (typeof date === 'undefined') return new Date()
   if (date === null) return new Date(NaN) // null is invalid
   if (typeof date === 'object' && !(date instanceof Date) && typeof date.toDate !== 'undefined') {
@@ -34,12 +35,15 @@ export const parseDate = (date?: DateParamType): Date => {
     if (dToDate instanceof Date) return dToDate
   }
 
-  if (date instanceof Date) return date
+  if (date instanceof Date) return new Date(date.valueOf())
   if (typeof date === 'string' && !/Z$/i.test(date)) {
     const d = date.match(REGEX_PARSE) as any
     if (d) {
       const m = d[2] - 1 || 0
       const ms = (d[7] || '0').substring(0, 3)
+      if (isUTC) {
+        return new Date(Date.UTC(d[1], m, d[3] || 1, d[4] || 0, d[5] || 0, d[6] || 0, ms))
+      }
       return new Date(d[1], m, d[3] || 1, d[4] || 0, d[5] || 0, d[6] || 0, ms)
     }
   }
@@ -219,25 +223,34 @@ export const getStemTrigram8Value: StemOrBranchValueFunc = (
  * @param date 当前日期
  * @param termValue 节气索引值
  * @param termDate 节气日期
+ * @param isUTC 是否UTC时间
  * @returns 天干地支组合索引 范围[0, 59]
  */
 export const computeSBMonthValueByTerm = (
   date: Date,
   termValue: number,
-  termDate: Date
+  termDate: Date,
+  isUTC: boolean = false
 ): number => {
   const termDay = termDate.getDate()
-  const month = date.getMonth()
+  const month = getDateData(date, 'Month', isUTC)
   const termMonth = (termValue / 2) >> 0
   const monthOffset =
     termMonth < month ||
     (month === 0 && termMonth === 11) ||
-    (termDay > date.getDate() && !(termDay - 1 === date.getDate() && date.getHours() >= 23))
+    (termDay > getDateData(date, 'Date', isUTC) &&
+      !(
+        termDay - 1 === getDateData(date, 'Date', isUTC) && getDateData(date, 'Hours', isUTC) >= 23
+      ))
       ? -1
       : 0
   // 求月天干 （2018年12月大雪乃甲子月）
   let monthDiff =
-    ((date.getFullYear() - SB0_MONTH[0]) * 12 + date.getMonth() - SB0_MONTH[1] + 1) % 60
+    ((getDateData(date, 'FullYear', isUTC) - SB0_MONTH[0]) * 12 +
+      getDateData(date, 'Month', isUTC) -
+      SB0_MONTH[1] +
+      1) %
+    60
 
   return (monthDiff + monthOffset + 60) % 60
 }
@@ -392,3 +405,39 @@ export const computeGroup6E5Value = function (branchValue: number) {
 
 export const defineLocale = (localeData: { name: string; [x: string]: any }): LsrLocale =>
   localeData
+
+export const computeUtcOffset = (date: Date) => {
+  // 與moment.js保持一致
+  // Because a bug at FF24, we're rounding the timezone offset around 15 minutes
+  // https://github.com/moment/moment/pull/1871
+  return -Math.round(date.getTimezoneOffset() / 15) * 15
+}
+
+type DateDataKey =
+  | 'fullYear'
+  | 'month'
+  | 'date'
+  | 'day'
+  | 'hours'
+  | 'minutes'
+  | 'seconds'
+  | 'milliseconds'
+
+type UpCaseDateDataKey =
+  | 'FullYear'
+  | 'Month'
+  | 'Date'
+  | 'Day'
+  | 'Hours'
+  | 'Minutes'
+  | 'Seconds'
+  | 'Milliseconds'
+
+export const getDateData = (
+  date: Date,
+  dataKey: DateDataKey | UpCaseDateDataKey,
+  isUTC: boolean = false
+): number => {
+  const upcaseFirst = (dataKey.slice(0, 1).toUpperCase() + dataKey.slice(1)) as UpCaseDateDataKey
+  return isUTC ? date[`getUTC${upcaseFirst}`]() : date[`get${upcaseFirst}`]()
+}

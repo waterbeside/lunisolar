@@ -3,7 +3,8 @@ import {
   phaseOfTheMoon,
   getLunarNewYearDay,
   getYearLeapMonth,
-  parseFromLunar
+  parseFromLunar,
+  getDateData
 } from '../utils'
 
 import { FIRST_YEAR, LAST_YEAR, LUNAR_MONTH_DATAS } from '../constants/lunarData'
@@ -70,25 +71,28 @@ export class Lunar {
   readonly hour: number
   readonly leapMonth: number
   readonly leapMonthIsBig: boolean
-  readonly _config: Required<ClassCommonConfig> = {
-    lang: _GlobalConfig.lang
+  readonly _config: Required<LunarConfig> = {
+    lang: _GlobalConfig.lang,
+    isUTC: false
   }
 
-  static fromLunar(param: ParseFromLunarParam, config?: ClassCommonConfig): Lunar {
+  static fromLunar(param: ParseFromLunarParam, config?: LunarConfig): Lunar {
     const date = parseFromLunar(param, config?.lang)
     return new Lunar(date, config)
   }
 
-  constructor(dateObj: DateParamType, config?: ClassCommonConfig) {
+  constructor(dateObj: DateParamType, config?: LunarConfig) {
     if (config) {
       this._config = Object.assign({}, this._config, config)
     }
     const _date = parseDate(dateObj)
     this._date = _date
-    let year = _date.getFullYear()
-    let month = _date.getMonth()
-    let hours = _date.getHours()
-    const date = parseDate(`${year}/${month + 1}/${_date.getDate()}`)
+    const isUTC = this._config.isUTC
+    let year = getDateData(_date, 'FullYear', isUTC)
+    let month = getDateData(_date, 'Month', isUTC)
+    let hours = getDateData(_date, 'Hours', isUTC)
+    const day = getDateData(_date, 'Date', isUTC)
+    const date = parseDate(`${year}/${month + 1}/${day}`)
 
     // 計算年份
     if (

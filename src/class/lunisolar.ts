@@ -1,5 +1,12 @@
 import { LUNAR_UNITS_SET } from '../constants'
-import { parseDate, prettyUnit, computeSBMonthValueByTerm, getTranslation } from '../utils'
+import {
+  parseDate,
+  prettyUnit,
+  computeSBMonthValueByTerm,
+  getTranslation,
+  computeUtcOffset,
+  getDateData
+} from '../utils'
 import { dateDiff, lunarDateDiff } from '../utils/dateDiff'
 import { dateAdd } from '../utils/dateAdd'
 import { format } from '../utils/format'
@@ -15,11 +22,23 @@ import { CacheClass } from './CacheClass'
 
 export class Lunisolar extends CacheClass {
   readonly _config: LunisolarConfigData
+
   protected _date: Date
+  protected _offset: number
   constructor(date?: DateParamType, config?: lunisolar.ConfigType) {
     super()
-    this._date = parseDate(date)
-    this._config = Object.assign({}, _GlobalConfig, config)
+    this._config = Object.assign({ extra: {} }, _GlobalConfig, config)
+
+    const { isUTC, offset } = this._config
+    const _date = parseDate(date, isUTC)
+    if (offset !== 0) {
+      _date.setMinutes(_date.getMinutes() + offset)
+    }
+    const localTimezoneOffset = -1 * parseDate(date).getTimezoneOffset()
+    this._config.extra.localTimezoneOffset = localTimezoneOffset
+
+    this._date = _date
+    this._offset = offset
   }
 
   get lunisolar(): typeof lunisolar {
@@ -27,40 +46,40 @@ export class Lunisolar extends CacheClass {
   }
 
   get year(): number {
-    return this._date.getFullYear()
+    return getDateData(this._date, 'FullYear', this.isUTC())
   }
 
   get month(): number {
-    return this._date.getMonth() + 1
+    return getDateData(this._date, 'Month', this.isUTC()) + 1
   }
 
   get day(): number {
-    return this._date.getDate()
+    return getDateData(this._date, 'Date', this.isUTC())
   }
 
   get dayOfWeek(): number {
-    return this._date.getDay()
+    return getDateData(this._date, 'Day', this.isUTC())
   }
 
   get hour(): number {
-    return this._date.getHours()
+    return getDateData(this._date, 'Hours', this.isUTC())
   }
 
   get minute(): number {
-    return this._date.getMinutes()
+    return getDateData(this._date, 'Minutes', this.isUTC())
   }
 
   get second(): number {
-    return this._date.getSeconds()
+    return getDateData(this._date, 'Seconds', this.isUTC())
   }
 
   get millis(): number {
-    return this._date.getMilliseconds()
+    return getDateData(this._date, 'Milliseconds', this.isUTC())
   }
 
   @cache('lunisolar:lunar')
   get lunar(): Lunar {
-    return new Lunar(this._date, { lang: this._config.lang })
+    return new Lunar(this._date, { lang: this._config.lang, isUTC: this._config.isUTC })
   }
 
   // 八字
@@ -68,7 +87,8 @@ export class Lunisolar extends CacheClass {
   get char8(): Char8 {
     const config = {
       lang: this._config.lang,
-      changeAgeTerm: this._config.changeAgeTerm
+      changeAgeTerm: this._config.changeAgeTerm,
+      isUTC: this._config.isUTC
     }
     return new Char8(this._date, config)
   }
@@ -76,12 +96,12 @@ export class Lunisolar extends CacheClass {
   // 节气
   @cache('lunisolar:solarTerm')
   get solarTerm(): SolarTerm | null {
-    const year = this._date.getFullYear()
+    const year = this.year
     if (year < FIRST_YEAR || year > LAST_YEAR) {
       throw new Error(`${year} is not a lunar year`)
     }
-    const month = this._date.getMonth() + 1
-    const date = this._date.getDate()
+    const month = this.month
+    const date = this.day
     const [term1, term2] = SolarTerm.getMonthTerms(year, month)
     const config = {
       lang: this._config.lang
@@ -113,7 +133,7 @@ export class Lunisolar extends CacheClass {
   @cache('lunisolar:getMonthBuilder', true)
   getMonthBuilder(flag: 0 | 1 = 0): [SB, lunisolar.SolarTerm, Date] {
     const sbConfig = {
-      lang: this.getConfig('lang')
+      lang: this.getConfig('lang') as string
     }
     const [term, termDate] = this.recentSolarTerm(flag)
     const sbValue = computeSBMonthValueByTerm(this.toDate(), term.value, termDate)
@@ -153,11 +173,11 @@ export class Lunisolar extends CacheClass {
   getConfig(key?: keyof LunisolarConfigData): any {
     if (typeof key === 'undefined') return this._config
     if (typeof this._config[key]) return this._config[key]
-    return _GlobalConfig[key]
+    return undefined
   }
 
   toDate(): Date {
-    return new Date(this._date.valueOf())
+    return new Date(this.valueOf())
   }
 
   clone() {
@@ -169,22 +189,49 @@ export class Lunisolar extends CacheClass {
   }
 
   valueOf() {
-    return this._date.valueOf()
+    return this._date.valueOf() - this._offset * 60 * 1000
   }
 
-  utcOffset() {
-    // 與moment.js保持一致
-    // Because a bug at FF24, we're rounding the timezone offset around 15 minutes
-    // https://github.com/moment/moment/pull/1871
-    return -Math.round(this._date.getTimezoneOffset() / 15) * 15
+  local() {
+    const config = Object.assign({}, this._config, {
+      isUTC: false,
+      offset: 0
+    })
+    return new Lunisolar(this.toDate(), config)
+  }
+
+  utc(): Lunisolar {
+    return this.utcOffset(-this._offset)
+  }
+
+  isUTC() {
+    return this._config.isUTC
+  }
+
+  utcOffset(): number
+  utcOffset(utcOffset: number): Lunisolar
+  utcOffset(utcOffset?: number): number | Lunisolar {
+    if (utcOffset === void 0) {
+      if (this._config.isUTC) return this._offset
+      return computeUtcOffset(this._date)
+    }
+    const config = Object.assign({}, this._config, {
+      isUTC: true,
+      offset: Math.abs(utcOffset) <= 16 ? utcOffset * 60 : utcOffset
+    })
+    return new Lunisolar(this._date, config)
   }
 
   toISOString() {
     return this._date.toISOString()
   }
 
+  toUTCString() {
+    return this._date.toUTCString()
+  }
+
   toString() {
-    return this._date.toUTCString() + ` (${this.lunar})`
+    return this._date.toUTCString() + ` (${this.lunar})` + ` utcOffset: ${this.utcOffset()}`
   }
 
   format(formatStr: string): string {
