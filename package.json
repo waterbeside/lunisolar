@@ -57,6 +57,7 @@
     "rollup-plugin-clear": "^2.0.7",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-dts": "^4.2.3",
+    "rollup-plugin-filesize": "^10.0.0",
     "rollup-plugin-typescript2": "^0.31.2",
     "ts-jest": "^29.0.4",
     "ts-node": "^10.9.1",

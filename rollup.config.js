@@ -8,6 +8,7 @@ import copy from 'rollup-plugin-copy'
 import clear from 'rollup-plugin-clear'
 import pkg from './package.json'
 import dts from 'rollup-plugin-dts'
+import filesize from 'rollup-plugin-filesize'
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx']
 const upCaseFirst = str => (str[0] ? str[0].toUpperCase() + str.slice(1) : '')
@@ -29,7 +30,7 @@ const dtsPlugin = dts()
 const configFactory = config => {
   const { input, fileName, filePath, name, isClear, createEs, copyFile, pluginsPush } = config
   // load rollup plugins
-  const plugins = [resolve(), commonjs(), tsPlugin, terserPlugin]
+  const plugins = [resolve(), commonjs(), tsPlugin, terserPlugin, filesize()]
   if (isClear) plugins.unshift(clear({ targets: ['dist', 'plugins', 'locale'] }))
   if (copyFile) plugins.push(copy(copyFile))
   if (pluginsPush) {
