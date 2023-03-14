@@ -184,3 +184,63 @@ describe('lunisolar.fromLunar', () => {
     ).toBe('2020-01-25')
   })
 })
+
+describe('lunisolar utc', () => {
+  it('lunisolar.utc', () => {
+    const utcLsr = lunisolar('2023-03-13 18:23', { isUTC: true })
+    const lsr = lunisolar('2023-03-13 18:23')
+    expect(utcLsr.format('YYYY-MM-DD HH:mm')).toBe('2023-03-13 18:23')
+    expect(lunisolar.utc('2023-03-13 18:23').format('YYYY-MM-DD HH:mm')).toBe('2023-03-13 18:23')
+    expect(lsr.utc().format('YYYY-MM-DD HH:mm')).toBe('2023-03-13 10:23')
+    expect(lsr.utc().utcOffset(60).format('YYYY-MM-DD HH:mm')).toBe('2023-03-13 11:23')
+    expect(
+      lunisolar('2023-03-13 10:23', { isUTC: true, offset: 60 }).format('YYYY-MM-DD HH:mm')
+    ).toBe('2023-03-13 11:23')
+    console.log(lsr.toString(), utcLsr.toString())
+  })
+  it('lunisolar.utc.offset.utc', () => {
+    const lsr = lunisolar('2023/03/14 09:32')
+    expect(lsr.utc().utcOffset(-60).format('YYYY-MM-DD HH:mm')).toBe('2023-03-14 00:32')
+    expect(lsr.utc().utcOffset(-60).utc().format('YYYY-MM-DD HH:mm')).toBe('2023-03-14 01:32')
+  })
+  it('lunisolar.utc.local', () => {
+    const lsr = lunisolar('2023/03/14 10:22')
+    expect(lsr.format('YYYY/MM/DD HH:mm')).toBe('2023/03/14 10:22')
+    expect(lsr.utc().format('YYYY/MM/DD HH:mm')).toBe('2023/03/14 02:22')
+    expect(lsr.utc().local().format('YYYY/MM/DD HH:mm')).toBe('2023/03/14 10:22')
+    expect(
+      lunisolar.utc('2023-03-14 10:57').utcOffset(60).local().format('YYYY-MM-DD HH:mm:ss')
+    ).toBe('2023-03-14 18:57:00')
+    expect(lunisolar.utc('2023-03-14 10:57').local().format('YYYY-MM-DD HH:mm:ss')).toBe(
+      '2023-03-14 18:57:00'
+    )
+  })
+  it('lunisolar.utc.toDate', () => {
+    const utcLst = lunisolar.utc('2023-03-14 10:57')
+    expect(lunisolar.utc('2023-03-14 10:57').toDate().valueOf()).toBe(
+      1678762620000 + 8 * 3600 * 1000
+    )
+    expect(lunisolar('2023-03-14 10:57').utc().toDate().valueOf()).toBe(1678762620000)
+    expect(lunisolar('2023-03-14 10:57').toDate().valueOf()).toBe(1678762620000)
+    expect(utcLst.toDate().valueOf()).toBe(1678791420000)
+    expect(utcLst.valueOf()).toBe(1678791420000)
+    expect(lunisolar('2023-03-14 11:57:00:000').toDate().valueOf()).toBe(1678766220000)
+    expect(utcLst.utcOffset(60).valueOf()).toBe(1678791420000)
+    expect(utcLst.utcOffset(60).toDate().valueOf()).toBe(1678791420000)
+    expect((utcLst.utcOffset(60).toDate().valueOf() - 1678791420000) / 3600000).toBe(0)
+    expect(utcLst.valueOf()).toBe(1678791420000)
+  })
+
+  it('lunisolar lunar', () => {
+    const utcLst = lunisolar.utc('2023-03-14 14:44')
+    expect(utcLst.lunar.toString()).toBe('二〇二三年二月廿三未時')
+    expect(lunisolar('2023-03-14 14:44').lunar.toString()).toBe('二〇二三年二月廿三未時')
+    expect(lunisolar('2023-03-14 14:44').utc().lunar.toString()).toBe('二〇二三年二月廿三卯時')
+    expect(lunisolar('2023-03-14 14:44', { offset: -120 }).lunar.toString()).toBe(
+      '二〇二三年二月廿三午時'
+    )
+    expect(lunisolar('2023-03-14 14:44', { offset: -120 }).char8.hour.branch.name).toBe('午')
+    expect(lunisolar('2023-03-14 14:44').add(-2, 'h').char8.hour.branch.name).toBe('午')
+    expect(lunisolar('2023-03-14 14:44').utcOffset(6).char8.hour.branch.name).toBe('午')
+  })
+})
