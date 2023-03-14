@@ -11,7 +11,8 @@ export class Char8 {
   readonly _config: Required<Char8Config> = {
     changeAgeTerm: _GlobalConfig.changeAgeTerm,
     isUTC: false,
-    lang: _GlobalConfig.lang
+    lang: _GlobalConfig.lang,
+    offset: 0
   }
 
   constructor(dateOrSbList: Date | [SB, SB, SB, SB], config?: Char8Config) {
@@ -148,8 +149,11 @@ export class Char8 {
    * @returns {SB} 返回天地支对象
    */
   static computeSBDay(date: Date, config?: Char8Config) {
+    const isUTC = config?.isUTC || false
+    const offset = config?.offset || 0
+    const dateValue = isUTC ? date.valueOf() - offset * 60 * 1000 : date.valueOf()
     const sb0 = parseDate(`${SB0_DATE[0]}-${SB0_DATE[1]}-${SB0_DATE[2] - 1} 15:00:00`, true)
-    let daydiff = Math.floor((date.valueOf() - sb0.valueOf()) / (1000 * 60 * 60 * 24)) % 60
+    let daydiff = Math.floor((dateValue - sb0.valueOf()) / (1000 * 60 * 60 * 24)) % 60
     if (daydiff < 0) daydiff += 60
     return new SB(daydiff, undefined, config)
   }

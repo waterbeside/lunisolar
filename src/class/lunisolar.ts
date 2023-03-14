@@ -79,7 +79,7 @@ export class Lunisolar extends CacheClass {
 
   @cache('lunisolar:lunar')
   get lunar(): Lunar {
-    return new Lunar(this._date, { lang: this._config.lang, isUTC: this._config.isUTC })
+    return new Lunar(this._date, { lang: this._config.lang, isUTC: this.isUTC() })
   }
 
   // 八字
@@ -88,7 +88,8 @@ export class Lunisolar extends CacheClass {
     const config = {
       lang: this._config.lang,
       changeAgeTerm: this._config.changeAgeTerm,
-      isUTC: this._config.isUTC
+      isUTC: this.isUTC(),
+      offset: this._offset
     }
     return new Char8(this._date, config)
   }
@@ -212,7 +213,7 @@ export class Lunisolar extends CacheClass {
   utcOffset(utcOffset: number): Lunisolar
   utcOffset(utcOffset?: number): number | Lunisolar {
     if (utcOffset === void 0) {
-      if (this._config.isUTC) return this._offset
+      if (this.isUTC()) return this._offset
       return computeUtcOffset(this._date)
     }
     const config = Object.assign({}, this._config, {
