@@ -165,7 +165,7 @@ export class Char8 {
    */
   static computeSBHour(date: Date, sbDay?: SB, config?: Char8Config) {
     const isUTC = config?.isUTC || false
-    if (!sbDay) sbDay = Char8.computeSBDay(date)
+    if (!sbDay) sbDay = Char8.computeSBDay(date, config)
     const hour = getDateData(date, 'Hours', isUTC)
     const dayStem = sbDay.stem
     // 五鼠遁方法计算子时起始天干
