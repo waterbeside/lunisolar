@@ -1,3 +1,12 @@
+## [2.2.1](https://github.com/waterbeside/lunisolar/compare/v2.2.0...v2.2.1) (2023-04-25)
+
+
+### 🐛 Bug Fixes
+
+* 修正”当年不在范围内时get solarTerm() 抛出的错误信息不正确“的问题 ([491ad49](https://github.com/waterbeside/lunisolar/commit/491ad497b4571aba3cf8add8b5f93b0438b0527b))
+
+
+
 # [2.2.0](https://github.com/waterbeside/lunisolar/compare/v2.1.12...v2.2.0) (2023-03-14)
 
 
