@@ -86,7 +86,10 @@ export class SolarTerm {
   /**
    * 查出指定日期属于哪个节或气之后，并返回该节气及该节气日期
    * @param date 日期
-   * @param returnValue 节气是否只返回该节气的值,还是返回节气对象
+   * @param config 设置
+      - nodeFlag: number
+      - lang: string
+      - isUTC: boolean
    * @returns {[Term | number, number]} [节气, 节气日期]
    */
   static findNode<T extends boolean = false>(
