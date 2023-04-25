@@ -99,7 +99,7 @@ export class Lunisolar extends CacheClass {
   get solarTerm(): SolarTerm | null {
     const year = this.year
     if (year < FIRST_YEAR || year > LAST_YEAR) {
-      throw new Error(`${year} is not a lunar year`)
+      throw new Error(`${year}  is not in the allowed time range.`)
     }
     const month = this.month
     const date = this.day
@@ -129,7 +129,6 @@ export class Lunisolar extends CacheClass {
    * 取得當前日期所在的月建或月將地支，
      月建：子月從0開始，月將：子月月將日到丑月月將日為0，類推
    * @param flag 為0時取月建，為1時取月將
-   *
    */
   @cache('lunisolar:getMonthBuilder', true)
   getMonthBuilder(flag: 0 | 1 = 0): [SB, lunisolar.SolarTerm, Date] {
