@@ -22,9 +22,8 @@ import { CacheClass } from './CacheClass'
 
 export class Lunisolar extends CacheClass {
   readonly _config: LunisolarConfigData
-
-  protected _date: Date
-  protected _offset: number
+  readonly _date: Date
+  readonly _offset: number
   constructor(date?: DateParamType, config?: lunisolar.ConfigType) {
     super()
     this._config = Object.assign({ extra: {} }, _GlobalConfig, config)
@@ -141,7 +140,7 @@ export class Lunisolar extends CacheClass {
     return [sb, term, termDate]
   }
 
-  getSeasonIndex() {
+  getSeasonIndex(): number {
     const rst = this.recentSolarTerm(0)
     const termVal = rst[0].value
     if (2 <= termVal && termVal < 8) return 0
@@ -181,7 +180,7 @@ export class Lunisolar extends CacheClass {
   }
 
   clone() {
-    return new Lunisolar(this._date, this._config)
+    return new Lunisolar(this.valueOf(), this._config)
   }
 
   unix() {
