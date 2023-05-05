@@ -20,6 +20,7 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Lunar {
+    readonly _date: date
     /**
      * 取得該年陰歷正月初一的所在公歷年
      */
@@ -44,9 +45,9 @@ declare namespace lunisolar {
      * 當年的閏月是否大朋
      */
     readonly leapMonthIsBig: boolean
-    readonly _config: Required<ClassCommonConfig>
-    static fromLunar(lunarData: ParseFromLunarParam, config?: ClassCommonConfig): Lunar
-    constructor(date: Date, config?: ClassCommonConfig)
+    readonly _config: Required<LunarConfig>
+    static fromLunar(lunarData: ParseFromLunarParam, config?: LunarConfig): Lunar
+    constructor(date: Date, config?: LunarConfig)
     /**
      * Return string like '二〇二一年冬月廿九子時'
      */
@@ -72,10 +73,13 @@ declare namespace lunisolar {
      */
     get lunarNewYearDay(): Date
     /**
+     * 取得本农历年的取后一天
+     */
+    get lastDayOfYear(): Date
+    /**
      * 月相
      */
     get phaseOfTheMoon(): string
-
     /**
      * 取得Date对象
      */
@@ -496,6 +500,20 @@ declare namespace lunisolar {
      * @returns 日主
      */
     get me(): Stem
+
+    /**
+     * 计算八字value值
+     * @param sbList SB实例例表
+     * @returns number
+     */
+    static computeValue(sbList: SB[]) {
+      let res = 0
+      for (let i = 0; i < 4; i++) {
+        res += sbList[i].valueOf() * Math.pow(10, 2 * (3 - i))
+      }
+      return res
+    }
+
     /**
      * 計算年柱
      * @param yearOrDate 年份或日期對象
@@ -527,6 +545,8 @@ declare namespace lunisolar {
    */
   export class Lunisolar extends CacheClass {
     readonly _config: LunisolarConfigData
+    readonly _date: Date
+    readonly _offset: number
 
     constructor(date?: DateParamType, config?: ConfigType)
 
@@ -690,6 +710,8 @@ declare namespace lunisolar {
     $once?: any
     [x: string]: any
   }
+
+  export function utc(date?: DateConfigType | Lunisolar, config?: ConfigType): Lunisolar
 
   /**
    * Get the Lunisolar instance by lunar data
