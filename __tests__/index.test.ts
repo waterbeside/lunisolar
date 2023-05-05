@@ -196,7 +196,6 @@ describe('lunisolar utc', () => {
     expect(
       lunisolar('2023-03-13 10:23', { isUTC: true, offset: 60 }).format('YYYY-MM-DD HH:mm')
     ).toBe('2023-03-13 11:23')
-    console.log(lsr.toString(), utcLsr.toString())
   })
   it('lunisolar.utc.offset.utc', () => {
     const lsr = lunisolar('2023/03/14 09:32')
@@ -215,6 +214,16 @@ describe('lunisolar utc', () => {
       '2023-03-14 18:57:00'
     )
   })
+  it('lunisolar utc clone', () => {
+    expect(lunisolar('2023/04/09', { offset: 60 }).valueOf()).toBe(1680969600000)
+    expect(lunisolar('2023/04/09').valueOf()).toBe(1680969600000)
+    expect(lunisolar('2023/04/09', { offset: 60 }).format('YYYY-MM-DD HH:mm:ss')).toBe(
+      '2023-04-09 01:00:00'
+    )
+    expect(lunisolar('2023/04/09').utcOffset(60).clone().format('YYYY-MM-DD HH:mm:ss')).toBe(
+      '2023-04-08 17:00:00'
+    )
+  })
   it('lunisolar.utc.toDate', () => {
     const utcLst = lunisolar.utc('2023-03-14 10:57')
     expect(lunisolar.utc('2023-03-14 10:57').toDate().valueOf()).toBe(
@@ -225,6 +234,7 @@ describe('lunisolar utc', () => {
     expect(utcLst.toDate().valueOf()).toBe(1678791420000)
     expect(utcLst.valueOf()).toBe(1678791420000)
     expect(lunisolar('2023-03-14 11:57:00:000').toDate().valueOf()).toBe(1678766220000)
+    expect(utcLst.utcOffset(60).format('YYYY-MM-DD HH:mm:ss')).toBe('2023-03-14 11:57:00')
     expect(utcLst.utcOffset(60).valueOf()).toBe(1678791420000)
     expect(utcLst.utcOffset(60).toDate().valueOf()).toBe(1678791420000)
     expect((utcLst.utcOffset(60).toDate().valueOf() - 1678791420000) / 3600000).toBe(0)
