@@ -64,7 +64,7 @@ function getDateDiff(date1: Date, date2: Date): number {
  * class Lunar
  */
 export class Lunar {
-  protected _date: Date
+  readonly _date: Date
   readonly year: number
   readonly month: number
   readonly day: number

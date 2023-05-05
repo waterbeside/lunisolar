@@ -28,7 +28,7 @@ export class Char8 {
     }
     if (Array.isArray(dateOrSbList)) {
       this._list = dateOrSbList
-      this.value = this._computeValue(dateOrSbList)
+      this.value = Char8.computeValue(dateOrSbList)
     } else {
       throw new Error('Invalid Char8')
     }
@@ -62,7 +62,7 @@ export class Char8 {
     return this._list[2].stem
   }
 
-  private _computeValue(sbList: SB[] = this._list) {
+  static computeValue(sbList: SB[]) {
     let res = 0
     for (let i = 0; i < 4; i++) {
       res += sbList[i].valueOf() * Math.pow(10, 2 * (3 - i))
