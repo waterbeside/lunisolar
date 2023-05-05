@@ -1,3 +1,12 @@
+## [2.2.2](https://github.com/waterbeside/lunisolar/compare/v2.2.1...v2.2.2) (2023-05-05)
+
+
+### 🐛 Bug Fixes
+
+* 修正'在设置offset后，clone方法返回的时间不准确'的问题 ([4f08243](https://github.com/waterbeside/lunisolar/commit/4f08243673579ec172d88b27521e475482b4f601))
+
+
+
 ## [2.2.1](https://github.com/waterbeside/lunisolar/compare/v2.2.0...v2.2.1) (2023-04-25)
 
 
