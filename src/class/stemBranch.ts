@@ -9,7 +9,7 @@ import {
   computeGroup6E5Value
 } from '../utils'
 import { Trigram8 } from './trigram8'
-import { cache } from '../utils/decorators'
+import { cache } from '@lunisolar/utils'
 import { CacheClass } from './cacheClass'
 
 /**

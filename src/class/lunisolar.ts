@@ -17,7 +17,7 @@ import { FIRST_YEAR, LAST_YEAR } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
 import { SB } from './stemBranch'
 import lunisolarFac from '../index'
-import { cache } from '../utils/decorators'
+import { cache } from '@lunisolar/utils'
 import { CacheClass } from './cacheClass'
 import { Markers } from './markers'
 

@@ -1,5 +1,5 @@
 import { CacheClass } from './../../../class/cacheClass'
-import { cache } from '../../../utils/decorators'
+import { cache } from '@lunisolar/utils'
 import type { Stem } from '../../../class/stemBranch'
 import type { Char8 } from '../../../class/char8'
 import type { Lunisolar } from '../../../class/lunisolar'

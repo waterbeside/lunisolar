@@ -3,9 +3,8 @@ import type { Element5 } from '../../../class/element5'
 import { TenGod } from './tenGod'
 import { C8God } from './c8God'
 import { computeTenGodByStem } from '../utils'
-
 import { SBX } from '../types'
-import { cache } from '../../../utils/decorators'
+import { cache } from '@lunisolar/utils'
 import { CacheClass } from './../../../class/cacheClass'
 
 interface PillarDataParam {
