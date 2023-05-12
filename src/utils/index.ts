@@ -177,7 +177,7 @@ export const getStemValue: StemOrBranchValueFunc = (
 // 取天干八卦
 export const getStemTrigram8Value: StemOrBranchValueFunc = (
   lsr: lunisolar.Lunisolar,
-  ymdh: 'year' | 'month' | 'day' | 'hour',
+  ymdh: YMDH,
   div?: number
 ) => {
   let sb = getYmdhSB(lsr, ymdh, 0)
