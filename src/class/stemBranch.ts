@@ -10,7 +10,7 @@ import {
 } from '../utils'
 import { Trigram8 } from './trigram8'
 import { cache } from '../utils/decorators'
-import { CacheClass } from './CacheClass'
+import { CacheClass } from './cacheClass'
 
 /**
  * 地支

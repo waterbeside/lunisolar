@@ -6,7 +6,7 @@ import { computeTenGodByStem } from '../utils'
 
 import { SBX } from '../types'
 import { cache } from '../../../utils/decorators'
-import { CacheClass } from './../../../class/CacheClass'
+import { CacheClass } from './../../../class/cacheClass'
 
 interface PillarDataParam {
   sb: SBX

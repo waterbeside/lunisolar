@@ -1,4 +1,4 @@
-import { CacheClass } from './../../../class/CacheClass'
+import { CacheClass } from './../../../class/cacheClass'
 import { cache } from '../../../utils/decorators'
 import type { Stem } from '../../../class/stemBranch'
 import type { Char8 } from '../../../class/char8'

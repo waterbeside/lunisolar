@@ -18,7 +18,7 @@ import { _GlobalConfig } from '../config'
 import { SB } from './stemBranch'
 import lunisolarFac from '../index'
 import { cache } from '../utils/decorators'
-import { CacheClass } from './CacheClass'
+import { CacheClass } from './cacheClass'
 import { Markers } from './markers'
 
 export class Lunisolar extends CacheClass {
