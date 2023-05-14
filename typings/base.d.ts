@@ -106,3 +106,15 @@ interface IteratorInterface {
     done: boolean
   }
 }
+
+type YMDH = 'year' | 'month' | 'day' | 'hour'
+
+type DateDict = {
+  year: number
+  month: number
+  day: number
+  hour: number
+  minute: number
+  second: number
+  millisecond: number
+}

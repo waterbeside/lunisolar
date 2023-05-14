@@ -1,6 +1,6 @@
 import { UNITS } from '../constants'
 import { LUNAR_MONTH_DATAS, FIRST_YEAR } from '../constants/lunarData'
-import { parseDate, prettyUnit } from './index'
+import { parseDate, prettyUnit } from '@lunisolar/utils'
 
 /**
  * 計算兩日期的時間差

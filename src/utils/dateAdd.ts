@@ -1,5 +1,5 @@
 import { UNITS } from '../constants'
-import { parseDate, prettyUnit } from './index'
+import { parseDate, prettyUnit } from '@lunisolar/utils'
 
 export function dateAdd(date: DateParamType, value: number, unit?: DateAddUnit): Date {
   date = parseDate(date)

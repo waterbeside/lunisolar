@@ -1,6 +1,7 @@
 import { FIRST_YEAR, TERM_MINIMUM_DATES, TERM_SAME_HEX, TERM_LIST } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
-import { parseDate, getDateData } from '../utils'
+import { getDateData } from '../utils'
+import { parseDate } from '@lunisolar/utils'
 
 export class SolarTerm {
   readonly value: number = -1
