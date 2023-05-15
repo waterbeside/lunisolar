@@ -556,7 +556,7 @@ declare namespace lunisolar {
     readonly _offset: number
     readonly jd: JD
 
-    constructor(date?: DateParamType, config?: ConfigType)
+    constructor(date?: DateParamType | JDDict, config?: ConfigType)
 
     get lunisolar(): typeof lunisolar
     get year(): number
