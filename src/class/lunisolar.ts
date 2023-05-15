@@ -1,6 +1,6 @@
 import { LUNAR_UNITS_SET } from '../constants'
 import { computeSBMonthValueByTerm, computeUtcOffset, getDateData } from '../utils'
-import { parseDate, prettyUnit, getTranslation } from '@lunisolar/utils'
+import { prettyUnit, getTranslation } from '@lunisolar/utils'
 import { dateDiff, lunarDateDiff } from '../utils/dateDiff'
 import { dateAdd } from '../utils/dateAdd'
 import { format } from '../utils/format'
@@ -11,27 +11,30 @@ import { FIRST_YEAR, LAST_YEAR } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
 import { SB } from './stemBranch'
 import lunisolarFac from '../index'
-import { cache } from '@lunisolar/utils'
 import { CacheClass } from './cacheClass'
+import { JD } from '@lunisolar/julian'
+import { cache } from '@lunisolar/utils'
 import { Markers } from './markers'
 
 export class Lunisolar extends CacheClass {
   readonly _config: LunisolarConfigData
-  readonly _date: Date
+  // readonly _date: Date
+  readonly jd: JD
   readonly _offset: number
-  constructor(date?: DateParamType, config?: lunisolar.ConfigType) {
+  constructor(date?: DateConfigType | JDDict, config?: lunisolar.ConfigType) {
     super()
     this._config = Object.assign({ extra: {} }, _GlobalConfig, config)
 
     const { isUTC, offset } = this._config
-    const _date = parseDate(date, isUTC)
-    if (offset !== 0) {
-      _date.setMinutes(_date.getMinutes() + offset)
-    }
-    const localTimezoneOffset = -1 * parseDate(date).getTimezoneOffset()
+    this.jd = new JD(date, { isUTC })
+    // const _date = parseDate(date, isUTC)
+    // if (offset !== 0) {
+    //   _date.setMinutes(_date.getMinutes() + offset)
+    // }
+    const localTimezoneOffset = -1 * new Date().getTimezoneOffset()
     this._config.extra.localTimezoneOffset = localTimezoneOffset
 
-    this._date = _date
+    // this._date = _date
     this._offset = offset
   }
 

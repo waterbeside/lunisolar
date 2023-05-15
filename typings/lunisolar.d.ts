@@ -1,10 +1,10 @@
 declare function lunisolar(
-  date?: lunisolar.DateConfigType,
+  date?: DateConfigType | JDDict,
   configType?: lunisolar.ConfigType
 ): lunisolar.Lunisolar
 
 declare namespace lunisolar {
-  export type DateConfigType = string | number | Date | null | undefined
+  export type DateConfigType = string | number | Date | null | undefined | DateDictPart
   export interface FromLunarData extends ParseFromLunarParam {
     [k: string]: any
   }
@@ -545,10 +545,11 @@ declare namespace lunisolar {
    */
   export class Lunisolar extends CacheClass {
     readonly _config: LunisolarConfigData
-    readonly _date: Date
+    // readonly _date: Date
     readonly _offset: number
+    readonly jd: JD
 
-    constructor(date?: DateParamType, config?: ConfigType)
+    constructor(date?: DateParamType | JDDict, config?: ConfigType)
 
     get lunisolar(): typeof lunisolar
     get year(): number

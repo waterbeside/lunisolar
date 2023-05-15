@@ -28,7 +28,7 @@ type UnitFullName = GreUnitFullName | LunarUnitFullName | Char8UnitFullName
 type UnitFullNameLower = GreUnitFullName | LunarUnitFullNameLower | Char8UnitFullNameLower
 type Unit = GreUnit | LunarUnit | Char8Unit
 
-type DateConfigType = lunisolar.DateConfigType
+type DateConfigType = string | number | Date | null | undefined | DateDictPart
 type DateParamType = DateConfigType | lunisolar.Lunisolar
 
 type DateAddUnitFullName = 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'month' | 'year'
@@ -118,3 +118,11 @@ type DateDict = {
   second: number
   millisecond: number
 }
+
+type JDDict = {
+  jdn: number
+  ms?: number
+}
+
+type DateDictYMD = Pick<DateDict, YMD>
+type DateDictPart = DateDictYMD & Partial<Omit<DateDict, YMD>>

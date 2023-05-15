@@ -8,17 +8,15 @@ import { Trigram8 } from './class/trigram8'
 import { Direction24 } from './class/direction24'
 import { _GlobalConfig } from './config'
 import { parseFromLunar, defineLocale } from './utils'
+import { JD } from '@lunisolar/julian'
 import zh from './locale/zh'
 import { Markers } from './class/markers'
 
-export default function lunisolar(
-  date?: DateConfigType | Lunisolar,
-  config?: ConfigType
-): Lunisolar {
+export default function lunisolar(date?: DateConfigType | JDDict, config?: ConfigType): Lunisolar {
   return new Lunisolar(date, config)
 }
 
-lunisolar.utc = function (date?: DateConfigType | Lunisolar, config?: ConfigType): Lunisolar {
+lunisolar.utc = function (date?: DateConfigType | JDDict, config?: ConfigType): Lunisolar {
   return new Lunisolar(date, Object.assign({}, config, { isUTC: true }))
 }
 
@@ -32,6 +30,7 @@ lunisolar.Element5 = Element5
 lunisolar.Lunisolar = Lunisolar
 lunisolar.Trigram8 = Trigram8
 lunisolar.Direction24 = Direction24
+lunisolar.JD = JD
 
 lunisolar.fromLunar = function (
   param: ParseFromLunarParam,
