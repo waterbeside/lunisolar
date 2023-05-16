@@ -20,15 +20,14 @@ export class Lunisolar extends CacheClass {
   readonly _config: LunisolarConfigData
   readonly jd: JD
   readonly _offset: number
-  constructor(date?: DateConfigType | JDDict, config?: lunisolar.ConfigType) {
+  constructor(date?: DateParamType, config?: lunisolar.ConfigType) {
     super()
     this._config = setReadonly(Object.assign({ extra: {} }, _GlobalConfig, config))
     this.jd = parseJD(date, this._config.isUTC, this._config.offset)
     const localTimezoneOffset = -1 * this.jd.timezoneOffset
     this._config.extra.localTimezoneOffset = localTimezoneOffset
 
-    this._date = _date
-    this._offset = offset
+    this._offset = this._config.offset
   }
 
   get lunisolar(): typeof lunisolar {
