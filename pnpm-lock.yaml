@@ -35,7 +35,8 @@ specifiers:
   typescript: ^4.6.3
 
 dependencies:
-  '@lunisolar/utils': 0.3.0
+  '@lunisolar/julian': 0.5.0
+  '@lunisolar/utils': 0.5.5
 
 devDependencies:
   '@babel/core': 7.20.12
