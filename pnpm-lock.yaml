@@ -7,7 +7,7 @@ specifiers:
   '@babel/preset-env': ^7.17.10
   '@babel/preset-typescript': ^7.16.7
   '@jest/types': ^29.3.1
-  '@lunisolar/julian': ^0.5.0
+  '@lunisolar/julian': ^0.5.2
   '@lunisolar/utils': ^0.5.5
   '@rollup/plugin-commonjs': ^22.0.2
   '@rollup/plugin-node-resolve': ^13.2.1
@@ -35,7 +35,7 @@ specifiers:
   typescript: ^4.6.3
 
 dependencies:
-  '@lunisolar/julian': 0.5.0
+  '@lunisolar/julian': 0.5.2
   '@lunisolar/utils': 0.5.5
 
 devDependencies:
@@ -1659,8 +1659,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
-  /@lunisolar/julian/0.5.0:
-    resolution: {integrity: sha512-KVx+OzYoszqErOtJnR/fWJAFVfDbi9EW4QmRi3xbxvs3fGFbjck5vSNxsxYEt8Jpg4qJGxU0I9jNY+LNGjfikw==}
+  /@lunisolar/julian/0.5.2:
+    resolution: {integrity: sha512-Yg6YxOi4wT0w2JwirD4Y+Gijfz8Ha4C2yvunkhO3ObDl3B4rEK3mGIATMD64ejqC5oiL48VPZvdS9w4VvgMXnw==}
     dependencies:
       '@lunisolar/utils': 0.5.5
     dev: false
