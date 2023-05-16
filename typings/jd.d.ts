@@ -11,7 +11,7 @@ declare namespace lunisolar {
     readonly timezoneOffset: number
     readonly cache: Map<string, any>
     constructor(
-      jdnOrDateDict?: number | Date | Partial<DateDict> | string | JDDict,
+      jdd?: number | Date | Partial<DateDict> | string | null | JD | JDDict,
       config?: Partial<JDConfig>
     )
     /**
@@ -39,6 +39,7 @@ declare namespace lunisolar {
      * @returns JD Instance
      */
     static fromJdn(jdn: number, config?: Partial<JDConfig>): JD
+    static fromTimestamp(timestamp: number, config?: Partial<JDConfig>): JD
     /**
      * Julian Day Number to Gregorian calendar
      * 儒略日数转公历

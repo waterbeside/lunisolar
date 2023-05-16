@@ -54,7 +54,7 @@ export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
     mm: String(m).padStart(2, '0'),
     s: String(s),
     ss: String(s).padStart(2, '0'),
-    SSS: String(lsr.millis).padStart(3, '0'),
+    SSS: String(lsr.millisecond).padStart(3, '0'),
     Z: zoneStr, // 'ZZ' logic below
     // 生肖
     cZ: locale.chineseZodiac[char8.year.branch.value],

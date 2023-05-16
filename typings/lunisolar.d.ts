@@ -1,10 +1,18 @@
 declare function lunisolar(
-  date?: DateConfigType | JDDict,
+  date?: DateConfigType,
   configType?: lunisolar.ConfigType
 ): lunisolar.Lunisolar
 
 declare namespace lunisolar {
-  export type DateConfigType = string | number | Date | null | undefined | DateDictPart
+  export type DateConfigType =
+    | string
+    | number
+    | Date
+    | null
+    | undefined
+    | DateDictPart
+    | JD
+    | JDDict
   export interface FromLunarData extends ParseFromLunarParam {
     [k: string]: any
   }
@@ -20,7 +28,7 @@ declare namespace lunisolar {
    * @param config 设置
    */
   export class Lunar {
-    readonly _date: date
+    readonly jd: JD
     /**
      * 取得該年陰歷正月初一的所在公歷年
      */
@@ -71,11 +79,11 @@ declare namespace lunisolar {
     /**
       取得當年陰歷年正月初一的对应的公历日期
      */
-    get lunarNewYearDay(): Date
+    get lunarNewYearDay(): JD
     /**
      * 取得本农历年的取后一天
      */
-    get lastDayOfYear(): Date
+    get lastDayOfYear(): JD
     /**
      * 月相
      */
@@ -549,7 +557,7 @@ declare namespace lunisolar {
     readonly _offset: number
     readonly jd: JD
 
-    constructor(date?: DateParamType | JDDict, config?: ConfigType)
+    constructor(date?: DateParamType, config?: ConfigType)
 
     get lunisolar(): typeof lunisolar
     get year(): number
@@ -559,7 +567,7 @@ declare namespace lunisolar {
     get hour(): number
     get minute(): number
     get second(): number
-    get millis(): number
+    get millisecond(): number
 
     /**
      * get lunar object

@@ -1,8 +1,7 @@
 import { LUNAR_UNITS_SET } from '../constants'
-import { computeSBMonthValueByTerm, computeUtcOffset, getDateData } from '../utils'
+import { computeSBMonthValueByTerm, computeUtcOffset } from '../utils'
 import { prettyUnit, getTranslation } from '@lunisolar/utils'
 import { dateDiff, lunarDateDiff } from '../utils/dateDiff'
-import { dateAdd } from '../utils/dateAdd'
 import { format } from '../utils/format'
 import { Lunar } from './lunar'
 import { SolarTerm } from './solarTerm'
@@ -12,21 +11,21 @@ import { _GlobalConfig } from '../config'
 import { SB } from './stemBranch'
 import lunisolarFac from '../index'
 import { CacheClass } from './cacheClass'
-import { JD } from '@lunisolar/julian'
-import { cache } from '@lunisolar/utils'
+import { JD, cache } from '@lunisolar/julian'
+import { setReadonly } from '@lunisolar/utils'
+import { parseJD } from '../utils'
 import { Markers } from './markers'
 
 export class Lunisolar extends CacheClass {
   readonly _config: LunisolarConfigData
-  // readonly _date: Date
   readonly jd: JD
   readonly _offset: number
-  constructor(date?: DateConfigType | JDDict, config?: lunisolar.ConfigType) {
+  constructor(date?: DateParamType, config?: lunisolar.ConfigType) {
     super()
-    this._config = Object.assign({ extra: {} }, _GlobalConfig, config)
+    this._config = setReadonly(Object.assign({ extra: {} }, _GlobalConfig, config))
 
-    const { isUTC, offset } = this._config
-    this.jd = new JD(date, { isUTC })
+    // const { isUTC, offset } = this._config
+    this.jd = parseJD(date)
     // const _date = parseDate(date, isUTC)
     // if (offset !== 0) {
     //   _date.setMinutes(_date.getMinutes() + offset)
@@ -34,8 +33,7 @@ export class Lunisolar extends CacheClass {
     const localTimezoneOffset = -1 * new Date().getTimezoneOffset()
     this._config.extra.localTimezoneOffset = localTimezoneOffset
 
-    // this._date = _date
-    this._offset = offset
+    this._offset = this._config.offset
   }
 
   get lunisolar(): typeof lunisolar {
@@ -43,40 +41,40 @@ export class Lunisolar extends CacheClass {
   }
 
   get year(): number {
-    return getDateData(this._date, 'FullYear', this.isUTC())
+    return this.jd.year
   }
 
   get month(): number {
-    return getDateData(this._date, 'Month', this.isUTC()) + 1
+    return this.jd.month
   }
 
   get day(): number {
-    return getDateData(this._date, 'Date', this.isUTC())
+    return this.jd.day
   }
 
   get dayOfWeek(): number {
-    return getDateData(this._date, 'Day', this.isUTC())
+    return this.jd.dayOfWeek
   }
 
   get hour(): number {
-    return getDateData(this._date, 'Hours', this.isUTC())
+    return this.jd.hour
   }
 
   get minute(): number {
-    return getDateData(this._date, 'Minutes', this.isUTC())
+    return this.jd.minute
   }
 
   get second(): number {
-    return getDateData(this._date, 'Seconds', this.isUTC())
+    return this.jd.second
   }
 
-  get millis(): number {
-    return getDateData(this._date, 'Milliseconds', this.isUTC())
+  get millisecond(): number {
+    return this.jd.millisecond
   }
 
   @cache('lunisolar:lunar')
   get lunar(): Lunar {
-    return new Lunar(this._date, { lang: this._config.lang, isUTC: this.isUTC() })
+    return new Lunar(this.jd, { lang: this._config.lang, isUTC: this.isUTC() })
   }
 
   // 八字
@@ -88,7 +86,13 @@ export class Lunisolar extends CacheClass {
       isUTC: this.isUTC(),
       offset: this._offset
     }
-    return new Char8(this._date, config)
+    return new Char8(this.jd, config)
+  }
+
+  // markers
+  @cache('lunisolar:markers')
+  get markers(): Markers {
+    return new Markers(this)
   }
 
   // markers
@@ -120,8 +124,8 @@ export class Lunisolar extends CacheClass {
    * @param nodeFlag 取的节气点，0: 取节， 1: 取气, 2: 节或气都取
    */
   @cache('lunisolar:recentSolarTerm', true)
-  recentSolarTerm(nodeFlag: 0 | 1 | 2): [SolarTerm, Date] {
-    return SolarTerm.findNode<false>(this._date, {
+  recentSolarTerm(nodeFlag: 0 | 1 | 2): [SolarTerm, JD] {
+    return SolarTerm.findNode<false>(this.jd, {
       lang: this._config.lang,
       nodeFlag,
       returnValue: false
@@ -184,7 +188,7 @@ export class Lunisolar extends CacheClass {
   }
 
   clone() {
-    return new Lunisolar(this.valueOf(), this._config)
+    return new Lunisolar({}, this._config)
   }
 
   unix() {
@@ -192,7 +196,7 @@ export class Lunisolar extends CacheClass {
   }
 
   valueOf() {
-    return this._date.valueOf() - this._offset * 60 * 1000
+    return this.jd.timestamp - this._offset * 60 * 1000
   }
 
   local() {
@@ -200,7 +204,7 @@ export class Lunisolar extends CacheClass {
       isUTC: false,
       offset: 0
     })
-    return new Lunisolar(this.toDate(), config)
+    return new Lunisolar({ jdn: this.jd.jdn, jdms: this.jd.jdms }, config)
   }
 
   utc(): Lunisolar {
@@ -216,13 +220,13 @@ export class Lunisolar extends CacheClass {
   utcOffset(utcOffset?: number): number | Lunisolar {
     if (utcOffset === void 0) {
       if (this.isUTC()) return this._offset
-      return computeUtcOffset(this._date)
+      return computeUtcOffset(new Date())
     }
     const config = Object.assign({}, this._config, {
       isUTC: true,
       offset: Math.abs(utcOffset) <= 16 ? utcOffset * 60 : utcOffset
     })
-    return new Lunisolar(this._date, config)
+    return new Lunisolar({ jdn: this.jd.jdn, jdms: this.jd.jdms }, config)
   }
 
   toISOString() {
@@ -252,12 +256,12 @@ export class Lunisolar extends CacheClass {
         float
       )
     }
-    return dateDiff(this._date, date, unit as GreUnit, float)
+    return dateDiff(this.jd.jdn, date, unit as GreUnit, float)
   }
 
   add(value: number, unit?: DateAddUnit): Lunisolar {
-    const date = this.toDate()
-    const newDate = dateAdd(date, value, unit)
-    return new Lunisolar(newDate, this.getConfig())
+    if (!unit) unit = 'ms'
+    const newJD = this.jd.add(value, unit)
+    return new Lunisolar(newJD, this.getConfig())
   }
 }

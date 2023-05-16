@@ -1,6 +1,7 @@
 import { UNITS } from '../constants'
 import { LUNAR_MONTH_DATAS, FIRST_YEAR } from '../constants/lunarData'
-import { parseDate, prettyUnit } from '@lunisolar/utils'
+import { prettyUnit } from '@lunisolar/utils'
+import { parseJD } from './index'
 
 /**
  * 計算兩日期的時間差
@@ -16,20 +17,20 @@ export function dateDiff(
   unit?: GreUnit,
   float?: boolean
 ): number {
-  ;[date1, date2] = [parseDate(date1), parseDate(date2)]
-  const diffValue = date2.valueOf() - date1.valueOf()
+  const [jd1, jd2] = [parseJD(date1), parseJD(date2)]
+  const diffValue = jd2.jdn - jd1.jdn
   unit = (unit ? prettyUnit(unit) : 'millisecond') as GreUnitFullName
   let res = diffValue
   if (UNITS.s === unit) {
-    res = diffValue / 1000
+    res = diffValue * 24 * 60 * 60
   } else if (UNITS.m === unit) {
-    res = diffValue / (1000 * 60)
+    res = diffValue * 24 * 60
   } else if (UNITS.h === unit) {
-    res = diffValue / (1000 * 60 * 60)
+    res = diffValue * 24
   } else if (UNITS.d === unit) {
-    res = diffValue / (1000 * 60 * 60 * 24)
+    res = diffValue
   } else if (UNITS.w === unit) {
-    res = diffValue / (1000 * 60 * 60 * 24 * 7)
+    res = diffValue / 7
   } else if (UNITS.M === unit) {
     res = monthDiff(date1, date2)
   } else if (UNITS.y === unit) {
@@ -47,18 +48,18 @@ export function dateDiff(
  * @returns {number}
  */
 export const monthDiff = (date1: DateParamType, date2: DateParamType): number => {
-  ;[date1, date2] = [parseDate(date1), parseDate(date2)]
-  const yearDiff = date2.getFullYear() - date1.getFullYear()
-  const monthDiff = date2.getMonth() - date1.getMonth()
+  const [jd1, jd2] = [parseJD(date1), parseJD(date2)]
+  const yearDiff = jd2.year - jd1.year
+  const monthDiff = jd2.month - jd1.month
   const diffValue = yearDiff * 12 + monthDiff // 取得月差
   // 下边计算小数部分
-  const anchor = new Date(date1).setMonth(date1.getMonth() + diffValue)
-  const c = anchor.valueOf() > date2.valueOf()
-  const anchor2 = new Date(date1).setMonth(date1.getMonth() + diffValue + (c ? -1 : 1))
+  const anchor = parseJD(date1).add(diffValue, 'month')
+  const c = anchor.valueOf() > jd2.valueOf()
+  const anchor2 = parseJD(date1).add(diffValue + (c ? -1 : 1), 'month')
 
   return (
-    diffValue + (date2.valueOf() - anchor.valueOf()) / (c ? anchor - anchor2 : anchor2 - anchor) ||
-    0
+    diffValue +
+      (jd2.jdn - anchor.jdn) / (c ? anchor.jdn - anchor2.jdn : anchor2.jdn - anchor.jdn) || 0
   )
 }
 

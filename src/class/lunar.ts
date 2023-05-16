@@ -3,12 +3,13 @@ import {
   getLunarNewYearDay,
   getYearLeapMonth,
   parseFromLunar,
-  getDateData
+  parseJD
 } from '../utils'
 import { parseDate } from '@lunisolar/utils'
 
 import { FIRST_YEAR, LAST_YEAR, LUNAR_MONTH_DATAS } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
+import { JD } from '@lunisolar/julian'
 
 /**
  * @param year 春節所在的公歷年
@@ -56,15 +57,15 @@ function getLunarMonthDate(
  * @param date2 結束日
  * @returns 天數
  */
-function getDateDiff(date1: Date, date2: Date): number {
-  return Math.round((date2.valueOf() - date1.valueOf()) / 86400000)
+function getDateDiff(date1: JD, date2: JD): number {
+  return Math.round(date2.jdn - date1.jdn)
 }
 
 /**
  * class Lunar
  */
 export class Lunar {
-  readonly _date: Date
+  readonly jd: JD
   readonly year: number
   readonly month: number
   readonly day: number
@@ -81,31 +82,30 @@ export class Lunar {
     return new Lunar(date, config)
   }
 
-  constructor(dateObj: DateParamType, config?: LunarConfig) {
+  constructor(dateObj: DateConfigType | JDDict, config?: LunarConfig) {
     if (config) {
       this._config = Object.assign({}, this._config, config)
     }
-    const _date = parseDate(dateObj)
-    this._date = _date
-    const isUTC = this._config.isUTC
-    let year = getDateData(_date, 'FullYear', isUTC)
-    let month = getDateData(_date, 'Month', isUTC)
-    let hours = getDateData(_date, 'Hours', isUTC)
-    const day = getDateData(_date, 'Date', isUTC)
-    const date = parseDate(`${year}/${month + 1}/${day}`)
+    const offset = dateObj instanceof JD ? dateObj.config.offset : 0
+    this.jd = parseJD(dateObj, this._config.isUTC, offset)
+    let year = this.jd.year
+    let month = this.jd.month - 1
+    let hour = this.jd.hour
+    const day = this.jd.day
+    const date = parseJD(`${year}/${month + 1}/${day}`, this._config.isUTC)
 
     // 計算年份
     if (
       year < FIRST_YEAR ||
       year > LAST_YEAR ||
       (year === FIRST_YEAR && month < 1) ||
-      (year === FIRST_YEAR && month === 1 && date.getDate() < 19)
+      (year === FIRST_YEAR && month === 1 && date.day < 19)
     ) {
       throw new Error('Invalid lunar year: out of range')
     }
 
     let dateDiff = getDateDiff(getLunarNewYearDay(year), date)
-    if (date && hours === 23) dateDiff += 1
+    if (date && hour === 23) dateDiff += 1
 
     if (dateDiff < 0) {
       year = year - 1
@@ -120,7 +120,7 @@ export class Lunar {
     // 計算年和月
     ;[this.month, this.day] = getLunarMonthDate(year, dateDiff, [leapMonth, leapMonthIsBig])
     // 計算時辰 0 ~ 11
-    this.hour = (hours + 1) % 24 >> 1
+    this.hour = (hour + 1) % 24 >> 1
   }
 
   get isLeapMonth(): boolean {
@@ -145,16 +145,16 @@ export class Lunar {
   /**
    * 当年正月初一的日期
    */
-  get lunarNewYearDay(): Date {
+  get lunarNewYearDay(): JD {
     return getLunarNewYearDay(this.year)
   }
 
   /**
    * 取得本农历年的取后一天
    */
-  get lastDayOfYear(): Date {
+  get lastDayOfYear(): JD {
     const nextNewYearDay = getLunarNewYearDay(this.year + 1)
-    return new Date(nextNewYearDay.valueOf() - 24 * 60 * 60 * 1000)
+    return parseJD({ jdn: nextNewYearDay.jdn - 1 })
   }
 
   /**
@@ -165,7 +165,7 @@ export class Lunar {
   }
 
   toDate(): Date {
-    return new Date(this._date.valueOf())
+    return this.jd.toDate()
   }
 
   getYearName(): string {
@@ -203,10 +203,10 @@ export class Lunar {
   }
 
   valueOf(): number {
-    return this._date.valueOf()
+    return this.jd.timestamp
   }
 
-  static getLunarNewYearDay(year: number): Date {
+  static getLunarNewYearDay(year: number): JD {
     return getLunarNewYearDay(year)
   }
 }

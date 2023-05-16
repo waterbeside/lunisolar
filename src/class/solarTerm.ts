@@ -2,6 +2,7 @@ import { FIRST_YEAR, TERM_MINIMUM_DATES, TERM_SAME_HEX, TERM_LIST } from '../con
 import { _GlobalConfig } from '../config'
 import { getDateData } from '../utils'
 import { parseDate } from '@lunisolar/utils'
+import type { JD } from '@lunisolar/julian'
 
 export class SolarTerm {
   readonly value: number = -1
@@ -97,7 +98,10 @@ export class SolarTerm {
     date: Date,
     config: TermFindNodeConfig<T>
   ): [T extends true ? number : SolarTerm, Date]
-  static findNode(date: Date, config?: TermFindNodeConfig<boolean>): [SolarTerm | number, Date] {
+  static findNode(
+    date: Date | JD,
+    config?: TermFindNodeConfig<boolean>
+  ): [SolarTerm | number, Date] {
     const configDefault: TermFindNodeConfig0 = {
       lang: _GlobalConfig.lang,
       returnValue: false,

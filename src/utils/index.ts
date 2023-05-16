@@ -1,4 +1,15 @@
-import { parseDate } from '@lunisolar/utils'
+// import {
+//   parseDate,
+//   date2DateDict,
+//   string2DateDict,
+//   dateDict2jdms,
+//   gre2jdn,
+//   hasProps,
+//   // jdn2DateDict,
+//   // JD_1970,
+//   jdDict2timestamp
+// } from '@lunisolar/utils'
+import { JD } from '@lunisolar/julian'
 import { SB0_MONTH } from '../constants/calendarData'
 import { _GlobalConfig } from '../config'
 import {
@@ -13,9 +24,10 @@ import {
  * @param year 年份
  * @returns Date对象
  */
-export const getLunarNewYearDay = function (year: number): Date {
+export const getLunarNewYearDay = function (year: number, isUTC = false): JD {
   const lnyd = LUNAR_NEW_YEAR_DATE[year - FIRST_YEAR]
-  return parseDate(`${year}/${Math.floor(lnyd / 100)}/${lnyd % 100}`)
+  const jd = parseJD(`${year}/${Math.floor(lnyd / 100)}/${lnyd % 100}`)
+  return isUTC ? jd.utc() : jd
 }
 
 /**
@@ -71,7 +83,11 @@ export const prettyLunarData = function (lunarData: ParseFromLunarParam, lang?: 
  * @param lunarData 阴历数据
  * @returns Date对象
  */
-export const parseFromLunar = function (lunarData: ParseFromLunarParam, lang?: string) {
+export const parseFromLunar = function (
+  lunarData: ParseFromLunarParam,
+  lang?: string,
+  isUTC = false
+): JD {
   prettyLunarData(lunarData, lang)
   const date = new Date()
   const year = lunarData.year ? Number(lunarData.year) : date.getFullYear()
@@ -90,7 +106,7 @@ export const parseFromLunar = function (lunarData: ParseFromLunarParam, lang?: s
   if (month < 1) {
     throw new Error('Invalid lunar month')
   }
-  const nyd = getLunarNewYearDay(year)
+  const nyd = getLunarNewYearDay(year, isUTC)
   const [leapMonth, leapMonthIsBig] = getYearLeapMonth(year)
   if (isLeapMonth && leapMonth !== month) {
     throw new Error('Invalid lunar leap month: no this leap month')
@@ -107,7 +123,12 @@ export const parseFromLunar = function (lunarData: ParseFromLunarParam, lang?: s
     }
   }
   daySum -= (monthIsBig ? 30 : 29) - day + 1
-  return new Date(nyd.valueOf() + daySum * 24 * 60 * 60 * 1000 + hour * 2 * 60 * 60 * 1000)
+  return parseJD(
+    {
+      jdn: nyd.jdn + daySum + (hour * 2) / 24
+    },
+    isUTC
+  )
 }
 
 /**
@@ -364,4 +385,34 @@ export const getDateData = (
 ): number => {
   const upcaseFirst = (dataKey.slice(0, 1).toUpperCase() + dataKey.slice(1)) as UpCaseDateDataKey
   return isUTC ? date[`getUTC${upcaseFirst}`]() : date[`get${upcaseFirst}`]()
+}
+
+/**
+ * 转为JD对象
+ * @param d 日期字符串或日期对象
+ * @param isUTC 是否UTC时间
+ * @param offset 时间偏移值，以分钟为单位
+ * @returns 返回日期对像
+ */
+export const parseJD = (d?: DateParamType, isUTC?: boolean, offset?: number): JD => {
+  let config = { isUTC: isUTC ?? false, offset: offset ?? 0 }
+  if (typeof d === 'number') return JD.fromTimestamp(d, config)
+  if (d && typeof d === 'object' && !(d instanceof Date)) {
+    if (d.hasOwnProperty('_config')) {
+      const defaultConfig = (d as any)._config
+      config = {
+        isUTC: isUTC ?? defaultConfig?.isUTC ?? false,
+        offset: offset ?? defaultConfig?.isUTC ?? 0
+      }
+    }
+    if (
+      d.hasOwnProperty('toDate') &&
+      typeof (d as any).toDate === 'function' &&
+      !d.hasOwnProperty('jd') &&
+      !d.hasOwnProperty('jdn')
+    ) {
+      return new JD((d as any).toDate, config)
+    }
+  }
+  return new JD(d as any, config)
 }

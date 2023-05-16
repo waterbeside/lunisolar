@@ -28,8 +28,20 @@ type UnitFullName = GreUnitFullName | LunarUnitFullName | Char8UnitFullName
 type UnitFullNameLower = GreUnitFullName | LunarUnitFullNameLower | Char8UnitFullNameLower
 type Unit = GreUnit | LunarUnit | Char8Unit
 
-type DateConfigType = string | number | Date | null | undefined | DateDictPart
-type DateParamType = DateConfigType | lunisolar.Lunisolar
+type DateConfigType =
+  | string
+  | number
+  | Date
+  | null
+  | undefined
+  | DateDictPart
+  | lunisolar.JD
+  | JDDict
+
+type DateParamType =
+  | DateConfigType
+  | { toDate(): Date; [key: string]: any }
+  | { jd: lunisolar.JD; [key: string]: any }
 
 type DateAddUnitFullName = 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'month' | 'year'
 type DateAddUnit = 'ms' | 's' | 'm' | 'h' | 'd' | 'M' | 'y' | DateAddUnitFullName
