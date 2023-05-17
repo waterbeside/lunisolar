@@ -1,8 +1,7 @@
 import { SB } from './stemBranch'
 import { SolarTerm } from './solarTerm'
 import { Lunar } from './lunar'
-import { parseDate } from '@lunisolar/utils'
-import { computeSBMonthValueByTerm, computeRatStem, getDateData } from '../utils'
+import { computeSBMonthValueByTerm, computeRatStem, parseJD } from '../utils'
 import { SB0_DATE } from '../constants/calendarData'
 import { _GlobalConfig } from '../config'
 import { JD } from '@lunisolar/julian'
@@ -30,6 +29,7 @@ export class Char8 {
     }
     if (Array.isArray(dateOrSbList)) {
       this._list = dateOrSbList
+      console.log('dateOrSbList', dateOrSbList)
       this.value = Char8.computeValue(dateOrSbList)
     } else {
       throw new Error('Invalid Char8')
@@ -82,6 +82,7 @@ export class Char8 {
       config && config.changeAgeTerm !== undefined
         ? config.changeAgeTerm
         : _GlobalConfig.changeAgeTerm
+    console.log('changeAgeTerm', changeAgeTerm)
     const isUTC = config && config.isUTC
     const jd =
       typeof date === 'number'

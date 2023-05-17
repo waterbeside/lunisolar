@@ -71,6 +71,16 @@ export const monthDiff = (date1: DateParamType, date2: DateParamType): number =>
   return -sign * (diffValue + (dd === 0 ? 0 : (jd2.jdn - anchor.jdn) / dd))
 }
 
+// const monthDiff2 = (a, b): number => {
+//   // function from moment.js in order to keep the same result
+//   if (a.date() < b.date()) return -monthDiff2(b, a)
+//   const wholeMonthDiff = (b.year() - a.year()) * 12 + (b.month() - a.month())
+//   const anchor = a.clone().add(wholeMonthDiff, C.M)
+//   const c = b - anchor < 0
+//   const anchor2 = a.clone().add(wholeMonthDiff + (c ? -1 : 1), C.M)
+//   return +(-(wholeMonthDiff + (b - anchor) / (c ? anchor - anchor2 : anchor2 - anchor)) || 0)
+// }
+
 /**
  * 計算陰歷的時間差
  * @param lsr1 起始日

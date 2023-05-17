@@ -5,7 +5,6 @@ import {
   parseFromLunar,
   parseJD
 } from '../utils'
-import { parseDate } from '@lunisolar/utils'
 
 import { FIRST_YEAR, LAST_YEAR, LUNAR_MONTH_DATAS } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
