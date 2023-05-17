@@ -23,16 +23,9 @@ export class Lunisolar extends CacheClass {
   constructor(date?: DateParamType, config?: lunisolar.ConfigType) {
     super()
     this._config = setReadonly(Object.assign({ extra: {} }, _GlobalConfig, config))
-
-    // const { isUTC, offset } = this._config
-    this.jd = parseJD(date)
-    // const _date = parseDate(date, isUTC)
-    // if (offset !== 0) {
-    //   _date.setMinutes(_date.getMinutes() + offset)
-    // }
+    this.jd = parseJD(date, this._config.isUTC, this._config.offset)
     const localTimezoneOffset = -1 * new Date().getTimezoneOffset()
     this._config.extra.localTimezoneOffset = localTimezoneOffset
-
     this._offset = this._config.offset
   }
 
@@ -196,7 +189,7 @@ export class Lunisolar extends CacheClass {
   }
 
   valueOf() {
-    return this.jd.timestamp - this._offset * 60 * 1000
+    return this.jd.timestamp
   }
 
   local() {
@@ -226,6 +219,9 @@ export class Lunisolar extends CacheClass {
       isUTC: true,
       offset: Math.abs(utcOffset) <= 16 ? utcOffset * 60 : utcOffset
     })
+    // const tzOffset = this._config.extra.localTimezoneOffset
+    // const jdn = this.jd.jdn - (this.isUTC() ? 0 : tzOffset / (24 * 60))
+    // const jdms = modDayMs(this.jd.jdms, this.isUTC() ? 0 : -tzOffset * 60 * 1000)
     return new Lunisolar({ jdn: this.jd.jdn, jdms: this.jd.jdms }, config)
   }
 
