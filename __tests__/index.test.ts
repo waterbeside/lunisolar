@@ -185,6 +185,14 @@ describe('lunisolar.fromLunar', () => {
   })
 })
 
+describe('lunisolar diff', () => {
+  it('2021/01/01 00:00:00 and 2021/02/02 00:00:00 month', () => {
+    expect(lunisolar('2021/01/01 00:00:00').diff('2021/02/02 00:00:00', 'month', true)).toBe(
+      -1.032258064516129
+    )
+  })
+})
+
 describe('lunisolar utc', () => {
   it('lunisolar.utc', () => {
     const utcLsr = lunisolar('2023-03-13 18:23', { isUTC: true })
