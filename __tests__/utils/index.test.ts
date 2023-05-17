@@ -17,7 +17,7 @@ describe('utils', () => {
 
   it('test parseDate utc', () => {
     const date = U.parseJD('2023-03-14 15:57', true)
-    expect(date.format('YYYY-M-DD HH:mm')).toEqual('2023-3-14 23:57')
+    expect(date.local().format('YYYY-M-DD HH:mm')).toEqual('2023-3-14 23:57')
   })
 
   it('computeSBMonthValueByTerm', () => {
