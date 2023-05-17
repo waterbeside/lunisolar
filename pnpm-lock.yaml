@@ -7,7 +7,7 @@ specifiers:
   '@babel/preset-env': ^7.17.10
   '@babel/preset-typescript': ^7.16.7
   '@jest/types': ^29.3.1
-  '@lunisolar/julian': ^0.6.1
+  '@lunisolar/julian': ^0.6.3
   '@lunisolar/utils': ^0.5.5
   '@rollup/plugin-commonjs': ^22.0.2
   '@rollup/plugin-node-resolve': ^13.2.1
@@ -35,7 +35,7 @@ specifiers:
   typescript: ^4.6.3
 
 dependencies:
-  '@lunisolar/julian': 0.6.1
+  '@lunisolar/julian': 0.6.3
   '@lunisolar/utils': 0.5.5
 
 devDependencies:
@@ -1659,14 +1659,18 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
-  /@lunisolar/julian/0.6.1:
-    resolution: {integrity: sha512-clakDyPwq96SUBnFTTa1rlwqE6JyWpTe+PFEkUeLg1z3NnltNM0kHv6cn/R6jTOEk8ycGq1qLm0XxRRrsA+oZg==}
+  /@lunisolar/julian/0.6.3:
+    resolution: {integrity: sha512-oV4TusfMC+N7MNaQI5CT9gY9y6nHJrLN8R0uME6J1bBqrZ/JhIxGM+5mt5M6O8zT03Kzz7LBgLUfjauBB9ydEQ==}
     dependencies:
-      '@lunisolar/utils': 0.5.5
+      '@lunisolar/utils': 0.5.6
     dev: false
 
   /@lunisolar/utils/0.5.5:
     resolution: {integrity: sha512-AFyrsWt6zDGqm2uQFGJ0jDZXCyz2arBRdI9/kq+Y7jZ8/BoOJnhZvkMAxDZC+QKZwjQyuaOwCt/FOkdhBh+L6A==}
+    dev: false
+
+  /@lunisolar/utils/0.5.6:
+    resolution: {integrity: sha512-YeWU89KxEty9xNzL6eLM+GbBDcykaJr4szZxopZ8oNKoSX4Nn5xzTpj6XWVqBIdg08ZoR07hdS3MVXH6nbsYUQ==}
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:
