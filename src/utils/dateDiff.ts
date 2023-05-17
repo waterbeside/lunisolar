@@ -17,8 +17,11 @@ export function dateDiff(
   unit?: GreUnit,
   float?: boolean
 ): number {
-  const [jd1, jd2] = [parseJD(date1), parseJD(date2)]
-  const diffValue = jd2.jdn - jd1.jdn
+  const [jd1, jd2] = [
+    parseJD(date1, undefined, undefined, true),
+    parseJD(date2, undefined, undefined, true)
+  ]
+  const diffValue = jd1.jdn - jd2.jdn
   unit = (unit ? prettyUnit(unit) : 'millisecond') as GreUnitFullName
   let res = diffValue
   if (UNITS.s === unit) {
@@ -32,11 +35,11 @@ export function dateDiff(
   } else if (UNITS.w === unit) {
     res = diffValue / 7
   } else if (UNITS.M === unit) {
-    res = monthDiff(date1, date2)
+    res = monthDiff(jd1, jd2)
   } else if (UNITS.y === unit) {
-    res = monthDiff(date1, date2) / 12
+    res = monthDiff(jd1, jd2) / 12
   } else if (UNITS.q === unit) {
-    res = monthDiff(date1, date2) / 3
+    res = monthDiff(jd1, jd2) / 3
   }
   return float ? res : parseInt(String(res))
 }
@@ -48,7 +51,10 @@ export function dateDiff(
  * @returns {number}
  */
 export const monthDiff = (date1: DateParamType, date2: DateParamType): number => {
-  let [jd1, jd2] = [parseJD(date1), parseJD(date2)]
+  let [jd1, jd2] = [
+    parseJD(date1, undefined, undefined, true),
+    parseJD(date2, undefined, undefined, true)
+  ]
   let sign = 1
   if (jd1.jdn < jd2.jdn) {
     ;[jd1, jd2] = [jd2, jd1]
@@ -58,26 +64,12 @@ export const monthDiff = (date1: DateParamType, date2: DateParamType): number =>
   const monthDiff = jd2.month - jd1.month
   const diffValue = yearDiff * 12 + monthDiff // 取得月差
   // 下边计算小数部分
-  console.log('diffValue', diffValue)
   const anchor = jd1.add(diffValue, 'month')
   const c = anchor.jdn > jd2.jdn
-  console.log('c', c)
   const anchor2 = jd1.add(diffValue + (c ? -1 : 1), 'month')
   const dd = c ? anchor.jdn - anchor2.jdn : anchor2.jdn - anchor.jdn
-  console.log(anchor.format(), anchor2.format(), jd1.format(), jd2.format())
-  console.log('dd', diffValue + (dd === 0 ? 0 : (jd2.jdn - anchor.jdn) / dd))
-  return -sign * diffValue + (dd === 0 ? 0 : (jd2.jdn - anchor.jdn) / dd)
+  return -sign * (diffValue + (dd === 0 ? 0 : (jd2.jdn - anchor.jdn) / dd))
 }
-
-// const monthDiff2 = (a, b): number => {
-//   // function from moment.js in order to keep the same result
-//   if (a.date() < b.date()) return -monthDiff2(b, a)
-//   const wholeMonthDiff = (b.year() - a.year()) * 12 + (b.month() - a.month())
-//   const anchor = a.clone().add(wholeMonthDiff, C.M)
-//   const c = b - anchor < 0
-//   const anchor2 = a.clone().add(wholeMonthDiff + (c ? -1 : 1), C.M)
-//   return +(-(wholeMonthDiff + (b - anchor) / (c ? anchor - anchor2 : anchor2 - anchor)) || 0)
-// }
 
 /**
  * 計算陰歷的時間差
@@ -93,17 +85,15 @@ export const lunarDateDiff = (
 ): number => {
   const [lunar1, lunar2] = [lsr1.lunar, lsr2.lunar]
   const [year1, year2] = [lunar1.year, lunar2.year]
-  let diff = lsr2.valueOf() - lsr1.valueOf()
+  let diff = lsr1.jd.jdn - lsr2.jd.jdn
   unit = prettyUnit(unit) as LunarUnitFullNameLower
   if (unit === UNITS.ly) {
-    const diff = year2 - year1
-    return float ? diff - 1 + getYearDecimals(lsr1, true) + getYearDecimals(lsr2, false) : diff
+    const diff = year1 - year2
+    return float ? diff - 1 + getYearDecimals(lsr2, true) + getYearDecimals(lsr1, false) : diff
   } else if (unit === UNITS.lM) {
     return lunarMonthDiff(lsr1, lsr2, float)
-  } else if (unit === UNITS.ld) {
-    diff = diff / (1000 * 60 * 60 * 24)
   } else if (unit === UNITS.lh) {
-    diff = diff / (1000 * 60 * 60 * 2)
+    diff = diff * 12
   }
   return float ? diff : Math.ceil(diff)
 }
@@ -119,26 +109,26 @@ export const lunarMonthDiff = (
   lsr2: lunisolar.Lunisolar,
   float?: boolean
 ): number => {
-  if (lsr1 > lsr2) return -lunarMonthDiff(lsr2, lsr1)
+  if (lsr1 < lsr2) return -lunarMonthDiff(lsr2, lsr1, float)
   const [lunar1, lunar2] = [lsr1.lunar, lsr2.lunar]
   const [year1, year2] = [lunar1.year, lunar2.year]
   const [month1, month2] = [lunar1.month, lunar2.month]
-  let currYear = year1
+  let currYear = year2
   let cnt = 0
-  while (currYear <= year2) {
+  while (currYear <= year1) {
     let [start, end] = [1, 12]
-    if (currYear === year1) start = month1
-    if (currYear === year2) end = month2
+    if (currYear === year2) start = month2
+    if (currYear === year1) end = month1
     cnt += countLunarMonthInYear(currYear, start, end)
     currYear++
   }
   if (!float) return cnt - 1
   // 計算小數部分
   if (cnt > 0) {
-    cnt += getMonthDecimals(lsr1, true) + getMonthDecimals(lsr2, false) - 2
+    cnt += getMonthDecimals(lsr2, true) + getMonthDecimals(lsr1, false) - 2
   } else {
-    const monthLen = lunar1.isBigMonth ? 30 : 29
-    cnt = (lsr2.valueOf() - lsr1.valueOf()) / (1000 * 60 * 60 * 24 * monthLen)
+    const monthLen = lunar2.isBigMonth ? 30 : 29
+    cnt = (lsr1.jd.jdn - lsr2.jd.jdn) / monthLen
   }
   return cnt
 }

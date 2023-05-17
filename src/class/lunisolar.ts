@@ -256,7 +256,7 @@ export class Lunisolar extends CacheClass {
         float
       )
     }
-    return dateDiff(this.jd.jdn, date, unit as GreUnit, float)
+    return dateDiff(this.jd, date, unit as GreUnit, float)
   }
 
   add(value: number, unit?: DateAddUnit): Lunisolar {
