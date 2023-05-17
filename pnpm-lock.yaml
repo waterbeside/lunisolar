@@ -35,7 +35,7 @@ specifiers:
   typescript: ^4.6.3
 
 dependencies:
-  '@lunisolar/julian': 0.6.1
+  '@lunisolar/julian': 0.6.3
   '@lunisolar/utils': 0.5.5
 
 devDependencies:
@@ -1663,6 +1663,10 @@ packages:
     resolution: {integrity: sha512-oV4TusfMC+N7MNaQI5CT9gY9y6nHJrLN8R0uME6J1bBqrZ/JhIxGM+5mt5M6O8zT03Kzz7LBgLUfjauBB9ydEQ==}
     dependencies:
       '@lunisolar/utils': 0.5.6
+    dev: false
+
+  /@lunisolar/utils/0.5.6:
+    resolution: {integrity: sha512-YeWU89KxEty9xNzL6eLM+GbBDcykaJr4szZxopZ8oNKoSX4Nn5xzTpj6XWVqBIdg08ZoR07hdS3MVXH6nbsYUQ==}
     dev: false
 
   /@lunisolar/utils/0.5.6:
