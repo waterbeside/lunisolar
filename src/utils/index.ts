@@ -1,14 +1,3 @@
-// import {
-//   parseDate,
-//   date2DateDict,
-//   string2DateDict,
-//   dateDict2jdms,
-//   gre2jdn,
-//   hasProps,
-//   // jdn2DateDict,
-//   // JD_1970,
-//   jdDict2timestamp
-// } from '@lunisolar/utils'
 import { JD } from '@lunisolar/julian'
 import { SB0_MONTH } from '../constants/calendarData'
 import { _GlobalConfig } from '../config'
@@ -206,30 +195,24 @@ export const getStemTrigram8Value: StemOrBranchValueFunc = (
  * @returns 天干地支组合索引 范围[0, 59]
  */
 export const computeSBMonthValueByTerm = (
-  date: Date,
+  date: Date | JD,
   termValue: number,
-  termDate: Date,
+  termDate: Date | JD,
   isUTC: boolean = false
 ): number => {
-  const termDay = termDate.getDate()
-  const month = getDateData(date, 'Month', isUTC)
+  const jd = parseJD(date, isUTC)
+  const termJd = parseJD(termDate, isUTC)
+  const termDay = termJd.day
+  const month = jd.month - 1
   const termMonth = (termValue / 2) >> 0
   const monthOffset =
     termMonth < month ||
     (month === 0 && termMonth === 11) ||
-    (termDay > getDateData(date, 'Date', isUTC) &&
-      !(
-        termDay - 1 === getDateData(date, 'Date', isUTC) && getDateData(date, 'Hours', isUTC) >= 23
-      ))
+    (termDay > jd.day && !(termDay - 1 === jd.day && jd.hour >= 23))
       ? -1
       : 0
   // 求月天干 （2018年12月大雪乃甲子月）
-  let monthDiff =
-    ((getDateData(date, 'FullYear', isUTC) - SB0_MONTH[0]) * 12 +
-      getDateData(date, 'Month', isUTC) -
-      SB0_MONTH[1] +
-      1) %
-    60
+  let monthDiff = ((jd.year - SB0_MONTH[0]) * 12 + jd.month - 1 - SB0_MONTH[1] + 1) % 60
 
   return (monthDiff + monthOffset + 60) % 60
 }
@@ -243,21 +226,6 @@ export const computeSBValue = (stemValue: number, branchValue: number): number =
   // 如果一个为奇数一个为偶数，则不能组合
   if ((stemValue + branchValue) % 2 !== 0) throw new Error('Invalid SB value')
   return (stemValue % 10) + ((6 - (branchValue >> 1) + (stemValue >> 1)) % 6) * 10
-}
-
-export function isNumber(value: number | string): boolean {
-  return !isNaN(Number(value))
-}
-
-export function cacheAndReturn<T = any>(
-  key: string,
-  getDataFn: () => T,
-  cache: Map<string, any>
-): T {
-  if (cache.has(key)) return cache.get(key) as T
-  const res = getDataFn()
-  cache.set(key, res)
-  return res
 }
 
 /**
@@ -392,13 +360,24 @@ export const getDateData = (
  * @param d 日期字符串或日期对象
  * @param isUTC 是否UTC时间
  * @param offset 时间偏移值，以分钟为单位
+ * @param offset 时间偏移值，以分钟为单位i
  * @returns 返回日期对像
  */
-export const parseJD = (d?: DateParamType, isUTC?: boolean, offset?: number): JD => {
+export const parseJD = (
+  d?: DateParamType,
+  isUTC?: boolean,
+  offset?: number,
+  unClone = false
+): JD => {
+  if (d === null) throw Error('Invalid Date')
+  if (unClone && d instanceof JD) {
+    if (isUTC) return d.isUTC() ? d : d.utc()
+    return d.isUTC() ? d.local() : d
+  }
   let config = { isUTC: isUTC ?? false, offset: offset ?? 0 }
   if (typeof d === 'number') return JD.fromTimestamp(d, config)
   if (d && typeof d === 'object' && !(d instanceof Date)) {
-    if (d.hasOwnProperty('_config')) {
+    if (d.hasOwnProperty('_config') || d.hasOwnProperty('config')) {
       const defaultConfig = (d as any)._config
       config = {
         isUTC: isUTC ?? defaultConfig?.isUTC ?? false,

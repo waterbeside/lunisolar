@@ -7,11 +7,17 @@ declare namespace lunisolar {
   export class JD {
     readonly jdn: number
     readonly jdms: number
-    readonly config: JDConfig
+    readonly _config: JDConfig
     readonly timezoneOffset: number
     readonly cache: Map<string, any>
     constructor(
-      jdd?: number | Date | Partial<DateDict> | string | null | JD | JDDict,
+      jdd?:
+        | DateConfigType
+        | JD
+        | {
+            jd: JD
+            [key: string]: any
+          },
       config?: Partial<JDConfig>
     )
     /**
@@ -63,6 +69,10 @@ declare namespace lunisolar {
     get dayOfWeek(): number
     get timestamp(): number
     toDate(): Date
+    toISOString(): string
+    toUTCString(): string
+    toString(): string
+    valueOf(): number
     add(value: number, unit: GreUnit): JD
     format(formatStr?: string): string
   }

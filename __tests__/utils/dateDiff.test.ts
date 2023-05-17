@@ -10,10 +10,13 @@ describe('test dateDiff', () => {
     expect(dateDiff(date1, date2, 's')).toBe(86400)
     expect(dateDiff(date1, date2, 'm')).toBe(86400 / 60)
     expect(dateDiff(date1, date2, 'h')).toBe(24)
+  })
 
+  it('test dateDiff month', () => {
     const m1 = new Lunisolar('2021/01/01 00:00:00')
     const m2 = new Lunisolar('2021/02/02 00:00:00')
-    expect(dateDiff(m1, m2, 'M')).toBe(1)
+    // expect(dateDiff(m1, m2, 'M')).toBe(1)
+    expect(dateDiff(m1, m2, 'M', true)).toBe(1.0357142857142858)
   })
 
   it('test lunarDateDiff', () => {

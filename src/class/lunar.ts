@@ -5,7 +5,6 @@ import {
   parseFromLunar,
   parseJD
 } from '../utils'
-import { parseDate } from '@lunisolar/utils'
 
 import { FIRST_YEAR, LAST_YEAR, LUNAR_MONTH_DATAS } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
@@ -86,7 +85,7 @@ export class Lunar {
     if (config) {
       this._config = Object.assign({}, this._config, config)
     }
-    const offset = dateObj instanceof JD ? dateObj.config.offset : 0
+    const offset = dateObj instanceof JD ? dateObj._config.offset : 0
     this.jd = parseJD(dateObj, this._config.isUTC, offset)
     let year = this.jd.year
     let month = this.jd.month - 1

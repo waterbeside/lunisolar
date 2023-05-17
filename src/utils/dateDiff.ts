@@ -27,8 +27,8 @@ export function dateDiff(
     res = diffValue * 24 * 60
   } else if (UNITS.h === unit) {
     res = diffValue * 24
-  } else if (UNITS.d === unit) {
-    res = diffValue
+  } else if (UNITS.ms === unit) {
+    res = diffValue * 24 * 60 * 60 * 1000
   } else if (UNITS.w === unit) {
     res = diffValue / 7
   } else if (UNITS.M === unit) {
@@ -48,20 +48,36 @@ export function dateDiff(
  * @returns {number}
  */
 export const monthDiff = (date1: DateParamType, date2: DateParamType): number => {
-  const [jd1, jd2] = [parseJD(date1), parseJD(date2)]
+  let [jd1, jd2] = [parseJD(date1), parseJD(date2)]
+  let sign = 1
+  if (jd1.jdn < jd2.jdn) {
+    ;[jd1, jd2] = [jd2, jd1]
+    sign = -1
+  }
   const yearDiff = jd2.year - jd1.year
   const monthDiff = jd2.month - jd1.month
   const diffValue = yearDiff * 12 + monthDiff // 取得月差
   // 下边计算小数部分
-  const anchor = parseJD(date1).add(diffValue, 'month')
-  const c = anchor.valueOf() > jd2.valueOf()
-  const anchor2 = parseJD(date1).add(diffValue + (c ? -1 : 1), 'month')
-
-  return (
-    diffValue +
-      (jd2.jdn - anchor.jdn) / (c ? anchor.jdn - anchor2.jdn : anchor2.jdn - anchor.jdn) || 0
-  )
+  console.log('diffValue', diffValue)
+  const anchor = jd1.add(diffValue, 'month')
+  const c = anchor.jdn > jd2.jdn
+  console.log('c', c)
+  const anchor2 = jd1.add(diffValue + (c ? -1 : 1), 'month')
+  const dd = c ? anchor.jdn - anchor2.jdn : anchor2.jdn - anchor.jdn
+  console.log(anchor.format(), anchor2.format(), jd1.format(), jd2.format())
+  console.log('dd', diffValue + (dd === 0 ? 0 : (jd2.jdn - anchor.jdn) / dd))
+  return -sign * diffValue + (dd === 0 ? 0 : (jd2.jdn - anchor.jdn) / dd)
 }
+
+// const monthDiff2 = (a, b): number => {
+//   // function from moment.js in order to keep the same result
+//   if (a.date() < b.date()) return -monthDiff2(b, a)
+//   const wholeMonthDiff = (b.year() - a.year()) * 12 + (b.month() - a.month())
+//   const anchor = a.clone().add(wholeMonthDiff, C.M)
+//   const c = b - anchor < 0
+//   const anchor2 = a.clone().add(wholeMonthDiff + (c ? -1 : 1), C.M)
+//   return +(-(wholeMonthDiff + (b - anchor) / (c ? anchor - anchor2 : anchor2 - anchor)) || 0)
+// }
 
 /**
  * 計算陰歷的時間差

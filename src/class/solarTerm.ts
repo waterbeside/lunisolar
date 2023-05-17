@@ -1,7 +1,6 @@
 import { FIRST_YEAR, TERM_MINIMUM_DATES, TERM_SAME_HEX, TERM_LIST } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
-import { getDateData } from '../utils'
-import { parseDate } from '@lunisolar/utils'
+import { parseJD } from '../utils'
 import type { JD } from '@lunisolar/julian'
 
 export class SolarTerm {
@@ -95,13 +94,10 @@ export class SolarTerm {
    * @returns {[Term | number, number]} [节气, 节气日期]
    */
   static findNode<T extends boolean = false>(
-    date: Date,
-    config: TermFindNodeConfig<T>
-  ): [T extends true ? number : SolarTerm, Date]
-  static findNode(
     date: Date | JD,
-    config?: TermFindNodeConfig<boolean>
-  ): [SolarTerm | number, Date] {
+    config: TermFindNodeConfig<T>
+  ): [T extends true ? number : SolarTerm, JD]
+  static findNode(date: Date | JD, config?: TermFindNodeConfig<boolean>): [SolarTerm | number, JD] {
     const configDefault: TermFindNodeConfig0 = {
       lang: _GlobalConfig.lang,
       returnValue: false,
@@ -114,10 +110,12 @@ export class SolarTerm {
     const newSolarTermConfig = {
       lang: cfg.lang || _GlobalConfig.lang
     }
-    let year = getDateData(date, 'FullYear', cfg.isUTC)
-    let month = getDateData(date, 'Month', cfg.isUTC)
-    const d = getDateData(date, 'Date', cfg.isUTC)
-    const h = getDateData(date, 'Hours', cfg.isUTC)
+    const jd = parseJD(date, cfg.isUTC, undefined, true)
+
+    let year = jd.year
+    let month = jd.month - 1
+    const d = jd.day
+    const h = jd.hour
     let termValue = (month * 2 + 24) % 24 // 取得该月的节的value值
 
     let [termDay1, termDay2] = SolarTerm.getMonthTerms(year, month + 1)
@@ -146,7 +144,7 @@ export class SolarTerm {
     } else if (nodeFlag === 1 || (nodeFlag === 2 && !beforeTerm2)) returnTerm2 = true
     termDay = returnTerm2 ? termDay2 : termDay1
     termValue = returnTerm2 ? (termValue + 1) % 24 : termValue
-    const termDate = parseDate(`${year}-${month + 1}-${termDay}`)
+    const termDate = parseJD(`${year}-${month + 1}-${termDay}`, cfg.isUTC)
     if (returnValue) return [termValue, termDate]
     return [new SolarTerm(termValue, newSolarTermConfig), termDate]
   }

@@ -55,7 +55,7 @@ declare namespace lunisolar {
     readonly leapMonthIsBig: boolean
     readonly _config: Required<LunarConfig>
     static fromLunar(lunarData: ParseFromLunarParam, config?: LunarConfig): Lunar
-    constructor(date: Date, config?: LunarConfig)
+    constructor(date: Date | JD, config?: LunarConfig)
     /**
      * Return string like '二〇二一年冬月廿九子時'
      */
@@ -111,9 +111,9 @@ declare namespace lunisolar {
     /**
       取得當年陰歷年正月初一的对应的公历日期
       @param {number} year 要查询的公历年份
-      @returns {Date}
+      @returns {JD}
      */
-    static getLunarNewYearDay(year: number): Date
+    static getLunarNewYearDay(year: number): JD
   }
 
   /**
@@ -452,7 +452,7 @@ declare namespace lunisolar {
     ): [number, number, number]
     /**
      * 查出指定日期属于哪个節气之後，并返回该節气及该節气日期
-     * @param {Date} date 日期
+     * @param {Date | JD} date 日期
      * @param {Partial<TermFindNodeConfig>} config 
       ```
       config:{
@@ -464,10 +464,10 @@ declare namespace lunisolar {
      * @returns {[SolarTerm | number, number]} [節氣, 節氣日期]
      */
     static findNode<T extends boolean = false>(
-      date: Date,
+      date: Date | JD,
       config: TermFindNodeConfig<T>
-    ): [T extends true ? number : SolarTerm, Date]
-    static findNode(date: Date, config?: TermFindNodeConfig<boolean>): [SolarTerm | number, Date]
+    ): [T extends true ? number : SolarTerm, JD]
+    static findNode(date: Date | JD, config?: TermFindNodeConfig<boolean>): [SolarTerm | number, JD]
   }
 
   /**
@@ -480,7 +480,7 @@ declare namespace lunisolar {
     readonly value: number
     readonly _list: [SB, SB, SB, SB]
     readonly _config: Required<Char8Config>
-    constructor(dateOrSbList: Date | [SB, SB, SB, SB], config?: Char8Config)
+    constructor(dateOrSbList: Date | JD | [SB, SB, SB, SB], config?: Char8Config)
     toString(): string
     valueOf(): number
     getConfig(): Required<Char8Config>
@@ -527,33 +527,32 @@ declare namespace lunisolar {
      * @param yearOrDate 年份或日期對象
      * @param Char8Config { lang: 语言名, changeAgeTerm: 用于換歲的節氣 }
      */
-    static computeSBYear(yearOrDate: Date | number, config?: Char8Config): SB
+    static computeSBYear(yearOrDate: Date | JD | number, config?: Char8Config): SB
     /**
       計算月柱
-      @param date 日期對象
+      @param date 日期的Date或JD對象
      */
-    static computeSBMonth(date: Date, config?: Char8Config): SB
+    static computeSBMonth(date: Date | JD, config?: Char8Config): SB
     /**
       計算日柱
-      @param date 日期對象
+      @param date 日期的Date或JD對象
      */
-    static computeSBDay(date: Date, config?: Char8Config): SB
+    static computeSBDay(date: Date | JD, config?: Char8Config): SB
     /**
       計算時柱
-      @param date 日期對象
+      @param date 日期的Date或JD對象
       @param sbDay 日柱 (時柱天干由日柱推算，可以不填)
      */
-    static computeSBHour(date: Date, sbDay?: SB, config?: Char8Config)
+    static computeSBHour(date: Date | JD, sbDay?: SB, config?: Char8Config)
   }
 
   /**
    * ## class Lunisolar
-   * @param date 日期对象 | 日期字符串
+   * @param date 日期(Date或JD对象) | 日期字符串 | 时间戳
    * @param config 设置
    */
   export class Lunisolar extends CacheClass {
     readonly _config: LunisolarConfigData
-    // readonly _date: Date
     readonly _offset: number
     readonly jd: JD
 
@@ -598,14 +597,13 @@ declare namespace lunisolar {
      * 取得当前日期之前的最近的节气点
      * @param nodeFlag 取的节气点，0: 取节， 1: 取气, 2: 节或气都取
      */
-    recentSolarTerm(nodeFlag: 0 | 1 | 2): [SolarTerm, Date]
+    recentSolarTerm(nodeFlag: 0 | 1 | 2): [SolarTerm, JD]
     /**
      * 取得當前日期所在的月建或月將对应的月建地支，
       月建：子月從0開始，月將：子月月將日到丑月月將日為0，類推
      * @param flag 為0時取月建，為1時取月將, default 0
     */
-    getMonthBuilder(flag?: 0 | 1): [SB, lunisolar.SolarTerm, Date]
-
+    getMonthBuilder(flag?: 0 | 1): [SB, lunisolar.SolarTerm, JD]
     /**
      * 取得季节索引
      */

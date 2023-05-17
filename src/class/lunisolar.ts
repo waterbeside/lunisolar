@@ -138,7 +138,7 @@ export class Lunisolar extends CacheClass {
    * @param flag 為0時取月建，為1時取月將
    */
   @cache('lunisolar:getMonthBuilder', true)
-  getMonthBuilder(flag: 0 | 1 = 0): [SB, lunisolar.SolarTerm, Date] {
+  getMonthBuilder(flag: 0 | 1 = 0): [SB, lunisolar.SolarTerm, JD] {
     const sbConfig = {
       lang: this.getConfig('lang') as string
     }
@@ -230,15 +230,15 @@ export class Lunisolar extends CacheClass {
   }
 
   toISOString() {
-    return this._date.toISOString()
+    return this.jd.toISOString()
   }
 
   toUTCString() {
-    return this._date.toUTCString()
+    return this.jd.toUTCString()
   }
 
   toString() {
-    return this._date.toUTCString() + ` (${this.lunar})` + ` utcOffset: ${this.utcOffset()}`
+    return this.jd.toUTCString() + ` (${this.lunar})` + ` utcOffset: ${this.utcOffset()}`
   }
 
   format(formatStr: string): string {

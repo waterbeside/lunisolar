@@ -6,6 +6,8 @@ const en: LsrLocale = {
   bigMonth: 'big',
   smallMonth: 'small',
   weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+  weekdaysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+  weekdaysMin: ['Su', 'Mo', 'Tu', 'Wed', 'Thu', 'Fri', 'Sat'],
   months: [
     'January',
     'February',
