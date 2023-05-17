@@ -26,7 +26,6 @@ export class Lunisolar extends CacheClass {
     this.jd = parseJD(date, this._config.isUTC, this._config.offset)
     const localTimezoneOffset = -1 * this.jd.timezoneOffset
     this._config.extra.localTimezoneOffset = localTimezoneOffset
-
     this._offset = this._config.offset
   }
 
