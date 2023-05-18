@@ -10,6 +10,8 @@ module.exports = {
         commit.type = '⚡ Performance Improvements'
       } else if (commit.type === 'revert' || commit.revert) {
         commit.type = '⏪ Reverts'
+      } else if (commit.type === 'refactor' || commit.refactor) {
+        commit.type = '🔧 refactor'
       } else {
         return
       }
