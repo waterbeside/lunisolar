@@ -70,7 +70,7 @@ interface LunarConfig extends Pick<ConfigType, 'lang' | 'isUTC'> {
   [props: string]: any
 }
 
-interface Char8Config extends Pick<ConfigType, 'lang' | 'changeAgeTerm' | 'isUTC'> {
+interface Char8Config extends Pick<ConfigType, 'lang' | 'changeAgeTerm' | 'isUTC' | 'offset'> {
   [props: string]: any
 }
 

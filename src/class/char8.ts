@@ -29,7 +29,6 @@ export class Char8 {
     }
     if (Array.isArray(dateOrSbList)) {
       this._list = dateOrSbList
-      console.log('dateOrSbList', dateOrSbList)
       this.value = Char8.computeValue(dateOrSbList)
     } else {
       throw new Error('Invalid Char8')
@@ -82,9 +81,11 @@ export class Char8 {
       config && config.changeAgeTerm !== undefined
         ? config.changeAgeTerm
         : _GlobalConfig.changeAgeTerm
-    console.log('changeAgeTerm', changeAgeTerm)
     const isUTC = config && config.isUTC
-    const jd = typeof date === 'number' ? parseJD(`${date}-01-01`, isUTC) : parseJD(date, isUTC)
+    const jd =
+      typeof date === 'number'
+        ? parseJD(`${date}-01-01`, isUTC)
+        : parseJD(date, isUTC, config?.offset, true)
     let year = typeof date !== 'number' ? jd.year : date
     if (changeAgeTerm !== null && changeAgeTerm !== undefined && typeof date !== 'number') {
       // 如果 changeAgeTerm 设有值， 则按照该节气换岁
@@ -134,6 +135,7 @@ export class Char8 {
     const isUTC = config?.isUTC ?? false
     const findNodeConfig = {
       isUTC,
+      offset: config?.offset || 0,
       lang,
       returnValue: true,
       nodeFlag: (changeAgeTerm + 24) % 2 // 根据changeAgeTerm的奇偶来判定是节换月还是中气换月
@@ -155,7 +157,7 @@ export class Char8 {
   static computeSBDay(date: Date | JD, config?: Char8Config) {
     const isUTC = config?.isUTC || false
     const offset = config?.offset || 0
-    const jd = parseJD(date, isUTC)
+    const jd = parseJD(date, isUTC, offset, true)
     // const dateValue = isUTC ? date.valueOf() - offset * 60 * 1000 : date.valueOf()
     const sb0 = parseJD(`${SB0_DATE[0]}-${SB0_DATE[1]}-${SB0_DATE[2] - 1} 15:00:00`, true)
     let daydiff = Math.floor(jd.jdn - offset / (60 * 24) - sb0.jdn) % 60
@@ -175,7 +177,7 @@ export class Char8 {
   static computeSBHour(date: Date | JD, sbDay?: SB, config?: Char8Config) {
     const isUTC = config?.isUTC || false
     if (!sbDay) sbDay = Char8.computeSBDay(date, config)
-    const jd = parseJD(date, isUTC)
+    const jd = parseJD(date, isUTC, config?.offset, true)
     const hour = jd.hour
     const dayStem = sbDay.stem
     // 五鼠遁方法计算子时起始天干

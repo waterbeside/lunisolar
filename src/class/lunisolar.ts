@@ -24,7 +24,7 @@ export class Lunisolar extends CacheClass {
     super()
     this._config = setReadonly(Object.assign({ extra: {} }, _GlobalConfig, config))
     this.jd = parseJD(date, this._config.isUTC, this._config.offset)
-    const localTimezoneOffset = -1 * new Date().getTimezoneOffset()
+    const localTimezoneOffset = -1 * this.jd.timezoneOffset
     this._config.extra.localTimezoneOffset = localTimezoneOffset
     this._offset = this._config.offset
   }
@@ -181,7 +181,7 @@ export class Lunisolar extends CacheClass {
   }
 
   clone() {
-    return new Lunisolar({}, this._config)
+    return new Lunisolar(this.jd, this._config)
   }
 
   unix() {
@@ -201,7 +201,7 @@ export class Lunisolar extends CacheClass {
   }
 
   utc(): Lunisolar {
-    return this.utcOffset(-this._offset)
+    return new Lunisolar(this.jd, { isUTC: true, offset: 0 })
   }
 
   isUTC() {

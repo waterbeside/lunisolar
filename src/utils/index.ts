@@ -200,7 +200,7 @@ export const computeSBMonthValueByTerm = (
   termDate: Date | JD,
   isUTC: boolean = false
 ): number => {
-  const jd = parseJD(date, isUTC)
+  const jd = parseJD(date, isUTC, undefined, true)
   const termJd = parseJD(termDate, isUTC)
   const termDay = termJd.day
   const month = jd.month - 1
@@ -371,8 +371,7 @@ export const parseJD = (
 ): JD => {
   if (d === null) throw Error('Invalid Date')
   if (unClone && d instanceof JD) {
-    if (isUTC) return d.isUTC() ? d : d.utc()
-    return d.isUTC() ? d.local() : d
+    if (isUTC === d.isUTC()) return d
   }
   let config = { isUTC: isUTC ?? false, offset: offset ?? 0 }
   if (typeof d === 'number') return JD.fromTimestamp(d, config)
@@ -381,7 +380,7 @@ export const parseJD = (
       const defaultConfig = (d as any)._config
       config = {
         isUTC: isUTC ?? defaultConfig?.isUTC ?? false,
-        offset: offset ?? defaultConfig?.isUTC ?? 0
+        offset: offset ?? defaultConfig?.offset ?? 0
       }
     }
     if (
