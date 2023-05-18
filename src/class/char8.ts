@@ -29,7 +29,6 @@ export class Char8 {
     }
     if (Array.isArray(dateOrSbList)) {
       this._list = dateOrSbList
-      console.log('dateOrSbList', dateOrSbList)
       this.value = Char8.computeValue(dateOrSbList)
     } else {
       throw new Error('Invalid Char8')
@@ -82,7 +81,6 @@ export class Char8 {
       config && config.changeAgeTerm !== undefined
         ? config.changeAgeTerm
         : _GlobalConfig.changeAgeTerm
-    console.log('changeAgeTerm', changeAgeTerm)
     const isUTC = config && config.isUTC
     const jd =
       typeof date === 'number'
