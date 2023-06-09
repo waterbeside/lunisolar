@@ -256,7 +256,7 @@ import * as lunisolar from 'lunisolar'
 
 通过lunisolar函数创建一个Lunisolar实例对象：
 
-`lunisolar(param: String | Number | Date | Lunisolar, config?: ConfigType): Lunisolar`
+`lunisolar(param: String | Number | Date  | JD | Lunisolar, config?: ConfigType): Lunisolar`
 
 ```typescript
 // 传入字符串
@@ -494,7 +494,7 @@ diff 方法包含两个参数：`date` 和 `unit`
 
 参数：
 
-- **date**: *string | number | Date | Lunisolar* 为传入作为比较的时间
+- **date**: *string | number | Date | JD | Lunisolar* 为传入作为比较的时间
 - **unit**: *string* 时间单位，单位见下文表格，单位不区分大小写，支持复数和缩写形式。
 
 | 单位 | 缩写 | 描述 |
