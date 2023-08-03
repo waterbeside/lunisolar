@@ -2,7 +2,8 @@
 /// <reference path="./markers.d.ts" />
 /// <reference path="./locale/index.d.ts" />
 /// <reference path="./jd.d.ts" />
+/// <reference path="./utils.d.ts" />
 
 export = lunisolar
 
-export type { LunarConfig, Char8Config, ClassCommonConfig }
+export type { LunarConfig, Char8Config, ClassCommonConfig, JDDict }

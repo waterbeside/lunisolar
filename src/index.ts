@@ -8,6 +8,7 @@ import { Trigram8 } from './class/trigram8'
 import { Direction24 } from './class/direction24'
 import { _GlobalConfig } from './config'
 import { parseFromLunar, defineLocale } from './utils'
+import { utils } from './utils/export'
 import { JD } from '@lunisolar/julian'
 import zh from './locale/zh'
 import { Markers } from './class/markers'
@@ -31,7 +32,7 @@ lunisolar.Lunisolar = Lunisolar
 lunisolar.Trigram8 = Trigram8
 lunisolar.Direction24 = Direction24
 lunisolar.JD = JD
-
+lunisolar.utils = utils
 lunisolar.fromLunar = function (
   param: ParseFromLunarParam,
   config?: SettingGlobalConfig
