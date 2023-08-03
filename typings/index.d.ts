@@ -4,3 +4,5 @@
 /// <reference path="./jd.d.ts" />
 
 export = lunisolar
+
+export type { LunarConfig, Char8Config, ClassCommonConfig }

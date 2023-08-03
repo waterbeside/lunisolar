@@ -1,9 +1,8 @@
-type JDConfig = {
-  isUTC: boolean
-  offset: number
-}
-
 declare namespace lunisolar {
+  export type JDConfig = {
+    isUTC: boolean
+    offset: number
+  }
   export class JD {
     readonly jdn: number
     readonly jdms: number
