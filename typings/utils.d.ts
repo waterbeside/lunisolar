@@ -1,5 +1,5 @@
 declare namespace lunisolar {
-  export interface Utils {
+  export const utils: {
     parseJD: (d?: DateParamType, isUTC?: boolean, offset?: number, unClone = false) => JD
     format: (formatStr: string, lsr: lunisolar.Lunisolar) => string
     dateDiff: (
