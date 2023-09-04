@@ -84,11 +84,23 @@ export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
     cDb: char8.day.branch.toString(),
     cH: char8.hour.toString(),
     cHs: char8.hour.stem.toString(),
-    cHb: char8.hour.branch.toString()
+    cHb: char8.hour.branch.toString(),
+    // 該周幾是該月的第幾次出現
+    dR: function (): string {
+      return String(Math.ceil(D / 7))
+    }
   }
 
   str = str.replace(REGEX_FORMAT, (match, $1) => {
-    return $1 || matches[match as keyof typeof matches] || zoneStr.replace(':', '')
+    const matched = matches[match as keyof typeof matches]
+    return (
+      $1 ||
+      (typeof matched === 'function'
+        ? matched()
+        : matched !== void 0
+        ? matched
+        : zoneStr.replace(':', ''))
+    )
   }) // 'ZZ'
   return str
 }
