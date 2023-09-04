@@ -9,6 +9,7 @@ import { Direction24 } from './class/direction24'
 import { _GlobalConfig } from './config'
 import { parseFromLunar, defineLocale } from './utils'
 import zh from './locale/zh'
+import { setMarkers } from './utils/markers'
 
 export default function lunisolar(
   date?: DateConfigType | Lunisolar,
@@ -97,6 +98,8 @@ lunisolar.getLocale = (lang: string): LocaleData => {
 }
 
 lunisolar.defineLocale = defineLocale
+
+lunisolar.setMarkers = setMarkers // TODO: setMarkers
 
 lunisolar._globalConfig = _GlobalConfig
 
