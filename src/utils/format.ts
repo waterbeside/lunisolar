@@ -88,6 +88,12 @@ export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
     // 該周幾是該月的第幾次出現
     dR: function (): string {
       return String(Math.ceil(D / 7))
+    },
+    // 該周幾是該月的倒数第几个
+    dRr: function (): string {
+      const nextMonth1 = lsr.lunisolar(`${y}-${M + 1}-1 ${H}:${m}:${s}`, lsr._config)
+      const diff = Math.abs(nextMonth1.diff(lsr, 'day'))
+      return String(Math.ceil(diff / 7))
     }
   }
 
