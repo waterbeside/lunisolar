@@ -22,9 +22,16 @@ describe('test format', () => {
     expect(format('YYYY-MM-DD', lsr)).toBe('2023-09-04')
     expect(format('[Year:]YYYY', lsr)).toBe('Year:2023')
     expect(format('d, dR', lsr)).toBe('1, 1')
+    expect(format('d, dRr', lsr)).toBe('1, 4')
   })
   it('test 2023-09-10', () => {
     const lsr = new Lunisolar('2023-09-10')
     expect(format('d, dR', lsr)).toBe('0, 2')
+  })
+
+  it('test dRr', () => {
+    expect(format('d, dRr', new Lunisolar('2023-09-10'))).toBe('0, 3')
+    expect(format('d, dRr', new Lunisolar('2023-12-31'))).toBe('0, 1')
+    expect(format('d, dRr', new Lunisolar('2023-12-22'))).toBe('5, 2')
   })
 })
