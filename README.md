@@ -820,13 +820,13 @@ Char8的年月日时四柱为四个SB对象，参见4.2 Char8对象，list, year
 也可以使用lunisolar().fetalGodData 取得胎神数据。
 
 ```sh
-npm install @lunisolar/plubin-fetalgod
+npm install @lunisolar/plugin-fetalgod
 ```
 
 示例：
 
 ```typescript
-import { fetalGod } from '@lunisolar/plubin-fetalgod'
+import { fetalGod } from '@lunisolar/plugin-fetalgod'
 import lunisolar from 'lunisolar'
 
 lunisolar.extend(fetalGod)
@@ -853,7 +853,7 @@ fetalGodData 包含以下属性
 查询胎神要先导入 takeSound 插件，文档请参考 
 
 ```sh
-npm install @lunisolar/plubin-takesound
+npm install @lunisolar/plugin-takesound
 ```
 
 - `lunisolar().takeSound` 属性返回纳音描述字符串
@@ -862,7 +862,7 @@ npm install @lunisolar/plubin-takesound
 示例：
 
 ```typescript
-import { takeSound } from '@lunisolar/plubin-takesound'
+import { takeSound } from '@lunisolar/plugin-takesound'
 import lunisolar from 'lunisolar'
 
 lunisolar.extend(takeSound)
