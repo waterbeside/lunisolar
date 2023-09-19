@@ -38,11 +38,14 @@ interface GlobalConfig {
   offset: number // 时间偏移，以分钟为单位
   changeAgeTerm: number | null // 换岁节气, 默认为立春，如果为null刚为正月初一换岁
   locales: { [key: string]: LocaleData } // 用于記錄語言的具體數據
-  markers: { [key: string]: Require<Marker> }
+  _global: {
+    markers: ConfigMarkers
+  }
+
   lang: string // 默認語言
   // [props: string]: any
 }
-type SettingGlobalConfig = Partial<Omit<GlobalConfig, 'locales' | 'markers'>>
+type SettingGlobalConfig = Partial<Omit<GlobalConfig, 'locales' | '_global'>>
 
 type ConfigType = lunisolar.ConfigType
 type LunisolarConfigData = Required<Omit<ConfigType, 'locales'>>

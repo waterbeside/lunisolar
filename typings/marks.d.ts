@@ -6,13 +6,22 @@ type MarkersSettingItem = {
   name: string
 }
 
-type MarkerFormatFun = (lsr: lunisolar.Lunisolar) => unknown
+type MarkerFormatFn = (lsr: lunisolar.Lunisolar) => unknown
 
 type MarkersSetting = {
-  format: string | MarkerFormatFun
+  format: string | MarkerFormatFn
   markers: {
     [key: string]: MarkersSettingItem | MarkersSettingItem[]
   }
-}
+}[]
 
 type MarkerSetting = Pick<MarkersSettingItem, 'name'> & Partial<Omit<MarkersSettingItem, 'name'>>
+
+type ConfigMarkers = {
+  formatList: string[]
+  formatMap: Map<string, MarkersInGlobalConfig>
+  fnList: { fn: MarkerFormatFn; markers: MarkersInGlobalConfig }[]
+}
+
+type ConfigMarker = Pick<MarkersSettingItem, 'name' | 'data'> & { tag: string[] }
+type MarkersInGlobalConfig = Map<string, ConfigMarker[]>

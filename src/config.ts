@@ -5,6 +5,13 @@ export const _GlobalConfig: GlobalConfig = {
   offset: 0, // 时间偏移，以分钟为单位
   changeAgeTerm: 2, // 换岁节气, 默认为立春，如果为null刚为正月初一换岁
   locales: { zh }, // 用於記錄語言的具體數據
-  markers: {}, // 用於設置日期標記，如日節日等
+  _global: {
+    markers: {
+      formatList: [],
+      formatMap: new Map<string, MarkersInGlobalConfig>(),
+      fnList: []
+    }
+    // 用於設置日期標記，如日節日等
+  },
   lang: 'zh' // 默認語言
 }
