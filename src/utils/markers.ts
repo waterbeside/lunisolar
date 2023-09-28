@@ -80,6 +80,23 @@ export function prettyMarkersItem(markersItem: MarkersSettingItem, tags?: string
   return res
 }
 
+export function removeMarkersInGlobalConfigItem(
+  mk: MarkersInGlobalConfig,
+  tags: string | string[]
+) {
+  const mkKeys = Array.from(mk.keys())
+  for (const key of mkKeys) {
+    const mkV = mk.get(key) // 取得指定日期的marker列表
+    if (mkV === void 0) continue
+    const newV = mkV.filter((v, idx) => {
+      const aTags = Array.isArray(tags) ? tags : [tags]
+      return !isHasIntersection(v.tag, aTags)
+    })
+    if (newV.length === 0) mk.delete(key)
+    else if (newV.length < mkV.length) mk.set(key, newV)
+  }
+}
+
 /**
  * 按标签移除markers
  * @param gbMarkers 全局的markers设置
@@ -92,20 +109,24 @@ export function removeMarkersByTag(gbMarkers: ConfigMarkers, tags: string | stri
     if (formatMap.has(formatItem)) {
       const mk = formatMap.get(formatItem)
       if (mk === void 0) continue
-      const mkKeys = Array.from(mk.keys())
-      for (const key of mkKeys) {
-        const mkV = mk.get(key) // 取得指定日期的marker列表
-        if (mkV === void 0) continue
-        const newV = mkV.filter((v, idx) => {
-          const aTags = Array.isArray(tags) ? tags : [tags]
-          return !isHasIntersection(v.tag, aTags)
-        })
-        if (newV.length === 0) mk.delete(key)
-        else if (newV.length < mkV.length) mk.set(key, newV)
+      removeMarkersInGlobalConfigItem(mk, tags)
+      if (mk.size === 0) {
+        formatMap.delete(formatItem)
+        // TODO: removeFromList
       }
-      if (mk.size === 0) formatMap.delete(formatItem)
     }
   }
+  // 处理fnList
+  const newFnList: {
+    fn: MarkerFormatFn
+    markers: MarkersInGlobalConfig
+  }[] = []
+  for (const fnItem of fnList) {
+    const { fn, markers } = fnItem
+    removeMarkersInGlobalConfigItem(markers, tags)
+    if (markers.size > 0) newFnList.push({ fn, markers })
+  }
+  gbMarkers.fnList = newFnList
 }
 
 /**
