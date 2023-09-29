@@ -17,10 +17,12 @@ type MarkersSetting = {
 
 type MarkerSetting = Pick<MarkersSettingItem, 'name'> & Partial<Omit<MarkersSettingItem, 'name'>>
 
+type ConfigMarkersFnListItem = { fn: MarkerFormatFn; markers: MarkersInGlobalConfig }
+
 type ConfigMarkers = {
   formatList: string[]
   formatMap: Map<string, MarkersInGlobalConfig>
-  fnList: { fn: MarkerFormatFn; markers: MarkersInGlobalConfig }[]
+  fnList: ConfigMarkersFnListItem[]
 }
 
 type ConfigMarker = Pick<MarkersSettingItem, 'name' | 'data'> & { tag: string[] }
