@@ -758,4 +758,6 @@ declare namespace lunisolar {
   export function getLocale(lang: string): LocaleData
 
   export function defineLocale(localeData: { name: string; [x: string]: any }): LsrLocale
+
+  export function addMarkers(markersSetting: MarkersSetting, tags?: string | string[]): void
 }
