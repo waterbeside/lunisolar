@@ -100,7 +100,7 @@ lunisolar.getLocale = (lang: string): LocaleData => {
 lunisolar.defineLocale = defineLocale
 
 lunisolar.addMarkers = function (markersSetting: MarkersSetting, tags?: string | string[]) {
-  addMarkers(lunisolar, markersSetting, tags)
+  addMarkers(lunisolar._globalConfig._global.markers, markersSetting, tags)
 }
 
 // lunisolar.removeMarkersByTag()

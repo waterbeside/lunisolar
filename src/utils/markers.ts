@@ -5,17 +5,8 @@
  * @param tags 标签
  */
 export function addMarkers(
-  lsr: typeof lunisolar,
-  markersSetting: MarkersSetting,
-  tags?: string | string[]
-) {
-  const configMarkers = lsr._globalConfig._global.markers
-  prettyMarkersSetting(markersSetting, configMarkers, tags)
-}
-
-export function prettyMarkersSetting(
-  markersSetting: MarkersSetting,
   configMarkers: ConfigMarkers,
+  markersSetting: MarkersSetting,
   tags?: string | string[]
 ) {
   for (const item of markersSetting) {
@@ -60,6 +51,7 @@ export function prettyMarkers(
     }
     if (dateMapping.has(key))
       dateMapping.set(key, (dateMapping.get(key) || []).concat(markerItemList))
+    else dateMapping.set(key, markerItemList)
   }
   return dateMapping
 }
@@ -104,29 +96,26 @@ export function removeMarkersInGlobalConfigItem(
  */
 export function removeMarkersByTag(gbMarkers: ConfigMarkers, tags: string | string[]) {
   const { formatList, formatMap, fnList } = gbMarkers
+  const newFormatList: string[] = []
   // 处理formatList
   for (const formatItem of formatList) {
     if (formatMap.has(formatItem)) {
       const mk = formatMap.get(formatItem)
       if (mk === void 0) continue
       removeMarkersInGlobalConfigItem(mk, tags)
-      if (mk.size === 0) {
-        formatMap.delete(formatItem)
-        // TODO: removeFromList
-      }
+      if (mk.size === 0) formatMap.delete(formatItem)
+      else newFormatList.push(formatItem)
     }
   }
+  if (newFormatList.length !== formatList.length) gbMarkers.formatList = newFormatList
   // 处理fnList
-  const newFnList: {
-    fn: MarkerFormatFn
-    markers: MarkersInGlobalConfig
-  }[] = []
+  const newFnList: ConfigMarkersFnListItem[] = []
   for (const fnItem of fnList) {
     const { fn, markers } = fnItem
     removeMarkersInGlobalConfigItem(markers, tags)
     if (markers.size > 0) newFnList.push({ fn, markers })
   }
-  gbMarkers.fnList = newFnList
+  if (newFnList.length !== fnList.length) gbMarkers.fnList = newFnList
 }
 
 /**

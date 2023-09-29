@@ -1,5 +1,5 @@
 import type { Lunisolar } from '../class/lunisolar'
-export const festivals: MarkersSetting = [
+const festivals: MarkersSetting = [
   {
     format: 'MMDD',
     markers: {
@@ -515,3 +515,5 @@ export const festivals: MarkersSetting = [
     }
   }
 ]
+
+export default festivals
