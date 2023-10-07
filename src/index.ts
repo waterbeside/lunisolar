@@ -9,7 +9,7 @@ import { Direction24 } from './class/direction24'
 import { _GlobalConfig } from './config'
 import { parseFromLunar, defineLocale } from './utils'
 import zh from './locale/zh'
-import { addMarkers } from './utils/markers'
+import { addMarkers, removeMarkers, removeMarkersByTagOrName } from './utils/markers'
 
 export default function lunisolar(
   date?: DateConfigType | Lunisolar,
@@ -99,11 +99,30 @@ lunisolar.getLocale = (lang: string): LocaleData => {
 
 lunisolar.defineLocale = defineLocale
 
-lunisolar.addMarkers = function (markersSetting: MarkersSetting, tags?: string | string[]) {
-  addMarkers(lunisolar._globalConfig._global.markers, markersSetting, tags)
+lunisolar.markers = {
+  add(markersSetting: MarkersSetting, tags?: string | string[]) {
+    addMarkers(_GlobalConfig._global.markers, markersSetting, tags)
+  },
+  clean() {
+    _GlobalConfig._global.markers = {
+      formatList: [],
+      formatMap: new Map<string, MarkersInGlobalConfig>(),
+      fnList: []
+    }
+  },
+  cleanFnList() {
+    _GlobalConfig._global.markers.fnList = []
+  },
+  remove(format: string, matchStr?: string) {
+    removeMarkers(_GlobalConfig._global.markers, format, matchStr)
+  },
+  removeByTag(tags: string | string[]) {
+    removeMarkersByTagOrName(_GlobalConfig._global.markers, tags, true)
+  },
+  removeByName(names: string | string[]) {
+    removeMarkersByTagOrName(_GlobalConfig._global.markers, names, false)
+  }
 }
-
-// lunisolar.removeMarkersByTag()
 
 lunisolar._globalConfig = _GlobalConfig
 

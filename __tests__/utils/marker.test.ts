@@ -1,4 +1,4 @@
-import { addMarkers, removeMarkersByTag } from '../../src/utils/markers'
+import { addMarkers, removeMarkersByTagOrName } from '../../src/utils/markers'
 import festivals from '../../src/markers/festivals.zh'
 
 describe('test markers', () => {
@@ -32,7 +32,7 @@ describe('test markers', () => {
   })
 
   it('test removeMarkersByTag function', () => {
-    removeMarkersByTag(gbMarkers, '國際主題')
+    removeMarkersByTagOrName(gbMarkers, '國際主題', true)
     expect(gbMarkers.formatMap.get('MMDD')?.get('0202')).toEqual(undefined)
     expect(gbMarkers.formatMap.get('MMDD')?.get('0204')).toEqual(undefined)
     expect(gbMarkers.formatMap.get('MMDD')?.get('1024')?.length ?? 0).toBe(0)
