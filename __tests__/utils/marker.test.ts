@@ -3,9 +3,9 @@ import festivals from '../../src/markers/festivals.zh'
 
 describe('test markers', () => {
   const formatList: string[] = []
-  const formatMap = new Map<string, ConfigMarkersMatcherMap>()
-  const fnList: ConfigMarkersFnListItem[] = []
-  const gbMarkers: ConfigMarkers = { formatList, formatMap, fnList }
+  const formatMap = new Map<string, MarkersMatcherMap>()
+  const fnList: MarkersFnListItem[] = []
+  const gbMarkers: MarkersStore = { formatList, formatMap, fnList }
   addMarkers(gbMarkers, festivals, 'test')
   it('test addMarkers function', () => {
     expect(gbMarkers.formatList).toEqual(['MMDD', 'M,d,dR', 'M,d,dRr', 'lMn,lDn'])
