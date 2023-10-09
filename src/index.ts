@@ -106,15 +106,15 @@ lunisolar.markers = {
   clean() {
     _GlobalConfig._global.markers = {
       formatList: [],
-      formatMap: new Map<string, MarkersInGlobalConfig>(),
+      formatMap: new Map<string, ConfigMarkersMatcherMap>(),
       fnList: []
     }
   },
   cleanFnList() {
     _GlobalConfig._global.markers.fnList = []
   },
-  remove(format: string, matchStr?: string) {
-    removeMarkers(_GlobalConfig._global.markers, format, matchStr)
+  remove(format: string, matcher?: string, names?: string | string[]) {
+    removeMarkers(_GlobalConfig._global.markers, format, matcher, names)
   },
   removeByTag(tags: string | string[]) {
     removeMarkersByTagOrName(_GlobalConfig._global.markers, tags, true)

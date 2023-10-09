@@ -72,29 +72,48 @@ export function prettyMarkersItem(markersItem: MarkersSettingItem, tags?: string
   return res
 }
 
-export function removeMarkersInGlobalConfigItem(
-  mk: MarkersInGlobalConfig,
-  tagsOrNames: string | string[],
-  isTag: Boolean
+export function removeMarkersInMatcherMap(
+  mk: ConfigMarkersMatcherMap,
+  tagsOrNames?: string | string[],
+  isTag: Boolean = true,
+  matcher?: string | string[]
 ) {
-  const mkKeys = Array.from(mk.keys())
-  for (const key of mkKeys) {
+  const runItem = (key: string, ton?: string | string[]) => {
+    if (!mk.has(key)) return false
     const mkV = mk.get(key) // 取得指定日期的marker列表
-    if (mkV === void 0) continue
+    if (mkV === void 0) return false
+    if (ton === void 0) {
+      mk.delete(key)
+      return false
+    }
     const newV = mkV.filter((v, idx) => {
       if (isTag) {
-        const tn = Array.isArray(tagsOrNames) ? tagsOrNames : [tagsOrNames]
+        const tn = Array.isArray(ton) ? ton : [ton]
         return !isHasIntersection(v.tag, tn)
       } else {
-        if (Array.isArray(tagsOrNames)) {
-          return !tagsOrNames.includes(v.name)
+        if (Array.isArray(ton)) {
+          return !ton.includes(v.name)
         } else {
-          return tagsOrNames !== v.name
+          return ton !== v.name
         }
       }
     })
     if (newV.length === 0) mk.delete(key)
     else if (newV.length < mkV.length) mk.set(key, newV)
+    return true
+  }
+  if (matcher === void 0) {
+    // 当matcher未定义时，历遍所有key
+    const mkKeys = Array.from(mk.keys())
+    for (const key of mkKeys) {
+      if (!runItem(key, tagsOrNames)) continue
+    }
+  } else if (Array.isArray(matcher)) {
+    for (const key of matcher) {
+      if (!runItem(key, tagsOrNames)) continue
+    }
+  } else {
+    runItem(matcher, tagsOrNames)
   }
 }
 
@@ -109,24 +128,56 @@ export function removeMarkersByTagOrName(
   tagsOrNames: string | string[],
   isTag: Boolean = true
 ) {
-  const { formatList, formatMap, fnList } = gbMarkers
+  // 处理formatList
+  removeMarkersFromFormatListByTN(gbMarkers, tagsOrNames, isTag)
+  // 处理fnList
+  removeMarkersFromFnListByTN(gbMarkers, tagsOrNames, isTag)
+}
+
+export function removeMarkersFromFormatItemByTN(
+  formatMap: Map<string, ConfigMarkersMatcherMap>,
+  format: string,
+  tagsOrNames?: string | string[],
+  isTag: Boolean = true,
+  matcher?: string | string[]
+) {
+  if (formatMap.has(format)) {
+    const mk = formatMap.get(format)
+    if (mk === void 0) return false
+    removeMarkersInMatcherMap(mk, tagsOrNames, isTag, matcher)
+    if (mk.size === 0) formatMap.delete(format)
+    else return true
+  }
+  return false
+}
+
+export function removeMarkersFromFormatListByTN(
+  gbMarkers: ConfigMarkers,
+  tagsOrNames: string | string[],
+  isTag: Boolean = true
+) {
+  const { formatList, formatMap } = gbMarkers
   const newFormatList: string[] = []
   // 处理formatList
-  for (const formatItem of formatList) {
-    if (formatMap.has(formatItem)) {
-      const mk = formatMap.get(formatItem)
-      if (mk === void 0) continue
-      removeMarkersInGlobalConfigItem(mk, tagsOrNames, isTag)
-      if (mk.size === 0) formatMap.delete(formatItem)
-      else newFormatList.push(formatItem)
+  for (const format of formatList) {
+    if (removeMarkersFromFormatItemByTN(formatMap, format, tagsOrNames, isTag)) {
+      newFormatList.push(format)
     }
   }
   if (newFormatList.length !== formatList.length) gbMarkers.formatList = newFormatList
-  // 处理fnList
+}
+
+export function removeMarkersFromFnListByTN(
+  gbMarkers: ConfigMarkers,
+  tagsOrNames?: string | string[],
+  isTag: Boolean = true,
+  matcher?: string | string[]
+) {
+  const { fnList } = gbMarkers
   const newFnList: ConfigMarkersFnListItem[] = []
   for (const fnItem of fnList) {
     const { fn, markers } = fnItem
-    removeMarkersInGlobalConfigItem(markers, tagsOrNames, isTag)
+    removeMarkersInMatcherMap(markers, tagsOrNames, isTag, matcher)
     if (markers.size > 0) newFnList.push({ fn, markers })
   }
   if (newFnList.length !== fnList.length) gbMarkers.fnList = newFnList
@@ -138,20 +189,22 @@ export function removeMarkersByTagOrName(
  * @param format 日期format格式 如MMDD
  * @param matchStr 配置format格式的日期，如 1001
  */
-export function removeMarkers(gbMarkers: ConfigMarkers, format: string, matchStr?: string) {
-  const { formatList, formatMap } = gbMarkers
-  if (formatMap.has(format)) {
-    if (matchStr !== void 0) {
-      const mks = formatMap.get(format)
-      if (mks === void 0) return
-      if (mks.has(matchStr)) mks.delete(matchStr)
+export function removeMarkers(
+  gbMarkers: ConfigMarkers,
+  format: string | true,
+  matcher?: string | string[],
+  name?: string | string[]
+) {
+  if (format === true) {
+    // 当format为true时，只从fnList删除
+    removeMarkersFromFnListByTN(gbMarkers, name, false, matcher)
+  } else {
+    // 从formatList删除
+    const { formatList, formatMap } = gbMarkers
+    removeMarkersFromFormatItemByTN(formatMap, format, name, false, matcher)
+    if (!formatMap.has(format)) {
+      gbMarkers.formatList = formatList.filter((v, i) => v !== format)
     }
-    if (matchStr !== void 0 || formatMap.get(format)?.size === 0) {
-      formatMap.delete(format)
-    }
-  }
-  if (!formatMap.has(format)) {
-    gbMarkers.formatList = formatList.filter((v, i) => v !== format)
   }
 }
 

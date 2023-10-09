@@ -21,9 +21,9 @@ type ConfigMarkersFnListItem = { fn: MarkerFormatFn; markers: MarkersInGlobalCon
 
 type ConfigMarkers = {
   formatList: string[]
-  formatMap: Map<string, MarkersInGlobalConfig>
+  formatMap: Map<string, ConfigMarkersMatcherMap>
   fnList: ConfigMarkersFnListItem[]
 }
 
 type ConfigMarker = Pick<MarkersSettingItem, 'name' | 'data'> & { tag: string[] }
-type MarkersInGlobalConfig = Map<string, ConfigMarker[]>
+type ConfigMarkersMatcherMap = Map<string, ConfigMarker[]>
