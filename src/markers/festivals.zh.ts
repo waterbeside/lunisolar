@@ -434,10 +434,6 @@ const festivals: MarkersSetting = [
         tag: '西方節日',
         name: '父親節'
       },
-      // '9,0,3': {
-      //   tag: '中國主題', //TODO: 待檢查
-      //   name: '全國科普日'
-      // },
       '9,0,4': {
         tag: ['國際主題', 'health'],
         name: '國際聾人節'

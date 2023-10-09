@@ -8,7 +8,7 @@ export const _GlobalConfig: GlobalConfig = {
   _global: {
     markers: {
       formatList: [],
-      formatMap: new Map<string, MarkersInGlobalConfig>(),
+      formatMap: new Map<string, MarkersMatcherMap>(),
       fnList: []
     }
     // 用於設置日期標記，如日節日等

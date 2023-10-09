@@ -693,6 +693,20 @@ declare namespace lunisolar {
      * @param formatStr 格式化字符串
      */
     format(formatStr: string): string
+    // markers: {
+    //   get: LsrGetMarkersFn
+    // }
+  }
+
+  export class Markers {
+    static readonly store: MarkersStore
+    readonly markers: StoreMarker[]
+    static add(markersSetting: MarkersSetting, tags?: string | string[]): void
+    static clean(): void
+    static cleanFnList(): void
+    static remove(format: string, matcher?: string, names?: string | string[]): void
+    static removeByTag(tags: string | string[]): void
+    static removeByName(names: string | string[]): void
   }
 
   /**
@@ -758,13 +772,4 @@ declare namespace lunisolar {
   export function getLocale(lang: string): LocaleData
 
   export function defineLocale(localeData: { name: string; [x: string]: any }): LsrLocale
-
-  export const markers: {
-    add: (markersSetting: MarkersSetting, tags?: string | string[]) => void
-    clean: () => void
-    cleanFnList: () => void
-    remove: (format: string, matchStr?: string) => void
-    removeByTag: (tags: string | string[]) => void
-    removeByName: (names: string | string[]) => void
-  }
 }
