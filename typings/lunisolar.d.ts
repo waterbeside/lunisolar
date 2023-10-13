@@ -698,16 +698,16 @@ declare namespace lunisolar {
     // }
   }
 
-  export class Markers {
-    static readonly store: MarkersStore
-    readonly markers: StoreMarker[]
-    static add(markersSetting: MarkersSetting, tags?: string | string[]): void
-    static clean(): void
-    static cleanFnList(): void
-    static remove(format: string, matcher?: string, names?: string | string[]): void
-    static removeByTag(tags: string | string[]): void
-    static removeByName(names: string | string[]): void
-  }
+  // export class Markers {
+  //   static readonly store: MarkersStore
+  //   readonly markers: StoreMarker[]
+  //   static add(markersSetting: MarkersSetting, tags?: string | string[]): void
+  //   static clean(): void
+  //   static cleanFnList(): void
+  //   static remove(format: string, matcher?: string, names?: string | string[]): void
+  //   static removeByTag(tags: string | string[]): void
+  //   static removeByName(names: string | string[]): void
+  // }
 
   /**
    * The type for Lunisolar Plugin Function

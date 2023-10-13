@@ -26,24 +26,28 @@ type MarkersStore = {
 }
 
 type StoreMarker = Pick<MarkersSettingItem, 'name' | 'data'> & { tag: string[] }
-type MarkersMatcherMap = Map<string, ConfigMarker[]>
+type MarkersMatcherMap = Map<string, StoreMarker[]>
 
-type LsrGetMarkersFn = (tag?: string | string[]) => ConfigMarker[]
+type LsrGetMarkersFn = (tag?: string | string[]) => StoreMarker[]
 
 type LsrMarkers = {
   _store: StoreMarker[]
   get: LsrGetMarkersFn
 }
 
-// declare namespace lunisolar {
-//   export class Markers {
-//     static readonly store: MarkersStore
-//     readonly markers: StoreMarker[]
-//     static add(markersSetting: MarkersSetting, tags?: string | string[]): void
-//     static clean(): void
-//     static cleanFnList(): void
-//     static remove(format: string, matcher?: string, names?: string | string[]): void
-//     static removeByTag(tags: string | string[]): void
-//     static removeByName(names: string | string[]): void
-//   }
-// }
+declare namespace lunisolar {
+  export class Markers {
+    static readonly store: MarkersStore
+    readonly storeMarkers: StoreMarker[]
+    readonly storeMarkersFromGlobal: StoreMarker[]
+    readonly lsr: lunisolar.Lunisolar
+    static add(markersSetting: MarkersSetting, tags?: string | string[]): void
+    static clean(): void
+    static cleanFnList(): void
+    static remove(format: string, matcher?: string, names?: string | string[]): void
+    static removeByTag(tags: string | string[]): void
+    static removeByName(names: string | string[]): void
+    constructor(lsr: lunisolar.Lunisolar): Markers
+    add(markers: MarkersSettingItem): Markers
+  }
+}

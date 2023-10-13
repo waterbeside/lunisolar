@@ -72,6 +72,22 @@ export function prettyMarkersItem(markersItem: MarkersSettingItem, tags?: string
   return res
 }
 
+export function filterStoreMarkers(
+  mk: StoreMarker[],
+  tagsOrNames: string | string[],
+  isTag: Boolean = false
+) {
+  return mk.filter(v => {
+    if (isTag) {
+      const tn = Array.isArray(tagsOrNames) ? tagsOrNames : [tagsOrNames]
+      return !isHasIntersection(v.tag, tn)
+    } else {
+      if (Array.isArray(tagsOrNames)) return !tagsOrNames.includes(v.name)
+      else return tagsOrNames !== v.name
+    }
+  })
+}
+
 export function removeMarkersInMatcherMap(
   mk: MarkersMatcherMap,
   tagsOrNames?: string | string[],
@@ -86,18 +102,7 @@ export function removeMarkersInMatcherMap(
       mk.delete(key)
       return false
     }
-    const newV = mkV.filter((v, idx) => {
-      if (isTag) {
-        const tn = Array.isArray(ton) ? ton : [ton]
-        return !isHasIntersection(v.tag, tn)
-      } else {
-        if (Array.isArray(ton)) {
-          return !ton.includes(v.name)
-        } else {
-          return ton !== v.name
-        }
-      }
-    })
+    const newV = filterStoreMarkers(mkV, ton, isTag)
     if (newV.length === 0) mk.delete(key)
     else if (newV.length < mkV.length) mk.set(key, newV)
     return true
