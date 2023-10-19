@@ -48,6 +48,13 @@ declare namespace lunisolar {
     static removeByTag(tags: string | string[]): void
     static removeByName(names: string | string[]): void
     constructor(lsr: lunisolar.Lunisolar): Markers
-    add(markers: MarkersSettingItem): Markers
+    init(): void
+    add(markers: MarkersSettingItem[], tags?: string | string[]): Markers
+    remove(name: string | string[], isTag?: Boolean, flag?: 0 | 1 | 2): Markers
+    clean(flag?: 0 | 1 | 2): Markers
+    reset(): Markers
+    [Symbol.iterator](): IteratorInterface
+    get list(): StoreMarker[]
+    toString(): string
   }
 }

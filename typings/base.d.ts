@@ -96,3 +96,10 @@ type MethodDecorator = <T>(
 class CacheClass {
   readonly cache: Map<string, unknown>
 }
+
+interface IteratorInterface {
+  next: () => {
+    value: any
+    done: boolean
+  }
+}
