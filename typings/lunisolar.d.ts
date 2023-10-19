@@ -572,6 +572,11 @@ declare namespace lunisolar {
      * 取得八字對象
      */
     get char8(): Char8
+
+    /**
+     * 取得所有markers
+     */
+    get markers(): Markers
     /**
      * Get the current solar term object
      *
@@ -591,6 +596,7 @@ declare namespace lunisolar {
      * @param flag 為0時取月建，為1時取月將, default 0
     */
     getMonthBuilder(flag?: 0 | 1): [SB, lunisolar.SolarTerm, Date]
+
     /**
      * 取得季节索引
      */

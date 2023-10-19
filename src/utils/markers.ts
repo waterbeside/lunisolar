@@ -68,7 +68,7 @@ export function prettyMarkersItem(markersItem: MarkersSettingItem, tags?: string
   if (Array.isArray(tags)) res.tag = res.tag.concat(tags)
   else if (typeof tags === 'string') res.tag.push(tags)
 
-  if (markersItem.data === void 0) res.data = Object.assign({}, markersItem.data)
+  if (markersItem.data !== void 0) res.data = Object.assign({}, markersItem.data)
   return res
 }
 

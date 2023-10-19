@@ -37,6 +37,7 @@ type LsrMarkers = {
 
 declare namespace lunisolar {
   export class Markers {
+    _list: StoreMarker[] | null
     static readonly store: MarkersStore
     readonly storeMarkers: StoreMarker[]
     readonly storeMarkersFromGlobal: StoreMarker[]

@@ -8,6 +8,7 @@ import {
 } from '../utils/markers'
 
 export class Markers {
+  _list: StoreMarker[] | null = null
   static readonly store: MarkersStore = {
     formatList: [],
     formatMap: new Map<string, MarkersMatcherMap>(),
@@ -61,6 +62,7 @@ export class Markers {
   }
 
   add(marker: MarkersSettingItem | MarkersSettingItem[], tags?: string | string[]) {
+    this._list = null
     if (Array.isArray(marker)) {
       for (const item of marker) {
         this.add(item, tags)
@@ -73,6 +75,7 @@ export class Markers {
   }
 
   remove(name: string | string[], isTag: Boolean = false, flag: 0 | 1 | 2 = 0) {
+    this._list = null
     if (flag === 0 || flag === 2) {
       this.storeMarkersFromGlobal = filterStoreMarkers(this.storeMarkersFromGlobal, name, isTag)
     }
@@ -83,6 +86,7 @@ export class Markers {
   }
 
   clean(flag: 0 | 1 | 2 = 0) {
+    this._list = null
     if (flag === 0 || flag === 2) {
       this.storeMarkersFromGlobal = []
       // this.storeMarkersFromGlobal.splice(0, this.storeMarkersFromGlobal.length)
@@ -95,6 +99,7 @@ export class Markers {
   }
 
   reset() {
+    this._list = null
     this.init()
     return this
   }
@@ -119,8 +124,9 @@ export class Markers {
     }
   }
 
-  get list() {
-    return [...this.storeMarkersFromGlobal, ...this.storeMarkers]
+  get list(): StoreMarker[] {
+    if (this._list == null) this._list = [...this.storeMarkersFromGlobal, ...this.storeMarkers]
+    return this._list
   }
 
   toString() {

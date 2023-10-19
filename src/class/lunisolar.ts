@@ -19,6 +19,7 @@ import { SB } from './stemBranch'
 import lunisolarFac from '../index'
 import { cache } from '../utils/decorators'
 import { CacheClass } from './CacheClass'
+import { Markers } from './markers'
 
 export class Lunisolar extends CacheClass {
   readonly _config: LunisolarConfigData
@@ -91,6 +92,12 @@ export class Lunisolar extends CacheClass {
       offset: this._offset
     }
     return new Char8(this._date, config)
+  }
+
+  // markers
+  @cache('lunisolar:markers')
+  get markers(): Markers {
+    return new Markers(this)
   }
 
   // 节气
