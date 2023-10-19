@@ -60,8 +60,12 @@ export class Markers {
     this.storeMarkersFromGlobal.splice(0, this.storeMarkersFromGlobal.length, ...mksArr.flat())
   }
 
-  add(markers: MarkersSettingItem[], tags?: string | string[]) {
-    for (const marker of markers) {
+  add(marker: MarkersSettingItem | MarkersSettingItem[], tags?: string | string[]) {
+    if (Array.isArray(marker)) {
+      for (const item of marker) {
+        this.add(item, tags)
+      }
+    } else {
       const mk = prettyMarkersItem(marker, tags)
       this.storeMarkers.push(mk)
     }
@@ -95,14 +99,14 @@ export class Markers {
     return this
   }
 
-  [Symbol.iterator]() {
+  [Symbol.iterator](): IteratorInterface {
     let index = 0
     const list = this.list
     return {
       next() {
         if (index < list.length) {
           return {
-            value: list[index],
+            value: list[index++],
             done: false
           }
         } else {
