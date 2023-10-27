@@ -41,4 +41,18 @@ describe('Test class Markers', () => {
     const marker = markers.list.find(v => v.name === '重阳准备')
     expect(marker?.data?.desc || '').toBe('樵园已经开始封路')
   })
+
+  it('Test markers reset and clean', () => {
+    const lsr = lunisolar('2023-10-23')
+    lsr.markers.add({ name: '测试', tag: 'test' })
+    expect(lsr.markers.list.map(v => v.name)).toEqual(['重陽節', '测试'])
+    lsr.markers.reset()
+    expect(lsr.markers.list.map(v => v.name)).toEqual(['重陽節'])
+    lsr.markers.add({ name: '测试2', tag: 'test' })
+    expect(lsr.markers.list.map(v => v.name)).toEqual(['重陽節', '测试2'])
+    lsr.markers.clean(1)
+    expect(lsr.markers.list.map(v => v.name)).toEqual(['测试2'])
+    lsr.markers.clean(2)
+    expect(lsr.markers.list.map(v => v.name)).toEqual([])
+  })
 })
