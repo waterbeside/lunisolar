@@ -22,28 +22,34 @@ export class Markers {
 
   static add(markersSetting: MarkersSetting, tags?: string | string[]) {
     addMarkers(Markers.store, markersSetting, tags)
+    return Markers
   }
 
   static clean() {
     Markers.store.formatList = []
     Markers.store.formatMap = new Map<string, MarkersMatcherMap>()
     Markers.store.fnList = []
+    return Markers
   }
 
   static cleanFnList() {
     Markers.store.fnList = []
+    return Markers
   }
 
   static remove(format: string, matcher?: string, names?: string | string[]) {
     removeMarkers(Markers.store, format, matcher, names)
+    return Markers
   }
 
   static removeByTag(tags: string | string[]) {
     removeMarkersByTagOrName(Markers.store, tags, true)
+    return Markers
   }
 
   static removeByName(names: string | string[]) {
     removeMarkersByTagOrName(Markers.store, names, false)
+    return Markers
   }
 
   constructor(lsr: lunisolar.Lunisolar) {
