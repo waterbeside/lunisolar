@@ -1,3 +1,6 @@
+type CommonDict = {
+  [key: string]: any
+}
 type GreUnitFullName =
   | 'millisecond'
   | 'second'

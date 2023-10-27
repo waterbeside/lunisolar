@@ -239,3 +239,14 @@ export function isHasIntersection(arr1: string[], arr2: string[]): boolean {
   }
   return false
 }
+
+export function filterByObj(obj: CommonDict, data: CommonDict): boolean {
+  for (const key in obj) {
+    const v = obj[key]
+    const v2 = data[key]
+    if (typeof v === 'object' && typeof v2 === 'object') {
+      if (!filterByObj(v, v2)) return false
+    } else if (v !== v2) return false
+  }
+  return true
+}

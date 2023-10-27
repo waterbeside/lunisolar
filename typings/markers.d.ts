@@ -35,6 +35,8 @@ type LsrMarkers = {
   get: LsrGetMarkersFn
 }
 
+type MarkersFilterFn = (item: StoreMarker, index?: number, arr?: StoreMarker[]) => boolean
+
 declare namespace lunisolar {
   export class Markers {
     _list: StoreMarker[] | null
@@ -56,6 +58,8 @@ declare namespace lunisolar {
     reset(): Markers
     [Symbol.iterator](): IteratorInterface
     get list(): StoreMarker[]
+    filter(fn: Partial<MarkersSettingItem> | MarkersFilterFn): StoreMarker[]
+    find(fn: Partial<MarkersSettingItem> | MarkersFilterFn): StoreMarker | undefined
     toString(): string
   }
 }
