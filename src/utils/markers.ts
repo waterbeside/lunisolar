@@ -244,7 +244,12 @@ export function filterByObj(obj: CommonDict, data: CommonDict): boolean {
   for (const key in obj) {
     const v = obj[key]
     const v2 = data[key]
-    if (typeof v === 'object' && typeof v2 === 'object') {
+    if (key === 'tag') {
+      if (Array.isArray(v)) {
+        if (!Array.isArray(v2)) return false
+        else if (!isHasIntersection(v, v2)) return false
+      } else if (Array.isArray(v2) && !v2.includes(v)) return false
+    } else if (typeof v === 'object' && typeof v2 === 'object') {
       if (!filterByObj(v, v2)) return false
     } else if (v !== v2) return false
   }
