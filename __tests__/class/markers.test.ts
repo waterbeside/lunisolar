@@ -1,5 +1,6 @@
 import { Markers } from '../../src/class/markers'
 import festivals from '../../src/markers/festivals.zh'
+import festivalsCN from '../../src/markers/festivals.zh-cn'
 import lunisolar from '../../src'
 
 describe('Test class Markers', () => {
@@ -54,5 +55,22 @@ describe('Test class Markers', () => {
     expect(lsr.markers.list.map(v => v.name)).toEqual(['测试2'])
     lsr.markers.clean(2)
     expect(lsr.markers.list.map(v => v.name)).toEqual([])
+  })
+
+  it('test markers filter and find', () => {
+    lunisolar.Markers.clean().add(festivalsCN, '节日')
+    const lsr = lunisolar('2023-03-03')
+    lsr.markers.add({ name: '抄经', tag: 'work', data: { desc: '临写一次经飞经' } })
+    expect(lsr.markers.toString()).toBe('世界野生动植物日,全国爱耳日,国际爱耳日,抄经')
+    expect(lsr.markers.find({ name: '世界野生动植物日' })?.tag.join(',')).toBe(
+      '国际主题,environment,节日'
+    )
+    expect(lsr.markers.find(v => v.name === '抄经')?.data?.desc ?? '').toBe('临写一次经飞经')
+    expect(
+      lsr.markers
+        .filter({ tag: 'health' })
+        .map(v => v.name)
+        .join(',')
+    ).toBe('全国爱耳日,国际爱耳日')
   })
 })
