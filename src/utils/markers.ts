@@ -63,7 +63,7 @@ export function prettyMarkersItem(markersItem: MarkersSettingItem, tags?: string
     name
   }
   if (Array.isArray(tag)) res.tag = tag.slice()
-  else res.tag.push(tag)
+  else if (typeof tag === 'string') res.tag.push(tag)
 
   if (Array.isArray(tags)) res.tag = res.tag.concat(tags)
   else if (typeof tags === 'string') res.tag.push(tags)

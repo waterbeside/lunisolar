@@ -1,43 +1,43 @@
-type MarkersSettingItem = {
-  tag: string | string[]
-  data?: {
-    [key: string]: any
-  }
-  name: string
-}
-
-type MarkerFormatFn = (lsr: lunisolar.Lunisolar) => string | null
-
-type MarkersSetting = {
-  format: string | MarkerFormatFn
-  markers: {
-    [key: string]: MarkersSettingItem | MarkersSettingItem[]
-  }
-}[]
-
-type MarkerSetting = Pick<MarkersSettingItem, 'name'> & Partial<Omit<MarkersSettingItem, 'name'>>
-
-type MarkersFnListItem = { fn: MarkerFormatFn; markers: MarkersMatcherMap }
-
-type MarkersStore = {
-  formatList: string[]
-  formatMap: Map<string, MarkersMatcherMap>
-  fnList: MarkersFnListItem[]
-}
-
-type StoreMarker = Pick<MarkersSettingItem, 'name' | 'data'> & { tag: string[] }
-type MarkersMatcherMap = Map<string, StoreMarker[]>
-
-type LsrGetMarkersFn = (tag?: string | string[]) => StoreMarker[]
-
-type LsrMarkers = {
-  _store: StoreMarker[]
-  get: LsrGetMarkersFn
-}
-
-type MarkersFilterFn = (item: StoreMarker, index?: number, arr?: StoreMarker[]) => boolean
-
 declare namespace lunisolar {
+  export type MarkersSettingItem = {
+    name: string
+    tag?: string | string[]
+    data?: {
+      [key: string]: any
+    }
+  }
+
+  export type MarkersSetting = {
+    format: string | MarkerFormatFn
+    markers: {
+      [key: string]: MarkersSettingItem | MarkersSettingItem[]
+    }
+  }[]
+
+  type MarkerFormatFn = (lsr: lunisolar.Lunisolar) => string | null
+
+  type MarkerSetting = Pick<MarkersSettingItem, 'name'> & Partial<Omit<MarkersSettingItem, 'name'>>
+
+  type MarkersFnListItem = { fn: MarkerFormatFn; markers: MarkersMatcherMap }
+
+  type MarkersStore = {
+    formatList: string[]
+    formatMap: Map<string, MarkersMatcherMap>
+    fnList: MarkersFnListItem[]
+  }
+
+  type StoreMarker = Pick<MarkersSettingItem, 'name' | 'data'> & { tag: string[] }
+  type MarkersMatcherMap = Map<string, StoreMarker[]>
+
+  type LsrGetMarkersFn = (tag?: string | string[]) => StoreMarker[]
+
+  type LsrMarkers = {
+    _store: StoreMarker[]
+    get: LsrGetMarkersFn
+  }
+
+  type MarkersFilterFn = (item: StoreMarker, index?: number, arr?: StoreMarker[]) => boolean
+
   export class Markers {
     _list: StoreMarker[] | null
     static readonly store: MarkersStore
@@ -63,3 +63,11 @@ declare namespace lunisolar {
     toString(): string
   }
 }
+
+type MarkersStore = lunisolar.MarkersStore
+type StoreMarker = lunisolar.StoreMarker
+type MarkersSetting = lunisolar.MarkersSetting
+type MarkersSettingItem = lunisolar.MarkersSettingItem
+type MarkersMatcherMap = lunisolar.MarkersMatcherMap
+type MarkersFilterFn = lunisolar.MarkersFilterFn
+type MarkersFnListItem = lunisolar.MarkersFnListItem
