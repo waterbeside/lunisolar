@@ -85,7 +85,7 @@ export class Markers {
    * 移除指定名称或tag的markers
    * @param name 指定的marker名字或tag
    * @param isTag name参数是否为tag, 默认为false
-   * @param flag  1： 只移除通过本实例add方法加进来的markers, 2: 只移除从全局设定进本实例的markers，0: 包括1和2。
+   * @param flag  1: 只移除从全局设定进本实例的markers, 2： 只移除通过本实例add方法加进来的markers, 0: 包括1和2。
    * @returns 返回本markers实例
    */
   remove(name: string | string[], isTag: Boolean = false, flag: 0 | 1 | 2 = 0) {

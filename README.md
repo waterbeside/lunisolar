@@ -21,6 +21,7 @@
 - ✅阴历查询
 - ✅八字查询
 - ✅节气日期查询
+- ✅Markers（日期备注、节日功能） 
 - ✅胎神占方 (插件)
 - ✅五行纳音 (插件)
 - ✅神煞系统 (插件) <基于：协纪辨方书>
@@ -73,6 +74,7 @@
 - [8 纳音](#8-纳音)
 - [9 建除十二神](#9-建除十二神)
 - [10 神煞宜忌](#10-神煞宜忌)
+- [11 日期备注 Markers](#11-日期备注-markers)
 - [插件 plugins](#插件-plugins)
 - [国际化](#国际化)
   - [\* 加载插件语言包](#-加载插件语言包)
@@ -891,6 +893,132 @@ lsr.takeSound // 大海水 （取得日干支的纳音 等同于 lsr.char8.day.t
 神煞宜忌的所有内容，主要基于 **《协纪辨方书》**
 
 因其数据内容较多，故作为一个插件单独介绍，请点击跳转到[【神煞宜忌】](https://lunisolar.js.org/guide/plugins/theGods.html)查看介绍和使用说明
+
+## 11 日期备注 Markers
+
+从2.3.0版本开始，可以通过Markers类，添加日期备注，如添加节日、备忘等。
+
+lunisolar内置了中国的各类节日列表，全局加载后，可通过lunisolar().markers实例取得该天的节日。 你也可以自定义添加日期节日、备忘等。 通过以下几个列子，可快速上手。
+
+更详细的使用请移步至文档 -> [节日、日期备注 https://lunisolar.js.org/guide/functional/markers.html](https://lunisolar.js.org/guide/functional/markers.html)
+
+例: 全局添加内置的节日列表
+
+```typescript
+import lunisolar from 'lunisolar'
+// 载入节日列表
+import festivals from 'lunisolar/markers/festivals.zh'  // 繁体版
+// import festivals from 'lunisolar/markers/festivals.zh-cn' // 简体版
+
+// 全局加载节日列表
+lunisolar.Markers.add(festivals)
+
+// lunisolar('2023-10-01')实例下
+const markersList = lunisolar('2023-10-01').markers.list 
+console.log(markersList.map(v => v.name).join(',')) // 國際音樂節,國慶節
+
+```
+
+例：全局添加自定义的节日和日期备注
+
+```typescript
+import lunisolar from 'lunisolar'
+import type { MarkersSetting } from 'lunisolar'
+
+// 编写自定义的节日列表
+const markersSetting: MarkersSetting = [{
+  format: 'MMDD',  // 将会使用lunisolar().format('MMDD')方法格式化日期
+  markers: {
+    '1019': { // 如果format方法返回值与此key匹配，则为当前日期会取得此marker
+      tag: '生日',
+      name: '我的生日'
+    },
+    '0919': {
+      tag: ['生日', '吐槽'], // tag可以是数组
+      name: '假的生日',
+      data: { // 可以通过data，设定任何信息以便取用
+        desc: '身份证是的生日写早了一个月, 所以公司都提早一个月给我庆生',
+        color: '#aa0000'
+      }
+    }
+  }
+}, {
+  format: 'lMn,lDn', // 农历月日
+  markers: {
+    '4,14': { // 农历四月十四
+      tag: '生日',
+      name: '吕洞宾诞辰',
+      data: {
+        desc: '西樵山大仙诞交通管制',
+        color: '#00cccc'
+      }
+    }
+  }
+}]
+
+
+// 再编写自定义的日期备注列表
+const markersSetting2: MarkersSetting = [{
+  format: 'MMDD',  // 将会使用lunisolar().format('MMDD')方法格式化日期
+  markers: {
+    '1003': [{ //同一日期可以设定多个marker
+      tag: '任务',
+      name: '带家人出去吃饭'
+    }, {
+      tag: ['任务', '保险'],
+      name: '交汽车保险'
+    }]
+  }
+}]
+
+// 加载自定义的节日
+// Markers类add静态方法支持链式操作，add方法的第二参数可为节日列表全补打一个标签
+lunisolar.Markers.add(markersSetting, '自定义节日').add(markersSetting2, '自定义备忘')
+
+// lunisolar()实例的markers实例，可以取得对应日期marker数据
+
+const lsr1003 = lunisolar('2023-10-03').markers.list // markers.list 取得markers数据列表
+console.log(lsr1003.map(v => v.name)) // ['带家人出去吃饭', '交汽车保险']
+
+const lsr0919 = lunisolar('2023-09-19')
+console.log(lsr0919.markers.toString()) // '假的生日'
+console.log(lsr0919.markers.find({name:'假的生日'})?.data?.desc) // '身份证是的生日写早了一个月, 所以公司都提早一个月给我庆生'
+
+
+// 全局删除指定tag的marker
+lunisolar.Markers.removeByTag('吐槽')
+
+console.log(lunisolar('2023-09-19').markers.toString()) // 没有marker，输出空字符串
+
+// 但是原来已生成的实例并不会移除marker
+console.log(lsr0919.markers.toString()) // '假的生日'
+// 可在markers实例上使用reset方法重置该实例上的全局marker
+lsr0919.markers.reset()
+console.log(lsr0919.markers.toString()) // 没有marker，输出空字符串
+
+
+```
+
+例：直接在lunisolar()实例上添加日期备注
+
+```typescript
+import lunisolar from 'lunisolar'
+
+// 可直接在指定的lunisolar().markers实例上添加该日的marker
+const lsr = lunisolar('2023-10-30')
+lsr.markers.add({name: '买电烙铁', tag: '买东西'})
+
+// 多个markers可以以数组形式传入，或者以链式操作添加
+lsr.markers.add([{name: '练习多宝塔碑'}, {name: '临摹经飞经'}], '学习').add({name: '补充lunisolar.Markers相关文档', tag: '任务'})
+
+
+console.log(lsr.markers.toString()) // '买电烙铁,练习多宝塔碑,临摹经飞经,补充lunisolar.Markers相关文档'
+
+// 因为不是全局添加，其它实例即使日期相同，也取不到上边设置的这些marker
+console.log(lunisolar('2023-10-30').markers.list) // []
+
+```
+
 
 ## 插件 plugins
 
