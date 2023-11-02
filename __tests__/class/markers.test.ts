@@ -43,6 +43,14 @@ describe('Test class Markers', () => {
     expect(marker?.data?.desc || '').toBe('樵园已经开始封路')
   })
 
+  it('Test Markers.remove', () => {
+    Markers.remove('MMDD', '0303', '全國愛耳日')
+    const markers = new Markers(lunisolar('2023-01-01'))
+    const markers0303 = new Markers(lunisolar('2023-03-03'))
+    expect(markers.toString()).toBe('元旦')
+    expect(markers0303.toString()).toBe('世界野生動植物日,國際愛耳日')
+  })
+
   it('Test markers reset and clean', () => {
     const lsr = lunisolar('2023-10-23')
     lsr.markers.add({ name: '测试', tag: 'test' })
