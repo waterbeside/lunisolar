@@ -1,3 +1,14 @@
+# [2.3.0-beta.0](https://github.com/waterbeside/lunisolar/compare/v2.2.2...v2.3.0-beta.0) (2023-11-02)
+
+
+### ✨ Features
+
+* 使format支持查詢該周幾是當月的第幾個周幾 ([ae8c651](https://github.com/waterbeside/lunisolar/commit/ae8c651daa4aa79861cd9c2059b1d04ce54d2e22))
+* format方法支持通过dRr取得该星期几是倒数的第几个星期几 ([69acb2d](https://github.com/waterbeside/lunisolar/commit/69acb2de304520e847504e1d33055e56405add91))
+* v2.3.0-beta 新增Markers功能 ([f352fc8](https://github.com/waterbeside/lunisolar/commit/f352fc824abe6bbb3bdf4cde017a2fcfcbc39546))
+
+
+
 ## [2.2.2](https://github.com/waterbeside/lunisolar/compare/v2.2.1...v2.2.2) (2023-05-05)
 
 
