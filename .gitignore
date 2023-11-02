@@ -3,6 +3,7 @@ node_modules
 dist
 /plugins
 /locale
+/markers
 dist-ssr
 *.local
 

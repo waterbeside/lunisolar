@@ -31,7 +31,7 @@ const configFactory = config => {
   const { input, fileName, filePath, name, isClear, createEs, copyFile, pluginsPush } = config
   // load rollup plugins
   const plugins = [resolve(), commonjs(), tsPlugin, terserPlugin, filesize()]
-  if (isClear) plugins.unshift(clear({ targets: ['dist', 'plugins', 'locale'] }))
+  if (isClear) plugins.unshift(clear({ targets: ['dist', 'plugins', 'locale', 'markers'] }))
   if (copyFile) plugins.push(copy(copyFile))
   if (pluginsPush) {
     plugins.push(...pluginsPush)
@@ -89,7 +89,9 @@ const configDir = dir => {
           ? `lunisolarLocale${upCaseFirst(formatName(dirName))}`
           : formatName(fixDirName),
       input:
-        dir === 'locale' ? path.join(dirPath, dirName) : path.join(dirPath, dirName, 'index.ts'),
+        (dir === 'locale') | (dir === 'markers')
+          ? path.join(dirPath, dirName)
+          : path.join(dirPath, dirName, 'index.ts'),
       filePath: path.join(__dirname, dir),
       fileName: dirName.replace(/\.(js|ts)$/, '')
     })
@@ -128,6 +130,7 @@ const configPluginLocaleDir = () => {
 
 configDir('plugins')
 configDir('locale')
+configDir('markers')
 configPluginLocaleDir()
 
 export default configs
