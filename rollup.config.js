@@ -77,25 +77,34 @@ const configs = [
 ]
 
 // 对指定dir打包的配置
-const configDir = dir => {
+const configDir = (dir, config) => {
   const dirPath = path.join(__dirname, 'src', dir)
   const dirNames = fs.readdirSync(dirPath)
-  const namePrefix = dir === 'plugins' ? 'lunisolarPlugin' : null
+  const namePrefix = config?.namePrefix ?? null
+  const inputName = config?.inputName ?? ''
+  const useDts = config?.useDts ?? false
   for (const dirName of dirNames) {
     const fixDirName = namePrefix ? namePrefix + upCaseFirst(dirName) : dirName
+    const input = path.join(dirPath, dirName, inputName)
+    const filePath = path.join(__dirname, dir)
+    const fileName = dirName.replace(/\.(js|ts)$/, '')
     const config = configFactory({
-      name:
-        dir === 'locale'
-          ? `lunisolarLocale${upCaseFirst(formatName(dirName))}`
-          : formatName(fixDirName),
-      input:
-        (dir === 'locale') | (dir === 'markers')
-          ? path.join(dirPath, dirName)
-          : path.join(dirPath, dirName, 'index.ts'),
-      filePath: path.join(__dirname, dir),
-      fileName: dirName.replace(/\.(js|ts)$/, '')
+      name: formatName(fixDirName),
+      input,
+      filePath,
+      fileName
     })
     configs.push(config)
+    if (useDts) {
+      configs.push({
+        input,
+        output: {
+          file: path.join(filePath, `${fileName}.d.ts`),
+          format: 'es'
+        },
+        plugins: [dtsPlugin]
+      })
+    }
   }
 }
 
@@ -128,9 +137,9 @@ const configPluginLocaleDir = () => {
   }
 }
 
-configDir('plugins')
-configDir('locale')
-configDir('markers')
+configDir('plugins', { namePrefix: 'lunisolarPlugin', inputName: 'index.ts' })
+configDir('locale', { namePrefix: 'lunisolarLocale' })
+configDir('markers', { namePrefix: 'lunisolarMarkers', useDts: true })
 configPluginLocaleDir()
 
 export default configs
