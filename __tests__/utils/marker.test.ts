@@ -14,7 +14,7 @@ describe('test markers', () => {
 
     const d1004 = gbMarkers.formatMap.get('MMDD')?.get('1004')
     const d1004a = d1004 ? d1004[0] : undefined
-    expect(d1004a?.tag).toEqual(['國際主題', 'environment', 'test'])
+    expect(d1004a?.tag).toEqual(['international', 'environment', 'test'])
     expect(
       d1004?.map(v => {
         return v.name
@@ -77,7 +77,7 @@ describe('test markers', () => {
   })
 
   it('test removeMarkersByTag function', () => {
-    removeMarkersByTagOrName(gbMarkers, '國際主題', true)
+    removeMarkersByTagOrName(gbMarkers, 'international', true)
     expect(gbMarkers.formatMap.get('MMDD')?.get('0202')).toEqual(undefined)
     expect(gbMarkers.formatMap.get('MMDD')?.get('0204')).toEqual(undefined)
     expect(gbMarkers.formatMap.get('MMDD')?.get('1024')?.length ?? 0).toBe(0)

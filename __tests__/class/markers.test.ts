@@ -17,7 +17,7 @@ describe('Test class Markers', () => {
 
     const d1004 = Markers.store.formatMap.get('MMDD')?.get('1004')
     const d1004a = d1004 ? d1004[0] : undefined
-    expect(d1004a?.tag).toEqual(['國際主題', 'environment'])
+    expect(d1004a?.tag).toEqual(['international', 'environment'])
     expect(
       d1004?.map(v => {
         return v.name
