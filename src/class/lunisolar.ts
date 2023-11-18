@@ -88,12 +88,6 @@ export class Lunisolar extends CacheClass {
     return new Markers(this)
   }
 
-  // markers
-  @cache('lunisolar:markers')
-  get markers(): Markers {
-    return new Markers(this)
-  }
-
   // 节气
   @cache('lunisolar:solarTerm')
   get solarTerm(): SolarTerm | null {
