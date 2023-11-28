@@ -9,6 +9,7 @@ import {
 import { FIRST_YEAR, LAST_YEAR, LUNAR_MONTH_DATAS } from '../constants/lunarData'
 import { _GlobalConfig } from '../config'
 import { JD } from '@lunisolar/julian'
+import { CacheClass } from './cacheClass'
 
 /**
  * @param year 春節所在的公歷年
@@ -63,7 +64,7 @@ function getDateDiff(date1: JD, date2: JD): number {
 /**
  * class Lunar
  */
-export class Lunar {
+export class Lunar extends CacheClass {
   readonly jd: JD
   readonly year: number
   readonly month: number
@@ -82,6 +83,7 @@ export class Lunar {
   }
 
   constructor(dateObj: DateConfigType | JDDict, config?: LunarConfig) {
+    super()
     if (config) {
       this._config = Object.assign({}, this._config, config)
     }

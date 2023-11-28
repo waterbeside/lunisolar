@@ -27,7 +27,7 @@ declare namespace lunisolar {
    * @param date 日期对象
    * @param config 设置
    */
-  export class Lunar {
+  export class Lunar extends CacheClass {
     readonly jd: JD
     /**
      * 取得該年陰歷正月初一的所在公歷年
