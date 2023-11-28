@@ -100,7 +100,6 @@ const configDir = (dir, config) => {
   }
 }
 
-configDir('plugins', { namePrefix: 'lunisolarPlugin', inputName: 'index.ts' })
 configDir('locale', { namePrefix: 'lunisolarLocale' })
 configDir('markers', { namePrefix: 'lunisolarMarkers', useDts: true })
 
