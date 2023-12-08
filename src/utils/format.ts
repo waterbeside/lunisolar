@@ -67,7 +67,7 @@ export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
     lD: lunar.getDayName(),
     lH: lunar.getHourName(),
     lL: lunar.isBigMonth ? locale.bigMonth : locale.smallMonth,
-    // 陰歷(數字形式)
+    // 陰暦(數字形式)
     lYn: String(lunar.year),
     lMn: String(lunar.month),
     lDn: String(lunar.day),
@@ -85,6 +85,19 @@ export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
     cH: char8.hour.toString(),
     cHs: char8.hour.stem.toString(),
     cHb: char8.hour.branch.toString(),
+    // 八字（数字形式）
+    cYn: char8.year.value,
+    cYsn: char8.year.stem.value,
+    cYbn: char8.year.branch.value,
+    cMn: char8.month.value,
+    cMsn: char8.month.stem.value,
+    cMbn: char8.month.branch.value,
+    cDn: char8.day.value,
+    cDsn: char8.day.stem.value,
+    cDbn: char8.day.branch.value,
+    cHn: char8.hour.value,
+    cHsn: char8.hour.stem.value,
+    cHbn: char8.hour.branch.value,
     // 該周幾是該月的第幾次出現
     dR: function (): string {
       return String(Math.ceil(D / 7))
