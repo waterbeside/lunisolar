@@ -34,4 +34,10 @@ describe('test format', () => {
     expect(format('d, dRr', new Lunisolar('2023-12-31'))).toBe('0, 1')
     expect(format('d, dRr', new Lunisolar('2023-12-22'))).toBe('5, 2')
   })
+
+  it('char8 format n', () => {
+    expect(format('cY-cM-cD', new Lunisolar('2023-12-8'))).toBe('癸卯-甲子-庚子')
+    expect(format('cYn-cMn-cDn', new Lunisolar('2023-12-8'))).toBe('39-0-36')
+    expect(format('cYsn-cYbn cMsn-cMbn cDsn-cDbn', new Lunisolar('2023-12-8'))).toBe('9-3 0-0 6-0')
+  })
 })
