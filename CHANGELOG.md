@@ -1,3 +1,12 @@
+# [2.4.0](https://github.com/waterbeside/lunisolar/compare/v2.3.0...v2.4.0) (2023-12-08)
+
+
+### ✨ Features
+
+* format方法补充取得八字或干支的序号 ([5848a14](https://github.com/waterbeside/lunisolar/commit/5848a1453fd2da007f7b6afee71417b625dd4296))
+
+
+
 # [2.3.0](https://github.com/waterbeside/lunisolar/compare/v2.2.2...v2.3.0) (2023-11-13)
 
 
