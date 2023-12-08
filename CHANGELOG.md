@@ -1,3 +1,20 @@
+# [3.0.0-beta.7](https://github.com/waterbeside/lunisolar/compare/v2.3.0...v3.0.0-beta.7) (2023-12-08)
+
+
+### ✨ Features
+
+* export 个别utils函数 ([1f287e0](https://github.com/waterbeside/lunisolar/commit/1f287e0af186d271bdd7d9de49eaff53159ba153))
+* format方法补充取得八字或干支的序号 ([5848a14](https://github.com/waterbeside/lunisolar/commit/5848a1453fd2da007f7b6afee71417b625dd4296))
+
+
+### 🔧 refactor
+
+* 除toDate方法返回的结果外，其它所有Date对象改用JD对象代替 ([4b45e7a](https://github.com/waterbeside/lunisolar/commit/4b45e7a67a476f7e7df61adfece199c7c4326d23))
+* 使用JD类代替Date ([6ee63a0](https://github.com/waterbeside/lunisolar/commit/6ee63a0f5675ad1b936b88c71b259813ff87e70a))
+* dateDiff查询改为date1 > date2 时为正数，与dayjs看齐 ([9d76618](https://github.com/waterbeside/lunisolar/commit/9d76618fb9544ffe7e9461c507106c1c002b537b))
+
+
+
 # [2.4.0](https://github.com/waterbeside/lunisolar/compare/v2.3.0...v2.4.0) (2023-12-08)
 
 
