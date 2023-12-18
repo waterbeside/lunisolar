@@ -108,10 +108,6 @@ type MethodDecorator = <T>(
   descriptor: TypedPropertyDescriptor<T>
 ) => TypedPropertyDescriptor<T> | void
 
-class CacheClass {
-  readonly cache: Map<string, unknown>
-}
-
 interface IteratorInterface {
   next: () => {
     value: any
