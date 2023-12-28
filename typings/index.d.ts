@@ -12,6 +12,7 @@
 /// <reference path="./class/solarTerm.d.ts" />
 /// <reference path="./class/stem.d.ts" />
 /// <reference path="./class/trigram8.d.ts" />
+/// <reference path="./class/cacheClass.d.ts" />
 /// <reference path="./utils.d.ts" />
 
 export = lunisolar

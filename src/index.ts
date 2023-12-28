@@ -12,6 +12,7 @@ import { utils } from './utils/export'
 import { JD } from '@lunisolar/julian'
 import zh from './locale/zh'
 import { Markers } from './class/markers'
+import { CacheClass } from './class/cacheClass'
 
 export default function lunisolar(date?: DateConfigType | JDDict, config?: ConfigType): Lunisolar {
   return new Lunisolar(date, config)
@@ -32,6 +33,7 @@ lunisolar.Lunisolar = Lunisolar
 lunisolar.Trigram8 = Trigram8
 lunisolar.Direction24 = Direction24
 lunisolar.JD = JD
+lunisolar.CacheClass = CacheClass
 lunisolar.utils = utils
 lunisolar.fromLunar = function (
   param: ParseFromLunarParam,
