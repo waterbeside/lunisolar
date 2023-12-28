@@ -1,3 +1,11 @@
+# [3.0.0-beta.8](https://github.com/waterbeside/lunisolar/compare/v2.4.0...v3.0.0-beta.8) (2023-12-28)
+
+
+### 🔧 refactor
+
+* 重构Char8和Lunar类的构造方法 ([421f608](https://github.com/waterbeside/lunisolar/commit/421f6081d9b91fe709e46d50a3fabd3155919c1b))
+
+
 # [3.0.0-beta.7](https://github.com/waterbeside/lunisolar/compare/v2.3.0...v3.0.0-beta.7) (2023-12-08)
 
 
