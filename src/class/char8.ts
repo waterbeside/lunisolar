@@ -5,10 +5,10 @@ import { computeSBMonthValueByTerm, computeRatStem, parseJD } from '../utils'
 import { SB0_DATE } from '../constants/calendarData'
 import { _GlobalConfig } from '../config'
 import { JD } from '@lunisolar/julian'
+import { CacheClass } from './cacheClass'
+import { cache } from '@lunisolar/julian'
 
-export class Char8 {
-  readonly value: number = -1
-  readonly _list: [SB, SB, SB, SB]
+export class Char8 extends CacheClass {
   readonly _config: Required<Char8Config> = {
     changeAgeTerm: _GlobalConfig.changeAgeTerm,
     isUTC: false,
@@ -17,9 +17,14 @@ export class Char8 {
   }
 
   constructor(dateOrSbList: JD | Date | [SB, SB, SB, SB], config?: Char8Config) {
+    super()
     if (config) {
       this._config = Object.assign({}, this._config, config)
     }
+    this.init(dateOrSbList)
+  }
+
+  init(dateOrSbList: JD | Date | [SB, SB, SB, SB]) {
     if (dateOrSbList instanceof Date || dateOrSbList instanceof JD) {
       const y = Char8.computeSBYear(dateOrSbList, this._config)
       const m = Char8.computeSBMonth(dateOrSbList, this._config)
@@ -27,9 +32,8 @@ export class Char8 {
       const h = Char8.computeSBHour(dateOrSbList, d, this._config)
       dateOrSbList = [y, m, d, h]
     }
-    if (Array.isArray(dateOrSbList)) {
-      this._list = dateOrSbList
-      this.value = Char8.computeValue(dateOrSbList)
+    if (Array.isArray(dateOrSbList) && dateOrSbList.length > 3) {
+      this.cache.set('char8:list', dateOrSbList)
     } else {
       throw new Error('Invalid Char8')
     }
@@ -39,28 +43,33 @@ export class Char8 {
     return Object.assign({}, this._config)
   }
 
-  get list() {
-    return this._list
+  get list(): [SB, SB, SB, SB] {
+    return this.cache.get('char8:list') as [SB, SB, SB, SB]
+  }
+
+  @cache('char8:value')
+  get value(): number {
+    return Char8.computeValue(this.list)
   }
 
   get year() {
-    return this._list[0]
+    return this.list[0]
   }
 
   get month() {
-    return this._list[1]
+    return this.list[1]
   }
 
   get day() {
-    return this._list[2]
+    return this.list[2]
   }
 
   get hour() {
-    return this._list[3]
+    return this.list[3]
   }
   // 日主
   get me() {
-    return this._list[2].stem
+    return this.list[2].stem
   }
 
   static computeValue(sbList: SB[]) {

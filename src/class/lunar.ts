@@ -11,6 +11,22 @@ import { _GlobalConfig } from '../config'
 import { JD } from '@lunisolar/julian'
 import { CacheClass } from './cacheClass'
 
+type InitData = {
+  year: number
+  month: number
+  day: number
+  hour: number
+  leapMonth: number
+  leapMonthIsBig: boolean
+}
+
+function getInitData(lunar: Lunar): InitData {
+  if (!lunar.cache.has('lunar:initData')) {
+    lunar.init()
+  }
+  return lunar.cache.get('lunar:initData') as InitData
+}
+
 /**
  * @param year 春節所在的公歷年
  * @param dateDiff 當日與當年春節相差天數
@@ -66,12 +82,6 @@ function getDateDiff(date1: JD, date2: JD): number {
  */
 export class Lunar extends CacheClass {
   readonly jd: JD
-  readonly year: number
-  readonly month: number
-  readonly day: number
-  readonly hour: number
-  readonly leapMonth: number
-  readonly leapMonthIsBig: boolean
   readonly _config: Required<LunarConfig> = {
     lang: _GlobalConfig.lang,
     isUTC: false
@@ -89,6 +99,10 @@ export class Lunar extends CacheClass {
     }
     const offset = dateObj instanceof JD ? dateObj._config.offset : 0
     this.jd = parseJD(dateObj, this._config.isUTC, offset)
+    this.init()
+  }
+
+  init() {
     let year = this.jd.year
     let month = this.jd.month - 1
     let hour = this.jd.hour
@@ -113,15 +127,46 @@ export class Lunar extends CacheClass {
       dateDiff = getDateDiff(getLunarNewYearDay(year), date)
     }
 
-    this.year = year
     // 取得當年的闰月
     const [leapMonth, leapMonthIsBig] = getYearLeapMonth(year)
-    this.leapMonth = leapMonth
-    this.leapMonthIsBig = leapMonthIsBig
     // 計算年和月
-    ;[this.month, this.day] = getLunarMonthDate(year, dateDiff, [leapMonth, leapMonthIsBig])
+    const [m, d] = getLunarMonthDate(year, dateDiff, [leapMonth, leapMonthIsBig])
     // 計算時辰 0 ~ 11
-    this.hour = (hour + 1) % 24 >> 1
+    const h = (hour + 1) % 24 >> 1
+
+    const initData = {
+      year,
+      month: m,
+      day: d,
+      hour: h,
+      leapMonth,
+      leapMonthIsBig
+    }
+    this.cache.set('lunar:initData', initData)
+  }
+
+  get year() {
+    return getInitData(this).year
+  }
+
+  get month() {
+    return getInitData(this).month
+  }
+
+  get day() {
+    return getInitData(this).day
+  }
+
+  get hour() {
+    return getInitData(this).hour
+  }
+
+  get leapMonth() {
+    return getInitData(this).leapMonth
+  }
+
+  get leapMonthIsBig() {
+    return getInitData(this).leapMonthIsBig
   }
 
   get isLeapMonth(): boolean {

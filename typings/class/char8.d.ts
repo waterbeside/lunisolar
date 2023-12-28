@@ -5,14 +5,14 @@ declare namespace lunisolar {
    * @param dateOrSbList 日期 或者 八字四柱的天干地支組合
    * @param Char8Config { lang: 语言名, changeAgeTerm: 用于換歲的節氣 }
    */
-  export class Char8 {
-    readonly value: number
-    readonly _list: [SB, SB, SB, SB]
+  export class Char8 extends CacheClass {
     readonly _config: Required<Char8Config>
     constructor(dateOrSbList: Date | JD | [SB, SB, SB, SB], config?: Char8Config)
+    init(dateOrSbList: Date | JD | [SB, SB, SB, SB]): void
     toString(): string
     valueOf(): number
     getConfig(): Required<Char8Config>
+    get value(): number
     /**
      * @returns 八字四柱的天干地支組合列表
      */
