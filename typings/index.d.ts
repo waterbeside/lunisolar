@@ -17,4 +17,4 @@
 
 export = lunisolar
 
-export type { LunarConfig, Char8Config, ClassCommonConfig, JDDict }
+export type { ParseFromLunarParam, LunarConfig, Char8Config, ClassCommonConfig, JDDict }

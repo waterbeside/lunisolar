@@ -8,5 +8,6 @@ declare namespace lunisolar {
       unit?: GreUnit,
       float?: boolean
     ) => number
+    prettyLunarData: (lunarData: ParseFromLunarParam, lang?: string) => void
   }
 }
