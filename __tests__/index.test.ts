@@ -262,3 +262,41 @@ describe('lunisolar utc', () => {
     expect(lunisolar('2023-03-14 14:44').utcOffset(6).char8.hour.branch.name).toBe('午')
   })
 })
+
+describe('lunisolar.plugin', () => {
+  it('lunisolar.plugin', () => {
+    type PluginFunc<T = unknown> = {
+      (
+        option: T,
+        lsClass: typeof lunisolar.Lunisolar,
+        lsFactory: typeof lunisolar
+      ): Promise<void> | void
+      $once?: any
+      [x: string]: any
+    }
+    const sx: PluginFunc = function (options, lsClass, lsFactory) {}
+    sx.$name = 'lunisolar:plugin:sx'
+    lunisolar.extend(sx)
+
+    expect(lunisolar.g.plugins.has('lunisolar:plugin:sx')).toBe(true)
+  })
+})
+
+describe('parse BC', () => {
+  it('lunisolar BC 0', () => {
+    type PluginFunc<T = unknown> = {
+      (
+        option: T,
+        lsClass: typeof lunisolar.Lunisolar,
+        lsFactory: typeof lunisolar
+      ): Promise<void> | void
+      $once?: any
+      [x: string]: any
+    }
+    const sx: PluginFunc = function (options, lsClass, lsFactory) {}
+    sx.$name = '@lunisolar/plugin-sx'
+    lunisolar.extend(sx)
+    expect(lunisolar('BC100/01/01').format('Y-MM-DD')).toBe('-99-01-01')
+    expect(Number(lunisolar('2024/01/01').format('J')) + 8 / 24).toBe(2460310.5)
+  })
+})

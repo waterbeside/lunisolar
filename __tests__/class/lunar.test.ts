@@ -113,5 +113,6 @@ describe('test lunar class', () => {
     const lnr = new Lunar(`1990-06-23`)
     expect(lnr.getMonthName()).toBe('閏五月')
     expect(lnr.getDayName()).toBe('初一')
+    expect(lnr.lunarNewYearDay.format('YYYY-MM-DD HH:mm:ss')).toBe('1990-01-27 00:00:00')
   })
 })
