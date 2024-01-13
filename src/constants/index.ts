@@ -33,4 +33,4 @@ export const FORMAT_DEFAULT = 'YYYY-MM-DDTHH:mm:ssZ'
 // --- regex ---
 // format
 export const REGEX_FORMAT =
-  /\[([^\]]+)]|cZ|t|T|lYn|lMn|lDn|lHn|lY|lM|lL|lD|lH|cYsn|cYs|cYbn|cYb|cYn|cY|cMsn|cMs|cMbn|cMb|cMn|cM|cDsn|cDs|cDbn|cDb|cDn|cD|cHsn|cHs|cHbn|cHb|cHn|cH|dRr|dR|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g
+  /\[([^\]]+)]|cZ|t|T|lYn|lMn|lDn|lHn|lY|lM|lL|lD|lH|cYsn|cYs|cYbn|cYb|cYn|cY|cMsn|cMs|cMbn|cMb|cMn|cM|cDsn|cDs|cDbn|cDb|cDn|cD|cHsn|cHs|cHbn|cHb|cHn|cH|dRr|dR|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|J|SSS/g
