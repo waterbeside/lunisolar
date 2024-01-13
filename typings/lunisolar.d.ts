@@ -22,17 +22,6 @@ declare namespace lunisolar {
   export interface Locale extends LsrLocale {}
   export const _globalConfig: GlobalConfig
 
-  // export class Markers {
-  //   static readonly store: MarkersStore
-  //   readonly markers: StoreMarker[]
-  //   static add(markersSetting: MarkersSetting, tags?: string | string[]): void
-  //   static clean(): void
-  //   static cleanFnList(): void
-  //   static remove(format: string, matcher?: string, names?: string | string[]): void
-  //   static removeByTag(tags: string | string[]): void
-  //   static removeByName(names: string | string[]): void
-  // }
-
   /**
    * The type for Lunisolar Plugin Function
    * @param option 插件配置
@@ -96,4 +85,6 @@ declare namespace lunisolar {
   export function getLocale(lang: string): LocaleData
 
   export function defineLocale(localeData: { name: string; [x: string]: any }): LsrLocale
+
+  export const g: LunisolarG
 }

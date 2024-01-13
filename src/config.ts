@@ -7,3 +7,7 @@ export const _GlobalConfig: GlobalConfig = {
   locales: { zh }, // 用於記錄語言的具體數據
   lang: 'zh' // 默認語言
 }
+
+export const g: LunisolarG = {
+  plugins: new Set()
+}

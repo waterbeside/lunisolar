@@ -6,7 +6,7 @@ import { SB, Stem, Branch } from './class/stemBranch'
 import { Element5 } from './class/element5'
 import { Trigram8 } from './class/trigram8'
 import { Direction24 } from './class/direction24'
-import { _GlobalConfig } from './config'
+import { _GlobalConfig, g } from './config'
 import { parseFromLunar, defineLocale } from './utils'
 import { utils } from './utils/export'
 import { JD } from '@lunisolar/julian'
@@ -59,6 +59,8 @@ lunisolar.extend = <T = unknown>(plugin: PluginFunc<T>, options?: T): typeof lun
   if (!plugin.$once) {
     plugin(options as T, Lunisolar, lunisolar)
     plugin.$once = true
+    if (typeof plugin.$name === 'string') g.plugins.add(plugin.$name)
+    else if (typeof plugin.name === 'string') g.plugins.add(plugin.name)
   }
   return lunisolar
 }
@@ -104,6 +106,8 @@ lunisolar.defineLocale = defineLocale
 lunisolar.Markers = Markers
 
 lunisolar._globalConfig = _GlobalConfig
+
+lunisolar.g = g
 
 Object.defineProperty(lunisolar, '_globalConfig', {
   writable: false

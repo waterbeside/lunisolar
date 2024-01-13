@@ -62,6 +62,8 @@ type SettingGlobalConfig = Partial<Omit<GlobalConfig, 'locales' | '_global'>>
 type ConfigType = lunisolar.ConfigType
 type LunisolarConfigData = Required<Omit<ConfigType, 'locales'>>
 
+type LunisolarG = { plugins: Set<string>; [key: string]: any }
+
 interface ClassCommonConfig extends Pick<ConfigType, 'lang'> {
   [props: string]: any
 }
