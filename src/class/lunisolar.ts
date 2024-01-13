@@ -7,7 +7,7 @@ import { Lunar } from './lunar'
 import { SolarTerm } from './solarTerm'
 import { Char8 } from './char8'
 import { FIRST_YEAR, LAST_YEAR } from '../constants/lunarData'
-import { _GlobalConfig } from '../config'
+import { _GlobalConfig, g } from '../config'
 import { SB } from './stemBranch'
 import lunisolarFac from '../index'
 import { CacheClass } from './cacheClass'
@@ -92,7 +92,7 @@ export class Lunisolar extends CacheClass {
   @cache('lunisolar:solarTerm')
   get solarTerm(): SolarTerm | null {
     const year = this.year
-    if (year < FIRST_YEAR || year > LAST_YEAR) {
+    if ((year < FIRST_YEAR || year > LAST_YEAR) && !g.plugins.has('@lunisolar/plugin-sx')) {
       throw new Error(`${year}  is not in the allowed time range.`)
     }
     const month = this.month

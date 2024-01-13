@@ -7,7 +7,7 @@ import {
 } from '../utils'
 
 import { FIRST_YEAR, LAST_YEAR, LUNAR_MONTH_DATAS } from '../constants/lunarData'
-import { _GlobalConfig } from '../config'
+import { _GlobalConfig, g } from '../config'
 import { JD } from '@lunisolar/julian'
 import { CacheClass } from './cacheClass'
 
@@ -111,10 +111,11 @@ export class Lunar extends CacheClass {
 
     // 計算年份
     if (
-      year < FIRST_YEAR ||
-      year > LAST_YEAR ||
-      (year === FIRST_YEAR && month < 1) ||
-      (year === FIRST_YEAR && month === 1 && date.day < 19)
+      (year < FIRST_YEAR ||
+        year > LAST_YEAR ||
+        (year === FIRST_YEAR && month < 1) ||
+        (year === FIRST_YEAR && month === 1 && date.day < 19)) &&
+      !g.plugins.has('@lunisolar/plugin-sx')
     ) {
       throw new Error('Invalid lunar year: out of range')
     }

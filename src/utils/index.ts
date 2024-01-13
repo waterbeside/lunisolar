@@ -1,6 +1,6 @@
 import { JD } from '@lunisolar/julian'
 import { SB0_MONTH } from '../constants/calendarData'
-import { _GlobalConfig } from '../config'
+import { _GlobalConfig, g } from '../config'
 import {
   FIRST_YEAR,
   LAST_YEAR,
@@ -32,19 +32,41 @@ export const getYearLeapMonth = function (year: number): [number, boolean] {
   return [leapMonth, leapMonthIsBig === 1]
 }
 
+export const prettyYear = function (year: string | number, lang?: string) {
+  let isB = false
+  if (typeof year === 'number') return year
+  if (year.toLowerCase().indexOf('bc') === 0) {
+    isB = true
+    year = year.slice(2)
+  } else if (year.toLowerCase().indexOf('b') === 0) {
+    isB = true
+    year = year.slice(1)
+  } else if (year.indexOf('公元前') === 0) {
+    isB = true
+    year = year.slice(3)
+  }
+  if (!Number.isNaN(Number(year))) return prettyYearIsB(year, isB)
+  const locale = _GlobalConfig.locales[lang ?? _GlobalConfig.lang]
+  let yearString = ''
+  for (let i = 0; i < year.length; i++) {
+    let n = -1
+    if (year[i] === '零' || year[i] === '〇') n = 0
+    else {
+      n = locale.numerals.indexOf(year[i])
+    }
+    yearString += n >= 0 ? n : ''
+  }
+  return prettyYearIsB(yearString, isB)
+}
+
+export const prettyYearIsB = function (year: number | string, isB: boolean) {
+  return isB ? -Number(year) + 1 : Number(year)
+}
+
 export const prettyLunarData = function (lunarData: ParseFromLunarParam, lang?: string) {
   const locale = _GlobalConfig.locales[lang ?? _GlobalConfig.lang]
-  if (typeof lunarData.year === 'string') {
-    let yearString = ''
-    for (let i = 0; i < lunarData.year.length; i++) {
-      let n = -1
-      if (lunarData.year[i] === '零' || lunarData.year[i] === '〇') n = 0
-      else {
-        n = locale.numerals.indexOf(lunarData.year[i])
-      }
-      yearString += n >= 0 ? n : ''
-    }
-    lunarData.year = Number(yearString)
+  if (lunarData.year !== void 0) {
+    lunarData.year = prettyYear(lunarData.year)
   }
   if (typeof lunarData.month === 'string') {
     let month = lunarData.month
@@ -89,7 +111,7 @@ export const parseFromLunar = function (
     isLeapMonth = true
   }
   // 計算年份
-  if (year < FIRST_YEAR || year > LAST_YEAR) {
+  if ((year < FIRST_YEAR || year > LAST_YEAR) && !g.plugins.has('@lunisolar/plugin-sx')) {
     throw new Error('Invalid lunar year: out of range')
   }
   if (month < 1) {
