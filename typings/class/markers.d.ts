@@ -44,12 +44,12 @@ declare namespace lunisolar {
     readonly storeMarkers: StoreMarker[]
     readonly storeMarkersFromGlobal: StoreMarker[]
     readonly lsr: lunisolar.Lunisolar
-    static add(markersSetting: MarkersSetting, tags?: string | string[]): void
-    static clean(): void
-    static cleanFnList(): void
-    static remove(format: string, matcher?: string, names?: string | string[]): void
-    static removeByTag(tags: string | string[]): void
-    static removeByName(names: string | string[]): void
+    static add(markersSetting: MarkersSetting, tags?: string | string[]): typeof Markers
+    static clean(): typeof Markers
+    static cleanFnList(): typeof Markers
+    static remove(format: string, matcher?: string, names?: string | string[]): typeof Markers
+    static removeByTag(tags: string | string[]): typeof Markers
+    static removeByName(names: string | string[]): typeof Markers
     constructor(lsr: lunisolar.Lunisolar): Markers
     init(): void
     add(markers: MarkersSettingItem[], tags?: string | string[]): Markers
