@@ -1,3 +1,19 @@
+# [3.0.0-beta.11](https://github.com/waterbeside/lunisolar/compare/v2.4.0...v3.0.0-beta.11) (2024-01-17)
+
+
+### ✨ Features
+
+* 使用sx插件时不再提显年份不在范围内 ([0452e2a](https://github.com/waterbeside/lunisolar/commit/0452e2a1bbc89f0cb57e3212e085676bf2fde7c9))
+* export utils.prettLunarData and type ParseFromLunarParam ([25ee6e9](https://github.com/waterbeside/lunisolar/commit/25ee6e99a2df6f22630042151d97041dd6106c53))
+* format增强，支持J取儒略日数 ([85d10e1](https://github.com/waterbeside/lunisolar/commit/85d10e11125daf1ab20fd1e98f99ba97a00ba528))
+* export lunisolar.g ([02ad97d](https://github.com/waterbeside/lunisolar/commit/02ad97d08d7df03e30d4581cc8def5d168d47fe5))
+
+
+### 🐛 Bug Fixes
+
+* 修正markers类型声明文件静态类型返回不正确的问题 ([11e813c](https://github.com/waterbeside/lunisolar/commit/11e813c1280f1133f5341045861260907fff571e))
+
+
 # [3.0.0-beta.8](https://github.com/waterbeside/lunisolar/compare/v2.4.0...v3.0.0-beta.8) (2023-12-28)
 
 
