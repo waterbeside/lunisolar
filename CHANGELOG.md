@@ -1,3 +1,11 @@
+# [3.0.0-beta.12](https://github.com/waterbeside/lunisolar/compare/v2.4.0...v3.0.0-beta.12) (2024-01-17)
+
+
+### ✨ Features
+
+* Lunar类补充getData方法，可以取得init()时运算得到的阴历数据 ([0554883](https://github.com/waterbeside/lunisolar/commit/0554883fd4bafa383660afc80713ef19b4a4dd29))
+
+
 # [3.0.0-beta.11](https://github.com/waterbeside/lunisolar/compare/v2.4.0...v3.0.0-beta.11) (2024-01-17)
 
 
