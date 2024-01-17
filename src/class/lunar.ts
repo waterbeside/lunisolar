@@ -11,22 +11,6 @@ import { _GlobalConfig, g } from '../config'
 import { JD } from '@lunisolar/julian'
 import { CacheClass } from './cacheClass'
 
-type InitData = {
-  year: number
-  month: number
-  day: number
-  hour: number
-  leapMonth: number
-  leapMonthIsBig: boolean
-}
-
-function getInitData(lunar: Lunar): InitData {
-  if (!lunar.cache.has('lunar:initData')) {
-    lunar.init()
-  }
-  return lunar.cache.get('lunar:initData') as InitData
-}
-
 /**
  * @param year 春節所在的公歷年
  * @param dateDiff 當日與當年春節相差天數
@@ -87,6 +71,8 @@ export class Lunar extends CacheClass {
     isUTC: false
   }
 
+  static readonly DATA_KEY: string = 'lunar:data'
+
   static fromLunar(param: ParseFromLunarParam, config?: LunarConfig): Lunar {
     const date = parseFromLunar(param, config?.lang)
     return new Lunar(date, config)
@@ -143,31 +129,36 @@ export class Lunar extends CacheClass {
       leapMonth,
       leapMonthIsBig
     }
-    this.cache.set('lunar:initData', initData)
+    this.cache.set(Lunar.DATA_KEY, initData)
+  }
+
+  getData(): lunisolar.LunarData {
+    if (!this.cache.has(Lunar.DATA_KEY)) this.init()
+    return Object.assign({}, this.cache.get(Lunar.DATA_KEY)) as lunisolar.LunarData
   }
 
   get year() {
-    return getInitData(this).year
+    return this.getData().year
   }
 
   get month() {
-    return getInitData(this).month
+    return this.getData().month
   }
 
   get day() {
-    return getInitData(this).day
+    return this.getData().day
   }
 
   get hour() {
-    return getInitData(this).hour
+    return this.getData().hour
   }
 
   get leapMonth() {
-    return getInitData(this).leapMonth
+    return this.getData().leapMonth
   }
 
   get leapMonthIsBig() {
-    return getInitData(this).leapMonthIsBig
+    return this.getData().leapMonthIsBig
   }
 
   get isLeapMonth(): boolean {

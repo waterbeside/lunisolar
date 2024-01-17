@@ -1,12 +1,33 @@
 declare namespace lunisolar {
+  export interface LunarData {
+    year: number
+    month: number
+    day: number
+    hour: number
+    leapMonth: number
+    leapMonthIsBig: boolean
+    [k: string]: any
+  }
+
   /**
    * ## class Lunar
    * 陰歷對象
-   * @param date 日期对象
+   * @param date 日期对象(支持Date或者JD实例)
    * @param config 设置
    */
   export class Lunar extends CacheClass {
     readonly jd: JD
+    readonly _config: Required<LunarConfig>
+    static readonly DATA_KEY: string
+    static fromLunar(lunarData: ParseFromLunarParam, config?: LunarConfig): Lunar
+    constructor(date: Date | JD, config?: LunarConfig)
+
+    init(): void
+
+    /**
+     * 取得lunar.init()运算后的机本阴历信息
+     */
+    getData(): LunarData
     /**
      * 取得該年陰歷正月初一的所在公歷年
      */
@@ -31,11 +52,7 @@ declare namespace lunisolar {
      * 當年的閏月是否大朋
      */
     get leapMonthIsBig(): boolean
-    readonly _config: Required<LunarConfig>
-    static fromLunar(lunarData: ParseFromLunarParam, config?: LunarConfig): Lunar
-    constructor(date: Date | JD, config?: LunarConfig)
 
-    init(): void
     /**
      * Return string like '二〇二一年冬月廿九子時'
      */
