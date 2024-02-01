@@ -184,14 +184,14 @@ export class Lunar extends CacheClass {
    * 当年正月初一的日期
    */
   get lunarNewYearDay(): JD {
-    return getLunarNewYearDay(this.year)
+    return Lunar.getLunarNewYearDay(this.year)
   }
 
   /**
    * 取得本农历年的取后一天
    */
   get lastDayOfYear(): JD {
-    const nextNewYearDay = getLunarNewYearDay(this.year + 1)
+    const nextNewYearDay = Lunar.getLunarNewYearDay(this.year + 1)
     return parseJD({ jdn: nextNewYearDay.jdn - 1 })
   }
 
