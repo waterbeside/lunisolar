@@ -3,19 +3,19 @@ import { parseJD } from '../../src/utils'
 
 describe('test the Term class', () => {
   it('1901-02-04 立春', () => {
-    expect(SolarTerm.findDate(1901, '立春')).toEqual([1901, 2, 4])
+    expect(SolarTerm.findDate(1901, '立春').format('YYYY-MM-DD HH:mm')).toEqual('1901-02-04 12:00')
   })
 
   it('2022-02-04 立春', () => {
-    expect(SolarTerm.findDate(2022, 2)).toEqual([2022, 2, 4])
+    expect(SolarTerm.findDate(2022, 2).format('YYYY-MM-DD HH:mm')).toEqual('2022-02-04 12:00')
   })
 
   it('2022-03-20 春分', () => {
-    expect(SolarTerm.findDate(2022, '春分')).toEqual([2022, 3, 20])
+    expect(SolarTerm.findDate(2022, '春分').format('YYYY-MM-DD')).toEqual('2022-03-20')
   })
 
   it('2021-12-21 春分', () => {
-    expect(SolarTerm.findDate(2021, '冬至')).toEqual([2021, 12, 21])
+    expect(SolarTerm.findDate(2021, '冬至').format('YYYY-MM-DD')).toEqual('2021-12-21')
   })
 })
 

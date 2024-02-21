@@ -109,11 +109,11 @@ export class Char8 extends CacheClass {
       const startTermDate = SolarTerm.findDate(yearStart, changeAgeTerm)
       const endTermDate = SolarTerm.findDate(yearEnd, changeAgeTerm)
       const startDate = parseJD(
-        `${startTermDate[0]}-${startTermDate[1]}-${startTermDate[2] - 1} 15:00:00`,
+        `${startTermDate.year}-${startTermDate.month}-${startTermDate.day - 1} 15:00:00`,
         true
       )
       const endDate = parseJD(
-        `${endTermDate[0]}-${endTermDate[1]}-${endTermDate[2] - 1} 15:00:00`,
+        `${endTermDate.year}-${endTermDate.month}-${endTermDate.day - 1} 15:00:00`,
         true
       )
       // 检查是否在该岁的范围内

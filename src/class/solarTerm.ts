@@ -66,22 +66,34 @@ export class SolarTerm {
     return [term1, term2]
   }
 
-  // 查出指定节气的日期 [year, month, day]
+  static getValueByName(name: string, config?: ClassCommonConfig): number {
+    const lang = config && config.lang ? config.lang : _GlobalConfig.lang
+    return _GlobalConfig.locales[lang].solarTerm.indexOf(name)
+  }
+
+  /**
+   * 查出指定节气的日期，
+   * v2.x返回[year, month, day]，v3.x开始，返回以北京时间中午12点的日期的JD对象, 
+   * @param year 年
+   * @param termValue 当年的第几个节气
+   * @param config 设置
+   * @returns JD对象
+   */
   static findDate(
     year: number,
     termValue: number | string | SolarTerm,
     config?: ClassCommonConfig
-  ): [number, number, number] {
-    const lang = config && config.lang ? config.lang : _GlobalConfig.lang
+  ): JD {
     if (termValue instanceof SolarTerm) termValue = termValue.value
     termValue =
       typeof termValue === 'string'
-        ? _GlobalConfig.locales[lang].solarTerm.indexOf(termValue)
+        ? SolarTerm.getValueByName(termValue, config)
         : termValue % 24
     const month = termValue >> 1
     const dayList = SolarTerm.getYearTermDayList(year)
     const day = dayList[termValue]
-    return [year, month + 1, day]
+    const jd = parseJD(`${year}-${month + 1}-${day} 12:00:00`, true)
+    return parseJD({ jdn: jd.jdn - 8 / 24})
   }
 
   /**
@@ -91,7 +103,6 @@ export class SolarTerm {
       - nodeFlag: number
       - lang: string
       - isUTC: boolean
-   * @returns {[Term | number, number]} [节气, 节气日期]
    */
   static findNode<T extends boolean = false>(
     date: Date | JD,

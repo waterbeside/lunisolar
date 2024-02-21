@@ -21,7 +21,7 @@ declare namespace lunisolar {
     /**
      * @returns 節氣名稱列表
      */
-    static getNames: (lang?: string) => string[]
+    static getNames(lang?: string): string[]
     /**
      * Get the date list of solar terms for a year
      *
@@ -29,14 +29,20 @@ declare namespace lunisolar {
      * @param year 年份
      * @returns {number[]} [d, d, d, d...]
      */
-    static getYearTermDayList: (year: number) => number[]
+    static getYearTermDayList(year: number): number[]
     /**
      * 取得某年某月的两个节气的日期
      * @param year 年
      * @param month 月
      * @returns {[number, number]} [节, 气]
      */
-    static getMonthTerms: (year: number, month: number) => [number, number]
+    static getMonthTerms(year: number, month: number): [number, number]
+    /**
+     * 通过节气名称查出节气值
+     * @param name 节气名
+     * @param config 设置，用于设定指定语言
+     */
+    static getValueByName(name: string, config?: ClassCommonConfig): number
     /**
      * 查出指定節氣的日期
      * @param year 年份
@@ -47,7 +53,7 @@ declare namespace lunisolar {
       year: number,
       termValue: number | string | SolarTerm,
       config?: ClassCommonConfig
-    ): [number, number, number]
+    ): JD
     /**
      * 查出指定日期属于哪个節气之後，并返回该節气及该節气日期
      * @param {Date | JD} date 日期
@@ -59,7 +65,7 @@ declare namespace lunisolar {
         nodeFlag: 0取节，1取气，2两者皆可
       }
       ```
-     * @returns {[SolarTerm | number, number]} [節氣, 節氣日期]
+     * @returns [節氣, 節氣日期JD对象]
      */
     static findNode<T extends boolean = false>(
       date: Date | JD,
