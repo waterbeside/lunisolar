@@ -95,12 +95,10 @@ export class Char8 {
       const startTermDate = SolarTerm.findDate(yearStart, changeAgeTerm)
       const endTermDate = SolarTerm.findDate(yearEnd, changeAgeTerm)
       const startDate = parseDate(
-        `${startTermDate[0]}-${startTermDate[1]}-${startTermDate[2] - 1} 15:00:00`,
-        true
+        `${startTermDate[0]}-${startTermDate[1]}-${startTermDate[2] - 1} 23:00:00`
       )
       const endDate = parseDate(
-        `${endTermDate[0]}-${endTermDate[1]}-${endTermDate[2] - 1} 15:00:00`,
-        true
+        `${endTermDate[0]}-${endTermDate[1]}-${endTermDate[2] - 1} 23:00:00`
       )
       // 检查是否在该岁的范围内
       if (date.valueOf() < startDate.valueOf()) year--
@@ -152,7 +150,8 @@ export class Char8 {
     const isUTC = config?.isUTC || false
     const offset = config?.offset || 0
     const dateValue = isUTC ? date.valueOf() - offset * 60 * 1000 : date.valueOf()
-    const sb0 = parseDate(`${SB0_DATE[0]}-${SB0_DATE[1]}-${SB0_DATE[2] - 1} 15:00:00`, true)
+    // const sb0 = parseDate(`${SB0_DATE[0]}-${SB0_DATE[1]}-${SB0_DATE[2] - 1} 15:00:00`, true)
+    const sb0 = parseDate(`${SB0_DATE[0]}-${SB0_DATE[1]}-${SB0_DATE[2] - 1} 23:00:00`)
     let daydiff = Math.floor((dateValue - sb0.valueOf()) / (1000 * 60 * 60 * 24)) % 60
     if (daydiff < 0) daydiff += 60
     return new SB(daydiff, undefined, config)

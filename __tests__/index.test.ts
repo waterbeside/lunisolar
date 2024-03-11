@@ -253,4 +253,24 @@ describe('lunisolar utc', () => {
     expect(lunisolar('2023-03-14 14:44').add(-2, 'h').char8.hour.branch.name).toBe('午')
     expect(lunisolar('2023-03-14 14:44').utcOffset(6).char8.hour.branch.name).toBe('午')
   })
+
+  it('lunisolar lunar 22 23', () => {
+    // Time:  2024/3/6 22:00
+    const ten = '2024/3/6 10:00'
+    const tenChar8 = lunisolar(ten).char8
+
+    console.log(lunisolar(ten).add(12, 'h').format('YYYY-MM-DD HH:mm:ss'))
+    const res = `${ten}: ${tenChar8.year.stem.toString()}, ${tenChar8.year.branch.toString()} \
+    ${tenChar8.month.stem.toString()}, ${tenChar8.month.branch.toString()} \
+    ${tenChar8.day.stem.toString()}, ${tenChar8.day.branch.toString()}`
+    expect(res).toBe('2024/3/6 10:00: 甲, 辰     丁, 卯     己, 巳')
+
+    // Time: 2024/3/6 23:00
+    const eleven = '2024/3/6 23:00'
+    const elevenChar8 = lunisolar(eleven).add(12, 'h').char8
+    const res2 = `${eleven}: ${elevenChar8.year.stem.toString()}, ${elevenChar8.year.branch.toString()} \
+    ${elevenChar8.month.stem.toString()}, ${elevenChar8.month.branch.toString()} \
+    ${elevenChar8.day.stem.toString()}, ${elevenChar8.day.branch.toString()}`
+    expect(res2).toBe('2024/3/6 23:00: 甲, 辰     丁, 卯     庚, 午')
+  })
 })
