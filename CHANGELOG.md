@@ -1,3 +1,12 @@
+# [2.5.0](https://github.com/waterbeside/lunisolar/compare/v2.4.0...v2.5.0) (2024-03-11)
+
+
+### ✨ Features
+
+* 干地换日不再只以北京时间23：00为准，改为按地方时 ([739de4a](https://github.com/waterbeside/lunisolar/commit/739de4a7d4a3c6dc4bdce16ef314af04b3b61db2))
+
+
+
 # [2.4.0](https://github.com/waterbeside/lunisolar/compare/v2.3.0...v2.4.0) (2023-12-08)
 
 
