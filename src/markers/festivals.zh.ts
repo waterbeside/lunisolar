@@ -480,7 +480,7 @@ const festivals: MarkersSetting = [
         tag: ['cn', 'traditional'],
         name: '七夕節'
       },
-      '7,14': {
+      '7,15': {
         tag: ['cn', 'traditional'],
         name: '中元節'
       },
