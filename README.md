@@ -133,7 +133,7 @@ lunisolar.fromLunar({
   year: 2022,
   month: 10,
   day: 25
-}).fromat('YYYY-MM-DD') // 2022-11-18
+}).format('YYYY-MM-DD') // 2022-11-18
 
 ```
 
