@@ -115,8 +115,8 @@ export const prettyLunarData = function (lunarData: ParseFromLunarParam, lang?: 
  */
 export const parseFromLunar = function (lunarData: ParseFromLunarParam, lang?: string) {
   prettyLunarData(lunarData, lang)
-  const date = new Date()
-  const year = lunarData.year ? Number(lunarData.year) : date.getFullYear()
+  const today = new Date()
+  const year = lunarData.year ? Number(lunarData.year) : today.getFullYear()
   let month = Number(lunarData.month)
   const day = Number(lunarData.day)
   const hour = lunarData.hour ? Number(lunarData.hour) : 0
@@ -149,7 +149,11 @@ export const parseFromLunar = function (lunarData: ParseFromLunarParam, lang?: s
     }
   }
   daySum -= (monthIsBig ? 30 : 29) - day + 1
-  return new Date(nyd.valueOf() + daySum * 24 * 60 * 60 * 1000 + hour * 2 * 60 * 60 * 1000)
+  const date = new Date(nyd.valueOf() + daySum * 24 * 60 * 60 * 1000)
+  const y = date.getFullYear()
+  const m = date.getMonth() + 1
+  const d = date.getDate()
+  return parseDate(`${y}/${m}/${d} ${hour * 2}:00`)
 }
 
 /**
