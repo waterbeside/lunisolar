@@ -41,7 +41,6 @@ interface GlobalConfig {
   offset: number // 时间偏移，以分钟为单位
   changeAgeTerm: number | null // 换岁节气, 默认为立春，如果为null刚为正月初一换岁
   locales: { [key: string]: LocaleData } // 用于記錄語言的具體數據
-
   lang: string // 默認語言
   // [props: string]: any
 }
