@@ -114,4 +114,28 @@ describe('test lunar class', () => {
     expect(lnr.getMonthName()).toBe('閏五月')
     expect(lnr.getDayName()).toBe('初一')
   })
+
+  it('2024/01/10 24:00:00', () => {
+    const lnr = new Lunar(`2024/01/10 24:00:00`)
+    expect(lnr.getYearName()).toBe('二〇二三')
+    expect(lnr.getMonthName()).toBe('十二月')
+    expect(lnr.getDayName()).toBe('初一')
+    expect(lnr.getHourName()).toBe('子')
+  })
+
+  it('2024/10/02 23:00:00', () => {
+    const lnr = new Lunar(`2024/10/02 23:00:00`)
+    expect(lnr.getYearName()).toBe('二〇二四')
+    expect(lnr.getMonthName()).toBe('九月')
+    expect(lnr.getDayName()).toBe('初一')
+    expect(lnr.getHourName()).toBe('子')
+  })
+
+  it('2024/01/10 23:00:00', () => {
+    const lnr = new Lunar(`2024/01/10 23:00:00`)
+    expect(lnr.getYearName()).toBe('二〇二三')
+    expect(lnr.getMonthName()).toBe('十二月')
+    expect(lnr.getDayName()).toBe('初一')
+    expect(lnr.getHourName()).toBe('子')
+  })
 })
