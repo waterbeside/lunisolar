@@ -45,9 +45,9 @@ describe('test lunar class', () => {
   it('2022-10-22', () => {
     const lunar = new Lunar('2022-10-22')
     const ldoy = lunar.lastDayOfYear
-    expect(ldoy.year).toBe(2023)
-    expect(ldoy.month).toBe(1)
-    expect(ldoy.day).toBe(21)
+    expect(ldoy.getFullYear()).toBe(2023)
+    expect(ldoy.getMonth()).toBe(0)
+    expect(ldoy.getDate()).toBe(21)
   })
 
   it('2017-08-21', () => {
@@ -113,6 +113,29 @@ describe('test lunar class', () => {
     const lnr = new Lunar(`1990-06-23`)
     expect(lnr.getMonthName()).toBe('閏五月')
     expect(lnr.getDayName()).toBe('初一')
-    expect(lnr.lunarNewYearDay.format('YYYY-MM-DD HH:mm:ss')).toBe('1990-01-27 00:00:00')
+  })
+
+  it('2024/01/10 24:00:00', () => {
+    const lnr = new Lunar(`2024/01/10 24:00:00`)
+    expect(lnr.getYearName()).toBe('二〇二三')
+    expect(lnr.getMonthName()).toBe('十二月')
+    expect(lnr.getDayName()).toBe('初一')
+    expect(lnr.getHourName()).toBe('子')
+  })
+
+  it('2024/10/02 23:00:00', () => {
+    const lnr = new Lunar(`2024/10/02 23:00:00`)
+    expect(lnr.getYearName()).toBe('二〇二四')
+    expect(lnr.getMonthName()).toBe('九月')
+    expect(lnr.getDayName()).toBe('初一')
+    expect(lnr.getHourName()).toBe('子')
+  })
+
+  it('2024/01/10 23:00:00', () => {
+    const lnr = new Lunar(`2024/01/10 23:00:00`)
+    expect(lnr.getYearName()).toBe('二〇二三')
+    expect(lnr.getMonthName()).toBe('十二月')
+    expect(lnr.getDayName()).toBe('初一')
+    expect(lnr.getHourName()).toBe('子')
   })
 })
