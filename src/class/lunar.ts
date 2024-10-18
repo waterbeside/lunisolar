@@ -92,7 +92,7 @@ export class Lunar {
     let month = getDateData(_date, 'Month', isUTC)
     let hours = getDateData(_date, 'Hours', isUTC)
     const day = getDateData(_date, 'Date', isUTC)
-    const date = parseDate(`${year}/${month + 1}/${day}`)
+    const date = parseDate(`${year}/${month + 1}/${day + (hours === 23 ? 1 : 0)}`)
 
     // 計算年份
     if (
@@ -105,7 +105,7 @@ export class Lunar {
     }
 
     let dateDiff = getDateDiff(getLunarNewYearDay(year), date)
-    if (date && hours === 23) dateDiff += 1
+    // if (date && hours === 23) dateDiff += 1
 
     if (dateDiff < 0) {
       year = year - 1
