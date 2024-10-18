@@ -105,7 +105,6 @@ export class Lunar {
     }
 
     let dateDiff = getDateDiff(getLunarNewYearDay(year), date)
-    // if (date && hours === 23) dateDiff += 1
 
     if (dateDiff < 0) {
       year = year - 1
