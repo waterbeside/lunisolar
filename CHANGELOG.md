@@ -1,3 +1,18 @@
+## [2.5.1](https://github.com/waterbeside/lunisolar/compare/v2.5.0...v2.5.1) (2024-10-21)
+
+
+### ✨ Features
+
+* 中元节marker由七月十四调整为七月十五 [#33](https://github.com/waterbeside/lunisolar/issues/33) ([cea7616](https://github.com/waterbeside/lunisolar/commit/cea76163a66cd11479181e99a977c5aadc4a7fa7))
+
+
+### 🐛 Bug Fixes
+
+* 修复“换年的23点，转换的阴历月份不正确”的问题 [#35](https://github.com/waterbeside/lunisolar/issues/35) ([d2e2e49](https://github.com/waterbeside/lunisolar/commit/d2e2e49471d49bd33ea1ad6102ad18d9d0366ac5))
+* 修正"通过带时辰的农历创建实例，并刚好在夏令时时，从新转为农历会出现时辰有误的问题“ [#31](https://github.com/waterbeside/lunisolar/issues/31) ([616a238](https://github.com/waterbeside/lunisolar/commit/616a238fdffd92d6d0bc95a34cdba085b54b674c))
+
+
+
 # [2.5.0](https://github.com/waterbeside/lunisolar/compare/v2.4.0...v2.5.0) (2024-03-11)
 
 
