@@ -45,9 +45,9 @@ describe('test lunar class', () => {
   it('2022-10-22', () => {
     const lunar = new Lunar('2022-10-22')
     const ldoy = lunar.lastDayOfYear
-    expect(ldoy.getFullYear()).toBe(2023)
-    expect(ldoy.getMonth()).toBe(0)
-    expect(ldoy.getDate()).toBe(21)
+    expect(ldoy.year).toBe(2023)
+    expect(ldoy.month).toBe(1)
+    expect(ldoy.day).toBe(21)
   })
 
   it('2017-08-21', () => {
