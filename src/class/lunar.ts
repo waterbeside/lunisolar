@@ -83,7 +83,7 @@ export class Lunar extends CacheClass {
     if (config) {
       this._config = Object.assign({}, this._config, config)
     }
-    const offset = dateObj instanceof JD ? dateObj._config.offset : 0
+    const offset = dateObj instanceof JD ? (dateObj as JD)._config.offset : 0
     this.jd = parseJD(dateObj, this._config.isUTC, offset)
     this.init()
   }
@@ -93,7 +93,7 @@ export class Lunar extends CacheClass {
     let month = this.jd.month - 1
     let hour = this.jd.hour
     const day = this.jd.day
-    const date = parseJD(`${year}/${month + 1}/${day}`, this._config.isUTC)
+    const date = parseJD(`${year}/${month + 1}/${day + (hour === 23 ? 1 : 0)}`, this._config.isUTC)
 
     // 計算年份
     if (
@@ -107,7 +107,6 @@ export class Lunar extends CacheClass {
     }
 
     let dateDiff = getDateDiff(getLunarNewYearDay(year), date)
-    if (date && hour === 23) dateDiff += 1
 
     if (dateDiff < 0) {
       year = year - 1
