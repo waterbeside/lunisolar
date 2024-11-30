@@ -7,6 +7,10 @@
   "browser": "dist/lunisolar.js",
   "unpkg": "dist/lunisolar.js",
   "types": "typings/index.d.ts",
+  "files": [
+    "dist",
+    "typings"
+  ],
   "scripts": {
     "test": "jest",
     "build": "rollup -c",
