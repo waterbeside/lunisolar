@@ -2,6 +2,21 @@ import { INVALID_DATE_STRING, FORMAT_DEFAULT, REGEX_FORMAT } from '../constants'
 import { padZoneStr } from '../utils'
 import { _GlobalConfig } from '../config'
 
+/**
+ * 返回当前时间对应的分令。0-9分为子分，10-19分为丑分，以此类推。
+ * @param hour 当前小时数
+ * @param minute 当前分钟数
+ */
+const formatMinutes = (hour: number, minute: number): string => {
+  const isEven = hour % 2 == 0
+  const resolvedMinute = isEven ? minute + 60 : minute
+  // 一个时辰120分钟对应12份，每份10分钟
+  const minutesPerPortion = 120 / 12;
+  const index = Math.floor(resolvedMinute / minutesPerPortion);
+  const branchName = lunisolar.Branch.getNames()[index]
+  return branchName
+}
+
 export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
   if (lsr.toUTCString() === INVALID_DATE_STRING) return INVALID_DATE_STRING
   let str = formatStr || FORMAT_DEFAULT
@@ -85,6 +100,7 @@ export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
     cH: char8.hour.toString(),
     cHs: char8.hour.stem.toString(),
     cHb: char8.hour.branch.toString(),
+    cFb: formatMinutes(H, m),
     // 八字（数字形式）
     cYn: char8.year.value,
     cYsn: char8.year.stem.value,
