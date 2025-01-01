@@ -3,7 +3,7 @@ import { padZoneStr } from '../utils'
 import { _GlobalConfig } from '../config'
 
 /**
- * 返回当前时间对应的分令。0-9分为子分，10-19分为寅分，以此类推。
+ * 返回当前时间对应的分令。0-9分为子分，10-19分为丑分，以此类推。
  * @param hour 当前小时数
  * @param minute 当前分钟数
  */
