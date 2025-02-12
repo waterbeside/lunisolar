@@ -1,3 +1,12 @@
+## [2.5.2](https://github.com/waterbeside/lunisolar/compare/v2.5.1...v2.5.2) (2025-02-12)
+
+
+### 🐛 Bug Fixes
+
+* 修正夏令时23时，日柱没有换日的问题 ([da8b4f8](https://github.com/waterbeside/lunisolar/commit/da8b4f8952e9459e93de2b94f0c3c3dcfb6cb98d))
+
+
+
 ## [2.5.1](https://github.com/waterbeside/lunisolar/compare/v2.5.0...v2.5.1) (2024-10-21)
 
 
