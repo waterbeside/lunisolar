@@ -51,6 +51,26 @@ export const parseDate = (date?: DateParamType, isUTC: boolean = false): Date =>
 }
 
 /**
+ * 以23点换日，取得换日后的date对象
+ * @param date
+ * @param isUTC
+ * @param isAddHours
+ * @returns
+ */
+export const getDateOfStartOf23H = function (date: Date, isUTC = false, isAddHours = false): Date {
+  let year = getDateData(date, 'FullYear', isUTC)
+  let month = getDateData(date, 'Month', isUTC)
+  let hours = getDateData(date, 'Hours', isUTC)
+  const day = getDateData(date, 'Date', isUTC)
+  const hoursStr = isAddHours
+    ? hours === 23
+      ? ' 00:00'
+      : ` ${String(hours).padStart(2, '0')}:00`
+    : ''
+  return parseDate(`${year}/${month + 1}/${day + (hours === 23 ? 1 : 0)}${hoursStr}`, isUTC)
+}
+
+/**
  * 取得春节在该年哪天
  * @param year 年份
  * @returns Date对象

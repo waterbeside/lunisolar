@@ -4,7 +4,8 @@ import {
   getLunarNewYearDay,
   getYearLeapMonth,
   parseFromLunar,
-  getDateData
+  getDateData,
+  getDateOfStartOf23H
 } from '../utils'
 
 import { FIRST_YEAR, LAST_YEAR, LUNAR_MONTH_DATAS } from '../constants/lunarData'
@@ -91,8 +92,7 @@ export class Lunar {
     let year = getDateData(_date, 'FullYear', isUTC)
     let month = getDateData(_date, 'Month', isUTC)
     let hours = getDateData(_date, 'Hours', isUTC)
-    const day = getDateData(_date, 'Date', isUTC)
-    const date = parseDate(`${year}/${month + 1}/${day + (hours === 23 ? 1 : 0)}`)
+    const date = getDateOfStartOf23H(_date, isUTC)
 
     // 計算年份
     if (

@@ -1,7 +1,13 @@
 import { SB } from './stemBranch'
 import { SolarTerm } from './solarTerm'
 import { Lunar } from './lunar'
-import { parseDate, computeSBMonthValueByTerm, computeRatStem, getDateData } from '../utils'
+import {
+  parseDate,
+  computeSBMonthValueByTerm,
+  computeRatStem,
+  getDateData,
+  getDateOfStartOf23H
+} from '../utils'
 import { SB0_DATE } from '../constants/calendarData'
 import { _GlobalConfig } from '../config'
 
@@ -20,10 +26,12 @@ export class Char8 {
       this._config = Object.assign({}, this._config, config)
     }
     if (dateOrSbList instanceof Date) {
-      const y = Char8.computeSBYear(dateOrSbList, this._config)
-      const m = Char8.computeSBMonth(dateOrSbList, this._config)
-      const d = Char8.computeSBDay(dateOrSbList, this._config)
-      const h = Char8.computeSBHour(dateOrSbList, d, this._config)
+      const isUTC = this._config.isUTC
+      const date = getDateOfStartOf23H(dateOrSbList, isUTC, true)
+      const y = Char8.computeSBYear(date, this._config)
+      const m = Char8.computeSBMonth(date, this._config)
+      const d = Char8.computeSBDay(date, this._config)
+      const h = Char8.computeSBHour(date, d, this._config)
       dateOrSbList = [y, m, d, h]
     }
     if (Array.isArray(dateOrSbList)) {
