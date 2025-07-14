@@ -138,4 +138,12 @@ describe('test lunar class', () => {
     expect(lnr.getDayName()).toBe('初一')
     expect(lnr.getHourName()).toBe('子')
   })
+
+  // it('1901-02-18 22:00', () => {
+  //   const lnr = new Lunar(`1901-02-18 22:00`)
+  //   expect(lnr.getYearName()).toBe('一九〇一')
+  //   expect(lnr.getMonthName()).toBe('十一月')
+  //   expect(lnr.getDayName()).toBe('十五')
+  //   expect(lnr.getHourName()).toBe('亥')
+  // })
 })

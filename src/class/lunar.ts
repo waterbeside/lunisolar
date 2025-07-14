@@ -94,30 +94,46 @@ export class Lunar {
     let hours = getDateData(_date, 'Hours', isUTC)
     const date = getDateOfStartOf23H(_date, isUTC)
 
+    const d = date.getDate()
+
     // 計算年份
     if (
       year < FIRST_YEAR ||
-      year > LAST_YEAR ||
-      (year === FIRST_YEAR && month < 1) ||
-      (year === FIRST_YEAR && month === 1 && date.getDate() < 19)
+      year > LAST_YEAR
+      // (year === FIRST_YEAR && month < 1) ||
+      // (year === FIRST_YEAR && month === 1 && date.getDate() < 19)
     ) {
       throw new Error('Invalid lunar year: out of range')
     }
 
-    let dateDiff = getDateDiff(getLunarNewYearDay(year), date)
-
-    if (dateDiff < 0) {
-      year = year - 1
-      dateDiff = getDateDiff(getLunarNewYearDay(year), date)
+    // 如果年份是 1901年，并且日期小于当年的农历新年，则取另一个规则
+    if ((year === FIRST_YEAR && month < 1) || (year === FIRST_YEAR && month === 1 && d < 19)) {
+      this.year = year - 1
+      if (month === 1 || (month < 1 && d >= 20)) {
+        // 大于等于 1901-01-20 时，为 十二月
+        this.month = 12
+        this.day = month === 1 ? 13 + d - 1 : d - 20 + 1
+      } else {
+        this.month = 11
+        this.day = 11 + d - 1
+      }
+      this.leapMonth = 8
+      this.leapMonthIsBig = false
+    } else {
+      // 1901年春节后的计算方式
+      let dateDiff = getDateDiff(getLunarNewYearDay(year), date)
+      if (dateDiff < 0) {
+        year = year - 1
+        dateDiff = getDateDiff(getLunarNewYearDay(year), date)
+      }
+      this.year = year
+      // 取得當年的闰月
+      const [leapMonth, leapMonthIsBig] = getYearLeapMonth(year)
+      this.leapMonth = leapMonth
+      this.leapMonthIsBig = leapMonthIsBig
+      // 計算年和月
+      ;[this.month, this.day] = getLunarMonthDate(year, dateDiff, [leapMonth, leapMonthIsBig])
     }
-
-    this.year = year
-    // 取得當年的闰月
-    const [leapMonth, leapMonthIsBig] = getYearLeapMonth(year)
-    this.leapMonth = leapMonth
-    this.leapMonthIsBig = leapMonthIsBig
-    // 計算年和月
-    ;[this.month, this.day] = getLunarMonthDate(year, dateDiff, [leapMonth, leapMonthIsBig])
     // 計算時辰 0 ~ 11
     this.hour = (hours + 1) % 24 >> 1
   }
@@ -127,6 +143,8 @@ export class Lunar {
   }
 
   get isBigMonth(): boolean {
+    if (this.year === 1900 && this.month == 11) return false
+    if (this.year === 1900 && this.month == 12) return true
     const monthData = LUNAR_MONTH_DATAS[this.year - FIRST_YEAR]
     if (this.isLeapMonth) {
       return ((monthData >> 12) & 1) === 1

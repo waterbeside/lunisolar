@@ -114,3 +114,11 @@ describe('test getMonthBuilder', () => {
     expect(lsr.getMonthBuilder(1)[0].branch.value).toBe(8)
   })
 })
+
+describe('test 1901', () => {
+  it('1901-02-18 22:00', () => {
+    const lsr = lunisolar(`1901-02-18 22:00`)
+
+    expect(lsr.format('YYYY-MM-DD lY lM lD lH lL')).toBe('1901-02-18 一九〇〇 十二月 三十 亥 大')
+  })
+})
