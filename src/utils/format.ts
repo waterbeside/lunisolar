@@ -14,8 +14,8 @@ export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
   const m = lsr.minute
   const s = lsr.second
   const zoneStr = padZoneStr(lsr)
-  const lunar = lsr.lunar
-  const char8 = lsr.char8
+  const getLunar = () => lsr.lunar
+  const getChar8 = () => lsr.char8
   const locale = _GlobalConfig.locales[lsr._config.lang]
 
   const { weekdays, months, meridiem } = locale
@@ -57,47 +57,47 @@ export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
     SSS: String(lsr.millis).padStart(3, '0'),
     Z: zoneStr, // 'ZZ' logic below
     // 生肖
-    cZ: locale.chineseZodiac[char8.year.branch.value],
+    cZ: () => locale.chineseZodiac[getChar8().year.branch.value],
     // 节气
     t: lsr.solarTerm ? String(lsr.solarTerm.value + 1) : '',
     T: lsr.solarTerm ? lsr.solarTerm.toString() : '',
     // 陰歷
-    lY: lunar.getYearName(),
-    lM: lunar.getMonthName(),
-    lD: lunar.getDayName(),
-    lH: lunar.getHourName(),
-    lL: lunar.isBigMonth ? locale.bigMonth : locale.smallMonth,
+    lY: () => getLunar().getYearName(),
+    lM: () => getLunar().getMonthName(),
+    lD: () => getLunar().getDayName(),
+    lH: () => getLunar().getHourName(),
+    lL: () => (getLunar().isBigMonth ? locale.bigMonth : locale.smallMonth),
     // 陰暦(數字形式)
-    lYn: String(lunar.year),
-    lMn: String(lunar.month),
-    lDn: String(lunar.day),
-    lHn: String(lunar.hour + 1),
+    lYn: () => String(getLunar().year),
+    lMn: () => String(getLunar().month),
+    lDn: () => String(getLunar().day),
+    lHn: () => String(getLunar().hour + 1),
     // 八字
-    cY: char8.year.toString(),
-    cYs: char8.year.stem.toString(),
-    cYb: char8.year.branch.toString(),
-    cM: char8.month.toString(),
-    cMs: char8.month.stem.toString(),
-    cMb: char8.month.branch.toString(),
-    cD: char8.day.toString(),
-    cDs: char8.day.stem.toString(),
-    cDb: char8.day.branch.toString(),
-    cH: char8.hour.toString(),
-    cHs: char8.hour.stem.toString(),
-    cHb: char8.hour.branch.toString(),
+    cY: () => getChar8().year.toString(),
+    cYs: () => getChar8().year.stem.toString(),
+    cYb: () => getChar8().year.branch.toString(),
+    cM: () => getChar8().month.toString(),
+    cMs: () => getChar8().month.stem.toString(),
+    cMb: () => getChar8().month.branch.toString(),
+    cD: () => getChar8().day.toString(),
+    cDs: () => getChar8().day.stem.toString(),
+    cDb: () => getChar8().day.branch.toString(),
+    cH: () => getChar8().hour.toString(),
+    cHs: () => getChar8().hour.stem.toString(),
+    cHb: () => getChar8().hour.branch.toString(),
     // 八字（数字形式）
-    cYn: char8.year.value,
-    cYsn: char8.year.stem.value,
-    cYbn: char8.year.branch.value,
-    cMn: char8.month.value,
-    cMsn: char8.month.stem.value,
-    cMbn: char8.month.branch.value,
-    cDn: char8.day.value,
-    cDsn: char8.day.stem.value,
-    cDbn: char8.day.branch.value,
-    cHn: char8.hour.value,
-    cHsn: char8.hour.stem.value,
-    cHbn: char8.hour.branch.value,
+    cYn: () => getChar8().year.value,
+    cYsn: () => getChar8().year.stem.value,
+    cYbn: () => getChar8().year.branch.value,
+    cMn: () => getChar8().month.value,
+    cMsn: () => getChar8().month.stem.value,
+    cMbn: () => getChar8().month.branch.value,
+    cDn: () => getChar8().day.value,
+    cDsn: () => getChar8().day.stem.value,
+    cDbn: () => getChar8().day.branch.value,
+    cHn: () => getChar8().hour.value,
+    cHsn: () => getChar8().hour.stem.value,
+    cHbn: () => getChar8().hour.branch.value,
     // 該周幾是該月的第幾次出現
     dR: function (): string {
       return String(Math.ceil(D / 7))
