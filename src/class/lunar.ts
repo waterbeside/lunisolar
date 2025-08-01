@@ -96,27 +96,44 @@ export class Lunar extends CacheClass {
     const date = parseJD(`${year}/${month + 1}/${day + (hour === 23 ? 1 : 0)}`, this._config.isUTC)
 
     // 計算年份
-    if (
-      (year < FIRST_YEAR ||
-        year > LAST_YEAR ||
-        (year === FIRST_YEAR && month < 1) ||
-        (year === FIRST_YEAR && month === 1 && date.day < 19)) &&
-      !g.plugins.has('@lunisolar/plugin-sx')
-    ) {
+    if ((year < FIRST_YEAR || year > LAST_YEAR) && !g.plugins.has('@lunisolar/plugin-sx')) {
       throw new Error('Invalid lunar year: out of range')
     }
-
-    let dateDiff = getDateDiff(getLunarNewYearDay(year), date)
-
-    if (dateDiff < 0) {
+    let [m, d] = [0, 0]
+    let [leapMonth, leapMonthIsBig] = [0, false]
+    // 如果年份是 1901年，并且日期小于当年的农历新年，则取另一个规则
+    if (
+      (year === FIRST_YEAR && month < 1) ||
+      (year === FIRST_YEAR &&
+        month === 1 &&
+        date.day < 19 &&
+        !g.plugins.has('@lunisolar/plugin-sx'))
+    ) {
+      const dd = date.day
       year = year - 1
-      dateDiff = getDateDiff(getLunarNewYearDay(year), date)
-    }
+      if (month === 1 || (month < 1 && dd >= 20)) {
+        // 大于等于 1901-01-20 时，为 十二月
+        m = 12
+        d = month === 1 ? 13 + dd - 1 : dd - 20 + 1
+      } else {
+        m = 11
+        d = 11 + dd - 1
+      }
+      leapMonth = 8
+      leapMonthIsBig = false
+    } else {
+      let dateDiff = getDateDiff(getLunarNewYearDay(year), date)
 
-    // 取得當年的闰月
-    const [leapMonth, leapMonthIsBig] = getYearLeapMonth(year)
-    // 計算年和月
-    const [m, d] = getLunarMonthDate(year, dateDiff, [leapMonth, leapMonthIsBig])
+      if (dateDiff < 0) {
+        year = year - 1
+        dateDiff = getDateDiff(getLunarNewYearDay(year), date)
+      }
+
+      // 取得當年的闰月
+      ;[leapMonth, leapMonthIsBig] = getYearLeapMonth(year)
+      // 計算年和月
+      ;[m, d] = getLunarMonthDate(year, dateDiff, [leapMonth, leapMonthIsBig])
+    }
     // 計算時辰 0 ~ 11
     const h = (hour + 1) % 24 >> 1
 
