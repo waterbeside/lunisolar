@@ -1,3 +1,14 @@
+# [2.6.0](https://github.com/waterbeside/lunisolar/compare/v2.5.2...v2.6.0) (2025-08-01)
+
+
+### ✨ Features
+
+* 地支类(Branch)添加三会方法 [#46](https://github.com/waterbeside/lunisolar/issues/46) ([ab9607b](https://github.com/waterbeside/lunisolar/commit/ab9607b0f0ebf63cefcf7d4bb938fbc36a3ea3b0))
+* 农历查询 19010101~19010218 不再抛错 ([57363c7](https://github.com/waterbeside/lunisolar/commit/57363c7a21cf2d24759494c3b9618020fb535b20))
+* 优化formatter，指定值取值时才执行运算 ([6542190](https://github.com/waterbeside/lunisolar/commit/6542190a2810bd50104d210766e7151e279a4bdd))
+
+
+
 ## [2.5.2](https://github.com/waterbeside/lunisolar/compare/v2.5.1...v2.5.2) (2025-02-12)
 
 
