@@ -322,6 +322,16 @@ export const parseCommonCreateClassValue = function (
 }
 
 /**
+ * 计算地支的三会五行
+ * @param branchValue 地支value值
+ */
+export const computeMeetingE5Value = function (branchValue: number) {
+  const idx = Math.floor(((branchValue - 2 + 12) % 12) / 3)
+  const e5v = [0, 1, 3, 4]
+  return e5v[idx]
+}
+
+/**
  * 计算地支的三合五行
  * @param branchValue 地支value值
  */

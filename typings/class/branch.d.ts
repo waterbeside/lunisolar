@@ -35,6 +35,14 @@ declare namespace lunisolar {
      */
     get e5(): Element5
     /**
+     * 三会
+     */
+    get meeting(): [Branch, Branch]
+    /**
+     * 三会五行
+     */
+    get meetingE5(): Element5
+    /**
      * 三合
      */
     get triad(): [Branch, Branch]

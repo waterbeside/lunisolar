@@ -71,10 +71,10 @@ export const format = (formatStr: string, lsr: lunisolar.Lunisolar): string => {
     lH: () => lsr.lunar.getHourName(),
     lL: () => (lsr.lunar.isBigMonth ? locale.bigMonth : locale.smallMonth),
     // 陰暦(數字形式)
-    lYn: String(lsr.lunar.year),
-    lMn: String(lsr.lunar.month),
-    lDn: String(lsr.lunar.day),
-    lHn: String(lsr.lunar.hour + 1),
+    lYn: () => String(lsr.lunar.year),
+    lMn: () => String(lsr.lunar.month),
+    lDn: () => String(lsr.lunar.day),
+    lHn: () => String(lsr.lunar.hour + 1),
     // 八字
     cY: () => lsr.char8.year.toString(),
     cYs: () => lsr.char8.year.stem.toString(),

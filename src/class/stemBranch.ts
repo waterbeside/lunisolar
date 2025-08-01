@@ -6,7 +6,8 @@ import {
   computeSBValue,
   parseCommonCreateClassValue,
   computeTriadE5Value,
-  computeGroup6E5Value
+  computeGroup6E5Value,
+  computeMeetingE5Value
 } from '../utils'
 import { Trigram8 } from './trigram8'
 import { cache } from '@lunisolar/julian'
@@ -65,6 +66,30 @@ export class Branch extends CacheClass {
       return Element5.create(i < 2 ? i : i + 1, this._config)
     }
   }
+
+  /**
+   * 三会
+   */
+  @cache('branch:meeting')
+  get meeting(): [Branch, Branch] {
+    const meetings = [
+      [2, 3, 4],
+      [5, 6, 7],
+      [8, 9, 10],
+      [11, 0, 1]
+    ]
+    const meeting = meetings.find(item => item.includes(this.value))!
+    const result = meeting?.filter(item => item !== this.value)
+    return [Branch.create(result[0], this._config), Branch.create(result[1], this._config)]
+  }
+
+  /**
+   * 三会五行
+   */
+  get meetingE5(): Element5 {
+    return Element5.create(computeMeetingE5Value(this.value), this._config)
+  }
+
   /**
    * 三合
    */
