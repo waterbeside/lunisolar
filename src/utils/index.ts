@@ -415,7 +415,7 @@ export const parseCommonCreateClassValue = function (
  * @param branchValue 地支value值
  */
 export const computeMeetingE5Value = function (branchValue: number) {
-  const idx = branchValue === 0 ? 3 : Math.floor((branchValue - 1) / 3)
+  const idx = Math.floor(((branchValue - 2 + 12) % 12) / 3)
   const e5v = [0, 1, 3, 4]
   return e5v[idx]
 }

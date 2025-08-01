@@ -73,10 +73,10 @@ export class Branch extends CacheClass {
   @cache('branch:meeting')
   get meeting(): [Branch, Branch] {
     const meetings = [
-      [1, 2, 3],
-      [4, 5, 6],
-      [7, 8, 9],
-      [10, 11, 0]
+      [2, 3, 4],
+      [5, 6, 7],
+      [8, 9, 10],
+      [11, 0, 1]
     ]
     const meeting = meetings.find(item => item.includes(this.value))!
     const result = meeting?.filter(item => item !== this.value)

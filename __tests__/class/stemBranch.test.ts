@@ -48,6 +48,7 @@ describe('SB', () => {
   })
 })
 
+// 三合
 describe('branch triad', () => {
   it('test 寅', () => {
     expect(new Branch('寅').triad.map(item => item.toString())).toEqual(['午', '戌'])
@@ -57,5 +58,33 @@ describe('branch triad', () => {
   })
   it('test 子', () => {
     expect(new Branch('子').triad.map(item => item.toString())).toEqual(['辰', '申'])
+  })
+})
+
+// 三会
+describe('branch meeting', () => {
+  it('test 子', () => {
+    expect(new Branch('子').meeting.map(item => item.toString())).toEqual(['亥', '丑'])
+    expect(new Branch('亥').meetingE5.name).toEqual('水')
+    expect(new Branch('子').meetingE5.name).toEqual('水')
+    expect(new Branch('丑').meetingE5.name).toEqual('水')
+  })
+  it('test 寅', () => {
+    expect(new Branch('寅').meeting.map(item => item.toString())).toEqual(['卯', '辰'])
+    expect(new Branch('寅').meetingE5.name).toEqual('木')
+    expect(new Branch('卯').meetingE5.name).toEqual('木')
+    expect(new Branch('辰').meetingE5.name).toEqual('木')
+  })
+  it('test 未', () => {
+    expect(new Branch('未').meeting.map(item => item.toString())).toEqual(['巳', '午'])
+    expect(new Branch('巳').meetingE5.name).toEqual('火')
+    expect(new Branch('午').meetingE5.name).toEqual('火')
+    expect(new Branch('未').meetingE5.name).toEqual('火')
+  })
+  it('test 酉', () => {
+    expect(new Branch('酉').meeting.map(item => item.toString())).toEqual(['申', '戌'])
+    expect(new Branch('申').meetingE5.name).toEqual('金')
+    expect(new Branch('酉').meetingE5.name).toEqual('金')
+    expect(new Branch('戌').meetingE5.name).toEqual('金')
   })
 })
