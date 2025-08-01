@@ -73,7 +73,7 @@ export class SolarTerm {
 
   /**
    * 查出指定节气的日期，
-   * v2.x返回[year, month, day]，v3.x开始，返回以北京时间中午12点的日期的JD对象, 
+   * v2.x返回[year, month, day]，v3.x开始，返回以北京时间中午12点的日期的JD对象,
    * @param year 年
    * @param termValue 当年的第几个节气
    * @param config 设置
@@ -86,14 +86,12 @@ export class SolarTerm {
   ): JD {
     if (termValue instanceof SolarTerm) termValue = termValue.value
     termValue =
-      typeof termValue === 'string'
-        ? SolarTerm.getValueByName(termValue, config)
-        : termValue % 24
+      typeof termValue === 'string' ? SolarTerm.getValueByName(termValue, config) : termValue % 24
     const month = termValue >> 1
     const dayList = SolarTerm.getYearTermDayList(year)
     const day = dayList[termValue]
     const jd = parseJD(`${year}-${month + 1}-${day} 12:00:00`, true)
-    return parseJD({ jdn: jd.jdn - 8 / 24})
+    return parseJD({ jdn: jd.jdn - 8 / 24 })
   }
 
   /**
