@@ -430,6 +430,22 @@ export const computeTriadE5Value = function (branchValue: number) {
   return e5v[idx]
 }
 
+/**
+ * 计算天干相合的五行
+ * @param StemValue 天干value值
+ */
+export const computeStemE5Value = function (StemValue: number): number {
+  const results = [
+    [[0, 5], 2], // 甲己合土
+    [[1, 6], 3], // 乙庚合金
+    [[2, 7], 4], // 丙辛合水
+    [[3, 8], 0], // 丁壬合木
+    [[4, 9], 1] // 戊癸合火
+  ]
+  const result = results.find(result => (result[0] as number[]).includes(StemValue))!
+  return result[1] as number
+}
+
 export const computeGroup6E5Value = function (branchValue: number) {
   const e5v = [2, 0, 1, 3, 4, 2]
   branchValue = branchValue === 0 ? 12 : branchValue
