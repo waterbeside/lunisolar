@@ -245,10 +245,10 @@ export class Stem extends CacheClass {
   get conflict(): Stem | null {
     if ([4, 5].includes(this.value)) return null
     const stemsConflict = [
-      [0, 6],
-      [1, 7],
-      [2, 8],
-      [3, 9]
+      [0, 6], // 甲庚
+      [1, 7], // 乙辛
+      [2, 8], // 丙壬
+      [3, 9] // 丁癸
     ]
     const strems = stemsConflict.find(stems => stems.includes(this.value))
     const result = strems?.filter(v => v !== this.value)!
