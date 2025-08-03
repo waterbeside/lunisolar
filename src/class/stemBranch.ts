@@ -214,6 +214,47 @@ export class Stem extends CacheClass {
     return Element5.create(Math.floor(this.value / 2), this._config)
   }
 
+  /**
+   * 天干相合
+   */
+  @cache('stem:merge')
+  get merge(): Stem {
+    const stemsMerge = [
+      [0, 5],
+      [1, 6],
+      [2, 7],
+      [3, 8],
+      [4, 9]
+    ]
+    const strems = stemsMerge.find(stems => stems.includes(this.value))
+    const result = strems?.filter(v => v !== this.value)!
+    return Stem.create(result[0], this._config)
+  }
+
+  /**
+   * 天干合成的五行
+   */
+  get mergedE5(): Element5 {
+    return Element5.create(computeStemE5Value(this.value), this._config)
+  }
+
+  /**
+   * 天干相冲
+   */
+  @cache('stem:conflict')
+  get conflict(): Stem | null {
+    if ([4, 5].includes(this.value)) return null
+    const stemsConflict = [
+      [0, 6],
+      [1, 7],
+      [2, 8],
+      [3, 9]
+    ]
+    const strems = stemsConflict.find(stems => stems.includes(this.value))
+    const result = strems?.filter(v => v !== this.value)!
+    return Stem.create(result[0], this._config)
+  }
+
   get trigram8(): Trigram8 {
     return Trigram8.create(getTrigramValueByStem(this.value), this._config)
   }
@@ -296,45 +337,6 @@ export class SB {
   get name(): string {
     const locale = _GlobalConfig.locales[this._config.lang]
     return `${this.stem}${locale?.stemBranchSeparator ?? ''}${this.branch}`
-  }
-
-  /**
-   * 天干相合
-   */
-  get merge(): Stem {
-    const stemsMerge = [
-      [0, 5],
-      [1, 6],
-      [2, 7],
-      [3, 8],
-      [4, 9]
-    ]
-    const strems = stemsMerge.find(stems => stems.includes(this.value))
-    const result = strems?.filter(v => v !== this.value)!
-    return Stem.create(result[0], this._config)
-  }
-
-  /**
-   * 天干合成的五行
-   */
-  get mergedE5(): Element5 {
-    return Element5.create(computeStemE5Value(this.value), this._config)
-  }
-
-  /**
-   * 天干相冲
-   */
-  get conflict(): Stem | null {
-    if ([4, 5].includes(this.value)) return null
-    const stemsConflict = [
-      [0, 6],
-      [1, 7],
-      [2, 8],
-      [3, 9]
-    ]
-    const strems = stemsConflict.find(stems => stems.includes(this.value))
-    const result = strems?.filter(v => v !== this.value)!
-    return Stem.create(result[0], this._config)
   }
 
   toString(): string {
